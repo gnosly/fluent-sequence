@@ -1,6 +1,7 @@
 import org.scalatest.FlatSpec
 
-class SequenceTest extends FlatSpec {
+class SequenceV1Test extends FlatSpec {
+
 
 	"Sequence" should "be empty" in {
 		val sequence = new SequenceFlow("flight booking")
@@ -18,9 +19,20 @@ class SequenceTest extends FlatSpec {
 		val msrFlow = new SequenceFlow("msrFlow").start().as(user).call("/msr").to(msr)
 			.that().reply("HTTP 302 /vg1").to(user).end()
 
+		val flightSearch: SequenceV1Test.this.SequenceFlow = ???
+		val checkout: SequenceV1Test.this.SequenceFlow = ???
+
+		sequence.start()
+			.with(user)
+			.that()
+			.does(flightSearch)
+			.and()
+			.does(checkout)
+
+
 		sequence.start()
 			.as(user).call("search").to(skyscanner)
-			.call("search").to(mss)
+			.that().call("search").to(mss)
 			.that().call("search").to(janine)
 			.that().call("search").to(bsa)
 			.that().reply("trips").to(janine)
@@ -37,15 +49,15 @@ class SequenceTest extends FlatSpec {
 			.then("msr flow", msrFlow)
 			.then(user).call("/vg1").to(vg1)
 			.that()
-				.check("opco is enabled?")
-				.inCase("yes").apply(opcoFlow)
-				.inCase("boh").apply(opcoFlow)
-				.otherwise(oldVgFlow)
+			.check("opco is enabled?")
+			.inCase("yes").apply(opcoFlow)
+			.inCase("boh").apply(opcoFlow)
+			.otherwise(oldVgFlow)
 
 	}
 
 	class SequenceFlow(name: String) {
-		def check(str: String):SequenceFlow = ???
+		def check(str: String): SequenceFlow = ???
 
 		def apply(opcoFlow: SequenceFlow): SequenceFlow = ???
 
@@ -83,6 +95,7 @@ class SequenceTest extends FlatSpec {
 	}
 
 	case class Actor(name: String)
-	case class User(role:String) extends Actor(name = role)
+
+	case class User(role: String) extends Actor(name = role)
 
 }
