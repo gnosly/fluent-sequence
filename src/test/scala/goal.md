@@ -6,3 +6,9 @@
 - plugin per fare sequence web embedded
 - sito che ti permette di disegnare sequence
 - libreria
+
+<h1>requirements</h1>
+
+- gestione dei forEach
+- gestione dei case
+- gestione flow paralleli

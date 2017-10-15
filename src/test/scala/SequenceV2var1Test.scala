@@ -1,16 +1,19 @@
 import org.scalatest.FlatSpec
 
-class SequenceV2Test extends FlatSpec {
+class SequenceV2var1Test extends FlatSpec {
 
 	def that(): SequenceFlow = ???
 
-	def call(name: String): SequenceFlow = ???
+	def call(str: String, flow: SequenceFlow) = ???
 
-	def reply(name: String): SequenceFlow = ???
+	def reply(name: String, flow: SequenceFlow): SequenceFlow = ???
 
 	def does(name: String): SequenceFlow = ???
 
 	def does(flow: SequenceFlow): SequenceFlow = ???
+
+	def to(skyscanner: Actor): SequenceFlow = ???
+
 
 	"Sequence" should "be empty" in {
 		val sequence = new SequenceFlow("flight booking")
@@ -25,13 +28,18 @@ class SequenceV2Test extends FlatSpec {
 		val opcoFlow = new SequenceFlow("opcoFlow")
 		val oldVgFlow = new SequenceFlow("vgFlow")
 
-		val flightSearch = call("search").to(skyscanner).that(
-			call("search").to(mss).that(
-				call("search").to(janine).that(call("search").to(bsa).that(
-					reply("trips").to(janine).that(
-						does("restriction filter")
-							.and().does("applyMargin")
-							.and().does("apply buckets filter"))))))
+
+		val startJanineFlow = to(janine).that(call("search",
+			to(bsa).that(reply("trips",
+				to(janine).that(does("restriction filter")
+					.and().does("applyMargin")
+					.and().does("apply buckets filter"))))))
+
+		val startMssFlow = call("search",
+			to(mss).that(call("search",
+				startJanineFlow)))
+
+		val flightSearch = call("search", to(skyscanner).that(startMssFlow))
 
 
 		sequence

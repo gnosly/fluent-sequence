@@ -1,12 +1,14 @@
 import org.scalatest.FlatSpec
+import org.scalatest.events.Event
 
 class SequenceV3Test extends FlatSpec {
-
 
 
 	def to(actor: Actor): Actor = ???
 
 	def does(action: String): SequenceFlow = ???
+
+	def using(tracking: Sequence): Sequence = ???
 
 	"Sequence" should "be empty" in {
 		val sequence = new SequenceFlow("flight booking")
@@ -21,28 +23,34 @@ class SequenceV3Test extends FlatSpec {
 		val opcoFlow = new SequenceFlow("opcoFlow")
 		val oldVgFlow = new SequenceFlow("vgFlow")
 		val bsaFlow = new SequenceFlow("bsaFlow")
-		val trackingFlow: SequenceFlow = janine.does("track", to(tracker))
 
-		val janineFlow = janine.does(bsaFlow)
-			.and()
-			.does("restriction filter")
-			.and()
-			.does("applyMargin")
-			.and()
-			.does("apply buckets filter")
-			.and()
-			.forEach("trip", does("transform domain to adapter"))
-			.and()
-			.does(trackingFlow)
-			.and()
-			.reply("transformedTrips", to(mss))
-
-		new Sequence(
-			user.does("search", to(skyscanner)),
-			skyscanner.does("search", to(mss)),
-			mss.does("search", to(janine)),
-			janineFlow
+		val tracking = new Sequence("track flight request").as(
+			janine.does("track", to(tracker)) :: 
+			tracker.does("write on db01")
+				.and()
+				.fire("TRACKED")
+				.and()
+				.stop()	:: Nil
 		)
+
+		new Sequence("flight search by meta")
+			.as(
+				user.does("search", to(skyscanner)) ::
+					skyscanner.does("search", to(mss)) ::
+					mss.launch(tracking).and().does("search", to(janine)) ::
+					janine.does("search", to(bsa)) ::
+					bsa.reply("trips", to(janine)) ::
+					janine.does("restriction filter")
+						.and().does("applyMargin")
+						.and().does("apply buckets filter")
+						.and().forEach("trip", does("transform domain to adapter"))
+						.and().reply("transformedTrips", to(mss)) ::
+					mss.does("sorts trips by price")
+						.and().forEach("trip", does("create deeplink"))
+						.and().reply("trips", to(skyscanner)) ::
+					skyscanner.reply("trips", to(user)) :: Nil
+			)
+
 
 	}
 
@@ -54,6 +62,14 @@ class SequenceV3Test extends FlatSpec {
 	}
 
 	case class Actor(name: String) {
+		def stop(): SequenceFlow = ???
+
+		def fire(event: String): SequenceFlow = ???
+
+		def launch(tracking: Sequence): SequenceFlow = ???
+
+		def does(tracking: Sequence): SequenceFlow = ???
+
 		def does(action: String): SequenceFlow = ???
 
 		def does(bsaFlow: SequenceFlow): SequenceFlow = ???
@@ -71,6 +87,8 @@ class SequenceV3Test extends FlatSpec {
 
 	}
 
-	case class Sequence(flow: SequenceFlow*)
+	case class Sequence(name: String) {
+		def as(flow: Seq[SequenceFlow]): Sequence = ???
+	}
 
 }
