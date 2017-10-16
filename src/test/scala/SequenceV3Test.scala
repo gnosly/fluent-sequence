@@ -1,14 +1,9 @@
 import org.scalatest.FlatSpec
-import org.scalatest.events.Event
 
 class SequenceV3Test extends FlatSpec {
 
 
 	def to(actor: Actor): Actor = ???
-
-	def does(action: String): SequenceFlow = ???
-
-	def using(tracking: Sequence): Sequence = ???
 
 	"Sequence" should "be empty" in {
 		val sequence = new SequenceFlow("flight booking")
@@ -20,61 +15,74 @@ class SequenceV3Test extends FlatSpec {
 		val bsa = Actor("bsa")
 		val msr = Actor("msr")
 		val vg1 = Actor("vg1")
-		val opcoFlow = new SequenceFlow("opcoFlow")
-		val oldVgFlow = new SequenceFlow("vgFlow")
-		val bsaFlow = new SequenceFlow("bsaFlow")
+		val opco: Actor = Actor("opco")
 
-		val tracking = new Sequence("track flight request").as(
-			janine.does("track", to(tracker)) :: 
-			tracker.does("write on db01")
-				.and()
-				.fire("TRACKED")
-				.and()
-				.stop()	:: Nil
+		val tracking = new Sequence("track flight request").startWith(
+			janine.call("track", to(tracker)) ::
+				tracker.does("write on db01")
+					.and()
+					.fire("TRACKED")
+					.and()
+					.stop() :: Nil
 		)
 
+		val flightSearch = new Sequence("flight search")
+			.startWith(user.call("search", to(skyscanner)) ::
+				skyscanner.call("search", to(mss)) ::
+				mss.launch(tracking).and().call("search", to(janine)) ::
+				janine.call("search", to(bsa)) ::
+				bsa.reply("trips", to(janine)) ::
+				janine.does("restriction filter")
+					.and().does("applyMargin")
+					.and().does("apply buckets filter")
+					.and().forEach("trip", janine.does("transform domain to adapter"))
+					.and().reply("transformedTrips", to(mss)) ::
+				mss.does("sorts trips by price")
+					.and().forEach("trip", mss.does("create deeplink"))
+					.and().reply("trips", to(skyscanner)) ::
+				skyscanner.reply("trips", to(user)) :: Nil)
+
+		val opcoFlow = vg1.call("redirect", to(opco))
+
+		val checkout = new Sequence("checkout").startWith(
+			user.call("choose our flight", to(skyscanner)) ::
+				skyscanner.reply("302 to deeplink", to(user)) ::
+				user.call("open deeplink", to(msr)) ::
+				msr.reply("302 /vg", to(user)) ::
+				user.call("open /vg", to(vg1)) ::
+				vg1.check("is opco enabled?")
+					.inCase("yes", opcoFlow)
+					.inCase("no", vg1.does("old checkout")) :: Nil)
+
 		new Sequence("flight search by meta")
-			.as(
-				user.does("search", to(skyscanner)) ::
-					skyscanner.does("search", to(mss)) ::
-					mss.launch(tracking).and().does("search", to(janine)) ::
-					janine.does("search", to(bsa)) ::
-					bsa.reply("trips", to(janine)) ::
-					janine.does("restriction filter")
-						.and().does("applyMargin")
-						.and().does("apply buckets filter")
-						.and().forEach("trip", does("transform domain to adapter"))
-						.and().reply("transformedTrips", to(mss)) ::
-					mss.does("sorts trips by price")
-						.and().forEach("trip", does("create deeplink"))
-						.and().reply("trips", to(skyscanner)) ::
-					skyscanner.reply("trips", to(user)) :: Nil
+			.startWith(
+				user
+					.does(flightSearch)
+					.and()
+					.does(checkout) :: Nil
 			)
-
-
 	}
 
 	class SequenceFlow(name: String) {
-
-		def does(action: String): SequenceFlow = ???
+		def inCase(statement: String, flow: SequenceFlow): SequenceFlow = ???
 
 		def and(): Actor = ???
 	}
 
 	case class Actor(name: String) {
+		def check(condition: String): SequenceFlow = ???
+
 		def stop(): SequenceFlow = ???
 
 		def fire(event: String): SequenceFlow = ???
 
 		def launch(tracking: Sequence): SequenceFlow = ???
 
-		def does(tracking: Sequence): SequenceFlow = ???
+		def does(sequence: Sequence): SequenceFlow = ???
 
 		def does(action: String): SequenceFlow = ???
 
-		def does(bsaFlow: SequenceFlow): SequenceFlow = ???
-
-		def does(action: String, actor: Actor): SequenceFlow = ???
+		def call(action: String, actor: Actor): SequenceFlow = ???
 
 		def reply(action: String, actor: Actor): SequenceFlow = ???
 
@@ -82,13 +90,10 @@ class SequenceV3Test extends FlatSpec {
 
 	}
 
-	case class User(role: String) extends Actor(name = role) {
-
-
-	}
+	case class User(role: String) extends Actor(name = role) {}
 
 	case class Sequence(name: String) {
-		def as(flow: Seq[SequenceFlow]): Sequence = ???
+		def startWith(flow: Seq[SequenceFlow]): Sequence = ???
 	}
 
 }
