@@ -8,13 +8,8 @@ object FluentSequence {
 	case class Sequence(name: String) extends EventBookable {
 		val eventBook = new EventBook()
 
-		def startWith(flow: => Seq[SequenceFlow]): Sequence = {
+		def startWith(flow: Seq[SequenceFlow]): Sequence = {
 			eventBook.track(s"SEQUENCE $name STARTED")
-			lazy val flowLazy = flow
-			flowLazy
-			flowLazy
-			flowLazy
-			flowLazy
 			eventBook.track(flow.map(_.toEventBook))
 			this
 		}
