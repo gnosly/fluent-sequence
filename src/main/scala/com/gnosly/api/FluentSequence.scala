@@ -17,16 +17,20 @@ object FluentSequence {
 		override def toEventBook: EventBook = eventBook
 	}
 
-	class SequenceFlow(name: String, eventBook: EventBook) extends EventBookable {
+	class SequenceFlow(name: String, val eventBook: EventBook, actorDoingSequence: Actor) extends EventBookable {
 
 		def inCase(statement: String, flow: SequenceFlow): SequenceFlow = ???
 
-		def and(): Actor = ???
+		def and(flow: SequenceFlow): SequenceFlow = {
+			eventBook.track(flow.eventBook :: Nil)
+			this
+		}
 
 		override def toEventBook: EventBook = eventBook
 	}
 
-	class Actor(name: String, entity: String = "ACTOR") {
+
+	class Actor(val name: String, entity: String = "ACTOR") {
 
 
 		def check(condition: String): SequenceFlow = ???
@@ -43,17 +47,22 @@ object FluentSequence {
 			eventBook.track(event)
 
 			eventBook.track(sequence.eventBook :: Nil)
-			new SequenceFlow(event, eventBook)
+			new SequenceFlow(event, eventBook, this)
 		}
 
 		def does(action: String): SequenceFlow = {
 			val eventBook = new EventBook()
 			val event = s"$entity $name DOES $action"
 			eventBook.track(event)
-			new SequenceFlow(event, eventBook)
+			new SequenceFlow(event, eventBook, this)
 		}
 
-		def call(action: String, actor: Actor): SequenceFlow = ???
+		def call(action: String, actor: Actor): SequenceFlow = {
+			val eventBook = new EventBook()
+			val event = s"$entity $name CALLED $action TO ${actor.name}"
+			eventBook.track(event)
+			new SequenceFlow(event, eventBook, this)
+		}
 
 		def reply(action: String, actor: Actor): SequenceFlow = ???
 
