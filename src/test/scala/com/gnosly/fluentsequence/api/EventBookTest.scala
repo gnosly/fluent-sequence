@@ -1,9 +1,11 @@
 package com.gnosly.fluentsequence.api
 
-import com.gnosly.fluentsequence.core.{TimelineEvent, EventBook}
+import com.gnosly.fluentsequence.core.{Event, EventBook, TimelineEvent}
 import org.scalatest.{FlatSpec, Matchers}
 
 class EventBookTest extends FlatSpec with Matchers{
+
+	case class TEST_EVENT(name:String) extends Event
 
 	"EventBook" should "be empty" in {
 		val book = new EventBook
@@ -12,9 +14,9 @@ class EventBookTest extends FlatSpec with Matchers{
 
 	it should "track new event" in {
 		val book = new EventBook
-		book.track("event1")
-		book.track("event2")
-		book.toList shouldBe List(TimelineEvent(0, "event1"), TimelineEvent(1, "event2"))
+		book.track(TEST_EVENT("event1"))
+		book.track(TEST_EVENT("event2"))
+		book.toList shouldBe List(TimelineEvent(0, TEST_EVENT("event1")), TimelineEvent(1, TEST_EVENT("event2")))
 	}
 
 	it should "track a new list of events" in {
@@ -22,12 +24,12 @@ class EventBookTest extends FlatSpec with Matchers{
 		val book2 = new EventBook
 		val book3 = new EventBook
 
-		book1.track("eventA")
-		book2.track("eventB")
-		book3.track("eventC")
+		book1.track(TEST_EVENT("eventA"))
+		book2.track(TEST_EVENT("eventB"))
+		book3.track(TEST_EVENT("eventC"))
 
 		book1.track(book2 :: book3 :: Nil)
-		book1.toList shouldBe List(TimelineEvent(0, "eventA"), TimelineEvent(1, "eventB"), TimelineEvent(2, "eventC"))
+		book1.toList shouldBe List(TimelineEvent(0, TEST_EVENT("eventA")), TimelineEvent(1, TEST_EVENT("eventB")), TimelineEvent(2, TEST_EVENT("eventC")))
 	}
 
 }

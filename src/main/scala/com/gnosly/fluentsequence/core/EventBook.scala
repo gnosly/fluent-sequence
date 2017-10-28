@@ -4,12 +4,12 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 object EventBook {
-	def apply(events: String*): EventBook = new EventBook(events.map(EventBookEvent(_)).toBuffer)
+	def apply(events: Event*): EventBook = new EventBook(events.map(EventBookEvent(_)).toBuffer)
 }
 
 case class EventBook(events: mutable.Buffer[EventBookEvent] = ArrayBuffer()) {
 
-	def track(event: String) = {
+	def track(event: Event) = {
 		events += EventBookEvent(event)
 	}
 
@@ -19,15 +19,9 @@ case class EventBook(events: mutable.Buffer[EventBookEvent] = ArrayBuffer()) {
 		})
 	}
 
-	def toList: List[TimelineEvent] = events.zipWithIndex.map(a => TimelineEvent(a._2, a._1.eventName)).toList
+	def toList: List[TimelineEvent] = events.zipWithIndex.map(a => TimelineEvent(a._2, a._1.event)).toList
 }
 
-
-//"ACTOR service REPLIED action TO anotherService"
-//"ACTOR service CALLED action TO anotherActor"
-//"ACTOR service DOES something"
-//"ACTOR service STARTED_NEW_SEQUENCE childSequence"
-//"SEQUENCE sequenceName STARTED"
 
 trait Event
 
@@ -35,12 +29,18 @@ case class REPLIED(who: String, something: String, toSomebody: String) extends E
 
 case class CALLED(who: String, something: String, toSomebody: String) extends Event
 
-case class DONE(who: String, something: String) extends Event
+case class DONE(entity: ActorType, who: String, something: String) extends Event
 
 case class NEW_SEQUENCE_SCHEDULED(who: String, sequence: String) extends Event
 
-case class SEQUENCE_STARTED(who: String, sequence: String) extends Event
+case class SEQUENCE_STARTED(sequence: String) extends Event
 
-case class EventBookEvent(eventName: String)
+trait ActorType
 
-case class TimelineEvent(index: Int, eventName: String)
+case class ACTOR() extends ActorType
+
+case class USER() extends ActorType
+
+case class EventBookEvent(event: Event)
+
+case class TimelineEvent(index: Int, event: Event)

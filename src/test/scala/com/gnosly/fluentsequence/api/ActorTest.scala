@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.api
 
-import FluentSequence._
-import com.gnosly.fluentsequence.core.EventBook
+import com.gnosly.fluentsequence.api.FluentSequence._
+import com.gnosly.fluentsequence.core._
 import org.scalatest.{FlatSpec, Matchers}
 
 class ActorTest extends FlatSpec with Matchers {
@@ -12,7 +12,7 @@ class ActorTest extends FlatSpec with Matchers {
 
 		val flow = service.does("something")
 
-		flow.toEventBook shouldBe EventBook("ACTOR service DOES something")
+		flow.toEventBook shouldBe EventBook(DONE(ACTOR(), "service", "something"))
 	}
 
 	it should "start a new child sequence" in {
@@ -24,10 +24,11 @@ class ActorTest extends FlatSpec with Matchers {
 			.does("something else")
 
 		flow.toEventBook shouldBe EventBook(
-			"ACTOR service STARTED_NEW_SEQUENCE childSequence",
-			"SEQUENCE childSequence STARTED",
-			"ACTOR service DOES something",
-			"ACTOR service DOES something else")
+			NEW_SEQUENCE_SCHEDULED("service", "childSequence"),
+			SEQUENCE_STARTED("childSequence"),
+			DONE(ACTOR(), "service", "something"),
+			DONE(ACTOR(), "service", "something else")
+		)
 	}
 
 	it should "call another actor" in {
@@ -36,7 +37,8 @@ class ActorTest extends FlatSpec with Matchers {
 		val flow = service.call("action", new Actor("anotherActor"))
 
 		flow.toEventBook shouldBe EventBook(
-			"ACTOR service CALLED action TO anotherActor")
+			CALLED("service", "action", "anotherActor")
+		)
 	}
 
 	it should "combine two actions" in {
@@ -47,8 +49,8 @@ class ActorTest extends FlatSpec with Matchers {
 			.does("something")
 
 		flow.toEventBook shouldBe EventBook(
-			"ACTOR service CALLED action TO anotherActor",
-			"ACTOR service DOES something"
+			CALLED("service", "action", "anotherActor"),
+			DONE(ACTOR(), "service", "something")
 		)
 	}
 
@@ -60,7 +62,7 @@ class ActorTest extends FlatSpec with Matchers {
 		val flow = service.reply("action", anotherService)
 
 		flow.toEventBook shouldBe EventBook(
-			"ACTOR service REPLIED action TO anotherService"
+			REPLIED("service", "action", "anotherService")
 		)
 	}
 
@@ -69,7 +71,9 @@ class ActorTest extends FlatSpec with Matchers {
 
 		val flow = user.does("something")
 
-		flow.toEventBook shouldBe EventBook("USER user DOES something")
+		flow.toEventBook shouldBe EventBook(
+			DONE(USER(), "user", "something")
+		)
 
 	}
 

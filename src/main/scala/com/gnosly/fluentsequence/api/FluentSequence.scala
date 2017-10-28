@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.api
 
-import com.gnosly.fluentsequence.core.EventBook
+import com.gnosly.fluentsequence.core._
 
 object FluentSequence {
 
@@ -11,7 +11,7 @@ object FluentSequence {
 		val eventBook = new EventBook()
 
 		def startWith(flow: Seq[SequenceFlow]): Sequence = {
-			eventBook.track(s"SEQUENCE $name STARTED")
+			eventBook.track(SEQUENCE_STARTED(name))
 			eventBook.track(flow.map(_.toEventBook))
 			this
 		}
@@ -41,7 +41,7 @@ object FluentSequence {
 			override def does(sequence: Sequence): SequenceFlow = ???
 
 			override def does(action: String): SequenceFlow = {
-				sequenceFlow.eventBook.track(s"${actor.entity} ${actor.name} DOES $action")
+				sequenceFlow.eventBook.track(DONE(actor.entity , actor.name, action ))
 				sequenceFlow
 			}
 
@@ -55,36 +55,32 @@ object FluentSequence {
 	}
 
 
-	class Actor(val name: String, val entity: String = "ACTOR") extends Actorable {
+	class Actor(val name: String, val entity: ActorType = ACTOR()) extends Actorable {
 
 		override def does(sequence: Sequence): SequenceFlow = {
 			val eventBook = new EventBook()
-			val event = s"$entity $name STARTED_NEW_SEQUENCE ${sequence.name}"
-			eventBook.track(event)
+			eventBook.track(NEW_SEQUENCE_SCHEDULED(name, sequence.name))
 
 			eventBook.track(sequence.eventBook :: Nil)
-			new SequenceFlow(event, eventBook, this)
+			new SequenceFlow(s"$name ${sequence.name}", eventBook, this)
 		}
 
 		override def does(action: String): SequenceFlow = {
 			val eventBook = new EventBook()
-			val event = s"$entity $name DOES $action"
-			eventBook.track(event)
-			new SequenceFlow(event, eventBook, this)
+			eventBook.track(DONE(entity, name, action))
+			new SequenceFlow(s"$name $action", eventBook, this)
 		}
 
 		override def call(action: String, actor: Actor): SequenceFlow = {
 			val eventBook = new EventBook()
-			val event = s"$entity $name CALLED $action TO ${actor.name}"
-			eventBook.track(event)
-			new SequenceFlow(event, eventBook, this)
+			eventBook.track(CALLED(name, action, actor.name))
+			new SequenceFlow(s"$name $action to ${actor.name}", eventBook, this)
 		}
 
 		override def reply(action: String, toActor: Actor): SequenceFlow = {
 			val eventBook = new EventBook()
-			val event = s"$entity $name REPLIED $action TO ${toActor.name}"
-			eventBook.track(event)
-			new SequenceFlow(event, eventBook, this)
+			eventBook.track(REPLIED(name, action, toActor.name))
+			new SequenceFlow(s"$name replied $action to ${toActor.name}", eventBook, this)
 		}
 
 		override def stop(): SequenceFlow = ???
@@ -98,7 +94,7 @@ object FluentSequence {
 		override def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
 	}
 
-	class User(role: String) extends Actor(name = role, entity = "USER") {}
+	class User(role: String) extends Actor(name = role, entity = USER()) {}
 
 	trait Actorable {
 

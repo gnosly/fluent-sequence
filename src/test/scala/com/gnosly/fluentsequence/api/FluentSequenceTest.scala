@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.api.FluentSequence.Actor
 import com.gnosly.fluentsequence.api.FluentSequence._
-import com.gnosly.fluentsequence.core.EventBook
+import com.gnosly.fluentsequence.core._
 import org.scalatest.{FlatSpec, Matchers}
 
 class FluentSequenceTest extends FlatSpec with Matchers {
@@ -18,8 +18,8 @@ class FluentSequenceTest extends FlatSpec with Matchers {
 		)
 
 		sequence.toEventBook shouldBe EventBook(
-			"SEQUENCE sequenceName STARTED",
-			"USER user DOES something"
+			SEQUENCE_STARTED("sequenceName"),
+			DONE(USER(), "user", "something")
 		)
 	}
 
