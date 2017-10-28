@@ -1,11 +1,12 @@
 package com.gnosly.fluentsequence.api
 
+import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
 
 object FluentSequence {
 
 
-	def to(actor: Actor): Actor = ???
+	def to(actor: FluentActor): FluentActor = ???
 
 	case class Sequence(name: String) extends EventBookable {
 		val eventBook = new EventBook()
@@ -19,7 +20,7 @@ object FluentSequence {
 		override def toEventBook: EventBook = eventBook
 	}
 
-	class SequenceFlow(name: String, val eventBook: EventBook, actorDoingSequence: Actor) extends EventBookable {
+	class SequenceFlow(name: String, val eventBook: EventBook, actorDoingSequence: FluentActor) extends EventBookable {
 
 		def inCase(statement: String, flow: SequenceFlow): SequenceFlow = ???
 
@@ -29,7 +30,7 @@ object FluentSequence {
 
 		override def toEventBook: EventBook = eventBook
 
-		class ActorContinueSequenceFlow(sequenceFlow: SequenceFlow, val actor: Actor) extends Actorable {
+		class ActorContinueSequenceFlow(sequenceFlow: SequenceFlow, val actor: FluentActor) extends Actorable {
 			override def check(condition: String): SequenceFlow = ???
 
 			override def stop(): SequenceFlow = ???
@@ -41,13 +42,13 @@ object FluentSequence {
 			override def does(sequence: Sequence): SequenceFlow = ???
 
 			override def does(action: String): SequenceFlow = {
-				sequenceFlow.eventBook.track(DONE(actor.entity , actor.name, action ))
+				sequenceFlow.eventBook.track(DONE(actor, action))
 				sequenceFlow
 			}
 
-			override def call(action: String, actor: Actor): SequenceFlow = ???
+			override def call(action: String, actor: FluentActor): SequenceFlow = ???
 
-			override def reply(action: String, actor: Actor): SequenceFlow = ???
+			override def reply(action: String, actor: FluentActor): SequenceFlow = ???
 
 			override def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
 		}
@@ -55,11 +56,13 @@ object FluentSequence {
 	}
 
 
-	class Actor(val name: String, val entity: ActorType = ACTOR()) extends Actorable {
+	class FluentActor(val name: String, val entity: ActorType = SEQUENCE_ACTOR())
+		extends core.Actor(entity,name)
+			with Actorable {
 
 		override def does(sequence: Sequence): SequenceFlow = {
 			val eventBook = new EventBook()
-			eventBook.track(NEW_SEQUENCE_SCHEDULED(name, sequence.name))
+			eventBook.track(NEW_SEQUENCE_SCHEDULED(this, sequence.name))
 
 			eventBook.track(sequence.eventBook :: Nil)
 			new SequenceFlow(s"$name ${sequence.name}", eventBook, this)
@@ -67,19 +70,19 @@ object FluentSequence {
 
 		override def does(action: String): SequenceFlow = {
 			val eventBook = new EventBook()
-			eventBook.track(DONE(entity, name, action))
+			eventBook.track(DONE(this, action))
 			new SequenceFlow(s"$name $action", eventBook, this)
 		}
 
-		override def call(action: String, actor: Actor): SequenceFlow = {
+		override def call(action: String, actor: FluentActor): SequenceFlow = {
 			val eventBook = new EventBook()
-			eventBook.track(CALLED(name, action, actor.name))
+			eventBook.track(CALLED(this, action, actor.name))
 			new SequenceFlow(s"$name $action to ${actor.name}", eventBook, this)
 		}
 
-		override def reply(action: String, toActor: Actor): SequenceFlow = {
+		override def reply(action: String, toActor: FluentActor): SequenceFlow = {
 			val eventBook = new EventBook()
-			eventBook.track(REPLIED(name, action, toActor.name))
+			eventBook.track(REPLIED(this, action, toActor.name))
 			new SequenceFlow(s"$name replied $action to ${toActor.name}", eventBook, this)
 		}
 
@@ -94,7 +97,7 @@ object FluentSequence {
 		override def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
 	}
 
-	class User(role: String) extends Actor(name = role, entity = USER()) {}
+	class User(role: String) extends FluentActor(name = role, entity = USER()) {}
 
 	trait Actorable {
 
@@ -110,9 +113,9 @@ object FluentSequence {
 
 		def does(action: String): SequenceFlow
 
-		def call(action: String, actor: Actor): SequenceFlow
+		def call(action: String, actor: FluentActor): SequenceFlow
 
-		def reply(action: String, actor: Actor): SequenceFlow
+		def reply(action: String, actor: FluentActor): SequenceFlow
 
 		def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow
 	}

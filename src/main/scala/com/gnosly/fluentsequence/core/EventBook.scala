@@ -25,19 +25,21 @@ case class EventBook(events: mutable.Buffer[EventBookEvent] = ArrayBuffer()) {
 
 trait Event
 
-case class REPLIED(who: String, something: String, toSomebody: String) extends Event
+case class REPLIED(who: Actor, something: String, toSomebody: String) extends Event
 
-case class CALLED(who: String, something: String, toSomebody: String) extends Event
+case class CALLED(who: Actor, something: String, toSomebody: String) extends Event
 
-case class DONE(entity: ActorType, who: String, something: String) extends Event
+case class DONE(who: Actor, something: String) extends Event
 
-case class NEW_SEQUENCE_SCHEDULED(who: String, sequence: String) extends Event
+case class NEW_SEQUENCE_SCHEDULED(who: Actor, sequence: String) extends Event
 
 case class SEQUENCE_STARTED(sequence: String) extends Event
 
+class Actor(actorType: ActorType, name:String)
+
 trait ActorType
 
-case class ACTOR() extends ActorType
+case class SEQUENCE_ACTOR() extends ActorType
 
 case class USER() extends ActorType
 

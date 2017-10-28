@@ -4,19 +4,19 @@ import com.gnosly.fluentsequence.api.FluentSequence._
 import com.gnosly.fluentsequence.core._
 import org.scalatest.{FlatSpec, Matchers}
 
-class ActorTest extends FlatSpec with Matchers {
+class FluentActorTest extends FlatSpec with Matchers {
 
 
 	"actor" should "does something" in {
-		val service = new Actor("service")
+		val service = new FluentActor("service")
 
 		val flow = service.does("something")
 
-		flow.toEventBook shouldBe EventBook(DONE(ACTOR(), "service", "something"))
+		flow.toEventBook shouldBe EventBook(DONE(service, "something"))
 	}
 
 	it should "start a new child sequence" in {
-		val service = new Actor("service")
+		val service = new FluentActor("service")
 
 		val flow = service
 			.does(new Sequence("childSequence").startWith(service.does("something") :: Nil))
@@ -24,45 +24,45 @@ class ActorTest extends FlatSpec with Matchers {
 			.does("something else")
 
 		flow.toEventBook shouldBe EventBook(
-			NEW_SEQUENCE_SCHEDULED("service", "childSequence"),
+			NEW_SEQUENCE_SCHEDULED(service, "childSequence"),
 			SEQUENCE_STARTED("childSequence"),
-			DONE(ACTOR(), "service", "something"),
-			DONE(ACTOR(), "service", "something else")
+			DONE(service, "something"),
+			DONE(service, "something else")
 		)
 	}
 
 	it should "call another actor" in {
-		val service = new Actor("service")
+		val service = new FluentActor("service")
 
-		val flow = service.call("action", new Actor("anotherActor"))
+		val flow = service.call("action", new FluentActor("anotherActor"))
 
 		flow.toEventBook shouldBe EventBook(
-			CALLED("service", "action", "anotherActor")
+			CALLED(service, "action", "anotherActor")
 		)
 	}
 
 	it should "combine two actions" in {
-		val service = new Actor("service")
+		val service = new FluentActor("service")
 
-		val flow = service.call("action", new Actor("anotherActor"))
+		val flow = service.call("action", new FluentActor("anotherActor"))
 			.and()
 			.does("something")
 
 		flow.toEventBook shouldBe EventBook(
-			CALLED("service", "action", "anotherActor"),
-			DONE(ACTOR(), "service", "something")
+			CALLED(service, "action", "anotherActor"),
+			DONE(service, "something")
 		)
 	}
 
 
 	it should "reply to another actor" in {
-		val service = new Actor("service")
-		val anotherService = new Actor("anotherService")
+		val service = new FluentActor("service")
+		val anotherService = new FluentActor("anotherService")
 
 		val flow = service.reply("action", anotherService)
 
 		flow.toEventBook shouldBe EventBook(
-			REPLIED("service", "action", "anotherService")
+			REPLIED(service, "action", "anotherService")
 		)
 	}
 
@@ -72,7 +72,7 @@ class ActorTest extends FlatSpec with Matchers {
 		val flow = user.does("something")
 
 		flow.toEventBook shouldBe EventBook(
-			DONE(USER(), "user", "something")
+			DONE(user, "something")
 		)
 
 	}

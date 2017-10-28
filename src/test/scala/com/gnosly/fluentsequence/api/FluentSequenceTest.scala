@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.api
 
-import com.gnosly.fluentsequence.api.FluentSequence.Actor
+import com.gnosly.fluentsequence.api.FluentSequence.FluentActor
 import com.gnosly.fluentsequence.api.FluentSequence._
 import com.gnosly.fluentsequence.core._
 import org.scalatest.{FlatSpec, Matchers}
@@ -13,26 +13,28 @@ class FluentSequenceTest extends FlatSpec with Matchers {
 
 
 	it should "be simple sequence" in {
+		val user = new User("user")
+
 		val sequence = new Sequence("sequenceName").startWith(
-			new User("user").does("something") :: Nil
+			user.does("something") :: Nil
 		)
 
 		sequence.toEventBook shouldBe EventBook(
 			SEQUENCE_STARTED("sequenceName"),
-			DONE(USER(), "user", "something")
+			DONE(user, "something")
 		)
 	}
 
 	ignore should "handle complex scenario" in {
 		val user = new User("tourist")
-		val skyscanner = new Actor("skyscanner")
-		val tracker = new Actor("tracker")
-		val mss = new Actor("mss")
-		val janine = new Actor("janine")
-		val bsa = new Actor("bsa")
-		val msr = new Actor("msr")
-		val vg1 = new Actor("vg1")
-		val opco: Actor = new Actor("opco")
+		val skyscanner = new FluentActor("skyscanner")
+		val tracker = new FluentActor("tracker")
+		val mss = new FluentActor("mss")
+		val janine = new FluentActor("janine")
+		val bsa = new FluentActor("bsa")
+		val msr = new FluentActor("msr")
+		val vg1 = new FluentActor("vg1")
+		val opco: FluentActor = new FluentActor("opco")
 
 		val tracking = new Sequence("track flight request").startWith(
 			janine.call("track", to(tracker)) ::
