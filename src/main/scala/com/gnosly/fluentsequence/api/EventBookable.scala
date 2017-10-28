@@ -1,4 +1,4 @@
-package com.gnosly.api
+package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.core.EventBook
 

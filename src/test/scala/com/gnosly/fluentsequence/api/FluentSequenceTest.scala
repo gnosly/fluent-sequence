@@ -1,6 +1,7 @@
-package com.gnosly.api
+package com.gnosly.fluentsequence.api
 
-import com.gnosly.api.FluentSequence._
+import com.gnosly.fluentsequence.api.FluentSequence.Actor
+import com.gnosly.fluentsequence.api.FluentSequence._
 import com.gnosly.fluentsequence.core.EventBook
 import org.scalatest.{FlatSpec, Matchers}
 
