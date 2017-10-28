@@ -19,7 +19,8 @@ class ActorTest extends FlatSpec with Matchers {
 
 		val flow = service
 			.does(new Sequence("childSequence").startWith(service.does("something") :: Nil))
-			.and(service.does("something else"))
+			.and()
+			.does("something else")
 
 		flow.toEventBook shouldBe EventBook(
 			"ACTOR service STARTED_NEW_SEQUENCE childSequence",
@@ -40,7 +41,9 @@ class ActorTest extends FlatSpec with Matchers {
 	it should "combine two actions" in {
 		val service = new Actor("service")
 
-		val flow = service.call("action", new Actor("anotherActor")).and(service.does("something"))
+		val flow = service.call("action", new Actor("anotherActor"))
+			.and()
+			.does("something")
 
 		flow.toEventBook shouldBe EventBook(
 			"ACTOR service CALLED action TO anotherActor",

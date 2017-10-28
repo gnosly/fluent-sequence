@@ -21,27 +21,50 @@ object FluentSequence {
 
 		def inCase(statement: String, flow: SequenceFlow): SequenceFlow = ???
 
-		def and(flow: SequenceFlow): SequenceFlow = {
-			eventBook.track(flow.eventBook :: Nil)
-			this
+		def and(): ActorContinueSequenceFlow = {
+			new ActorContinueSequenceFlow(this, actorDoingSequence)
 		}
 
 		override def toEventBook: EventBook = eventBook
+
+		class ActorContinueSequenceFlow(sequenceFlow: SequenceFlow, val actor: Actor) extends Actorable {
+			override def check(condition: String): SequenceFlow = ???
+
+			override def stop(): SequenceFlow = ???
+
+			override def fire(event: String): SequenceFlow = ???
+
+			override def launch(tracking: Sequence): SequenceFlow = ???
+
+			override def does(sequence: Sequence): SequenceFlow = ???
+
+			override def does(action: String): SequenceFlow = {
+				sequenceFlow.eventBook.track(s"${actor.entity} ${actor.name} DOES $action")
+				sequenceFlow
+			}
+
+			override def call(action: String, actor: Actor): SequenceFlow = ???
+
+			override def reply(action: String, actor: Actor): SequenceFlow = ???
+
+			override def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
+		}
+
 	}
 
 
-	class Actor(val name: String, entity: String = "ACTOR") {
+	class Actor(val name: String, val entity: String = "ACTOR") extends Actorable {
 
 
-		def check(condition: String): SequenceFlow = ???
+		override def check(condition: String): SequenceFlow = ???
 
-		def stop(): SequenceFlow = ???
+		override def stop(): SequenceFlow = ???
 
-		def fire(event: String): SequenceFlow = ???
+		override def fire(event: String): SequenceFlow = ???
 
-		def launch(tracking: Sequence): SequenceFlow = ???
+		override def launch(tracking: Sequence): SequenceFlow = ???
 
-		def does(sequence: Sequence): SequenceFlow = {
+		override def does(sequence: Sequence): SequenceFlow = {
 			val eventBook = new EventBook()
 			val event = s"$entity $name STARTED_NEW_SEQUENCE ${sequence.name}"
 			eventBook.track(event)
@@ -50,25 +73,46 @@ object FluentSequence {
 			new SequenceFlow(event, eventBook, this)
 		}
 
-		def does(action: String): SequenceFlow = {
+		override def does(action: String): SequenceFlow = {
 			val eventBook = new EventBook()
 			val event = s"$entity $name DOES $action"
 			eventBook.track(event)
 			new SequenceFlow(event, eventBook, this)
 		}
 
-		def call(action: String, actor: Actor): SequenceFlow = {
+		override def call(action: String, actor: Actor): SequenceFlow = {
 			val eventBook = new EventBook()
 			val event = s"$entity $name CALLED $action TO ${actor.name}"
 			eventBook.track(event)
 			new SequenceFlow(event, eventBook, this)
 		}
 
-		def reply(action: String, actor: Actor): SequenceFlow = ???
+		override def reply(action: String, actor: Actor): SequenceFlow = ???
 
-		def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
+		override def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
 	}
 
 	class User(role: String) extends Actor(name = role, entity = "USER") {}
+
+	trait Actorable {
+
+		def check(condition: String): SequenceFlow
+
+		def stop(): SequenceFlow
+
+		def fire(event: String): SequenceFlow
+
+		def launch(tracking: Sequence): SequenceFlow
+
+		def does(sequence: Sequence): SequenceFlow
+
+		def does(action: String): SequenceFlow
+
+		def call(action: String, actor: Actor): SequenceFlow
+
+		def reply(action: String, actor: Actor): SequenceFlow
+
+		def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow
+	}
 
 }
