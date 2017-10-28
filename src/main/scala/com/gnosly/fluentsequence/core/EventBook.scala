@@ -4,13 +4,13 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 object EventBook {
-	def apply(events: String*): EventBook = new EventBook(events.map(InnerEvent(_)).toBuffer)
+	def apply(events: String*): EventBook = new EventBook(events.map(EventBookEvent(_)).toBuffer)
 }
 
-case class EventBook(events: mutable.Buffer[InnerEvent] = ArrayBuffer()) {
+case class EventBook(events: mutable.Buffer[EventBookEvent] = ArrayBuffer()) {
 
 	def track(event: String) = {
-		events += InnerEvent(event)
+		events += EventBookEvent(event)
 	}
 
 	def track(books: Seq[EventBook]) = {
@@ -30,6 +30,6 @@ case class EventBook(events: mutable.Buffer[InnerEvent] = ArrayBuffer()) {
 //"ACTOR service STARTED_NEW_SEQUENCE childSequence"
 //"SEQUENCE sequenceName STARTED"
 
-case class InnerEvent(eventName:String)
+case class EventBookEvent(eventName:String)
 case class TimelineEvent(index: Int, eventName: String)
 //case class REPLIED extends
