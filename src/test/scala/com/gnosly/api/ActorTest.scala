@@ -47,8 +47,20 @@ class ActorTest extends FlatSpec with Matchers {
 
 		flow.toEventBook shouldBe EventBook(
 			"ACTOR service CALLED action TO anotherActor",
-			"ACTOR service DOES something")
+			"ACTOR service DOES something"
+		)
 	}
 
+
+	it should "reply to another actor" in {
+		val service = new Actor("service")
+		val anotherService = new Actor("anotherService")
+
+		val flow = service.reply("action", anotherService)
+
+		flow.toEventBook shouldBe EventBook(
+			"ACTOR service REPLIED action TO anotherService"
+		)
+	}
 
 }

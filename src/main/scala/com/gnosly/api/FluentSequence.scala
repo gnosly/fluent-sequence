@@ -87,7 +87,12 @@ object FluentSequence {
 			new SequenceFlow(event, eventBook, this)
 		}
 
-		override def reply(action: String, actor: Actor): SequenceFlow = ???
+		override def reply(action: String, toActor: Actor): SequenceFlow = {
+			val eventBook = new EventBook()
+			val event = s"$entity $name REPLIED $action TO ${toActor.name}"
+			eventBook.track(event)
+			new SequenceFlow(event, eventBook, this)
+		}
 
 		override def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
 	}
