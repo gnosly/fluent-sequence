@@ -19,7 +19,7 @@ case class EventBook(events: mutable.Buffer[InnerEvent] = ArrayBuffer()) {
 		})
 	}
 
-	def toList: List[Event] = events.zipWithIndex.map(a => Event(a._2, a._1.eventName)).toList
+	def toList: List[TimelineEvent] = events.zipWithIndex.map(a => TimelineEvent(a._2, a._1.eventName)).toList
 }
 
 
@@ -31,4 +31,5 @@ case class EventBook(events: mutable.Buffer[InnerEvent] = ArrayBuffer()) {
 //"SEQUENCE sequenceName STARTED"
 
 case class InnerEvent(eventName:String)
-case class Event(index: Int, eventName: String)
+case class TimelineEvent(index: Int, eventName: String)
+//case class REPLIED extends

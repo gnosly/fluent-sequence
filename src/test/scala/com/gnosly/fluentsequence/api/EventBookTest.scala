@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.api
 
-import com.gnosly.fluentsequence.core.{Event, EventBook}
+import com.gnosly.fluentsequence.core.{TimelineEvent, EventBook}
 import org.scalatest.{FlatSpec, Matchers}
 
 class EventBookTest extends FlatSpec with Matchers{
@@ -14,7 +14,7 @@ class EventBookTest extends FlatSpec with Matchers{
 		val book = new EventBook
 		book.track("event1")
 		book.track("event2")
-		book.toList shouldBe List(Event(0, "event1"), Event(1, "event2"))
+		book.toList shouldBe List(TimelineEvent(0, "event1"), TimelineEvent(1, "event2"))
 	}
 
 	it should "track a new list of events" in {
@@ -27,7 +27,7 @@ class EventBookTest extends FlatSpec with Matchers{
 		book3.track("eventC")
 
 		book1.track(book2 :: book3 :: Nil)
-		book1.toList shouldBe List(Event(0, "eventA"), Event(1, "eventB"), Event(2, "eventC"))
+		book1.toList shouldBe List(TimelineEvent(0, "eventA"), TimelineEvent(1, "eventB"), TimelineEvent(2, "eventC"))
 	}
 
 }
