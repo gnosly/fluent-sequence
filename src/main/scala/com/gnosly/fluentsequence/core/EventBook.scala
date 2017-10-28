@@ -26,10 +26,21 @@ case class EventBook(events: mutable.Buffer[EventBookEvent] = ArrayBuffer()) {
 //"ACTOR service REPLIED action TO anotherService"
 //"ACTOR service CALLED action TO anotherActor"
 //"ACTOR service DOES something"
-//"SEQUENCE childSequence STARTED"
 //"ACTOR service STARTED_NEW_SEQUENCE childSequence"
 //"SEQUENCE sequenceName STARTED"
 
-case class EventBookEvent(eventName:String)
+trait Event
+
+case class REPLIED(who: String, something: String, toSomebody: String) extends Event
+
+case class CALLED(who: String, something: String, toSomebody: String) extends Event
+
+case class DONE(who: String, something: String) extends Event
+
+case class NEW_SEQUENCE_SCHEDULED(who: String, sequence: String) extends Event
+
+case class SEQUENCE_STARTED(who: String, sequence: String) extends Event
+
+case class EventBookEvent(eventName: String)
+
 case class TimelineEvent(index: Int, eventName: String)
-//case class REPLIED extends
