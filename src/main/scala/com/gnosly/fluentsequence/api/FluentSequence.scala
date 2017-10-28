@@ -57,7 +57,7 @@ object FluentSequence {
 
 
 	class FluentActor(val name: String, val entity: ActorType = SEQUENCE_ACTOR())
-		extends core.Actor(entity,name)
+		extends Actor(entity,name)
 			with Actorable {
 
 		override def does(sequence: Sequence): SequenceFlow = {
@@ -76,13 +76,13 @@ object FluentSequence {
 
 		override def call(action: String, actor: FluentActor): SequenceFlow = {
 			val eventBook = new EventBook()
-			eventBook.track(CALLED(this, action, actor.name))
+			eventBook.track(CALLED(this, action, actor))
 			new SequenceFlow(s"$name $action to ${actor.name}", eventBook, this)
 		}
 
 		override def reply(action: String, toActor: FluentActor): SequenceFlow = {
 			val eventBook = new EventBook()
-			eventBook.track(REPLIED(this, action, toActor.name))
+			eventBook.track(REPLIED(this, action, toActor))
 			new SequenceFlow(s"$name replied $action to ${toActor.name}", eventBook, this)
 		}
 

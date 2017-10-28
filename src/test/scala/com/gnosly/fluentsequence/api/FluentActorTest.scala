@@ -33,23 +33,25 @@ class FluentActorTest extends FlatSpec with Matchers {
 
 	it should "call another actor" in {
 		val service = new FluentActor("service")
+		val anotherActor = new FluentActor("anotherActor")
 
-		val flow = service.call("action", new FluentActor("anotherActor"))
+		val flow = service.call("action", anotherActor)
 
 		flow.toEventBook shouldBe EventBook(
-			CALLED(service, "action", "anotherActor")
+			CALLED(service, "action", anotherActor)
 		)
 	}
 
 	it should "combine two actions" in {
 		val service = new FluentActor("service")
+		val anotherActor = new FluentActor("anotherActor")
 
-		val flow = service.call("action", new FluentActor("anotherActor"))
+		val flow = service.call("action", anotherActor)
 			.and()
 			.does("something")
 
 		flow.toEventBook shouldBe EventBook(
-			CALLED(service, "action", "anotherActor"),
+			CALLED(service, "action", anotherActor),
 			DONE(service, "something")
 		)
 	}
@@ -62,7 +64,7 @@ class FluentActorTest extends FlatSpec with Matchers {
 		val flow = service.reply("action", anotherService)
 
 		flow.toEventBook shouldBe EventBook(
-			REPLIED(service, "action", "anotherService")
+			REPLIED(service, "action", anotherService)
 		)
 	}
 
