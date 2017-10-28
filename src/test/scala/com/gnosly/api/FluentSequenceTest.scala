@@ -1,6 +1,7 @@
 package com.gnosly.api
 
 import com.gnosly.api.FluentSequence._
+import com.gnosly.fluentsequence.core.EventBook
 import org.scalatest.{FlatSpec, Matchers}
 
 class FluentSequenceTest extends FlatSpec with Matchers {

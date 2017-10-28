@@ -1,8 +1,7 @@
-package com.gnosly.api
+package com.gnosly.fluentsequence.core
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
-
 
 object EventBook {
 	def apply(events: String*): EventBook = new EventBook(events.map(InnerEvent(_)).toBuffer)
@@ -20,8 +19,9 @@ case class EventBook(events: mutable.Buffer[InnerEvent] = ArrayBuffer()) {
 		})
 	}
 
-	def toList: List[Event] = events.zipWithIndex.map(a => Event(a._2,a._1.eventName)).toList
+	def toList: List[Event] = events.zipWithIndex.map(a => Event(a._2, a._1.eventName)).toList
 }
+
 
 //"ACTOR service REPLIED action TO anotherService"
 //"ACTOR service CALLED action TO anotherActor"

@@ -1,5 +1,7 @@
 package com.gnosly.api
 
+import com.gnosly.fluentsequence.core.EventBook
+
 object FluentSequence {
 
 
