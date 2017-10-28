@@ -10,9 +10,9 @@ object EventBook {
 
 case class EventBook(events: mutable.Buffer[InnerEvent] = ArrayBuffer()) {
 
-	//	def this(events: List[String]){
-	//		this()
-	//	}
+	def track(event: String) = {
+		events += InnerEvent(event)
+	}
 
 	def track(books: Seq[EventBook]) = {
 		books.foreach(book => {
@@ -21,11 +21,14 @@ case class EventBook(events: mutable.Buffer[InnerEvent] = ArrayBuffer()) {
 	}
 
 	def toList: List[Event] = events.zipWithIndex.map(a => Event(a._2,a._1.eventName)).toList
-
-	def track(event: String) = {
-		events += InnerEvent(event)
-	}
 }
+
+//"ACTOR service REPLIED action TO anotherService"
+//"ACTOR service CALLED action TO anotherActor"
+//"ACTOR service DOES something"
+//"SEQUENCE childSequence STARTED"
+//"ACTOR service STARTED_NEW_SEQUENCE childSequence"
+//"SEQUENCE sequenceName STARTED"
 
 case class InnerEvent(eventName:String)
 case class Event(index: Int, eventName: String)

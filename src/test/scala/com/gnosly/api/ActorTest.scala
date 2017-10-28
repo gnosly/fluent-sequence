@@ -63,4 +63,13 @@ class ActorTest extends FlatSpec with Matchers {
 		)
 	}
 
+	"USER" should "does something" in {
+		val user = new User("user")
+
+		val flow = user.does("something")
+
+		flow.toEventBook shouldBe EventBook("USER user DOES something")
+
+	}
+
 }
