@@ -21,7 +21,6 @@ class FluentSequenceTest extends FlatSpec with Matchers {
 		)
 	}
 
-/*
 	ignore should "handle complex scenario" in {
 		val user = new User("tourist")
 		val skyscanner = new Actor("skyscanner")
@@ -77,5 +76,4 @@ class FluentSequenceTest extends FlatSpec with Matchers {
 					.does(checkout) :: Nil
 			)
 	}
-*/
 }

@@ -55,15 +55,6 @@ object FluentSequence {
 
 	class Actor(val name: String, val entity: String = "ACTOR") extends Actorable {
 
-
-		override def check(condition: String): SequenceFlow = ???
-
-		override def stop(): SequenceFlow = ???
-
-		override def fire(event: String): SequenceFlow = ???
-
-		override def launch(tracking: Sequence): SequenceFlow = ???
-
 		override def does(sequence: Sequence): SequenceFlow = {
 			val eventBook = new EventBook()
 			val event = s"$entity $name STARTED_NEW_SEQUENCE ${sequence.name}"
@@ -93,6 +84,14 @@ object FluentSequence {
 			eventBook.track(event)
 			new SequenceFlow(event, eventBook, this)
 		}
+
+		override def stop(): SequenceFlow = ???
+
+		override def check(condition: String): SequenceFlow = ???
+
+		override def fire(event: String): SequenceFlow = ???
+
+		override def launch(tracking: Sequence): SequenceFlow = ???
 
 		override def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
 	}
