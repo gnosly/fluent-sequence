@@ -1,6 +1,5 @@
 package com.gnosly.fluentsequence.api
 
-import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
 
 object FluentSequence {
@@ -55,9 +54,8 @@ object FluentSequence {
 
 	}
 
-
 	class FluentActor(val name: String, val entity: ActorType = SEQUENCE_ACTOR())
-		extends Actor(entity,name)
+		extends Actor(entity, name)
 			with Actorable {
 
 		override def does(sequence: Sequence): SequenceFlow = {
@@ -98,26 +96,5 @@ object FluentSequence {
 	}
 
 	class User(role: String) extends FluentActor(name = role, entity = USER()) {}
-
-	trait Actorable {
-
-		def check(condition: String): SequenceFlow
-
-		def stop(): SequenceFlow
-
-		def fire(event: String): SequenceFlow
-
-		def launch(tracking: Sequence): SequenceFlow
-
-		def does(sequence: Sequence): SequenceFlow
-
-		def does(action: String): SequenceFlow
-
-		def call(action: String, actor: FluentActor): SequenceFlow
-
-		def reply(action: String, actor: FluentActor): SequenceFlow
-
-		def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow
-	}
 
 }
