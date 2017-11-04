@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.core._
+import com.gnosly.fluentsequence.view.fixedwidth.ConsolePrinter
 
 object FluentSequence {
 
@@ -8,6 +9,10 @@ object FluentSequence {
 	def to(actor: FluentActor): FluentActor = ???
 
 	case class Sequence(name: String) extends EventBookable {
+		def printToConsole() = {
+			ConsolePrinter.print(this.toEventBook).show(System.out)
+		}
+
 		val eventBook = new EventBook()
 
 		def startWith(flow: Seq[SequenceFlow]): Sequence = {
