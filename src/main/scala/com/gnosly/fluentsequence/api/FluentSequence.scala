@@ -10,7 +10,7 @@ object FluentSequence {
 
 	case class Sequence(name: String) extends EventBookable {
 		def printToConsole() = {
-			ConsolePrinter.print(this.toEventBook).show(System.out)
+			ConsolePrinter.print(this.toEventBook).show(null)
 		}
 
 		val eventBook = new EventBook()

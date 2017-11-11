@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import java.io.OutputStream
+import java.io.Writer
 
 trait Console {
-	def show(outputStream: OutputStream)
+	def show(writer: Writer)
 }
