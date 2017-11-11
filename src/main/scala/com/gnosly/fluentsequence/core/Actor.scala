@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.core
 
-class Actor(actorType: ActorType, name:String)
+case class Actor(actorType: ActorType, name:String)
 
 trait ActorType
 

@@ -9,8 +9,8 @@ import com.gnosly.fluentsequence.view.model.MatrixRepresentation
 object ConsolePrinter extends Printer {
 	def print(eventBook: EventBook):Console= {
 
-		val matrix = new MatrixRepresentation(eventBook)
-		val fixedWidthCanvas = new FixedWidthCanvas(matrix)
+		//val matrix = new MatrixRepresentation()
+//		val fixedWidthCanvas = new FixedWidthCanvas(matrix)
 		new Console() {
 			override def show(writer: Writer): Unit = ???
 		}

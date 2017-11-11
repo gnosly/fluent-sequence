@@ -59,7 +59,7 @@ object FluentSequence {
 
 	}
 
-	class FluentActor(val name: String, val entity: ActorType = SEQUENCE_ACTOR())
+	class FluentActor(name: String, val entity: ActorType = SEQUENCE_ACTOR())
 		extends Actor(entity, name)
 			with Actorable {
 
