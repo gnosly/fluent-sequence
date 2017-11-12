@@ -10,13 +10,14 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 
 	"generator" should "call own generators " in {
 		val matrixRepresentation = generate(EventBook(
-			DONE(new Actor(USER(), "user"), "something")
+			DONE(new Actor(USER(), "user"), "something"),
+			DONE(new Actor(USER(), "user"), "something else")
 		))
 
-		val userActor2 = Actor2("user", Activity2(0, 1))
+		val userActor2 = Actor2("user", Activity2(0, 2))
 		val expected = new Matrix().witha(
-			List(userActor2),
-			List(AutoSignal("something", 0, userActor2))
+			Map("user" -> userActor2),
+			List(AutoSignal("something", 0, userActor2), AutoSignal("something else", 1, userActor2) )
 		)
 		matrixRepresentation shouldBe expected
 
@@ -34,24 +35,33 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 		matrix
 	}
 
-	case class Matrix(_actors: mutable.Buffer[Actor2], _signals: mutable.Buffer[AutoSignal]) {
+	case class Matrix(_actors: mutable.HashMap[String,Actor2], _signals: mutable.Buffer[AutoSignal]) {
 
 		def this() = {
-			this(mutable.Buffer(), mutable.Buffer())
+			this(mutable.HashMap(), mutable.Buffer())
 		}
 
 
-		def witha(actors: List[Actor2], signals: List[AutoSignal]) = {
+		def witha(actors: Map[String, Actor2], signals: List[AutoSignal]) = {
 			_actors ++= actors
 			_signals ++= signals
 			this
 		}
 
 		def done(who: Actor, something: String, when: Int) = {
-			val actor = new Actor2(who.name)
+			val actor = createOrGet(who)
 			actor.done(when, something)
-			_actors += actor
 			_signals += AutoSignal(something, when, actor)
+		}
+
+		private def createOrGet(who: Actor):Actor2 = {
+			val actor = _actors.getOrElse(who.name, {
+				val newActor = new Actor2(who.name)
+				_actors += who.name -> newActor
+				newActor
+			})
+
+			 actor
 		}
 	}
 
@@ -59,15 +69,20 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 
 	case class Actor2(name: String, var activity2: Activity2) {
 		def done(index: Int, something: String) = {
-			activity2 = Activity2(index, index + 1)
+			activity2.increaseUntil(index)
 		}
 
 		def this(name: String) {
-			this(name, null)
+			this(name, Activity2(0,0))
 		}
 
 	}
 
-	case class Activity2(fromIndex: Int, toIndex: Int)
+	case class Activity2(fromIndex: Int, var toIndex: Int) {
+		def increaseUntil(index: Int) = {
+			toIndex=index+1
+		}
+
+	}
 
 }
