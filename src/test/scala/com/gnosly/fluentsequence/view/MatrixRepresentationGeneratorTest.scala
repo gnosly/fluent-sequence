@@ -24,15 +24,19 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 	}
 
 	it should "create matrix with CALL " in {
+		val systemActor = Actor(SEQUENCE_ACTOR(), "system")
+		val userActor = new Actor(USER(), "user")
+
 		val matrixRepresentation = generate(EventBook(
-			CALLED(new Actor(USER(), "user"), "call", Actor(SEQUENCE_ACTOR(),"system"))
+			CALLED(userActor, "call", systemActor),
+			DONE(systemActor, "something"),
 		))
 
-		val userActor2 = Actor2("user", Activity2(0, 1))
-		val systemActor2 = Actor2("system", Activity2(0, 1))
+		val userActor2 = Actor2("user", Activity2(0, 2))
+		val systemActor2 = Actor2("system", Activity2(0, 2))
 		val expected = new Matrix().witha(
 			Map("user" -> userActor2, "system" -> systemActor2),
-			List(BiSignal2("call", 0, userActor2,systemActor2))
+			List(BiSignal2("call", 0, userActor2,systemActor2),AutoSignal("something", 1, systemActor2))
 		)
 		matrixRepresentation shouldBe expected
 
@@ -40,7 +44,8 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 
 	def generate(book: EventBook) = {
 		val matrix = new Matrix()
-		book.toList.foreach(
+		val list = book.toList
+		list.foreach(
 			t => {
 				t.event match {
 					case DONE(who, something) => matrix.done(who, something, t.index)
@@ -48,10 +53,15 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 				}
 			}
 		)
+		matrix.end(list.last.index)
 		matrix
 	}
 
 	case class Matrix(_actors: mutable.HashMap[String,Actor2], _signals: mutable.Buffer[Signal2]) {
+		def end(index:Int) = {
+			_actors.foreach(a => a._2.end(index))
+		}
+
 		def this() = {
 			this(mutable.HashMap(), mutable.Buffer())
 		}
@@ -94,6 +104,10 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 	case class BiSignal2(name: String, index: Int, fromActor: Actor2,toActor: Actor2) extends Signal2
 
 	case class Actor2(name: String, var activity2: Activity2) {
+		def end(index:Int) = {
+			activity2.increaseUntil(index)
+		}
+
 		def done(index: Int) = {
 			activity2.increaseUntil(index)
 		}
@@ -105,6 +119,7 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 	}
 
 	case class Activity2(fromIndex: Int, var toIndex: Int) {
+
 		def increaseUntil(index: Int) = {
 			toIndex=index+1
 		}
