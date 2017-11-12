@@ -11,10 +11,10 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 		))
 
 		matrixRepresentation shouldBe new MatrixRepresentation(
-			List(ActorView("user",Step(0))),
-			List(Activity(Step(0), TimelineStep(Step(0), Step(1)))),
-			List(Signal("something", PointStep(Step(0), Step(0)), PointStep(Step(0), Step(1)))),
-			List(Liveness(Step(0), Step(1)))
+			List(ActorView("user",0)),
+			List(Activity(0, TimelineStep(0, 1))),
+			List(Signal("something", PointStep(0, 0), PointStep(0, 1))),
+			List(Liveness(0, 1))
 		)
 
 	}

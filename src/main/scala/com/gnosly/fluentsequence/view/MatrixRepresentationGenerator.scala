@@ -8,6 +8,7 @@ import scala.collection.mutable
 object MatrixRepresentationGenerator extends EventBookGenerator[MatrixRepresentation] {
 
 	def generate(eventBook: EventBook) = {
+
 		val actors = mutable.Buffer[ActorView]()
 		val signals = mutable.Buffer[Signal]()
 
@@ -18,21 +19,20 @@ object MatrixRepresentationGenerator extends EventBookGenerator[MatrixRepresenta
 		})
 
 		val activities = actors.map(a => a.activity).toList
-		val timelines = actors.map(a => a.liveness).toList
+		val livenesses = actors.map(a => a.liveness).toList
 
-		MatrixRepresentation(actors.toList, activities, signals.toList, timelines)
+		MatrixRepresentation(actors.toList, activities, signals.toList, livenesses)
 	}
 
 	private def done(actors: mutable.Buffer[ActorView], signals: mutable.Buffer[Signal],
 									 t: TimelineEvent, who: Actor, something: String) = {
-		val actor = ActorView(who.name, Step(actors.size))
+		val actor = ActorView(who.name, actors.size)
 		actor.startOrContinue(t.index)
-		signals += Signal(something,
-			PointStep(actor.x, Step(t.index)),
-			PointStep(actor.x, Step(t.index + 1))
-		)
+		signals += Signal(something, PointStep(actor.x, t.index), PointStep(actor.x, t.index + 1))
 		actors += actor
 	}
+
+
 }
 
 
