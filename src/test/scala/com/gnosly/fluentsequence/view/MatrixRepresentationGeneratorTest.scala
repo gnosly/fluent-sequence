@@ -14,7 +14,7 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 			DONE(new Actor(USER(), "user"), "something else")
 		))
 
-		val userActor2 = Actor2("user", Activity2(0, 2))
+		val userActor2 = Actor2("user", Activity2(0, 1))
 		val expected = new Matrix().witha(
 			Map("user" -> userActor2),
 			List(AutoSignal("something", 0, userActor2), AutoSignal("something else", 1, userActor2))
@@ -32,8 +32,8 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 			DONE(systemActor, "something"),
 		))
 
-		val userActor2 = Actor2("user", Activity2(0, 2))
-		val systemActor2 = Actor2("system", Activity2(0, 2))
+		val userActor2 = Actor2("user", Activity2(0, 1))
+		val systemActor2 = Actor2("system", Activity2(0, 1))
 		val expected = new Matrix().witha(
 			Map("user" -> userActor2, "system" -> systemActor2),
 			List(BiSignal2("call", 0, userActor2, systemActor2), AutoSignal("something", 1, systemActor2))
@@ -52,14 +52,42 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 			REPLIED(systemActor, "response", userActor)
 		))
 
-		val userActor2 = Actor2("user", Activity2(0, 3))
-		val systemActor2 = Actor2("system", Activity2(0, 3))
+		val userActor2 = Actor2("user", Activity2(0, 2))
+		val systemActor2 = Actor2("system", Activity2(0, 2))
 		val expected = new Matrix().witha(
 			Map("user" -> userActor2, "system" -> systemActor2),
 			List(
 				BiSignal2("call", 0, userActor2, systemActor2),
 				AutoSignal("something", 1, systemActor2),
 				BiSignal2("response", 2, systemActor2, userActor2))
+		)
+		matrixRepresentation shouldBe expected
+
+	}
+
+	it should "create matrix with mixed events" in {
+		val systemActor = Actor(SEQUENCE_ACTOR(), "system")
+		val userActor = new Actor(USER(), "user")
+
+		val matrixRepresentation = generate(EventBook(
+			DONE(userActor, "something"),
+			CALLED(userActor, "call", systemActor),
+			DONE(systemActor, "something else"),
+			REPLIED(systemActor, "response", userActor),
+			DONE(userActor, "something end"),
+		))
+
+		val userActor2 = Actor2("user", Activity2(0, 4))
+		val systemActor2 = Actor2("system", Activity2(1, 3))
+		val expected = new Matrix().witha(
+			Map("user" -> userActor2, "system" -> systemActor2),
+			List(
+				AutoSignal("something", 0, userActor2),
+				BiSignal2("call", 1, userActor2, systemActor2),
+				AutoSignal("something else", 2, systemActor2),
+				BiSignal2("response", 3, systemActor2, userActor2),
+				AutoSignal("something end", 4, userActor2),
+			)
 		)
 		matrixRepresentation shouldBe expected
 
@@ -85,9 +113,6 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 
 	case class Matrix(_actors: mutable.HashMap[String, Actor2], _signals: mutable.Buffer[Signal2]) {
 
-		def end(index: Int) = {
-			_actors.foreach(a => a._2.end(index))
-		}
 		def this() = {
 			this(mutable.HashMap(), mutable.Buffer())
 		}
@@ -98,33 +123,37 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 			this
 		}
 
-
-		def done(who: Actor, something: String, when: Int) = {
-			val actor = createOrGet(who)
-			actor.activeUntil(when)
-			_signals += AutoSignal(something, when, actor)
+		def done(who: Actor, something: String, index: Int) = {
+			val actor = createOrGet(who, index)
+			actor.activeUntil(index)
+			_signals += AutoSignal(something, index, actor)
 		}
 
 
 		def called(who: Actor, something: String, toSomebody: Actor, index: Int) = {
-			val caller = createOrGet(who)
-			val called = createOrGet(toSomebody)
+			val caller = createOrGet(who, index)
+			val called = createOrGet(toSomebody, index)
 			caller.activeUntil(index)
 			called.activeUntil(index)
 			_signals += BiSignal2(something, index, caller, called)
 		}
 
+
 		def replied(who: Actor, something: String, toSomebody: Actor, index: Int) = {
-			val replier = createOrGet(who)
-			val replied = createOrGet(toSomebody)
-			replier.activeUntil(index)
+			val replier = createOrGet(who, index)
+			val replied = createOrGet(toSomebody, index)
+			replier.end(index)
 			replied.activeUntil(index)
 			_signals += BiSignal2(something, index, replier, replied)
 		}
 
-		private def createOrGet(who: Actor): Actor2 = {
+		def end(index: Int) = {
+			_actors.foreach(a => a._2.end(index))
+		}
+
+		private def createOrGet(who: Actor, index:Int): Actor2 = {
 			val actor = _actors.getOrElse(who.name, {
-				val newActor = new Actor2(who.name)
+				val newActor = new Actor2(who.name, index)
 				_actors += who.name -> newActor
 				newActor
 			})
@@ -138,24 +167,31 @@ class MatrixRepresentationGeneratorTest extends FlatSpec with Matchers {
 	case class BiSignal2(name: String, index: Int, fromActor: Actor2, toActor: Actor2) extends Signal2
 
 	case class Actor2(name: String, var activity2: Activity2) {
-		def end(index: Int) = {
-			activity2.increaseUntil(index)
+		def this(name: String, fromIndex:Int) {
+			this(name, Activity2(fromIndex, 0, true))
 		}
 
 		def activeUntil(index: Int) = {
 			activity2.increaseUntil(index)
 		}
 
-		def this(name: String) {
-			this(name, Activity2(0, 0))
+		def end(index: Int) = {
+			activity2.end(index)
 		}
 
 	}
 
-	case class Activity2(fromIndex: Int, var toIndex: Int) {
+	case class Activity2(fromIndex: Int, var toIndex: Int, var active:Boolean = false) {
+		def end(index: Int) = {
+			if(active){
+				increaseUntil(index)
+				active = false
+			}
+		}
+
 
 		def increaseUntil(index: Int) = {
-			toIndex = index + 1
+			toIndex = index
 		}
 
 	}
