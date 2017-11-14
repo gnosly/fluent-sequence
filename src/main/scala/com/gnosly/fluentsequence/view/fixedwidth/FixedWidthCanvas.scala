@@ -1,8 +1,8 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.Canvas
-import com.gnosly.fluentsequence.view.model.MatrixRepresentation
+import com.gnosly.fluentsequence.view.model.Matrix
 
-class FixedWidthCanvas(matrixRepresentation: MatrixRepresentation) extends Canvas {
+class FixedWidthCanvas(matrixRepresentation: Matrix) extends Canvas {
 
 }
