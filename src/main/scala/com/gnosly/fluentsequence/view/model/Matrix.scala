@@ -81,17 +81,27 @@ case class AutoSignal(name: String, index: Int, actor: MatrixActor) extends Sign
 
 case class BiSignal(name: String, index: Int, fromActor: MatrixActor, toActor: MatrixActor) extends Signal
 
-case class MatrixActor(name: String, var activity: Activity) {
+case class MatrixActor(name: String, var activities: mutable.Buffer[Activity]) {
+
+	def this(name: String, activity: Activity) {
+		this(name, mutable.Buffer(activity))
+	}
+
+
 	def this(name: String, fromIndex: Int) {
 		this(name, Activity(fromIndex, 0, true))
 	}
 
 	def activeUntil(index: Int) = {
-		activity.increaseUntil(index)
+		val last = activities.last
+		if(last.active)
+			last.increaseUntil(index)
+		else
+			activities += Activity(index, 0, true)
 	}
 
 	def end(index: Int) = {
-		activity.end(index)
+		activities.last.end(index)
 	}
 }
 
