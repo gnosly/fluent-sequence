@@ -104,12 +104,13 @@ class matrixGeneratorTest extends FlatSpec with Matchers {
 			DONE(userActor, "something end"),
 			CALLED(userActor, "call again", systemActor),
 			REPLIED(systemActor, "response again", userActor),
-
 		))
 
 		val matrixUserActor = new MatrixActor("user", Activity(0, 5))
 		val matrixSystemActor = MatrixActor("system", mutable.Buffer(Activity(0, 2), Activity(4, 5)))
-		val expected = new Matrix().witha(
+
+
+		matrix shouldBe new Matrix().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(
 				BiSignal("call", 0, matrixUserActor, matrixSystemActor),
@@ -121,7 +122,6 @@ class matrixGeneratorTest extends FlatSpec with Matchers {
 
 			)
 		)
-		matrix shouldBe expected
 
 	}
 
