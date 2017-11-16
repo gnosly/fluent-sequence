@@ -1,13 +1,12 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.model.MatrixGenerator.generate
-import com.gnosly.fluentsequence.view.model._
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.mutable
 
-class matrixGeneratorTest extends FlatSpec with Matchers {
+class MatrixGeneratorTest extends FlatSpec with Matchers {
 
 	"generator" should "create matrix with DOES " in {
 		val matrix = generate(EventBook(
