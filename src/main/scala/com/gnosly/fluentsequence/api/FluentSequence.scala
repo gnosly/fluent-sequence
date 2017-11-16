@@ -1,5 +1,7 @@
 package com.gnosly.fluentsequence.api
 
+import java.io.PrintWriter
+
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.fixedwidth.ConsolePrinter
 
@@ -12,17 +14,17 @@ object FluentSequence {
 		val eventBook = new EventBook()
 
 		def printToConsole() = {
-			ConsolePrinter.create(this.toEventBook)
-				.printTo(null)
+			ConsolePrinter.print(this.toEventBook)
+				.on(new PrintWriter(System.out))
 		}
-
-		override def toEventBook: EventBook = eventBook
 
 		def startWith(flow: Seq[SequenceFlow]): Sequence = {
 			eventBook.track(SEQUENCE_STARTED(name))
 			eventBook.track(flow.map(_.toEventBook))
 			this
 		}
+
+		override def toEventBook: EventBook = eventBook
 	}
 
 	class SequenceFlow(name: String, val eventBook: EventBook, actorDoingSequence: FluentActor) extends EventBookable {
