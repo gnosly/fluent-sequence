@@ -4,5 +4,5 @@ import com.gnosly.fluentsequence.core.EventBook
 import com.gnosly.fluentsequence.view.fixedwidth.Console
 
 trait Printer {
-	def print(eventBook: EventBook):Console
+	def create(eventBook: EventBook):Console
 }

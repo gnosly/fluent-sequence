@@ -1,7 +1,6 @@
 package com.gnosly.fluentsequence.api
 
-import com.gnosly.fluentsequence.api.FluentSequence.FluentActor
-import com.gnosly.fluentsequence.api.FluentSequence._
+import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, _}
 import com.gnosly.fluentsequence.core._
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -78,6 +77,6 @@ class FluentSequenceTest extends FlatSpec with Matchers {
 					.does(flightSearch)
 					.and()
 					.does(checkout) :: Nil
-			)
+			).printToConsole()
 	}
 }

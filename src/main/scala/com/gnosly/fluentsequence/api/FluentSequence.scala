@@ -9,19 +9,20 @@ object FluentSequence {
 	def to(actor: FluentActor): FluentActor = ???
 
 	case class Sequence(name: String) extends EventBookable {
+		val eventBook = new EventBook()
+
 		def printToConsole() = {
-			ConsolePrinter.print(this.toEventBook).show(null)
+			ConsolePrinter.create(this.toEventBook)
+				.printTo(null)
 		}
 
-		val eventBook = new EventBook()
+		override def toEventBook: EventBook = eventBook
 
 		def startWith(flow: Seq[SequenceFlow]): Sequence = {
 			eventBook.track(SEQUENCE_STARTED(name))
 			eventBook.track(flow.map(_.toEventBook))
 			this
 		}
-
-		override def toEventBook: EventBook = eventBook
 	}
 
 	class SequenceFlow(name: String, val eventBook: EventBook, actorDoingSequence: FluentActor) extends EventBookable {
