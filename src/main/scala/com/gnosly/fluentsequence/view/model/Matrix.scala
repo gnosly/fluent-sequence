@@ -87,7 +87,6 @@ case class MatrixActor(name: String, var activities: mutable.Buffer[Activity]) {
 		this(name, mutable.Buffer(activity))
 	}
 
-
 	def this(name: String, fromIndex: Int) {
 		this(name, Activity(fromIndex, 0, true))
 	}

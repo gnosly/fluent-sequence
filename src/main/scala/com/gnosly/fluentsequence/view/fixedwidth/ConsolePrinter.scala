@@ -8,11 +8,10 @@ import com.gnosly.fluentsequence.view.model.MatrixGenerator
 
 object ConsolePrinter extends Printer {
 	def print(eventBook: EventBook):Printable= {
-
 		//ROLE: passare da lista di eventi a oggetto strutturato
 		val matrix = MatrixGenerator.generate(eventBook)
 		//ROLE: passare a una matrice di righe e colonne
-		val fixedWidthCanvas:FixedWidthCanvas = new FixedWidthCanvas(matrix)
+		val fixedWidthCanvas	 = new FixedWidthCanvas()
 		//ROLE: scrivere su output la matrice
 		new Printable() {
 			override def on(writer: Writer): Unit = ???
