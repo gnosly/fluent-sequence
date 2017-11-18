@@ -1,10 +1,10 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view
 
 import org.scalatest.{FunSuite, Matchers}
 
-class MatrixViewTest extends FunSuite with Matchers{
+class MatrixViewTest extends FunSuite with Matchers {
 
-	test("Navigable by dot"){
+	test("Navigable by dot") {
 		val bottomCell = Cell()
 		val rightCell = Cell()
 		val topLeft = Cell(bottomCell, rightCell)
@@ -14,33 +14,33 @@ class MatrixViewTest extends FunSuite with Matchers{
 		matrixView.topLeftCornerCell.bottom shouldBe bottomCell
 	}
 
-	test("Get specific point"){
+	test("Get specific point") {
 		val bottomCell = Cell()
 		val rightCell = Cell()
 		val topLeft = Cell(bottomCell, rightCell)
 		val matrixView = new MatrixView(topLeft)
 
-		matrixView(0,1) shouldBe rightCell
+		matrixView(0, 1) shouldBe rightCell
 	}
 
 
-	test("vertical navigation"){
+	test("vertical navigation") {
 		val rightBottom: Cell = Cell()
 		val bottomCell = Cell()
 		val rightCell = Cell(rightBottom, null)
 		val topLeft = Cell(bottomCell, rightCell)
 		val matrixView = new MatrixView(topLeft)
 
-		matrixView.column(1).toList shouldBe List(rightCell,rightBottom)
+		matrixView.column(1).toList shouldBe List(rightCell, rightBottom)
 	}
 
-	test("horizontal navigation"){
+	test("horizontal navigation") {
 		val rightBottom: Cell = Cell()
 		val bottomCell = Cell(null, rightBottom)
-		val topLeft = Cell(bottomCell, LeafCell)
+		val topLeft = Cell(bottomCell, Cell())
 		val matrixView = new MatrixView(topLeft)
 
-		matrixView.row(1).toList shouldBe List(bottomCell,rightBottom)
+		matrixView.row(1).toList shouldBe List(bottomCell, rightBottom)
 	}
 
 }
