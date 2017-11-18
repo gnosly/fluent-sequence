@@ -23,4 +23,24 @@ class MatrixViewTest extends FunSuite with Matchers{
 		matrixView(0,1) shouldBe rightCell
 	}
 
+
+	test("vertical navigation"){
+		val rightBottom: Cell = Cell()
+		val bottomCell = Cell()
+		val rightCell = Cell(rightBottom, null)
+		val topLeft = Cell(bottomCell, rightCell)
+		val matrixView = new MatrixView(topLeft)
+
+		matrixView.column(1).toList shouldBe List(rightCell,rightBottom)
+	}
+
+	test("horizontal navigation"){
+		val rightBottom: Cell = Cell()
+		val bottomCell = Cell(null, rightBottom)
+		val topLeft = Cell(bottomCell, LeafCell)
+		val matrixView = new MatrixView(topLeft)
+
+		matrixView.row(1).toList shouldBe List(bottomCell,rightBottom)
+	}
+
 }
