@@ -12,6 +12,22 @@ class FixedWidthCanvas extends Canvas {
 	}
 }
 
+//larghezza (*)
+//nome actor
+//autoSignal
+//BiSignal
+//
+
+//altezza[*]
+//AutoSignal
+//Bisignal * numero
+
+//ogni intero index (colonna) => dimensione larghezza => max(*)
+//ogni intero index (riga) => dimensione altezza => max[*]
+//quindi ho una matrice delle dimensioni
+//Creo i pezzi
+//li metto in una matrice di celle pixellose (ogni componente sa adattarsi per renderizzarsi secondo le dimensioni)
+//Stampo la matrice riga per riga
 
 case class AutoSignalBox(autoSignal: AutoSignal) extends Boxable {
 	val out = toBox()
