@@ -1,5 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
+import com.gnosly.fluentsequence.view.model.boxable.{ActorBox, AutoSignalBox}
 import com.gnosly.fluentsequence.view.model.{Activity, AutoSignal, Matrix, MatrixActor}
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -26,8 +27,8 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 				|    | something
 				|<---'""".stripMargin
 
-		box.width() shouldBe 15
-		box.height() shouldBe 4
+		box.minWidth() shouldBe 15
+		box.minHeight() shouldBe 4
 	}
 
 	it should "render bisignal" in {
@@ -41,8 +42,8 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 				|    | something
 				|<---'""".stripMargin
 
-		box.width() shouldBe 15
-		box.height() shouldBe 4
+		box.minWidth() shouldBe 15
+		box.minHeight() shouldBe 4
 	}
 
 	it should "render entire autosignal" ignore {
