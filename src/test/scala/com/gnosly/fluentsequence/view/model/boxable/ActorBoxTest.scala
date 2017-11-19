@@ -10,6 +10,5 @@ class ActorBoxTest extends FunSuite with Matchers {
 		val actorBox = ActorBox(MatrixActor(actorName,null))
 		actorBox.minHeight() shouldBe 4
 		actorBox.minWidth() shouldBe actorName.length + 4
-
 	}
 }

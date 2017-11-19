@@ -8,6 +8,7 @@ class FixedWidthCanvas extends Canvas {
 	var out: String = ""
 
 	def build(matrix: Matrix) = {
+
 		val actorBoxes = matrix._actors.values.map(a => ActorBox(a).out)
 		out += (actorBoxes.toList.apply(0))
 	}
@@ -16,7 +17,7 @@ class FixedWidthCanvas extends Canvas {
 //larghezza (*)
 //nome actor
 //autoSignal
-//BiSignal
+//BiSignal / 2
 //
 
 //altezza[*]
@@ -34,9 +35,7 @@ class FixedWidthCanvas extends Canvas {
 
 
 
-object Util {
-	def r(pattern: String, count: Int): String = (0 until count).map(_ => pattern).reduce(_ + _)
-}
+
 
 
 
