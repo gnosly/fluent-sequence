@@ -14,7 +14,7 @@ class MatrixGeneratorTest extends FlatSpec with Matchers {
 			DONE(new Actor(USER(), "user"), "something else")
 		))
 
-		val matrixUserActor = new MatrixActor("user", Activity(0, 1))
+		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
 		val expected = new Matrix().witha(
 			Map("user" -> matrixUserActor),
 			List(AutoSignal("something", 0, matrixUserActor), AutoSignal("something else", 1, matrixUserActor))
@@ -31,8 +31,8 @@ class MatrixGeneratorTest extends FlatSpec with Matchers {
 			DONE(systemActor, "something"),
 		))
 
-		val matrixUserActor = new MatrixActor("user", Activity(0, 1))
-		val matrixSystemActor = new MatrixActor("system", Activity(0, 1))
+		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
+		val matrixSystemActor = new MatrixActor(1, "system", Activity(0, 1))
 		val expected = new Matrix().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(BiSignal("call", 0, matrixUserActor, matrixSystemActor), AutoSignal("something", 1, matrixSystemActor))
@@ -51,8 +51,8 @@ class MatrixGeneratorTest extends FlatSpec with Matchers {
 			REPLIED(systemActor, "response", userActor)
 		))
 
-		val matrixUserActor = new MatrixActor("user", Activity(0, 2))
-		val matrixSystemActor = new MatrixActor("system", Activity(0, 2))
+		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 2))
+		val matrixSystemActor = new MatrixActor(1, "system", Activity(0, 2))
 		val expected = new Matrix().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(
@@ -76,8 +76,8 @@ class MatrixGeneratorTest extends FlatSpec with Matchers {
 			DONE(userActor, "something end"),
 		))
 
-		val matrixUserActor = new MatrixActor("user", Activity(0, 4))
-		val matrixSystemActor = new MatrixActor("system", Activity(1, 3))
+		val matrixUserActor = new MatrixActor(0,"user", Activity(0, 4))
+		val matrixSystemActor = new MatrixActor(1,"system", Activity(1, 3))
 		val expected = new Matrix().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(
@@ -105,8 +105,8 @@ class MatrixGeneratorTest extends FlatSpec with Matchers {
 			REPLIED(systemActor, "response again", userActor),
 		))
 
-		val matrixUserActor = new MatrixActor("user", Activity(0, 5))
-		val matrixSystemActor = MatrixActor("system", mutable.Buffer(Activity(0, 2), Activity(4, 5)))
+		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 5))
+		val matrixSystemActor = MatrixActor(1, "system", mutable.Buffer(Activity(0, 2), Activity(4, 5)))
 
 
 		matrix shouldBe new Matrix().witha(

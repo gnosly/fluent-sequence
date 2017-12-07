@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.view.model.boxable
 import com.gnosly.fluentsequence.view.fixedwidth.Util
 import com.gnosly.fluentsequence.view.model.MatrixActor
 
-case class ActorBox(actor: MatrixActor) extends Boxable {
+case class ActorBox(actor: MatrixActor) extends Boxable with MatrixPositionable{
 	val padding = 2
 	val name = actor.name
 	val innerSize = name.length + padding
@@ -23,4 +23,8 @@ case class ActorBox(actor: MatrixActor) extends Boxable {
 	override def minWidth() = outerSize
 
 	override def minHeight() = 4
+
+	override def column() = actor.column
+
+	override def row() = 0
 }

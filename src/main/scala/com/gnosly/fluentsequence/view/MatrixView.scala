@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view
 
 import scala.annotation.tailrec
 
-case class Cell(bottom: Cell = null, right: Cell = null) {}
+case class Cell( var bottom: Cell = null, var right: Cell = null) {}
 
 /*
 * MatrixView con navigazione a colonna e a riga per trovare la larghezza e la altezza
@@ -17,7 +17,25 @@ case class Cell(bottom: Cell = null, right: Cell = null) {}
 *
 * Sarebbe forse comoda una struttura a matrice dove ogni cella è un carattere
 * */
-class MatrixView(val topLeftCornerCell: Cell) {
+class MatrixView(var topLeftCornerCell: Cell = null) {
+
+//	def lastRow(cell:Cell):Cell = {
+//		if(cell==null || cell.bottom == null)
+//			return cell
+//		else
+//			return lastRow(cell.bottom)
+//	}
+//
+//	def newRow(): Row = {
+//
+//		val cell = lastRow(topLeftCornerCell)
+//		if(cell==null){
+//			topLeftCornerCell = new Cell()
+//			return new Row(topLeftCornerCell)
+//		}
+//		new Row(cell)
+//	}
+
 
 	type Direction = Cell => Cell
 	val BOTTOM_DIRECTION: Direction = _.bottom
@@ -67,6 +85,18 @@ class MatrixView(val topLeftCornerCell: Cell) {
 			last = direction(last)
 			previousLast
 		}
+	}
+
+	class Row(var cellone: Cell) {
+		def append(cell: Cell) = {
+			if(cellone == null){
+				cellone = Cell()
+			}
+			cellone.right = cell
+
+			cellone = cell
+		}
+
 	}
 
 }

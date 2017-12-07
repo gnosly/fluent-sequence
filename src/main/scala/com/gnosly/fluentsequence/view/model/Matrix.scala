@@ -62,7 +62,7 @@ case class Matrix(_actors: mutable.HashMap[String, MatrixActor], _signals: mutab
 
 	private def createOrGet(who: core.Actor, index: Int): MatrixActor = {
 		val actor = _actors.getOrElse(who.name, {
-			val newActor = new MatrixActor(who.name, index)
+			val newActor = new MatrixActor(_actors.size, who.name, index)
 			_actors += who.name -> newActor
 			newActor
 		})
@@ -81,14 +81,14 @@ case class AutoSignal(name: String, index: Int, actor: MatrixActor) extends Sign
 
 case class BiSignal(name: String, index: Int, fromActor: MatrixActor, toActor: MatrixActor) extends Signal
 
-case class MatrixActor(name: String, var activities: mutable.Buffer[Activity]) {
+case class MatrixActor(val column: Int, name: String, var activities: mutable.Buffer[Activity]) {
 
-	def this(name: String, activity: Activity) {
-		this(name, mutable.Buffer(activity))
+	def this(column: Int, name: String, activity: Activity) {
+		this(column, name, mutable.Buffer(activity))
 	}
 
-	def this(name: String, fromIndex: Int) {
-		this(name, Activity(fromIndex, 0, true))
+	def this(column: Int, name: String, fromIndex: Int) {
+		this(column,name, Activity(fromIndex, 0, true))
 	}
 
 	def activeUntil(index: Int) = {

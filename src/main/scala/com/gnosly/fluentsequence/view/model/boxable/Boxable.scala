@@ -7,3 +7,8 @@ trait Boxable {
 
 	def minHeight(): Int
 }
+
+trait MatrixPositionable {
+	def column(): Int
+	def row(): Int
+}

@@ -7,9 +7,11 @@ import org.scalatest.{FlatSpec, Matchers}
 class FixedWidthCanvasTest extends FlatSpec with Matchers {
 
 	it should "render user" in {
-		val matrixUserActor = new MatrixActor("user", Activity(0, 1))
+		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
 
-		ActorBox(matrixUserActor).out shouldBe
+		val box = ActorBox(matrixUserActor)
+		box.column() shouldBe 0
+		box.out shouldBe
 			".------.\n" +
 				"| user |\n" +
 				"'------'\n" +
@@ -17,7 +19,7 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render autosignal" in {
-		val matrixUserActor = new MatrixActor("user", Activity(0, 1))
+		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
 
 		val box = AutoSignalBox(new AutoSignal("something", 1, matrixUserActor))
 
@@ -29,10 +31,11 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 
 		box.minWidth() shouldBe 15
 		box.minHeight() shouldBe 4
+
 	}
 
 	it should "render bisignal" in {
-		val matrixUserActor = new MatrixActor("user", Activity(0, 1))
+		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
 
 		val box = AutoSignalBox(new AutoSignal("something", 1, matrixUserActor))
 
@@ -47,7 +50,7 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render entire autosignal" ignore {
-		val matrixUserActor = new MatrixActor("user", Activity(0, 1))
+		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
 		val matrix = new Matrix().witha(
 			Map("user" -> matrixUserActor),
 			List(
@@ -73,7 +76,7 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render multiple autosignal" ignore {
-		val matrixUserActor = new MatrixActor("user", Activity(0, 1))
+		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
 		val matrix = new Matrix().witha(
 			Map("user" -> matrixUserActor),
 			List(
@@ -104,6 +107,7 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 				|        |
 				|"""
 	}
+
 
 
 }

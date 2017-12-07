@@ -43,4 +43,14 @@ class MatrixViewTest extends FunSuite with Matchers {
 		matrixView.row(1).toList shouldBe List(bottomCell, rightBottom)
 	}
 
+//	test("new row"){
+//		val matrix = new MatrixView()
+//		val row = matrix.newRow
+//		val cell = Cell()
+//
+//		row.append(cell)
+//
+//		matrix(0,0) shouldBe cell
+//	}
+
 }
