@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.model.Matrix
-import com.gnosly.fluentsequence.view.model.boxable.ActorBox
+import com.gnosly.fluentsequence.view.model.boxable.{ActorBox, AutoSignalBox, Boxable}
+import com.gnosly.fluentsequence.view.model.{AutoSignal, Matrix}
 import com.gnosly.fluentsequence.view.{Canvas, MatrixView}
 
 class FixedWidthCanvas extends Canvas {
@@ -10,9 +10,19 @@ class FixedWidthCanvas extends Canvas {
 	def build(matrix: Matrix) = {
 		val sizes = new MatrixView()
 
-		//qualcuno decidera l'ordine degli attori
+		//l'ordine degli attori è deciso in costruzione della matrice
 		val actorBoxes = matrix._actors.values.map(a => ActorBox(a).out)
 		out += (actorBoxes.toList.apply(0))
+
+
+	}
+
+
+	def boxes(matrix: Matrix): Iterable[Boxable] ={
+		val actorBoxes = matrix._actors.values.map(a => ActorBox(a))
+		 val signalBoxes = matrix._signals.map(s => AutoSignalBox(s.asInstanceOf[AutoSignal]))
+
+		actorBoxes ++ signalBoxes
 	}
 }
 
