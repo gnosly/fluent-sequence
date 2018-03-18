@@ -1,14 +1,14 @@
 package com.gnosly.fluentsequence.view.model.boxable
 
-import com.gnosly.fluentsequence.view.model.BiSignal
+import com.gnosly.fluentsequence.view.model.BiSignalComponent
 import org.scalatest.{FunSuite, Matchers}
 
 import scala.collection.mutable
 
-class BiSignalBoxTest extends FunSuite with Matchers {
+class BiSignalComponentBoxTest extends FunSuite with Matchers {
 
 	test("out") {
-		val biSignalBox = BiSignalBox(BiSignal("something", 1, null, null))
+		val biSignalBox = BiSignalBox(BiSignalComponent("something", 1, null, null))
 		biSignalBox.out shouldBe
 			"  something \n" +
 				"----------->"
@@ -17,13 +17,13 @@ class BiSignalBoxTest extends FunSuite with Matchers {
 
 	test("sizing") {
 		val signalName = "something"
-		val biSignalBox = BiSignalBox(BiSignal(signalName, 1, null, null))
+		val biSignalBox = BiSignalBox(BiSignalComponent(signalName, 1, null, null))
 		biSignalBox.minHeight() shouldBe 2
 		biSignalBox.minWidth() shouldBe signalName.length + 3
 	}
 
 	test("rendering") {
-		val biSignalBox = BiSignalBox(BiSignal("something", 1, null, null))
+		val biSignalBox = BiSignalBox(BiSignalComponent("something", 1, null, null))
 
 		val graphics = new TextGraphics(20, 2)
 		biSignalBox.render(graphics, 0, 0, 20, 10)

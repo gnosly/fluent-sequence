@@ -1,13 +1,13 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.model.boxable.{ActorBox, AutoSignalBox}
-import com.gnosly.fluentsequence.view.model.{Activity, AutoSignal, Matrix, MatrixActor}
+import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent, AutoSignalComponent, Components}
 import org.scalatest.{FlatSpec, Matchers}
 
 class FixedWidthCanvasTest extends FlatSpec with Matchers {
 
 	it should "render user" in {
-		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
 
 		val box = ActorBox(matrixUserActor)
 		box.column() shouldBe 0
@@ -19,9 +19,9 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render autosignal" in {
-		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
 
-		val box = AutoSignalBox(new AutoSignal("something", 1, matrixUserActor))
+		val box = AutoSignalBox(new AutoSignalComponent("something", 1, matrixUserActor))
 
 		box.out shouldBe
 			"""____
@@ -35,9 +35,9 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render bisignal" in {
-		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
 
-		val box = AutoSignalBox(new AutoSignal("something", 1, matrixUserActor))
+		val box = AutoSignalBox(new AutoSignalComponent("something", 1, matrixUserActor))
 
 		box.out shouldBe
 			"""____
@@ -50,11 +50,11 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render entire autosignal" ignore {
-		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
-		val matrix = new Matrix().witha(
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
+		val matrix = new Components().witha(
 			Map("user" -> matrixUserActor),
 			List(
-				AutoSignal("something", 0, matrixUserActor)
+				AutoSignalComponent("something", 0, matrixUserActor)
 			)
 		)
 
@@ -76,12 +76,12 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render multiple autosignal" ignore {
-		val matrixUserActor = new MatrixActor(0, "user", Activity(0, 1))
-		val matrix = new Matrix().witha(
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
+		val matrix = new Components().witha(
 			Map("user" -> matrixUserActor),
 			List(
-				AutoSignal("something", 0, matrixUserActor),
-				AutoSignal("something else", 1, matrixUserActor)
+				AutoSignalComponent("something", 0, matrixUserActor),
+				AutoSignalComponent("something else", 1, matrixUserActor)
 			)
 		)
 

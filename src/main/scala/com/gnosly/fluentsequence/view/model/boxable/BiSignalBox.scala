@@ -1,9 +1,9 @@
 package com.gnosly.fluentsequence.view.model.boxable
 
 import com.gnosly.fluentsequence.view.fixedwidth.Util
-import com.gnosly.fluentsequence.view.model.BiSignal
+import com.gnosly.fluentsequence.view.model.BiSignalComponent
 
-case class BiSignalBox(biSignal: BiSignal) extends Boxable {
+case class BiSignalBox(biSignal: BiSignalComponent) extends Boxable {
 	val out = toBox()
 
 	def render(graphics: Graphics, x:Int, y:Int, width:Int, height:Int) = {

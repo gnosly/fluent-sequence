@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view
 
 import org.scalatest.{FunSuite, Matchers}
 
-class MatrixViewTest extends FunSuite with Matchers {
+class ComponentsViewTest extends FunSuite with Matchers {
 
 	test("Navigable by dot") {
 		val bottomCell = Cell()

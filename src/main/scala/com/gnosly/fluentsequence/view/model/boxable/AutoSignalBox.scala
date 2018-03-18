@@ -1,8 +1,8 @@
 package com.gnosly.fluentsequence.view.model.boxable
 
-import com.gnosly.fluentsequence.view.model.AutoSignal
+import com.gnosly.fluentsequence.view.model.AutoSignalComponent
 
-case class AutoSignalBox(autoSignal: AutoSignal) extends Boxable {
+case class AutoSignalBox(autoSignal: AutoSignalComponent) extends Boxable {
 	val out = toBox()
 
 	override def toBox() = {
