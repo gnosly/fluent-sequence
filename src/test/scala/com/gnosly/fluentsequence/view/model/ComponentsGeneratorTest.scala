@@ -14,10 +14,10 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 			DONE(new Actor(USER(), "user"), "something else")
 		))
 
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
 		val expected = new Components().witha(
 			Map("user" -> matrixUserActor),
-			List(AutoSignalComponent("something", 0, matrixUserActor), AutoSignalComponent("something else", 1, matrixUserActor))
+			List(AutoSignalComponent("something", 0, 0, matrixUserActor), AutoSignalComponent("something else", 1, 0, matrixUserActor))
 		)
 		matrix shouldBe expected
 	}
@@ -31,11 +31,11 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 			DONE(systemActor, "something"),
 		))
 
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
-		val matrixSystemActor = new ActorComponent(1, "system", ActivityComponent(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
+		val matrixSystemActor = new ActorComponent(1, "system", ActivityComponent(0, 0, 1))
 		val expected = new Components().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
-			List(BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor), AutoSignalComponent("something", 1, matrixSystemActor))
+			List(BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor), AutoSignalComponent("something", 1, 0, matrixSystemActor))
 		)
 		matrix shouldBe expected
 
@@ -51,13 +51,13 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 			REPLIED(systemActor, "response", userActor)
 		))
 
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 2))
-		val matrixSystemActor = new ActorComponent(1, "system", ActivityComponent(0, 2))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 2))
+		val matrixSystemActor = new ActorComponent(1, "system", ActivityComponent(0, 0, 2))
 		val expected = new Components().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(
 				BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor),
-				AutoSignalComponent("something", 1, matrixSystemActor),
+				AutoSignalComponent("something", 1, 0, matrixSystemActor),
 				BiSignalComponent("response", 2, matrixSystemActor, matrixUserActor))
 		)
 		matrix shouldBe expected
@@ -76,16 +76,16 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 			DONE(userActor, "something end"),
 		))
 
-		val matrixUserActor = new ActorComponent(0,"user", ActivityComponent(0, 4))
-		val matrixSystemActor = new ActorComponent(1,"system", ActivityComponent(1, 3))
+		val matrixUserActor = new ActorComponent(0,"user", ActivityComponent(0, 0, 4))
+		val matrixSystemActor = new ActorComponent(1,"system", ActivityComponent(0, 1, 3))
 		val expected = new Components().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(
-				AutoSignalComponent("something", 0, matrixUserActor),
+				AutoSignalComponent("something", 0, 0, matrixUserActor),
 				BiSignalComponent("call", 1, matrixUserActor, matrixSystemActor),
-				AutoSignalComponent("something else", 2, matrixSystemActor),
-				BiSignalComponent("response", 3, matrixSystemActor, matrixUserActor),
-				AutoSignalComponent("something end", 4, matrixUserActor),
+				AutoSignalComponent("something else", 2, 0, matrixSystemActor),
+				BiSignalComponent("response", 3, matrixSystemActor,  matrixUserActor),
+				AutoSignalComponent("something end", 4, 0, matrixUserActor),
 			)
 		)
 		matrix shouldBe expected
@@ -105,17 +105,17 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 			REPLIED(systemActor, "response again", userActor),
 		))
 
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 5))
-		val matrixSystemActor = ActorComponent(1, "system", mutable.Buffer(ActivityComponent(0, 2), ActivityComponent(4, 5)))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 5))
+		val matrixSystemActor = ActorComponent(1, "system", mutable.Buffer(ActivityComponent(0, 0, 2), ActivityComponent(0, 4, 5)))
 
 
 		matrix shouldBe new Components().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(
 				BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor),
-				AutoSignalComponent("something", 1, matrixSystemActor),
+				AutoSignalComponent("something", 1, 0, matrixSystemActor),
 				BiSignalComponent("response", 2, matrixSystemActor, matrixUserActor),
-				AutoSignalComponent("something end", 3, matrixUserActor),
+				AutoSignalComponent("something end", 3, 0, matrixUserActor),
 				BiSignalComponent("call again", 4, matrixUserActor, matrixSystemActor),
 				BiSignalComponent("response again", 5, matrixSystemActor, matrixUserActor),
 

@@ -39,8 +39,14 @@ case class Components(_actors: mutable.HashMap[String, ActorComponent],
 
 	def done(who: core.Actor, something: String, index: Int): Unit = {
 		val actor = createOrGet(who, index)
-		actor.activeUntil(index)
-		_signals += AutoSignalComponent(something, index, actor)
+		val lastActivity = actor.activeUntil(index)
+		_signals += AutoSignalComponent(something, index, lastActivity.id, actor)
+	}
+
+	def called(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
+		val caller = createOrGet(who, index)
+		val called = createOrGet(toSomebody, index)
+		_signals += caller.link(called, something, index)
 	}
 
 	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
@@ -51,12 +57,6 @@ case class Components(_actors: mutable.HashMap[String, ActorComponent],
 		})
 
 		actor
-	}
-
-	def called(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
-		val caller = createOrGet(who, index)
-		val called = createOrGet(toSomebody, index)
-		_signals += caller.link(called, something, index)
 	}
 
 	def replied(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
@@ -77,7 +77,7 @@ trait Component
 
 trait SignalComponent extends Component
 
-case class AutoSignalComponent(name: String, index: Int, actor: ActorComponent) extends SignalComponent
+case class AutoSignalComponent(name: String, index: Int, activityId: Int, actor: ActorComponent) extends SignalComponent
 
 case class BiSignalComponent(name: String, index: Int, fromActor: ActorComponent, toActor: ActorComponent) extends SignalComponent
 
@@ -88,12 +88,17 @@ case class ActorComponent(val column: Int, name: String, var activities: mutable
 		BiSignalComponent(something, index, this, called)
 	}
 
-	def activeUntil(index: Int) = {
+	def activeUntil(index: Int): ActivityComponent = {
 		val last = activities.last
-		if (last.active)
+		if (last.active) {
 			last.increaseUntil(index)
-		else
-			activities += ActivityComponent(index, 0, true)
+			last
+		}
+		else {
+			val component = ActivityComponent(last.id + 1, index, 0, true)
+			activities += component
+			component
+		}
 	}
 
 	def this(column: Int, name: String, activity: ActivityComponent) {
@@ -101,7 +106,7 @@ case class ActorComponent(val column: Int, name: String, var activities: mutable
 	}
 
 	def this(column: Int, name: String, fromIndex: Int) {
-		this(column, name, ActivityComponent(fromIndex, 0, true))
+		this(column, name, ActivityComponent(0, fromIndex, 0, true))
 	}
 
 	def end(index: Int) = {
@@ -109,7 +114,7 @@ case class ActorComponent(val column: Int, name: String, var activities: mutable
 	}
 }
 
-case class ActivityComponent(fromIndex: Int, var toIndex: Int, var active: Boolean = false) extends Component {
+case class ActivityComponent(id: Int, fromIndex: Int, var toIndex: Int, var active: Boolean = false) extends Component {
 	def end(index: Int) = {
 		if (active) {
 			increaseUntil(index)

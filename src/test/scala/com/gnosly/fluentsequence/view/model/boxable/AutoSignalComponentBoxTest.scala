@@ -7,7 +7,7 @@ class AutoSignalComponentBoxTest extends FunSuite with Matchers{
 
 	test("sizing"){
 		val signalName = "something"
-		val autoSignalBox = AutoSignalBox(AutoSignalComponent(signalName,1,null))
+		val autoSignalBox = AutoSignalBox(AutoSignalComponent(signalName,1,0, null))
 		autoSignalBox.minHeight() shouldBe 4
 		autoSignalBox.minWidth() shouldBe signalName.length + 6
 	}

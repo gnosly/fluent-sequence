@@ -7,7 +7,7 @@ import org.scalatest.{FlatSpec, Matchers}
 class FixedWidthCanvasTest extends FlatSpec with Matchers {
 
 	it should "render user" in {
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
 
 		val box = ActorBox(matrixUserActor)
 		box.column() shouldBe 0
@@ -19,9 +19,9 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render autosignal" in {
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
 
-		val box = AutoSignalBox(new AutoSignalComponent("something", 1, matrixUserActor))
+		val box = AutoSignalBox(new AutoSignalComponent("something", 1, 0, matrixUserActor))
 
 		box.out shouldBe
 			"""____
@@ -35,9 +35,9 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render bisignal" in {
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
 
-		val box = AutoSignalBox(new AutoSignalComponent("something", 1, matrixUserActor))
+		val box = AutoSignalBox(new AutoSignalComponent("something", 1, 0, matrixUserActor))
 
 		box.out shouldBe
 			"""____
@@ -50,11 +50,11 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render entire autosignal" ignore {
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
 		val matrix = new Components().witha(
 			Map("user" -> matrixUserActor),
 			List(
-				AutoSignalComponent("something", 0, matrixUserActor)
+				AutoSignalComponent("something", 0, 0, matrixUserActor)
 			)
 		)
 
@@ -76,12 +76,12 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	}
 
 	it should "render multiple autosignal" ignore {
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 1))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
 		val matrix = new Components().witha(
 			Map("user" -> matrixUserActor),
 			List(
-				AutoSignalComponent("something", 0, matrixUserActor),
-				AutoSignalComponent("something else", 1, matrixUserActor)
+				AutoSignalComponent("something", 0, 0, matrixUserActor),
+				AutoSignalComponent("something else", 1, 0, matrixUserActor)
 			)
 		)
 
