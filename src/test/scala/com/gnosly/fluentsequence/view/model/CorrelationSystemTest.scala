@@ -25,7 +25,7 @@ class CorrelationSystemTest extends FlatSpec with Matchers {
 		system.add(autoSignalComponent)
 
 		system.actorPoints shouldBe Seq(ActorPoints(Point(Pixel(0), Pixel(10)), Point(Pixel(40), Pixel(10))))
-		system.autoSignalPoints shouldBe Seq(ActorPoints(Point(Pixel(0), Pixel(10)), Point(Pixel(40), Pixel(10))))
+		system.autoSignalPoints shouldBe Seq(AutoSignalPoints(Point(Pixel(0),Pixel(0))))
 	}
 
 
@@ -37,6 +37,7 @@ class CorrelationSystemTest extends FlatSpec with Matchers {
 
 	case class CorrelationSystem() {
 		 val actorPoints: mutable.Map[ActorComponent, ActorPoints] = mutable.HashMap[ActorComponent, ActorPoints]()
+		 val activityPoints: mutable.Map[ActivityComponent, ActivityPoints] = mutable.HashMap[ActivityComponent,ActivityPoints]()
 		 val autoSignalPoints: ListBuffer[AutoSignalPoints] = ListBuffer[AutoSignalPoints]()
 
 		def add(actorComponent: ActorComponent): Unit = {
@@ -45,16 +46,16 @@ class CorrelationSystemTest extends FlatSpec with Matchers {
 
 		def add(signal: AutoSignalComponent): Unit = {
 			val actor = signal.actor
-			val actorPoint = actorPoints(actor)
 			val index = signal.index
 			val activity = actor.activities(signal.activityId)
-
-			autoSignalPoints += AutoSignalPoints(Point(Pixel(0), Pixel(10)), Point(Pixel(40), Pixel(10)), Point(Pixel(40), Pixel(10)))
+			val activityPoint = activityPoints(activity)
+			autoSignalPoints += AutoSignalPoints(activityPoint.rights(index))
+			//forse mi conviene tenere il max
 		}
 
 	}
 
-	case class AutoSignalPoints(startY: Point, endY: Point, endX:Point) {
+	case class AutoSignalPoints(start: Point) {
 	}
 
 
@@ -64,10 +65,8 @@ class CorrelationSystemTest extends FlatSpec with Matchers {
 		}
 	}
 
-	case class ActivityPoints(bottomLeft: Point, bottomRight: Point) {
-		def bottomMiddle(): Point = {
-			Point(bottomRight.x - bottomLeft.x, bottomLeft.y)
-		}
+	case class ActivityPoints(bottomLeft: Point, bottomRight: Point, rightPoints:Seq[Point]) {
+		def rights(index: Int): Point = rightPoints(index)
 	}
 
 }
