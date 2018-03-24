@@ -22,7 +22,47 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 		fixedWidthCanvas.print() shouldBe "  -"
 	}
 
+	it should "render single point along y" in {
+		val fixedWidthCanvas = new FixedWidthCanvas()
 
+		fixedWidthCanvas.write(Fixed2DPoint(0, 2), '-')
+
+		fixedWidthCanvas.print() shouldBe "\n" +
+			"\n" +
+			"-"
+	}
+
+	it should "render two points " in {
+		val fixedWidthCanvas = new FixedWidthCanvas()
+
+		fixedWidthCanvas.write(Fixed2DPoint(0, 0), '1')
+		fixedWidthCanvas.write(Fixed2DPoint(3, 0), '2')
+
+		fixedWidthCanvas.print() shouldBe "1  2"
+	}
+
+	it should "render two points in inverse order " in {
+		val fixedWidthCanvas = new FixedWidthCanvas()
+
+		fixedWidthCanvas.write(Fixed2DPoint(3, 0), '2')
+		fixedWidthCanvas.write(Fixed2DPoint(0, 0), '1')
+
+		fixedWidthCanvas.print() shouldBe "1  2"
+	}
+
+	it should "render multi points " in {
+		val fixedWidthCanvas = new FixedWidthCanvas()
+
+		fixedWidthCanvas.write(Fixed2DPoint(0, 0), '1')
+		fixedWidthCanvas.write(Fixed2DPoint(3, 0), '2')
+		fixedWidthCanvas.write(Fixed2DPoint(0, 3), '3')
+		fixedWidthCanvas.write(Fixed2DPoint(3, 3), '4')
+
+		fixedWidthCanvas.print() shouldBe "1  2\n" +
+			"\n" +
+			"\n" +
+			"3  4"
+	}
 	//
 	//	it should "render autosignal" in {
 	//		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))

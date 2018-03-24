@@ -8,7 +8,7 @@ class FixedWidthCanvas extends Canvas {
 
 	private val SHELL_ORDER: Ordering[Fixed2DPoint] = new Ordering[Fixed2DPoint]() {
 		override def compare(a: Fixed2DPoint, b: Fixed2DPoint): Int = {
-			if (a.x < b.x && a.y < b.y) {
+			if (a.x <= b.x && a.y <= b.y) {
 				return -1
 			}
 
@@ -26,6 +26,7 @@ class FixedWidthCanvas extends Canvas {
 			while(currentY < point.y){
 				result.append("\n")
 				currentY = currentY + 1
+				currentX = 0
 			}
 			while(currentX < point.x){
 				result.append(" ")
