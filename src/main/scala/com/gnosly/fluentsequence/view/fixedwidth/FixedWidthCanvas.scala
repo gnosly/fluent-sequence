@@ -1,7 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.Canvas
-import com.gnosly.fluentsequence.view.model.ActorComponent
 
 import scala.collection.mutable
 
@@ -11,7 +10,7 @@ class FixedWidthCanvas extends Canvas {
 
 	override def print(): String = ???
 
-	override def write(actorComponent: ActorComponent, map: Map[String, Long]): Unit = {
+	def write(point: Fixed2DPoint, character: Character): Unit = {
 
 	}
 
