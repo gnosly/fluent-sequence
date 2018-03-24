@@ -4,6 +4,8 @@ import com.gnosly.fluentsequence.view.model.boxable.{ActorBox, AutoSignalBox}
 import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent, AutoSignalComponent, ViewModelComponents}
 import org.scalatest.{FlatSpec, Matchers}
 
+import scala.collection.mutable
+
 class FixedWidthCanvasTest extends FlatSpec with Matchers {
 
 	it should "render user" in {
@@ -51,9 +53,9 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 
 	it should "render entire autosignal" ignore {
 		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
-		val matrix = new ViewModelComponents().witha(
-			Map("user" -> matrixUserActor),
-			List(
+		val matrix = new ViewModelComponents(
+			mutable.HashMap("user" -> matrixUserActor),
+			mutable.Buffer(
 				AutoSignalComponent("something", 0, 0, matrixUserActor)
 			)
 		)
@@ -77,9 +79,9 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 
 	it should "render multiple autosignal" ignore {
 		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
-		val matrix = new ViewModelComponents().witha(
-			Map("user" -> matrixUserActor),
-			List(
+		val matrix = new ViewModelComponents(
+			mutable.HashMap("user" -> matrixUserActor),
+			mutable.Buffer(
 				AutoSignalComponent("something", 0, 0, matrixUserActor),
 				AutoSignalComponent("something else", 1, 0, matrixUserActor)
 			)

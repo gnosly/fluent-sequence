@@ -32,12 +32,6 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent],
 		this(mutable.HashMap(), mutable.Buffer())
 	}
 
-	def witha(actors: Map[String, ActorComponent], signals: List[SignalComponent]) = {
-		_actors ++= actors
-		_signals ++= signals
-		this
-	}
-
 	def done(who: core.Actor, something: String, index: Int): Unit = {
 		val actor = createOrGet(who, index)
 		val lastActivity = actor.activeUntil(index)
@@ -50,16 +44,6 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent],
 		_signals += caller.link(called, something, index)
 	}
 
-	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
-		val actor = _actors.getOrElse(who.name, {
-			val newActor = new ActorComponent(_actors.size, who.name, index)
-			_actors += who.name -> newActor
-			newActor
-		})
-
-		actor
-	}
-
 	def replied(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
 		val replier = createOrGet(who, index)
 		val replied = createOrGet(toSomebody, index)
@@ -70,6 +54,16 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent],
 
 	def end(index: Int) = {
 		_actors.foreach(a => a._2.end(index))
+	}
+
+	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
+		val actor = _actors.getOrElse(who.name, {
+			val newActor = new ActorComponent(_actors.size, who.name, index)
+			_actors += who.name -> newActor
+			newActor
+		})
+
+		actor
 	}
 }
 
