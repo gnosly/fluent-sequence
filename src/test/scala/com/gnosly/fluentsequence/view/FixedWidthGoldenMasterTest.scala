@@ -1,8 +1,6 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
-import com.gnosly.fluentsequence.core.EventBook
-import com.gnosly.fluentsequence.view.model.{ViewModelComponents, ViewModelComponentsGenerator}
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.io.Source
@@ -39,14 +37,6 @@ class FixedWidthGoldenMasterTest extends FlatSpec with Matchers {
 
 		val viewer = new Viewer()
 		viewer.view(flow.toEventBook) shouldBe expected
-	}
-
-	case class Viewer() {
-		def view(eventBook: EventBook): String = {
-			val viewModel: ViewModelComponents = ViewModelComponentsGenerator.generate(eventBook)
-			viewModel
-			return ""
-		}
 	}
 
 	private def load(filename: String) = {
