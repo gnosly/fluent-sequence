@@ -102,11 +102,11 @@ class ViewModelViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			REPLIED(systemActor, "response", userActor),
 			DONE(userActor, "something end"),
 			CALLED(userActor, "call again", systemActor),
-			REPLIED(systemActor, "response again", userActor),
+			REPLIED(systemActor, "response again", userActor)
 		))
 
 		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 5))
-		val matrixSystemActor = ActorComponent(1, "system", mutable.Buffer(ActivityComponent(0, 0, 2), ActivityComponent(0, 4, 5)))
+		val matrixSystemActor = ActorComponent(1, "system", mutable.Buffer(ActivityComponent(0, 0, 2), ActivityComponent(1, 4, 5)))
 
 
 		matrix shouldBe new ViewModelComponents().witha(
@@ -117,8 +117,7 @@ class ViewModelViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 				BiSignalComponent("response", 2, matrixSystemActor, matrixUserActor),
 				AutoSignalComponent("something end", 3, 0, matrixUserActor),
 				BiSignalComponent("call again", 4, matrixUserActor, matrixSystemActor),
-				BiSignalComponent("response again", 5, matrixSystemActor, matrixUserActor),
-
+				BiSignalComponent("response again", 5, matrixSystemActor, matrixUserActor)
 			)
 		)
 
