@@ -1,12 +1,12 @@
 package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.model.ComponentsGenerator.generate
+import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.mutable
 
-class ComponentsGeneratorTest extends FlatSpec with Matchers {
+class ViewModelViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 
 	"generator" should "create matrix with DOES " in {
 		val matrix = generate(EventBook(
@@ -15,7 +15,7 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 		))
 
 		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
-		val expected = new Components().witha(
+		val expected = new ViewModelComponents().witha(
 			Map("user" -> matrixUserActor),
 			List(AutoSignalComponent("something", 0, 0, matrixUserActor), AutoSignalComponent("something else", 1, 0, matrixUserActor))
 		)
@@ -33,7 +33,7 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 
 		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
 		val matrixSystemActor = new ActorComponent(1, "system", ActivityComponent(0, 0, 1))
-		val expected = new Components().witha(
+		val expected = new ViewModelComponents().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor), AutoSignalComponent("something", 1, 0, matrixSystemActor))
 		)
@@ -53,7 +53,7 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 
 		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 2))
 		val matrixSystemActor = new ActorComponent(1, "system", ActivityComponent(0, 0, 2))
-		val expected = new Components().witha(
+		val expected = new ViewModelComponents().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(
 				BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor),
@@ -78,7 +78,7 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 
 		val matrixUserActor = new ActorComponent(0,"user", ActivityComponent(0, 0, 4))
 		val matrixSystemActor = new ActorComponent(1,"system", ActivityComponent(0, 1, 3))
-		val expected = new Components().witha(
+		val expected = new ViewModelComponents().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(
 				AutoSignalComponent("something", 0, 0, matrixUserActor),
@@ -109,7 +109,7 @@ class ComponentsGeneratorTest extends FlatSpec with Matchers {
 		val matrixSystemActor = ActorComponent(1, "system", mutable.Buffer(ActivityComponent(0, 0, 2), ActivityComponent(0, 4, 5)))
 
 
-		matrix shouldBe new Components().witha(
+		matrix shouldBe new ViewModelComponents().witha(
 			Map("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			List(
 				BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor),

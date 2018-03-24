@@ -5,10 +5,10 @@ import com.gnosly.fluentsequence.core.{CALLED, DONE, EventBook, REPLIED}
 
 import scala.collection.mutable
 
-object ComponentsGenerator {
+object ViewModelComponentsGenerator {
 
 	def generate(book: EventBook) = {
-		val matrix = new Components()
+		val matrix = new ViewModelComponents()
 		val list = book.toList
 		list.foreach(
 			t => {
@@ -16,6 +16,7 @@ object ComponentsGenerator {
 					case DONE(who, something) => matrix.done(who, something, t.index)
 					case CALLED(who, something, toSomebody) => matrix.called(who, something, toSomebody, t.index)
 					case REPLIED(who, something, toSomebody) => matrix.replied(who, something, toSomebody, t.index)
+					case other => println(s"WARN ignoring ${other} creating view model")
 				}
 			}
 		)
@@ -24,8 +25,8 @@ object ComponentsGenerator {
 	}
 }
 
-case class Components(_actors: mutable.HashMap[String, ActorComponent],
-											_signals: mutable.Buffer[SignalComponent]) {
+case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent],
+															 _signals: mutable.Buffer[SignalComponent]) {
 
 	def this() = {
 		this(mutable.HashMap(), mutable.Buffer())
