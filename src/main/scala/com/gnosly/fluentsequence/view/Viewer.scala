@@ -6,15 +6,17 @@ import com.gnosly.fluentsequence.view.model.{ViewModelComponents, ViewModelCompo
 class Viewer(painter: Painter, canvas: Canvas) {
 	def view(eventBook: EventBook): String = {
 		val viewModel: ViewModelComponents = ViewModelComponentsGenerator.generate(eventBook)
+		draw(painter, viewModel)
 		canvas.print()
 	}
 
-	def draw(painter: Painter, viewModelComponents: ViewModelComponents) = {
+	private def draw(painter: Painter, viewModelComponents: ViewModelComponents) = {
 		val pointMap = autoFormatting(viewModelComponents, painter)
 		viewModelComponents._actors.foreach(
-			a => canvas.write(a._2, pointMap)
+			a => painter.paint(a._2, pointMap, canvas)
 		)
 	}
 
-	def autoFormatting(viewModelComponents: ViewModelComponents, painter: Painter): Map[String, Long] = ???
+	private def autoFormatting(viewModel: ViewModelComponents,
+														 painter: Painter): Map[String, Long] = Map()
 }

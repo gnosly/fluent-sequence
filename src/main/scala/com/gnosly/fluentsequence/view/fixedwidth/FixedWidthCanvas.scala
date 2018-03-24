@@ -7,7 +7,7 @@ import scala.collection.mutable
 
 class FixedWidthCanvas extends Canvas {
 
-	private val canvas = mutable.HashMap[Fixed2DPoint, Character]
+	private val canvas = mutable.HashMap[Fixed2DPoint, Character]()
 
 	override def print(): String = ???
 

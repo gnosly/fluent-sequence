@@ -3,12 +3,14 @@ package com.gnosly.fluentsequence.view.fixedwidth
 import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent}
 import org.scalatest.{FlatSpec, Matchers}
 
+import scala.collection.mutable
+
 class FixedWidthCanvasTest extends FlatSpec with Matchers {
 
 	val fixedWidthCanvas = new FixedWidthCanvas()
 
-	it should "render user" in {
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
+	it should "render user without activity" in {
+		val matrixUserActor = ActorComponent(0, "user", mutable.Buffer[ActivityComponent]())
 
 		fixedWidthCanvas.write(matrixUserActor, Map())
 
