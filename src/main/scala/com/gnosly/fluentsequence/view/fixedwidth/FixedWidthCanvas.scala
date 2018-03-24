@@ -13,10 +13,9 @@ class FixedWidthCanvas extends Canvas {
 	def write(point: Fixed2DPoint, character: Character): Unit = {
 
 	}
-
-	case class Fixed2DPoint(x: Long, y: Long)
-
 }
+
+case class Fixed2DPoint(x: Long, y: Long)
 
 
 

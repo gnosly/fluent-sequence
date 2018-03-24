@@ -1,7 +1,6 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
-import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.io.Source
@@ -19,7 +18,7 @@ class FixedWidthGoldenMasterTest extends FlatSpec with Matchers {
 
 		val expected = load("two-actors.txt")
 
-		val viewer = new Viewer(new FixedWidthPainter(), new FixedWidthCanvas())
+		val viewer = new FixedWidthViewer()
 		viewer.view(flow.toEventBook) shouldBe expected
 	}
 
@@ -36,7 +35,7 @@ class FixedWidthGoldenMasterTest extends FlatSpec with Matchers {
 
 		val expected = load("complete-fixed-sequence.txt")
 
-		val viewer = new Viewer(new FixedWidthPainter(), new FixedWidthCanvas())
+		val viewer = new FixedWidthViewer()
 		viewer.view(flow.toEventBook) shouldBe expected
 	}
 
