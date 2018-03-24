@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.model.boxable.{ActorBox, AutoSignalBox, Boxable}
-import com.gnosly.fluentsequence.view.model.{AutoSignalComponent, ViewModelComponents}
+import com.gnosly.fluentsequence.view.model.{ActorComponent, AutoSignalComponent, ViewModelComponents}
 import com.gnosly.fluentsequence.view.{Canvas, MatrixView}
 
 class FixedWidthCanvas extends Canvas {
@@ -24,6 +24,10 @@ class FixedWidthCanvas extends Canvas {
 
 		actorBoxes ++ signalBoxes
 	}
+
+	override def print(): String = ???
+
+	override def write(actorComponent: ActorComponent, map: Map[String, Long]): Unit = ???
 }
 
 //larghezza (*)
