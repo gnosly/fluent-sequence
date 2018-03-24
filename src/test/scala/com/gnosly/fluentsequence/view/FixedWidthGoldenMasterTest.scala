@@ -6,37 +6,31 @@ import org.scalatest.{FlatSpec, Matchers}
 import scala.io.Source
 
 class FixedWidthGoldenMasterTest extends FlatSpec with Matchers {
+	val USER = new User("USER")
+	val SYSTEM = new FluentActor("SYSTEM")
+
+	val viewer = new FixedWidthViewer()
 
 	"FixedViewer" should "do a two actor sequence" in {
-		val user = new User("user")
-		val system = new FluentActor("system")
 
-		val flow = new Sequence("example").startWith(
-			user.call("call", system) ::
-				system.reply("reply", user) :: Nil
+		val flow = Sequence("example").startWith(
+			USER.call("call", SYSTEM) ::
+				SYSTEM.reply("reply", USER) :: Nil
 		)
 
-		val expected = load("two-actors.txt")
-
-		val viewer = new FixedWidthViewer()
-		viewer.view(flow.toEventBook) shouldBe expected
+		viewer.view(flow.toEventBook) shouldBe load("two-actors.txt")
 	}
 
 	ignore should "do a complete sequence" in {
-		val user = new User("user")
-		val system = new FluentActor("system")
 
-		val flow = new Sequence("example").startWith(
-			user.does("something") ::
-				user.does("something else") ::
-				user.call("call", system) ::
-				system.reply("reply", user) :: Nil
+		val flow = Sequence("example").startWith(
+			USER.does("something") ::
+				USER.does("something else") ::
+				USER.call("call", SYSTEM) ::
+				SYSTEM.reply("reply", USER) :: Nil
 		)
 
-		val expected = load("complete-fixed-sequence.txt")
-
-		val viewer = new FixedWidthViewer()
-		viewer.view(flow.toEventBook) shouldBe expected
+		viewer.view(flow.toEventBook) shouldBe load("complete-fixed-sequence.txt")
 	}
 
 	private def load(filename: String) = {
