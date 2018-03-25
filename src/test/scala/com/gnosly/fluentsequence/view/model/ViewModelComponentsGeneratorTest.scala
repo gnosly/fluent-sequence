@@ -6,7 +6,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.mutable
 
-class ViewModelViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
+class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 
 	"generator" should "create matrix with DOES " in {
 		val matrix = generate(EventBook(

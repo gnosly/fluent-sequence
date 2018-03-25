@@ -79,7 +79,7 @@ case class AutoSignalComponent(name: String, index: Int, activityId: Int, actor:
 
 case class BiSignalComponent(name: String, index: Int, fromActor: ActorComponent, toActor: ActorComponent) extends SignalComponent
 
-case class ActorComponent(val column: Int, name: String, var activities: mutable.Buffer[ActivityComponent]) extends Component {
+case class ActorComponent(column: Int, name: String, var activities: mutable.Buffer[ActivityComponent]) extends Component {
 	def link(called: ActorComponent, something: String, index: Int): SignalComponent = {
 		this.activeUntil(index)
 		called.activeUntil(index)
@@ -107,20 +107,22 @@ case class ActorComponent(val column: Int, name: String, var activities: mutable
 		this(column, name, ActivityComponent(0, fromIndex, 0, true))
 	}
 
-	def end(index: Int) = {
+	def end(index: Int): Unit = {
 		activities.last.end(index)
 	}
+
+	def topLeftPointId() = s"actor_${column}_top_left"
 }
 
 case class ActivityComponent(id: Int, fromIndex: Int, var toIndex: Int, var active: Boolean = false) extends Component {
-	def end(index: Int) = {
+	def end(index: Int): Unit = {
 		if (active) {
 			increaseUntil(index)
 			active = false
 		}
 	}
 
-	def increaseUntil(index: Int) = {
+	def increaseUntil(index: Int): Unit = {
 		toIndex = index
 	}
 }

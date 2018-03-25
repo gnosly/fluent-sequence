@@ -3,9 +3,6 @@ package com.gnosly.fluentsequence.view.fixedwidth
 import org.scalatest.{FlatSpec, Matchers}
 
 class FixedWidthCanvasTest extends FlatSpec with Matchers {
-
-
-
 	it should "render single point" in {
 		val fixedWidthCanvas = new FixedWidthCanvas()
 
