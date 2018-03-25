@@ -14,7 +14,7 @@ class FixedWidthViewer {
 		fixedWidthCanvas.print()
 	}
 
-	private def draw(painter: FixedWidthPainter, viewModelComponents: ViewModelComponents) = {
+	private def draw(painter: FixedWidthPainter, viewModelComponents: ViewModelComponents): Unit = {
 		val pointMap = autoFormatting(viewModelComponents, painter)
 		viewModelComponents._actors.foreach(
 			a => painter.paint(a._2, pointMap, fixedWidthCanvas)
@@ -22,5 +22,7 @@ class FixedWidthViewer {
 	}
 
 	private def autoFormatting(viewModel: ViewModelComponents,
-														 painter: FixedWidthPainter): Map[String, Fixed2DPoint] = Map()
+														 painter: FixedWidthPainter): Map[String, Fixed2DPoint] = {
+		new FixedWidthFormatter(viewModel, painter).format()
+	}
 }
