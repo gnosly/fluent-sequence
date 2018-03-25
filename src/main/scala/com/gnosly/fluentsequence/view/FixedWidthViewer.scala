@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.core.EventBook
-import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
+import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2DPoint, FixedWidthCanvas}
 import com.gnosly.fluentsequence.view.model.{ViewModelComponents, ViewModelComponentsGenerator}
 
 class FixedWidthViewer {
@@ -22,5 +22,5 @@ class FixedWidthViewer {
 	}
 
 	private def autoFormatting(viewModel: ViewModelComponents,
-														 painter: FixedWidthPainter): Map[String, Long] = Map()
+														 painter: FixedWidthPainter): Map[String, Fixed2DPoint] = Map()
 }

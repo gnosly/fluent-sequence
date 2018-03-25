@@ -60,6 +60,18 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 			"\n" +
 			"3  4"
 	}
+
+	it should "render a string" in {
+		val fixedWidthCanvas = new FixedWidthCanvas()
+
+		fixedWidthCanvas.write(Fixed2DPoint(0, 0), "1  2")
+		fixedWidthCanvas.write(Fixed2DPoint(0, 3), "3  4")
+
+		fixedWidthCanvas.print() shouldBe "1  2\n" +
+			"\n" +
+			"\n" +
+			"3  4"
+	}
 	//
 	//	it should "render autosignal" in {
 	//		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))

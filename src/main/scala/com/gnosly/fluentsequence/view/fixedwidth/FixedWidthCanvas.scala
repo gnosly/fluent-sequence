@@ -5,7 +5,6 @@ import com.gnosly.fluentsequence.view.Canvas
 import scala.collection.mutable
 
 class FixedWidthCanvas extends Canvas {
-
 	private val SHELL_ORDER: Ordering[Fixed2DPoint] = new Ordering[Fixed2DPoint]() {
 		override def compare(a: Fixed2DPoint, b: Fixed2DPoint): Int = {
 			if (a.x <= b.x && a.y <= b.y) {
@@ -40,12 +39,21 @@ class FixedWidthCanvas extends Canvas {
 		result.result()
 	}
 
+	def write(topLeftCornerId: Fixed2DPoint, str: String): Unit = {
+		str.zipWithIndex.foreach(char => write(topLeftCornerId.right(char._2),char._1))
+
+	}
+
 	def write(point: Fixed2DPoint, character: Character): Unit = {
 		canvas.put(point, character)
 	}
 }
 
-case class Fixed2DPoint(x: Long, y: Long)
+case class Fixed2DPoint(x: Long, y: Long) {
+	def right(i: Int): Fixed2DPoint = Fixed2DPoint(x+i,y)
+
+	def down(i: Int): Fixed2DPoint = Fixed2DPoint(x,y+i)
+}
 
 
 

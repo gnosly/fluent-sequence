@@ -111,7 +111,7 @@ case class ActorComponent(column: Int, name: String, var activities: mutable.Buf
 		activities.last.end(index)
 	}
 
-	def topLeftPointId() = s"actor_${column}_top_left"
+	def topLeftCornerId() = s"actor_${column}_top_left"
 }
 
 case class ActivityComponent(id: Int, fromIndex: Int, var toIndex: Int, var active: Boolean = false) extends Component {
