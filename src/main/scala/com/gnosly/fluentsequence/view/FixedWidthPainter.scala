@@ -17,10 +17,9 @@ class FixedWidthPainter {
 
 		val str = r("-", innerSize)
 
-		canvas.write(topLeftCornerId, "." + str + ".\n")
-		canvas.write(topLeftCornerId.down(1), "| " + name + " |\n")
-		canvas.write(topLeftCornerId.down(2), "'" + str + "'\n")
-		canvas.write(topLeftCornerId.down(3), r(" ", innerSize / 2) + "|" + r(" ", innerSize / 2) + "\n")
+		canvas.write(topLeftCornerId, "." + str + ".")
+		canvas.write(topLeftCornerId.down(1), "| " + name + " |")
+		canvas.write(topLeftCornerId.down(2), "'" + str + "'")
+		canvas.write(topLeftCornerId.down(3).right(innerSize / 2), "|")
 	}
-
 }
