@@ -5,7 +5,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 import scala.io.Source
 
-class FixedWidthGoldenMasterTest extends FlatSpec with Matchers {
+class FixedWidthViewerTest extends FlatSpec with Matchers {
 	val USER = new User("USER")
 	val SYSTEM = new FluentActor("SYSTEM")
 
