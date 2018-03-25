@@ -2,7 +2,6 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core.{CALLED, DONE, EventBook, REPLIED}
-import com.gnosly.fluentsequence.view.CorrelationSystem
 
 import scala.collection.mutable
 
@@ -28,8 +27,6 @@ object ViewModelComponentsGenerator {
 
 case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent],
 															 _signals: mutable.Buffer[SignalComponent]) {
-
-	private val correlationSystem = new CorrelationSystem()
 
 	def this() = {
 		this(mutable.HashMap(), mutable.Buffer())
