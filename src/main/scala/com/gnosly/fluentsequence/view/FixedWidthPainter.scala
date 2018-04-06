@@ -4,6 +4,8 @@ import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2DPoint, FixedWidthCanvas
 import com.gnosly.fluentsequence.view.model.ActorComponent
 
 class FixedWidthPainter {
+	def preRender(actorComponent: ActorComponent) = Fixed2DPoint(15, 0)
+
 	def paint(actor: ActorComponent,
 						pointMap: Map[String, Fixed2DPoint],
 						canvas: FixedWidthCanvas): Unit = {

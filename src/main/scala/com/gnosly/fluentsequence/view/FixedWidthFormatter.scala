@@ -20,12 +20,12 @@ class FixedWidthFormatter(viewModel: ViewModelComponents, painter: FixedWidthPai
 				val actorComponent = actor._2
 				if (actorComponent.column == 0) {
 					result.put(topLeftCornerIdForActor(0), Fixed2DPoint(0, 0))
-					result.put(topRightCornerIdForActor(0), Fixed2DPoint(15, 0))
+					result.put(topRightCornerIdForActor(0), painter.preRender(actorComponent))
 				} else {
 					result.put(topLeftCornerIdForActor(actorComponent.column),
 						result(topRightCornerIdForActor(actorComponent.column - 1)).right(ACTOR_DISTANCE))
 					result.put(topRightCornerIdForActor(actorComponent.column),
-						result(topLeftCornerIdForActor(actorComponent.column)).right(15))
+						result(topLeftCornerIdForActor(actorComponent.column)).right(painter.preRender(actorComponent).x))
 				}
 
 			}
