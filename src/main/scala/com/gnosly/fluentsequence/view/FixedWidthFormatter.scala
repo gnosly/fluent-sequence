@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view
 
-import com.gnosly.fluentsequence.view.FormatterConstants.ACTOR_DISTANCE
+import com.gnosly.fluentsequence.view.FormatterConstants._
 import com.gnosly.fluentsequence.view.fixedwidth.Fixed2DPoint
 import com.gnosly.fluentsequence.view.model.ViewModelComponents
 
@@ -19,11 +19,12 @@ class FixedWidthFormatter(viewModel: ViewModelComponents, painter: FixedWidthPai
 			for (actor <- viewModel._actors) {
 				val actorComponent = actor._2
 				if (actorComponent.column == 0) {
-					result.put(topLeftCornerIdForActor(0), Fixed2DPoint(0, 0))
-					result.put(topRightCornerIdForActor(0), painter.preRender(actorComponent))
+					result.put(topLeftCornerIdForActor(0), Fixed2DPoint(LEFT_MARGIN, 0))
+					result.put(topRightCornerIdForActor(0), result(topLeftCornerIdForActor(actorComponent.column))
+					  	.right(painter.preRender(actorComponent).x))
 				} else {
 					result.put(topLeftCornerIdForActor(actorComponent.column),
-						result(topRightCornerIdForActor(actorComponent.column - 1)).right(ACTOR_DISTANCE))
+						result(topRightCornerIdForActor(actorComponent.column - 1)).right(DISTANCE_BETWEEN_ACTORS))
 					result.put(topRightCornerIdForActor(actorComponent.column),
 						result(topLeftCornerIdForActor(actorComponent.column)).right(painter.preRender(actorComponent).x))
 				}
@@ -65,5 +66,6 @@ class FixedWidthFormatter(viewModel: ViewModelComponents, painter: FixedWidthPai
 }
 
 object FormatterConstants {
-	val ACTOR_DISTANCE = 5
+	val DISTANCE_BETWEEN_ACTORS = 5
+	val LEFT_MARGIN = 1
 }
