@@ -19,7 +19,7 @@ class FixedWidthFormatter(viewModel: ViewModelComponents, painter: FixedWidthPai
 			for (actor <- viewModel._actors) {
 				val actorComponent = actor._2
 				if (actorComponent.column == 0) {
-					result.put(topLeftCornerIdForActor(0), Fixed2DPoint(LEFT_MARGIN, 0))
+					result.put(topLeftCornerIdForActor(0), Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN))
 				} else {
 					result.put(topLeftCornerIdForActor(actorComponent.column),
 						result(topRightCornerIdForActor(actorComponent.column - 1)).right(DISTANCE_BETWEEN_ACTORS))
@@ -67,4 +67,5 @@ class FixedWidthFormatter(viewModel: ViewModelComponents, painter: FixedWidthPai
 object FormatterConstants {
 	val DISTANCE_BETWEEN_ACTORS = 5
 	val LEFT_MARGIN = 1
+	val TOP_MARGIN = 1
 }
