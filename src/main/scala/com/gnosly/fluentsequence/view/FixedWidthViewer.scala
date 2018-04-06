@@ -6,15 +6,18 @@ import com.gnosly.fluentsequence.view.model.{ViewModelComponents, ViewModelCompo
 
 class FixedWidthViewer {
 	private val fixedWidthPainter = new FixedWidthPainter()
-	private val fixedWidthCanvas = new FixedWidthCanvas()
+
 
 	def view(eventBook: EventBook): String = {
+		val fixedWidthCanvas = new FixedWidthCanvas()
 		val viewModel: ViewModelComponents = ViewModelComponentsGenerator.generate(eventBook)
-		draw(fixedWidthPainter, viewModel)
+		draw(fixedWidthPainter, fixedWidthCanvas, viewModel)
 		fixedWidthCanvas.print()
 	}
 
-	private def draw(painter: FixedWidthPainter, viewModelComponents: ViewModelComponents): Unit = {
+	private def draw(painter: FixedWidthPainter,
+									 fixedWidthCanvas:FixedWidthCanvas,
+									 viewModelComponents: ViewModelComponents): Unit = {
 		val pointMap = autoFormatting(viewModelComponents, painter)
 		viewModelComponents._actors.foreach(
 			a => painter.paint(a._2, pointMap, fixedWidthCanvas)

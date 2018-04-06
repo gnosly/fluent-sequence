@@ -20,7 +20,9 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		val formatter = new FixedWidthFormatter(generate(flow.toEventBook), new FixedWidthPainter())
 		formatter.format() shouldBe Map(
 			"actor_0_top_left" -> Fixed2DPoint(0, 0),
-			"actor_1_top_left" -> Fixed2DPoint(20, 0)
+			"actor_0_top_right" -> Fixed2DPoint(15, 0),
+			"actor_1_top_left" -> Fixed2DPoint(20, 0),
+			"actor_1_top_right" -> Fixed2DPoint(35, 0)
 		)
 	}
 }
