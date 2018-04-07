@@ -7,7 +7,7 @@ import scala.collection.mutable
 
 class FixedWidthFormatter(painter: FixedWidthPainter) {
 
-	def format(viewModel: ViewModelComponents): Map[String, Fixed2DPoint] = {
+	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, Fixed2DPoint] = {
 		val result = new PointMap
 
 		while (true) {
@@ -17,7 +17,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			for (actor <- viewModel._actors) {
 				val actorComponent = actor._2
 				if (actorComponent.column == 0) {
-					result.put(topLeftCornerIdForActor(0), Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN))
+					result.put(topLeftCornerIdForActor(actorComponent.column), Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN))
 				} else {
 					result.put(topLeftCornerIdForActor(actorComponent.column),
 						result(topRightCornerIdForActor(actorComponent.column - 1)).right(DISTANCE_BETWEEN_ACTORS))
@@ -26,9 +26,25 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 				result.put(topRightCornerIdForActor(actorComponent.column),
 					result(topLeftCornerIdForActor(actorComponent.column)).right(painter.preRender(actorComponent).x))
 
+				val actorBox = painter.preRender(actorComponent)
+
+				result.put(bottomMiddleCornerIdForActor(actorComponent.column),
+					result(topLeftCornerIdForActor(actorComponent.column))
+						.right((actorBox.x-1) / 2)
+						.down(actorBox.y)
+				)
+
+				for (activity <- actorComponent.activities) {
+					if (activity.id == 0) {
+						result.put(topLeftCornerIdForActivity(actorComponent.column, activity.id),
+							result(bottomMiddleCornerIdForActor(actorComponent.column)).left(painter.preRender(activity)))
+						result.put("actor_0_activity_0_right_point_0", Fixed2DPoint(6, 6))
+						result.put("actor_0_activity_0_right_point_1", Fixed2DPoint(6, 9))
+					}
+				}
 			}
 
-			if(result.toMap() == iteration){
+			if (result.toMap() == iteration) {
 				return result.toMap()
 			}
 		}
@@ -36,18 +52,22 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		result.toMap()
 	}
 
-	private def topLeftCornerIdForActor(column: Int) = {
-		s"actor_${column}_top_left"
-	}
+	private def topLeftCornerIdForActor(column: Int) = s"actor_${column}_top_left"
 
-	private def topRightCornerIdForActor(column: Int) = {
-		s"actor_${column}_top_right"
-	}
+	private def topRightCornerIdForActor(column: Int) = s"actor_${column}_top_right"
+
+	private def topLeftCornerIdForActivity(column: Int, id: Int): String = s"actor_${column}_activity_${id}_top_left"
+
+	private def bottomMiddleCornerIdForActor(column: Int): String = s"actor_${column}_bottom_middle"
 
 
 	class PointMap {
 
-		val map: mutable.HashMap[String, Fixed2DPoint] = mutable.HashMap[String, Fixed2DPoint]()
+		private val defaultOrdering = new Ordering[String]() {
+			override def compare(a: String, b: String): Int = a.compareTo(b)
+		}
+
+		val map: mutable.TreeMap[String, Fixed2DPoint] = mutable.TreeMap[String, Fixed2DPoint]()(defaultOrdering)
 
 		def put(str: String, point: Fixed2DPoint): Option[Fixed2DPoint] = map.put(str, point)
 
@@ -57,7 +77,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			return Fixed2DPoint(0, 0)
 		}
 
-		def toMap(): Map[String, Fixed2DPoint] = map.toMap
+		def toMap(): mutable.TreeMap[String, Fixed2DPoint] = map
 	}
 
 }

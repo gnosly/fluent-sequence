@@ -1,10 +1,12 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.model.ActorComponent
+import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent}
 
 class FixedWidthPainter {
+	def preRender(activity: ActivityComponent) = 1
+
 	def preRender(actorComponent: ActorComponent) = {
-		Fixed2DPoint(s"| ${actorComponent.name} |".length, 0)
+		Fixed2DPoint(s"| ${actorComponent.name} |".length, 4)
 	}
 
 	def paint(actor: ActorComponent,
