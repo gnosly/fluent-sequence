@@ -13,4 +13,9 @@ class Fixed2DPointTest extends FlatSpec with Matchers {
 		Fixed2DPoint(0,0).right(1) shouldBe Fixed2DPoint(1,0)
 		Fixed2DPoint(0,0).right(6) shouldBe Fixed2DPoint(6,0)
 	}
+
+	it should "compute left" in {
+		Fixed2DPoint(10,0).left(1) shouldBe Fixed2DPoint(9,0)
+		Fixed2DPoint(10,0).left(6) shouldBe Fixed2DPoint(4,0)
+	}
 }
