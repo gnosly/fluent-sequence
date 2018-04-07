@@ -21,8 +21,8 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		formatter.format() shouldBe Map(
 			"actor_0_top_left" -> Fixed2DPoint(1, 1),
 			"actor_0_top_right" -> Fixed2DPoint(9, 1),
-			"actor_1_top_left" -> Fixed2DPoint(14, 1),
-			"actor_1_top_right" -> Fixed2DPoint(24, 1)
+			"actor_1_top_left" -> Fixed2DPoint(19, 1),
+			"actor_1_top_right" -> Fixed2DPoint(29, 1)
 		)
 	}
 }

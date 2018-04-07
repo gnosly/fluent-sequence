@@ -7,11 +7,14 @@ import scala.collection.mutable
 class FixedWidthCanvas extends Canvas {
 	private val SHELL_ORDER: Ordering[Fixed2DPoint] = new Ordering[Fixed2DPoint]() {
 		override def compare(a: Fixed2DPoint, b: Fixed2DPoint): Int = {
-			if (a.x <= b.x && a.y <= b.y) {
-				return -1
-			}
-
-			+1
+			if (a.y < b.y) return -1
+			else if(a.y == b.y){
+				if(a.x <= b.x){
+					return -1
+				}else{
+					return +1
+				}
+			}else return +1
 		}
 	}
 

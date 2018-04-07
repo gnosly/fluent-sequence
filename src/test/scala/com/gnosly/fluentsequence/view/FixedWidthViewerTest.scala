@@ -6,8 +6,8 @@ import org.scalatest.{FlatSpec, Matchers}
 import scala.io.Source
 
 class FixedWidthViewerTest extends FlatSpec with Matchers {
-	val USER = new User("USER")
-	val SYSTEM = new FluentActor("SYSTEM")
+	val USER = new User("user")
+	val SYSTEM = new FluentActor("system")
 
 	val viewer = new FixedWidthViewer()
 
@@ -18,7 +18,9 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 				SYSTEM.reply("reply", USER) :: Nil
 		)
 
-		viewer.view(flow.toEventBook) shouldBe load("two-actors.txt")
+		val str = viewer.view(flow.toEventBook)
+		println(str)
+		str shouldBe load("two-actors.txt")
 	}
 
 	ignore should "do a complete sequence" in {
