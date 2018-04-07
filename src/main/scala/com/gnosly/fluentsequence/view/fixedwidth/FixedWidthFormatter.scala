@@ -7,7 +7,6 @@ import scala.collection.mutable
 
 class FixedWidthFormatter(painter: FixedWidthPainter) {
 
-
 	def format(viewModel: ViewModelComponents): Map[String, Fixed2DPoint] = {
 		val result = new PointMap
 

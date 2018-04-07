@@ -27,4 +27,21 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			"actor_1_top_right" -> Fixed2DPoint(29, 1)
 		)
 	}
+
+	it should "format actor with a autosignal" in {
+
+		val flow = Sequence("example").startWith(
+			USER.does("something") :: Nil
+		)
+
+		val viewModel = generate(flow.toEventBook)
+
+		formatter.format(viewModel) shouldBe Map(
+			"actor_0_top_left" -> Fixed2DPoint(1, 1),
+			"actor_0_top_right" -> Fixed2DPoint(9, 1),
+			"actor_0_activity_0_top_left" -> Fixed2DPoint(19, 1),
+			"actor_0_activity_0_right_point_0" -> Fixed2DPoint(29, 1),
+			"actor_0_activity_0_right_point_1" -> Fixed2DPoint(29, 1)
+		)
+	}
 }
