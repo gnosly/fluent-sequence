@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view.model.boxable
+package com.gnosly.fluentsequence.view.model.boxableTOBEREMOVED
 
 import com.gnosly.fluentsequence.view.fixedwidth.Util
 import com.gnosly.fluentsequence.view.model.BiSignalComponent

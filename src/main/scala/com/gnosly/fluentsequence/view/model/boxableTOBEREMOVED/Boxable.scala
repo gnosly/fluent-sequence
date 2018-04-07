@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view.model.boxable
+package com.gnosly.fluentsequence.view.model.boxableTOBEREMOVED
 
 trait Boxable {
 	def toBox(): String
