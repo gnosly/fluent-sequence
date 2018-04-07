@@ -9,16 +9,18 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 	val USER = new User("USER")
 	val SYSTEM = new FluentActor("SYSTEM")
 
+	val formatter = new FixedWidthFormatter(new FixedWidthPainter())
 
-	it should "format single actor" in {
+	it should "format two actors" in {
 
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) ::
 				SYSTEM.reply("reply", USER) :: Nil
 		)
 
-		val formatter = new FixedWidthFormatter(generate(flow.toEventBook), new FixedWidthPainter())
-		formatter.format() shouldBe Map(
+		val viewModel = generate(flow.toEventBook)
+
+		formatter.format(viewModel) shouldBe Map(
 			"actor_0_top_left" -> Fixed2DPoint(1, 1),
 			"actor_0_top_right" -> Fixed2DPoint(9, 1),
 			"actor_1_top_left" -> Fixed2DPoint(19, 1),

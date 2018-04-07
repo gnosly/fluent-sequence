@@ -5,10 +5,10 @@ import com.gnosly.fluentsequence.view.model.ViewModelComponents
 
 import scala.collection.mutable
 
-class FixedWidthFormatter(viewModel: ViewModelComponents, painter: FixedWidthPainter) {
+class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 
-	def format(): Map[String, Fixed2DPoint] = {
+	def format(viewModel: ViewModelComponents): Map[String, Fixed2DPoint] = {
 		val result = new PointMap
 
 		while (true) {
