@@ -1,7 +1,6 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.FormatterConstants._
-import com.gnosly.fluentsequence.view.fixedwidth.Fixed2DPoint
+import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
 import com.gnosly.fluentsequence.view.model.ViewModelComponents
 
 import scala.collection.mutable

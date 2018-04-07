@@ -1,9 +1,9 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view
 
 import java.io.Writer
 
 import com.gnosly.fluentsequence.core.EventBook
-import com.gnosly.fluentsequence.view.Printer
+import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator
 
 object ConsolePrinter extends Printer {

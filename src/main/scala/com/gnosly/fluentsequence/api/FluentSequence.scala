@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.api
 import java.io.PrintWriter
 
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.fixedwidth.ConsolePrinter
+import com.gnosly.fluentsequence.view.ConsolePrinter
 
 object FluentSequence {
 

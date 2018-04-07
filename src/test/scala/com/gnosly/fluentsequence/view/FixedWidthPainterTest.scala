@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view
 
-import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2DPoint, FixedWidthCanvas}
+import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2DPoint, FixedWidthCanvas, FixedWidthPainter}
 import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent}
 import org.scalatest.{FlatSpec, Matchers}
 

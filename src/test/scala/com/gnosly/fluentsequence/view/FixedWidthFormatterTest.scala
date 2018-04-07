@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
-import com.gnosly.fluentsequence.view.fixedwidth.Fixed2DPoint
+import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2DPoint, FixedWidthFormatter, FixedWidthPainter}
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
 import org.scalatest.{FlatSpec, Matchers}
 

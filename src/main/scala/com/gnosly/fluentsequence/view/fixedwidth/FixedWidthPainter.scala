@@ -1,6 +1,5 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2DPoint, FixedWidthCanvas, Util}
 import com.gnosly.fluentsequence.view.model.ActorComponent
 
 class FixedWidthPainter {

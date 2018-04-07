@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
+import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthViewer
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.io.Source
