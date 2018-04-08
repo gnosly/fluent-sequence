@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
-import com.gnosly.fluentsequence.view.model.{ActivityPoint, ViewModelComponents}
+import com.gnosly.fluentsequence.view.model.ViewModelComponents
 
 import scala.collection.mutable
 
@@ -57,13 +57,8 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					}
 
 					for (point <- activity.leftPoints.values) {
-						point match {
-							case ActivityPoint(pointId, _) => {
-								pointMap.put(pointForActivity(actor.id, activity.id, pointId, "left"),
+								pointMap.put(pointForActivity(actor.id, activity.id, point.id, "left"),
 									Fixed2DPoint(19, 6))
-							}
-						}
-
 					}
 				}
 			}
