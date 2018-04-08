@@ -8,7 +8,7 @@ case class ActivityComponent(id: Int, fromIndex: Int, var toIndex: Int, var acti
 	val rightPoints: mutable.TreeMap[Int, SignalComponent] = mutable.TreeMap()
 	val leftPoints: mutable.TreeMap[Int, SignalComponent] = mutable.TreeMap()
 
-	def right(signal: SignalComponent) = rightPoints.put(signal.currentIndex(), signal)
+	def right(signal: SignalComponent) = rightPoints.put(rightPoints.size, signal)
 	def left(signal: BiSignalComponent) = leftPoints.put(leftPoints.size, signal)
 
 	def end(index: Int): Unit = {
