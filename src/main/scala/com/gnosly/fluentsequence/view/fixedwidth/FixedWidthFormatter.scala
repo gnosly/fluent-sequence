@@ -41,9 +41,11 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					.down(actorBox.y)
 			)
 
+			val actorBottomMiddle = pointMap(bottomMiddleCornerIdForActor(actor.id))
+
 			for (activity <- actor.activities) {
 				if (activity.id == 0) {
-					val actorBottomMiddle = pointMap(bottomMiddleCornerIdForActor(actor.id))
+
 					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity))
 					val activityTopRight = actorBottomMiddle.right(painter.preRender(activity))
 

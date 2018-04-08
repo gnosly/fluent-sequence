@@ -58,4 +58,5 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		)
 	}
 
+	//test with more activity
 }
