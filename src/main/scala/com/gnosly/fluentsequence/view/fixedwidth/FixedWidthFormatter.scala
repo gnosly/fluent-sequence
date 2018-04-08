@@ -31,14 +31,14 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			}
 
 			pointMap.put(topRightCornerIdForActor(actor.id),
-				pointMap(topLeftCornerIdForActor(actor.id)).right(painter.preRender(actor).x))
+				pointMap(topLeftCornerIdForActor(actor.id)).right(painter.preRender(actor).width))
 
 			val actorBox = painter.preRender(actor)
 
 			pointMap.put(bottomMiddleCornerIdForActor(actor.id),
 				pointMap(topLeftCornerIdForActor(actor.id))
-					.right((actorBox.x - 1) / 2)
-					.down(actorBox.y)
+					.right((actorBox.width - 1) / 2)
+					.down(actorBox.height)
 			)
 
 			val actorBottomMiddle = pointMap(bottomMiddleCornerIdForActor(actor.id))

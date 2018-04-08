@@ -5,8 +5,8 @@ import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent}
 class FixedWidthPainter {
 	def preRender(activity: ActivityComponent):Box = Box(2,2)
 
-	def preRender(actorComponent: ActorComponent) = {
-		Fixed2DPoint(s"| ${actorComponent.name} |".length, 4)
+	def preRender(actorComponent: ActorComponent): Box = {
+		Box(s"| ${actorComponent.name} |".length, 4)
 	}
 
 	def paint(actor: ActorComponent,
