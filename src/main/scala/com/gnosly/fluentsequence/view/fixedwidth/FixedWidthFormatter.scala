@@ -30,7 +30,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 				result.put(bottomMiddleCornerIdForActor(actorComponent.column),
 					result(topLeftCornerIdForActor(actorComponent.column))
-						.right((actorBox.x-1) / 2)
+						.right((actorBox.x - 1) / 2)
 						.down(actorBox.y)
 				)
 
@@ -38,23 +38,24 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					if (activity.id == 0) {
 						result.put(topLeftCornerIdForActivity(actorComponent.column, activity.id),
 							result(bottomMiddleCornerIdForActor(actorComponent.column)).left(painter.preRender(activity)))
-						for(point <- activity.rightPoints){
+						for (point <- activity.rightPoints) {
 							point._2 match {
-								case autoSignal:AutoSignalComponent => {
+								case autoSignal: AutoSignalComponent => {
 									result.put("actor_0_activity_0_right_point_0", Fixed2DPoint(6, 6))
 									result.put("actor_0_activity_0_right_point_1", Fixed2DPoint(6, 9))
 								}
-								case biSignal:BiSignalComponent => {
+								case biSignal: BiSignalComponent => {
 									result.put("actor_0_activity_0_right_point_0", Fixed2DPoint(6, 6))
 								}
 							}
 
 						}
 
-						for(point <- activity.leftPoints){
+						for (point <- activity.leftPoints) {
 							point._2 match {
-								case biSignal:BiSignalComponent => {
-									result.put("actor_1_activity_0_left_point_0", Fixed2DPoint(19,6))
+								case biSignal: BiSignalComponent => {
+									result.put(pointForActivity(actorComponent.column, activity.id, point._1, "left"),
+										Fixed2DPoint(19, 6))
 								}
 							}
 
@@ -75,9 +76,11 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 	private def topRightCornerIdForActor(column: Int) = s"actor_${column}_top_right"
 
+	private def bottomMiddleCornerIdForActor(column: Int): String = s"actor_${column}_bottom_middle"
+
 	private def topLeftCornerIdForActivity(column: Int, id: Int): String = s"actor_${column}_activity_${id}_top_left"
 
-	private def bottomMiddleCornerIdForActor(column: Int): String = s"actor_${column}_bottom_middle"
+	private def pointForActivity(actor: Int, activity: Int, point: Int, direction: String): String = s"actor_${actor}_activity_${activity}_${direction}_point_${point}"
 
 
 	class PointMap {
