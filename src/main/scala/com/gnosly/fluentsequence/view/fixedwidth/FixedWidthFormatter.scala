@@ -16,28 +16,28 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 			for (actor <- viewModel._actors) {
 				val actorComponent = actor._2
-				if (actorComponent.column == 0) {
-					result.put(topLeftCornerIdForActor(actorComponent.column), Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN))
+				if (actorComponent.id == 0) {
+					result.put(topLeftCornerIdForActor(actorComponent.id), Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN))
 				} else {
-					result.put(topLeftCornerIdForActor(actorComponent.column),
-						result(topRightCornerIdForActor(actorComponent.column - 1)).right(DISTANCE_BETWEEN_ACTORS))
+					result.put(topLeftCornerIdForActor(actorComponent.id),
+						result(topRightCornerIdForActor(actorComponent.id - 1)).right(DISTANCE_BETWEEN_ACTORS))
 				}
 
-				result.put(topRightCornerIdForActor(actorComponent.column),
-					result(topLeftCornerIdForActor(actorComponent.column)).right(painter.preRender(actorComponent).x))
+				result.put(topRightCornerIdForActor(actorComponent.id),
+					result(topLeftCornerIdForActor(actorComponent.id)).right(painter.preRender(actorComponent).x))
 
 				val actorBox = painter.preRender(actorComponent)
 
-				result.put(bottomMiddleCornerIdForActor(actorComponent.column),
-					result(topLeftCornerIdForActor(actorComponent.column))
+				result.put(bottomMiddleCornerIdForActor(actorComponent.id),
+					result(topLeftCornerIdForActor(actorComponent.id))
 						.right((actorBox.x - 1) / 2)
 						.down(actorBox.y)
 				)
 
 				for (activity <- actorComponent.activities) {
 					if (activity.id == 0) {
-						result.put(topLeftCornerIdForActivity(actorComponent.column, activity.id),
-							result(bottomMiddleCornerIdForActor(actorComponent.column)).left(painter.preRender(activity)))
+						result.put(topLeftCornerIdForActivity(actorComponent.id, activity.id),
+							result(bottomMiddleCornerIdForActor(actorComponent.id)).left(painter.preRender(activity)))
 						for (point <- activity.rightPoints) {
 							point._2 match {
 								case autoSignal: AutoSignalComponent => {
@@ -54,7 +54,8 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 						for (point <- activity.leftPoints) {
 							point._2 match {
 								case biSignal: BiSignalComponent => {
-									result.put(pointForActivity(actorComponent.column, activity.id, point._1, "left"),
+									result.put(pointForActivity(actorComponent.id
+										, activity.id, point._1, "left"),
 										Fixed2DPoint(19, 6))
 								}
 							}

@@ -24,7 +24,7 @@ case class ActorBox(actor: ActorComponent) extends Boxable with MatrixPositionab
 
 	override def minHeight() = 4
 
-	override def column() = actor.column
+	override def column() = actor.id
 
 	override def row() = 0
 }
