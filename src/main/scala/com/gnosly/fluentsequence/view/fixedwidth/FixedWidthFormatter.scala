@@ -53,7 +53,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					pointMap.put(topRightCornerIdForActivity(actor.id, activity.id),activityTopRight)
 
 					for (point <- activity.rightPoints.values) {
-								val activityTopRight = pointMap(topRightCornerIdForActivity(actor.id, activity.id))
 								pointMap.put(pointForActivity(actor.id, activity.id, point.id, "right"),
 									Fixed2DPoint(activityTopRight.x, 6))
 					}
