@@ -46,8 +46,8 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			for (activity <- actor.activities) {
 				if (activity.id == 0) {
 
-					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity))
-					val activityTopRight = actorBottomMiddle.right(painter.preRender(activity))
+					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth)
+					val activityTopRight = actorBottomMiddle.right(painter.preRender(activity).halfWidth)
 
 					pointMap.put(topLeftCornerIdForActivity(actor.id, activity.id), activityTopLeft)
 					pointMap.put(topRightCornerIdForActivity(actor.id, activity.id),activityTopRight)
