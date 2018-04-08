@@ -3,10 +3,20 @@ package com.gnosly.fluentsequence.view.model
 import scala.collection.mutable
 
 case class ActorComponent(column: Int, name: String, var activities: mutable.Buffer[ActivityComponent]) extends Component {
+	def done(something: String, index: Int): SignalComponent = {
+		val lastActivity = this.activeUntil(index)
+		val autoSignal = AutoSignalComponent(something, index, this)
+		lastActivity.right(autoSignal)
+		autoSignal
+	}
+
 	def link(called: ActorComponent, something: String, index: Int): SignalComponent = {
-		this.activeUntil(index)
-		called.activeUntil(index)
-		BiSignalComponent(something, index, this, called)
+		val lastCallerActivity = this.activeUntil(index)
+		val lastCalledActivity = called.activeUntil(index)
+		val signal = BiSignalComponent(something, index, this, called)
+		lastCallerActivity.right(signal)
+		lastCalledActivity.left(signal)
+		signal
 	}
 
 	def activeUntil(index: Int): ActivityComponent = {

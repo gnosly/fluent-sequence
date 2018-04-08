@@ -17,7 +17,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 1))
 		val expected = ViewModelComponents(
 			mutable.HashMap("user" -> matrixUserActor),
-			mutable.Buffer(AutoSignalComponent("something", 0, 0, matrixUserActor), AutoSignalComponent("something else", 1, 0, matrixUserActor))
+			mutable.Buffer(AutoSignalComponent("something", 0, matrixUserActor), AutoSignalComponent("something else", 1, matrixUserActor))
 		)
 		matrix shouldBe expected
 	}
@@ -35,7 +35,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 		val matrixSystemActor = new ActorComponent(1, "system", ActivityComponent(0, 0, 1))
 		val expected = new ViewModelComponents(
 			mutable.HashMap("user" -> matrixUserActor, "system" -> matrixSystemActor),
-			mutable.Buffer(BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor), AutoSignalComponent("something", 1, 0, matrixSystemActor))
+			mutable.Buffer(BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor), AutoSignalComponent("something", 1, matrixSystemActor))
 		)
 		matrix shouldBe expected
 
@@ -57,7 +57,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			mutable.HashMap("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			mutable.Buffer(
 				BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor),
-				AutoSignalComponent("something", 1, 0, matrixSystemActor),
+				AutoSignalComponent("something", 1, matrixSystemActor),
 				BiSignalComponent("response", 2, matrixSystemActor, matrixUserActor))
 		)
 		matrix shouldBe expected
@@ -76,16 +76,16 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			DONE(userActor, "something end"),
 		))
 
-		val matrixUserActor = new ActorComponent(0,"user", ActivityComponent(0, 0, 4))
-		val matrixSystemActor = new ActorComponent(1,"system", ActivityComponent(0, 1, 3))
+		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 4))
+		val matrixSystemActor = new ActorComponent(1, "system", ActivityComponent(0, 1, 3))
 		val expected = new ViewModelComponents(
 			mutable.HashMap("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			mutable.Buffer(
-				AutoSignalComponent("something", 0, 0, matrixUserActor),
+				AutoSignalComponent("something", 0, matrixUserActor),
 				BiSignalComponent("call", 1, matrixUserActor, matrixSystemActor),
-				AutoSignalComponent("something else", 2, 0, matrixSystemActor),
-				BiSignalComponent("response", 3, matrixSystemActor,  matrixUserActor),
-				AutoSignalComponent("something end", 4, 0, matrixUserActor),
+				AutoSignalComponent("something else", 2, matrixSystemActor),
+				BiSignalComponent("response", 3, matrixSystemActor, matrixUserActor),
+				AutoSignalComponent("something end", 4, matrixUserActor),
 			)
 		)
 		matrix shouldBe expected
@@ -113,15 +113,12 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			mutable.HashMap("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			mutable.Buffer(
 				BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor),
-				AutoSignalComponent("something", 1, 0, matrixSystemActor),
+				AutoSignalComponent("something", 1, matrixSystemActor),
 				BiSignalComponent("response", 2, matrixSystemActor, matrixUserActor),
-				AutoSignalComponent("something end", 3, 0, matrixUserActor),
+				AutoSignalComponent("something end", 3, matrixUserActor),
 				BiSignalComponent("call again", 4, matrixUserActor, matrixSystemActor),
 				BiSignalComponent("response again", 5, matrixSystemActor, matrixUserActor)
 			)
 		)
-
 	}
-
-
 }

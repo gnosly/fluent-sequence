@@ -1,3 +1,5 @@
 package com.gnosly.fluentsequence.view.model
 
-trait SignalComponent extends Component
+class SignalComponent(index: Int) extends Component{
+	def currentIndex() = index
+}

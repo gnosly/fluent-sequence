@@ -34,24 +34,13 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent],
 
 	def done(who: core.Actor, something: String, index: Int): Unit = {
 		val actor = createOrGet(who, index)
-		val lastActivity = actor.activeUntil(index)
-		_signals += AutoSignalComponent(something, index, lastActivity.id, actor)
+		_signals += actor.done(something, index)
 	}
 
 	def called(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
 		val caller = createOrGet(who, index)
 		val called = createOrGet(toSomebody, index)
 		_signals += caller.link(called, something, index)
-	}
-
-	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
-		val actor = _actors.getOrElse(who.name, {
-			val newActor = new ActorComponent(_actors.size, who.name, index)
-			_actors += who.name -> newActor
-			newActor
-		})
-
-		actor
 	}
 
 	def replied(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
@@ -64,5 +53,15 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent],
 
 	def end(index: Int) = {
 		_actors.foreach(a => a._2.end(index))
+	}
+
+	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
+		val actor = _actors.getOrElse(who.name, {
+			val newActor = new ActorComponent(_actors.size, who.name, index)
+			_actors += who.name -> newActor
+			newActor
+		})
+
+		actor
 	}
 }

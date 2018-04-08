@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
-import com.gnosly.fluentsequence.view.model.ViewModelComponents
+import com.gnosly.fluentsequence.view.model.{AutoSignalComponent, BiSignalComponent, ViewModelComponents}
 
 import scala.collection.mutable
 
@@ -12,7 +12,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 		while (true) {
 
-			val iteration = result.toMap()
+			val iteration = result.toMap().toMap
 
 			for (actor <- viewModel._actors) {
 				val actorComponent = actor._2
@@ -38,13 +38,32 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					if (activity.id == 0) {
 						result.put(topLeftCornerIdForActivity(actorComponent.column, activity.id),
 							result(bottomMiddleCornerIdForActor(actorComponent.column)).left(painter.preRender(activity)))
-						result.put("actor_0_activity_0_right_point_0", Fixed2DPoint(6, 6))
-						result.put("actor_0_activity_0_right_point_1", Fixed2DPoint(6, 9))
+						for(point <- activity.rightPoints){
+							point._2 match {
+								case autoSignal:AutoSignalComponent => {
+									result.put("actor_0_activity_0_right_point_0", Fixed2DPoint(6, 6))
+									result.put("actor_0_activity_0_right_point_1", Fixed2DPoint(6, 9))
+								}
+								case biSignal:BiSignalComponent => {
+									result.put("actor_0_activity_0_right_point_0", Fixed2DPoint(6, 6))
+								}
+							}
+
+						}
+
+						for(point <- activity.leftPoints){
+							point._2 match {
+								case biSignal:BiSignalComponent => {
+									result.put("actor_1_activity_0_left_point_0", Fixed2DPoint(19,6))
+								}
+							}
+
+						}
 					}
 				}
 			}
 
-			if (result.toMap() == iteration) {
+			if (result.toMap().toMap == iteration) {
 				return result.toMap()
 			}
 		}
