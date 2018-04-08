@@ -20,6 +20,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			USER.does("something") :: Nil
 		)
 
+
 		val viewModel = generate(flow.toEventBook)
 
 		formatter.format(viewModel) shouldBe mutable.TreeMap(
@@ -27,8 +28,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			"actor_0_top_right" -> Fixed2DPoint(9, 1),
 			"actor_0_bottom_middle" -> Fixed2DPoint(4, 5),
 			"actor_0_activity_0_top_left" -> Fixed2DPoint(3, 5),
-			"actor_0_activity_0_right_point_0" -> Fixed2DPoint(6, 6),
-			"actor_0_activity_0_right_point_1" -> Fixed2DPoint(6, 9)
+			"actor_0_activity_0_right_point_0" -> Fixed2DPoint(6, 6)
 		)
 	}
 
