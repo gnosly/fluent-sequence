@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
-import com.gnosly.fluentsequence.view.model.{AutoSignalComponent, BiSignalComponent, ViewModelComponents}
+import com.gnosly.fluentsequence.view.model.{ActivityPoint, AutoSignalComponent, BiSignalComponent, ViewModelComponents}
 
 import scala.collection.mutable
 
@@ -47,22 +47,22 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 						pointMap(bottomMiddleCornerIdForActor(actor.id)).left(painter.preRender(activity)))
 					for (point <- activity.rightPoints.values) {
 						point match {
-							case autoSignal: AutoSignalComponent => {
+							case ActivityPoint(pointId, autoSignal: AutoSignalComponent)  => {
 								pointMap.put("actor_0_activity_0_right_point_0", Fixed2DPoint(6, 6))
 								pointMap.put("actor_0_activity_0_right_point_1", Fixed2DPoint(6, 9))
 							}
-							case biSignal: BiSignalComponent => {
+							case ActivityPoint(pointId, bisignalComponent: BiSignalComponent) => {
 								pointMap.put("actor_0_activity_0_right_point_0", Fixed2DPoint(6, 6))
 							}
 						}
 
 					}
 
-					for (point <- activity.leftPoints) {
-						point._2 match {
-							case biSignal: BiSignalComponent => {
+					for (point <- activity.leftPoints.values) {
+						point match {
+							case ActivityPoint(pointId, _) => {
 								pointMap.put(pointForActivity(actor.id
-									, activity.id, point._1, "left"),
+									, activity.id, pointId, "left"),
 									Fixed2DPoint(19, 6))
 							}
 						}
