@@ -45,8 +45,8 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 				if (activity.id == 0) {
 					pointMap.put(topLeftCornerIdForActivity(actor.id, activity.id),
 						pointMap(bottomMiddleCornerIdForActor(actor.id)).left(painter.preRender(activity)))
-					for (point <- activity.rightPoints) {
-						point._2 match {
+					for (point <- activity.rightPoints.values) {
+						point match {
 							case autoSignal: AutoSignalComponent => {
 								pointMap.put("actor_0_activity_0_right_point_0", Fixed2DPoint(6, 6))
 								pointMap.put("actor_0_activity_0_right_point_1", Fixed2DPoint(6, 9))
