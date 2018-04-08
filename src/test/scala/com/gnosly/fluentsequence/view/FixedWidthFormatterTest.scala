@@ -54,7 +54,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			"actor_0_activity_0_right_point_0" -> Fixed2DPoint(5, 6),
 			"actor_1_activity_0_top_left" -> Fixed2DPoint(22, 5),
 			"actor_1_activity_0_top_right" -> Fixed2DPoint(24, 5),
-			"actor_1_activity_0_left_point_0" -> Fixed2DPoint(19, 6)
+			"actor_1_activity_0_left_point_0" -> Fixed2DPoint(22, 6)
 		)
 	}
 

@@ -58,7 +58,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 					for (point <- activity.leftPoints.values) {
 								pointMap.put(pointForActivity(actor.id, activity.id, point.id, "left"),
-									Fixed2DPoint(19, 6))
+									Fixed2DPoint(activityTopLeft.x, 6))
 					}
 				}
 			}
