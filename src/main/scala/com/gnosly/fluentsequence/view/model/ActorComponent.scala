@@ -43,6 +43,4 @@ case class ActorComponent(id: Int, name: String, var activities: mutable.Buffer[
 	def end(index: Int): Unit = {
 		activities.last.end(index)
 	}
-
-	def topLeftCornerId() = s"actor_${id}_top_left"
 }

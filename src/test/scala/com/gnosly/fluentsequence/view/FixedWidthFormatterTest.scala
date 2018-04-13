@@ -29,7 +29,8 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			"actor_0_bottom_middle" -> Fixed2DPoint(4, 5),
 			"actor_0_activity_0_top_left" -> Fixed2DPoint(3, 5),
 			"actor_0_activity_0_top_right" -> Fixed2DPoint(5, 5),
-			"actor_0_activity_0_right_point_0" -> Fixed2DPoint(5, 6)
+			"actor_0_activity_0_right_point_0" -> Fixed2DPoint(5, 6),
+			"actor_0_activity_0_bottom_left" -> Fixed2DPoint(3, 7)
 		)
 	}
 
@@ -52,9 +53,11 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			"actor_0_activity_0_top_left" -> Fixed2DPoint(3, 5),
 			"actor_0_activity_0_top_right" -> Fixed2DPoint(5, 5),
 			"actor_0_activity_0_right_point_0" -> Fixed2DPoint(5, 6),
+			"actor_0_activity_0_bottom_left" -> Fixed2DPoint(3, 7),
 			"actor_1_activity_0_top_left" -> Fixed2DPoint(22, 5),
 			"actor_1_activity_0_top_right" -> Fixed2DPoint(24, 5),
-			"actor_1_activity_0_left_point_0" -> Fixed2DPoint(22, 6)
+			"actor_1_activity_0_left_point_0" -> Fixed2DPoint(22, 6),
+			"actor_1_activity_0_bottom_left" -> Fixed2DPoint(22, 7)
 		)
 	}
 

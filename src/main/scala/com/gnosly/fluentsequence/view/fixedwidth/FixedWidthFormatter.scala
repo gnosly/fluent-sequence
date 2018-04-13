@@ -1,5 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
+import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
 import com.gnosly.fluentsequence.view.model.ViewModelComponents
 
@@ -50,33 +51,51 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					val activityTopRight = actorBottomMiddle.right(painter.preRender(activity).halfWidth)
 
 					pointMap.put(topLeftCornerIdForActivity(actor.id, activity.id), activityTopLeft)
-					pointMap.put(topRightCornerIdForActivity(actor.id, activity.id),activityTopRight)
+					pointMap.put(topRightCornerIdForActivity(actor.id, activity.id), activityTopRight)
 
 					for (point <- activity.rightPoints.values) {
-								pointMap.put(pointForActivity(actor.id, activity.id, point.id, "right"),
-									Fixed2DPoint(activityTopRight.x, activityTopRight.y+1))
+						pointMap.put(pointForActivity(actor.id, activity.id, point.id, "right"),
+							Fixed2DPoint(activityTopRight.x, activityTopRight.y + 1))
 					}
 
 					for (point <- activity.leftPoints.values) {
-								pointMap.put(pointForActivity(actor.id, activity.id, point.id, "left"),
-									Fixed2DPoint(activityTopLeft.x, activityTopLeft.y+1))
+						pointMap.put(pointForActivity(actor.id, activity.id, point.id, "left"),
+							Fixed2DPoint(activityTopLeft.x, activityTopLeft.y + 1))
 					}
+
+
+//					activity.rightPoints.values.lastOption
+//						.zip(activity.leftPoints.values.lastOption)
+//  						.reduce()
+
+					pointMap.put(bottomLeftCornerIdForActivity(actor.id, activity.id),
+						Fixed2DPoint(activityTopLeft.x, Math.max(
+							pointMap(pointForActivity(actor.id, activity.id, activity.rightPoints.last._2.id, "right")).y,
+							pointMap(pointForActivity(actor.id, activity.id, activity.leftPoints.last._2.id, "left")).y
+						))
+					)
 				}
 			}
 		}
 	}
 
-	private def topLeftCornerIdForActor(column: Int) = s"actor_${column}_top_left"
 
-	private def topRightCornerIdForActor(column: Int) = s"actor_${column}_top_right"
+}
 
-	private def bottomMiddleCornerIdForActor(column: Int): String = s"actor_${column}_bottom_middle"
+object Coordinates {
+	def topLeftCornerIdForActor(column: Int) = s"actor_${column}_top_left"
 
-	private def topLeftCornerIdForActivity(actorId: Int, activityId: Int): String = s"actor_${actorId}_activity_${activityId}_top_left"
+	def topRightCornerIdForActor(column: Int) = s"actor_${column}_top_right"
 
-	private def topRightCornerIdForActivity(actorId: Int, activityId: Int): String = s"actor_${actorId}_activity_${activityId}_top_right"
+	def bottomMiddleCornerIdForActor(column: Int): String = s"actor_${column}_bottom_middle"
 
-	private def pointForActivity(actor: Int, activity: Int, point: Int, direction: String): String = s"actor_${actor}_activity_${activity}_${direction}_point_${point}"
+	def topLeftCornerIdForActivity(actorId: Int, activityId: Int): String = s"actor_${actorId}_activity_${activityId}_top_left"
+
+	def bottomLeftCornerIdForActivity(actorId: Int, activityId: Int): String = s"actor_${actorId}_activity_${activityId}_bottom_left"
+
+	def topRightCornerIdForActivity(actorId: Int, activityId: Int): String = s"actor_${actorId}_activity_${activityId}_top_right"
+
+	def pointForActivity(actor: Int, activity: Int, point: Int, direction: String): String = s"actor_${actor}_activity_${activity}_${direction}_point_${point}"
 
 }
 
