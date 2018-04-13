@@ -31,8 +31,8 @@ class FixedWidthPainter {
 
 		for (activity <- actor.activities) {
 
-			val topLeftActivity = pointMap(topLeftCornerIdForActivity(actor.id, activity.id))
-			val bottomLeftActivity = pointMap(bottomLeftCornerIdForActivity(actor.id, activity.id))
+			val topLeftActivity = pointMap(Activity.topLeftCorner(actor.id, activity.id))
+			val bottomLeftActivity = pointMap(Activity.bottomLeftCorner(actor.id, activity.id))
 
 			canvas.write(topLeftActivity, "_|_")
 
@@ -54,7 +54,7 @@ class FixedWidthPainter {
 	}
 
 	private def paintAutoSignal(activityId:Int, x: AutoSignalComponent, pointMap: Map[String, Fixed2DPoint], actor: ActorComponent, canvas: FixedWidthCanvas) = {
-		val signalPoint = pointMap(pointForActivity(actor.id, activityId, x.currentIndex(), "right"))
+		val signalPoint = pointMap(Activity.point(actor.id, activityId, x.currentIndex(), "right"))
 
 		canvas.write(signalPoint, "____")
 		canvas.write(signalPoint.down(1), "    |")
