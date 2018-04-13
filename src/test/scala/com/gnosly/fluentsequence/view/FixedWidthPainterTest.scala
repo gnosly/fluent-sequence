@@ -13,9 +13,9 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 		val canvas = new FixedWidthCanvas()
 
 		painter.paint(user, Map(
-			Coordinates.topLeftCornerIdForActor(0) -> Fixed2DPoint(1, 0),
-			Coordinates.Activity.topLeftCorner(0,0) -> Fixed2DPoint(3, 4),
-			Coordinates.Activity.bottomLeftCorner(0,0) -> Fixed2DPoint(3, 8),
+			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 0),
+			Coordinates.Activity.topLeft(0,0) -> Fixed2DPoint(3, 4),
+			Coordinates.Activity.bottomLeft(0,0) -> Fixed2DPoint(3, 8),
 			Coordinates.Activity.point(0,0,0,"right") -> Fixed2DPoint(6, 5)
 		), canvas)
 

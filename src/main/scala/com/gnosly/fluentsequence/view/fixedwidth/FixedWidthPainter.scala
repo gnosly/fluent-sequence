@@ -19,7 +19,7 @@ class FixedWidthPainter {
 		val name = actor.name
 		val innerSize = name.length + padding
 
-		val topLeftCornerId = pointMap(topLeftCornerIdForActor(actor.id))
+		val topLeftCornerId = pointMap(Actor.topLeft(actor.id))
 
 		val str = r("-", innerSize)
 
@@ -31,8 +31,8 @@ class FixedWidthPainter {
 
 		for (activity <- actor.activities) {
 
-			val topLeftActivity = pointMap(Activity.topLeftCorner(actor.id, activity.id))
-			val bottomLeftActivity = pointMap(Activity.bottomLeftCorner(actor.id, activity.id))
+			val topLeftActivity = pointMap(Activity.topLeft(actor.id, activity.id))
+			val bottomLeftActivity = pointMap(Activity.bottomLeft(actor.id, activity.id))
 
 			canvas.write(topLeftActivity, "_|_")
 
