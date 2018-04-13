@@ -1,10 +1,10 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
-import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent}
+import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent, AutoSignalComponent}
 
 class FixedWidthPainter {
-	def preRender(activity: ActivityComponent):Box = Box(2,2)
+	def preRender(activity: ActivityComponent): Box = Box(2, 2)
 
 	def preRender(actorComponent: ActorComponent): Box = {
 		Box(s"| ${actorComponent.name} |".length, 4)
@@ -29,7 +29,7 @@ class FixedWidthPainter {
 		canvas.write(topLeftCornerId.down(3).right(innerSize / 2), "|")
 
 
-		for(activity <- actor.activities){
+		for (activity <- actor.activities) {
 
 			val topLeftActivity = pointMap(topLeftCornerIdForActivity(actor.id, activity.id))
 			val bottomLeftActivity = pointMap(bottomLeftCornerIdForActivity(actor.id, activity.id))
@@ -37,18 +37,33 @@ class FixedWidthPainter {
 			canvas.write(topLeftActivity, "_|_")
 
 			val activityStart = topLeftActivity.down(1)
-			for (i <- 0L to bottomLeftActivity.up(1).y - activityStart.y ){
+			for (i <- 0L to bottomLeftActivity.up(1).y - activityStart.y) {
 				canvas.write(activityStart.down(i), "| |")
 			}
 
-				canvas.write(bottomLeftActivity, "|_|")
-				canvas.write(bottomLeftActivity.down(1).right(1),  "|")
+			canvas.write(bottomLeftActivity, "|_|")
+			canvas.write(bottomLeftActivity.down(1).right(1), "|")
 
+			//print right signal
+			for (rightPoint <- activity.rightPoints) {
+				rightPoint._2.signalComponent match {
+					case x: AutoSignalComponent => paintAutoSignal(activity.id, x, pointMap, actor, canvas)
+				}
+			}
 		}
+	}
+
+	private def paintAutoSignal(activityId:Int, x: AutoSignalComponent, pointMap: Map[String, Fixed2DPoint], actor: ActorComponent, canvas: FixedWidthCanvas) = {
+		val signalPoint = pointMap(pointForActivity(actor.id, activityId, x.currentIndex(), "right"))
+
+		canvas.write(signalPoint, "____")
+		canvas.write(signalPoint.down(1), "    |")
+		canvas.write(signalPoint.down(2), "    | " + x.name)
+		canvas.write(signalPoint.down(3), "<---'")
 	}
 }
 
 case class Box(width: Long, height: Long) {
-	def halfWidth(): Long =  width/2
+	def halfWidth(): Long = width / 2
 
 }
