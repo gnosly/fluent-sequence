@@ -53,6 +53,7 @@ class FixedWidthPainter {
 			for (rightPoint <- activity.rightPoints) {
 				rightPoint._2.signalComponent match {
 					case x: AutoSignalComponent => paintAutoSignal(activity.id, x, pointMap, actor, canvas)
+					case x: BiSignalComponent => paintBiSignal(activity.id, x, pointMap, actor, canvas)
 				}
 			}
 		}
@@ -65,6 +66,13 @@ class FixedWidthPainter {
 		canvas.write(signalPoint.down(1), "    |")
 		canvas.write(signalPoint.down(2), "    | " + x.name)
 		canvas.write(signalPoint.down(3), "<---'")
+	}
+
+	private def paintBiSignal(activityId: Int, x: BiSignalComponent, pointMap: Map[String, Fixed2DPoint], actor: ActorComponent, canvas: FixedWidthCanvas) = {
+		val signalPoint = pointMap(Activity.rightPointStart(actor.id, activityId, x.currentIndex()))
+
+		canvas.write(signalPoint.right(2), x.name)
+		canvas.write(signalPoint.down(1), Util.r("-",x.name.length+4) + ">")
 	}
 }
 
