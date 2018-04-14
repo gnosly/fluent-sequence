@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
-import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2DPoint, FixedWidthFormatter, FixedWidthPainter}
+import com.gnosly.fluentsequence.view.fixedwidth.{Coordinates, Fixed2DPoint, FixedWidthFormatter, FixedWidthPainter}
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -24,13 +24,14 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		val viewModel = generate(flow.toEventBook)
 
 		formatter.format(viewModel) shouldBe mutable.TreeMap(
-			"actor_0_top_left" -> Fixed2DPoint(1, 1),
-			"actor_0_top_right" -> Fixed2DPoint(9, 1),
-			"actor_0_bottom_middle" -> Fixed2DPoint(4, 5),
-			"actor_0_activity_0_top_left" -> Fixed2DPoint(3, 5),
-			"actor_0_activity_0_top_right" -> Fixed2DPoint(5, 5),
-			"actor_0_activity_0_right_point_0" -> Fixed2DPoint(5, 6),
-			"actor_0_activity_0_bottom_left" -> Fixed2DPoint(3, 7)
+			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 1),
+			Coordinates.Actor.topRight(0) -> Fixed2DPoint(9, 1),
+			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 5),
+			Coordinates.Activity.topLeft(0,0) -> Fixed2DPoint(3, 5),
+			Coordinates.Activity.topRight(0,0) -> Fixed2DPoint(5, 5),
+			Coordinates.Activity.rightPointStart(0,0,1) -> Fixed2DPoint(5, 6),
+			Coordinates.Activity.rightPointEnd(0,0,1) -> Fixed2DPoint(5, 10),
+			Coordinates.Activity.bottomLeft(0,0) -> Fixed2DPoint(3, 10)
 		)
 	}
 
@@ -43,23 +44,27 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		val viewModel = generate(flow.toEventBook)
 
 		formatter.format(viewModel) shouldBe mutable.TreeMap(
-			"actor_0_top_left" -> Fixed2DPoint(1, 1),
-			"actor_0_top_right" -> Fixed2DPoint(9, 1),
-			"actor_0_bottom_middle" -> Fixed2DPoint(4, 5),
-			"actor_1_top_left" -> Fixed2DPoint(19, 1),
-			"actor_1_top_right" -> Fixed2DPoint(29, 1),
-			"actor_1_bottom_middle" -> Fixed2DPoint(23, 5),
+			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 1),
+			Coordinates.Actor.topRight(0) -> Fixed2DPoint(9, 1),
+			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 5),
+			Coordinates.Actor.topLeft(1) -> Fixed2DPoint(19, 1),
+			Coordinates.Actor.topRight(1) -> Fixed2DPoint(29, 1),
+			Coordinates.Actor.bottomMiddle(1) -> Fixed2DPoint(23, 5),
 
-			"actor_0_activity_0_top_left" -> Fixed2DPoint(3, 5),
-			"actor_0_activity_0_top_right" -> Fixed2DPoint(5, 5),
-			"actor_0_activity_0_right_point_0" -> Fixed2DPoint(5, 6),
-			"actor_0_activity_0_bottom_left" -> Fixed2DPoint(3, 7),
-			"actor_1_activity_0_top_left" -> Fixed2DPoint(22, 5),
-			"actor_1_activity_0_top_right" -> Fixed2DPoint(24, 5),
-			"actor_1_activity_0_left_point_0" -> Fixed2DPoint(22, 6),
-			"actor_1_activity_0_bottom_left" -> Fixed2DPoint(22, 7)
+			Coordinates.Activity.topLeft(0,0) -> Fixed2DPoint(3, 5),
+			Coordinates.Activity.topRight(0,0) -> Fixed2DPoint(5, 5),
+			Coordinates.Activity.rightPointStart(0,0,1) -> Fixed2DPoint(5, 6),
+			Coordinates.Activity.rightPointEnd(0,0,1) -> Fixed2DPoint(5, 8),
+			Coordinates.Activity.bottomLeft(0,0) -> Fixed2DPoint(3, 8),
+			Coordinates.Activity.topLeft(1,0) -> Fixed2DPoint(22, 5),
+			Coordinates.Activity.topRight(1,0) -> Fixed2DPoint(24, 5),
+			Coordinates.Activity.leftPointStart(1,0,1) -> Fixed2DPoint(22, 6),
+			Coordinates.Activity.leftPointEnd(1,0,1) -> Fixed2DPoint(22, 8),
+			Coordinates.Activity.bottomLeft(1,0) -> Fixed2DPoint(22, 8)
 		)
 	}
 
+	//test with more signal in sequence
+	//test with signal in different actor sequence
 	//test with more activity
 }

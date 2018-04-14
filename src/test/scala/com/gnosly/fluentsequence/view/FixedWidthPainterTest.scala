@@ -16,7 +16,7 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 0),
 			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 4),
 			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 8),
-			Coordinates.Activity.rightPoint(0, 0, 0) -> Fixed2DPoint(6, 5)
+			Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2DPoint(6, 5)
 		), canvas)
 
 		val print = canvas.print

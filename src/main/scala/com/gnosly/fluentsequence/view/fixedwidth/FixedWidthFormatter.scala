@@ -54,25 +54,29 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					pointMap.put(Activity.topRight(actor.id, activity.id), activityTopRight)
 
 					for (point <- activity.rightPoints.values) {
-						pointMap.put(Activity.rightPoint(actor.id, activity.id, point.id),
+						pointMap.put(Activity.rightPointStart(actor.id, activity.id, point.signalComponent.currentIndex()),
 							Fixed2DPoint(activityTopRight.x, activityTopRight.y + 1))
+
+						pointMap.put(Activity.rightPointEnd(actor.id, activity.id, point.signalComponent.currentIndex()),
+							Fixed2DPoint(activityTopRight.x, activityTopRight.y + 1 + painter.preRender(point.signalComponent).height))
 					}
 
 					for (point <- activity.leftPoints.values) {
-						pointMap.put(Activity.leftPoint(actor.id, activity.id, point.id),
+						pointMap.put(Activity.leftPointStart(actor.id, activity.id, point.signalComponent.currentIndex()),
 							Fixed2DPoint(activityTopLeft.x, activityTopLeft.y + 1))
+
+						pointMap.put(Activity.leftPointEnd(actor.id, activity.id, point.signalComponent.currentIndex()),
+							Fixed2DPoint(activityTopLeft.x, activityTopRight.y + 1 + painter.preRender(point.signalComponent).height))
 					}
 
 
-					//					activity.rightPoints.values.lastOption
-					//						.zip(activity.leftPoints.values.lastOption)
-					//  						.reduce()
+					val allPoint = activity.rightPoints ++ activity.leftPoints
+					val maxActivityPoint = allPoint.maxBy(_._2.signalComponent.currentIndex())._2
 
 					pointMap.put(Activity.bottomLeft(actor.id, activity.id),
-						Fixed2DPoint(activityTopLeft.x, Math.max(
-							pointMap(Activity.rightPoint(actor.id, activity.id, activity.rightPoints.last._2.id)).y,
-							pointMap(Activity.leftPoint(actor.id, activity.id, activity.leftPoints.last._2.id)).y
-						))
+						Fixed2DPoint(activityTopLeft.x,
+							pointMap(Activity.pointEnd(actor.id, activity.id, maxActivityPoint.id, maxActivityPoint.direction)).y
+						)
 					)
 				}
 			}
@@ -100,9 +104,17 @@ object Coordinates {
 
 		def bottomLeft(actorId: Int, activityId: Int): String = s"actor_${actorId}_activity_${activityId}_bottom_left"
 
-		def rightPoint(actorId: Int, activityId: Int, pointId: Int): String = s"actor_${actorId}_activity_${activityId}_right_point_${pointId}"
+		def pointStart(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_start"
 
-		def leftPoint(actorId: Int, activityId: Int, pointId: Int): String = s"actor_${actorId}_activity_${activityId}_left_point_${pointId}"
+		def rightPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "right")
+
+		def leftPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "left")
+
+		def pointEnd(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
+
+		def rightPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "right")
+
+		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
 	}
 
 }

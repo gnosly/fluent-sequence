@@ -1,9 +1,14 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
-import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent, AutoSignalComponent}
+import com.gnosly.fluentsequence.view.model._
 
 class FixedWidthPainter {
+	def preRender(signalComponent: SignalComponent) = signalComponent match {
+		case x: AutoSignalComponent => Box(x.name.length + 6, 4)
+		case x: BiSignalComponent => Box(x.name.length + 5, 2)
+	}
+
 	def preRender(activity: ActivityComponent): Box = Box(2, 2)
 
 	def preRender(actorComponent: ActorComponent): Box = {
@@ -53,8 +58,8 @@ class FixedWidthPainter {
 		}
 	}
 
-	private def paintAutoSignal(activityId:Int, x: AutoSignalComponent, pointMap: Map[String, Fixed2DPoint], actor: ActorComponent, canvas: FixedWidthCanvas) = {
-		val signalPoint = pointMap(Activity.rightPoint(actor.id, activityId, x.currentIndex()))
+	private def paintAutoSignal(activityId: Int, x: AutoSignalComponent, pointMap: Map[String, Fixed2DPoint], actor: ActorComponent, canvas: FixedWidthCanvas) = {
+		val signalPoint = pointMap(Activity.rightPointStart(actor.id, activityId, x.currentIndex()))
 
 		canvas.write(signalPoint, "____")
 		canvas.write(signalPoint.down(1), "    |")
