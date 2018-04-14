@@ -71,8 +71,13 @@ class FixedWidthPainter {
 	private def paintBiSignal(activityId: Int, x: BiSignalComponent, pointMap: Map[String, Fixed2DPoint], actor: ActorComponent, canvas: FixedWidthCanvas) = {
 		val signalPoint = pointMap(Activity.rightPointStart(actor.id, activityId, x.currentIndex()))
 
-		canvas.write(signalPoint.right(2), x.name)
-		canvas.write(signalPoint.down(1), Util.r("-",x.name.length+4) + ">")
+		val minTextPosition:Long = x.name.length + 4L
+		//TODO implementare activity id
+		val leftActivityPoint = pointMap(Activity.leftPointStart(x.toActor.id, 0, x.currentIndex()))
+		val distance = Math.max(minTextPosition, leftActivityPoint.x - signalPoint.x - 1)
+
+		canvas.write(signalPoint.right((distance-4)/2), x.name)
+		canvas.write(signalPoint.down(1), Util.r("-",distance) + ">")
 	}
 }
 
