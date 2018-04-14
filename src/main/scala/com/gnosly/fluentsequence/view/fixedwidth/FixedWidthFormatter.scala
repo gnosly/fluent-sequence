@@ -38,17 +38,17 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 				if (activity.id == 0) {
 
 					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth)
-					val activityTopRight = actorBottomMiddle.right(painter.preRender(activity).halfWidth)
+					val activityTopRight = activityTopLeft.right(painter.preRender(activity).width)
 
 					pointMap.put(Activity.topLeft(actor.id, activity.id), activityTopLeft)
 					pointMap.put(Activity.topRight(actor.id, activity.id), activityTopRight)
 
 					for (point <- activity.rightPoints.values) {
 						pointMap.put(Activity.rightPointStart(actor.id, activity.id, point.signalComponent.currentIndex()),
-							Fixed2DPoint(activityTopRight.x, activityTopRight.y + 1))
+							Fixed2DPoint(activityTopRight.x +1, activityTopRight.y + 1))
 
 						pointMap.put(Activity.rightPointEnd(actor.id, activity.id, point.signalComponent.currentIndex()),
-							Fixed2DPoint(activityTopRight.x, activityTopRight.y + 1 + painter.preRender(point.signalComponent).height))
+							Fixed2DPoint(activityTopRight.x +1, activityTopRight.y + 1 + painter.preRender(point.signalComponent).height))
 					}
 
 					for (point <- activity.leftPoints.values) {

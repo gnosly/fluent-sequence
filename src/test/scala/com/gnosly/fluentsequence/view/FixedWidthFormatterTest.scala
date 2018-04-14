@@ -29,8 +29,8 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 5),
 			Coordinates.Activity.topLeft(0,0) -> Fixed2DPoint(3, 5),
 			Coordinates.Activity.topRight(0,0) -> Fixed2DPoint(5, 5),
-			Coordinates.Activity.rightPointStart(0,0,1) -> Fixed2DPoint(5, 6),
-			Coordinates.Activity.rightPointEnd(0,0,1) -> Fixed2DPoint(5, 10),
+			Coordinates.Activity.rightPointStart(0,0,1) -> Fixed2DPoint(6, 6),
+			Coordinates.Activity.rightPointEnd(0,0,1) -> Fixed2DPoint(6, 10),
 			Coordinates.Activity.bottomLeft(0,0) -> Fixed2DPoint(3, 10)
 		)
 	}
@@ -53,8 +53,8 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 
 			Coordinates.Activity.topLeft(0,0) -> Fixed2DPoint(3, 5),
 			Coordinates.Activity.topRight(0,0) -> Fixed2DPoint(5, 5),
-			Coordinates.Activity.rightPointStart(0,0,1) -> Fixed2DPoint(5, 6),
-			Coordinates.Activity.rightPointEnd(0,0,1) -> Fixed2DPoint(5, 8),
+			Coordinates.Activity.rightPointStart(0,0,1) -> Fixed2DPoint(6, 6),
+			Coordinates.Activity.rightPointEnd(0,0,1) -> Fixed2DPoint(6, 8),
 			Coordinates.Activity.bottomLeft(0,0) -> Fixed2DPoint(3, 8),
 			Coordinates.Activity.topLeft(1,0) -> Fixed2DPoint(22, 5),
 			Coordinates.Activity.topRight(1,0) -> Fixed2DPoint(24, 5),
