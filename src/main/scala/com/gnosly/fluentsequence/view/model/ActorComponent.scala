@@ -12,22 +12,6 @@ class ActorComponent(val id: Int, val name: String,
 		autoSignal
 	}
 
-	def activeUntil(index: Int): ActivityComponent = {
-		if (activities.isEmpty) {
-			activities += new ActivityComponent(0, index, index, true)
-		}
-		val last = activities.last
-		if (last.active) {
-			last.increaseUntil(index)
-			last
-		}
-		else {
-			val component = new ActivityComponent(last.id + 1, index, 0, true)
-			activities += component
-			component
-		}
-	}
-
 	def link(called: ActorComponent, something: String, index: Int): SignalComponent = {
 		val lastCallerActivity = this.activeUntil(index)
 		val lastCalledActivity = called.activeUntil(index)
@@ -44,6 +28,22 @@ class ActorComponent(val id: Int, val name: String,
 
 	def end(index: Int): Unit = {
 		activities.last.end(index)
+	}
+
+	private def activeUntil(index: Int): ActivityComponent = {
+		if (activities.isEmpty) {
+			activities += new ActivityComponent(0, index, index, true)
+		}
+		val last = activities.last
+		if (last.active) {
+			last.increaseUntil(index)
+			last
+		}
+		else {
+			val component = new ActivityComponent(last.id + 1, index, 0, true)
+			activities += component
+			component
+		}
 	}
 
 	override def equals(other: Any): Boolean = other match {

@@ -22,6 +22,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		pointMap.toMap()
 	}
 
+
 	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap) = {
 		for (actor <- viewModel._actors.values) {
 			val actorBox = painter.preRender(actor)
@@ -48,24 +49,26 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 						val signal = point._2.signalComponent
 
 						//todo per ora tengo conto lo stesso attore ma dopo bisognera tener traccia gli altri
-						val distanceBetweenSignals = lastRightPointOrDefault(pointMap, actor, activity, signal, activityTopRight)
+						val distanceBetweenSignals = lastRightPointOrDefault(pointMap, activity, signal, activityTopRight)
 
 						pointMap.put(Activity.rightPointStart(actor.id, activity.id, signal.currentIndex()),
 							Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals))
 
-						pointMap.put(Activity.rightPointEnd(actor.id, activity.id, signal.currentIndex()),
-							Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals + painter.preRender(signal).height))
+						val fixedPointEnd: Fixed2DPoint = Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals + painter.preRender(signal).height)
+						pointMap.put(Activity.rightPointEnd(actor.id, activity.id, signal.currentIndex()), fixedPointEnd)
+						pointMap.put(Coordinates.endOfIndex(signal.currentIndex()), fixedPointEnd)
 					}
 
 					for (point <- activity.leftPoints) {
 						val signal = point._2.signalComponent
-						val distanceBetweenSignals = lastLeftPointOrDefault(pointMap, actor, activity, signal, activityTopLeft)
+						val distanceBetweenSignals = lastLeftPointOrDefault(pointMap, activity, signal, activityTopLeft)
 
 						pointMap.put(Activity.leftPointStart(actor.id, activity.id, signal.currentIndex()),
 							Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals))
 
-						pointMap.put(Activity.leftPointEnd(actor.id, activity.id, signal.currentIndex()),
-							Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals + painter.preRender(signal).height))
+						val  fixedPointEnd = Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals + painter.preRender(signal).height)
+						pointMap.put(Activity.leftPointEnd(actor.id, activity.id, signal.currentIndex()),fixedPointEnd)
+						pointMap.put(Coordinates.endOfIndex(signal.currentIndex()), fixedPointEnd)
 					}
 
 
@@ -74,25 +77,27 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 					val lastPoint = pointMap(Activity.pointEnd(actor.id, activity.id, lastActivityPoint.id, lastActivityPoint.direction))
 
+
+
 					pointMap.put(Activity.bottomLeft(actor.id, activity.id), Fixed2DPoint(activityTopLeft.x, lastPoint.y))
 				}
 			}
 		}
 	}
 
-	private def lastRightPointOrDefault(pointMap: PointMap, actor: ActorComponent, activity: ActivityComponent, signal: SignalComponent, activityTopRight: Fixed2DPoint) : Long= {
+	private def lastRightPointOrDefault(pointMap: PointMap, activity: ActivityComponent, signal: SignalComponent, activityTopRight: Fixed2DPoint): Long = {
 		if (signal.currentIndex() == 1) {
 			return activityTopRight.y + 1
 		} else {
-			return pointMap(Activity.rightPointEnd(actor.id, activity.id, signal.currentIndex() - 1)).y + DISTANCE_BETWEEN_SIGNALS
+			return pointMap(Coordinates.endOfIndex(signal.currentIndex() - 1)).y + DISTANCE_BETWEEN_SIGNALS
 		}
 	}
 
-	private def lastLeftPointOrDefault(pointMap: PointMap, actor: ActorComponent, activity: ActivityComponent, signal: SignalComponent, activityTopLeft: Fixed2DPoint) : Long= {
+	private def lastLeftPointOrDefault(pointMap: PointMap, activity: ActivityComponent, signal: SignalComponent, activityTopLeft: Fixed2DPoint): Long = {
 		if (signal.currentIndex() == 1) {
 			return activityTopLeft.y + 1
 		} else {
-			return pointMap(Activity.leftPointEnd(actor.id, activity.id, signal.currentIndex() - 1)).y + DISTANCE_BETWEEN_SIGNALS
+			return pointMap(Coordinates.endOfIndex(signal.currentIndex() - 1)).y + DISTANCE_BETWEEN_SIGNALS
 		}
 	}
 
@@ -134,8 +139,10 @@ object Coordinates {
 		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
 
 		def pointEnd(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
+
 	}
 
+	def endOfIndex(index: Int): String = s"index_${index}_end"
 }
 
 
