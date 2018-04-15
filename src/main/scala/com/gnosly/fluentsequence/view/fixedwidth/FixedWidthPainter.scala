@@ -68,16 +68,26 @@ class FixedWidthPainter {
 		canvas.write(signalPoint.down(3), "<---'")
 	}
 
-	private def paintBiSignal(activityId: Int, x: BiSignalComponent, pointMap: Map[String, Fixed2DPoint], actor: ActorComponent, canvas: FixedWidthCanvas) = {
-		val signalPoint = pointMap(Activity.rightPointStart(actor.id, activityId, x.currentIndex()))
+	private def paintBiSignal(activityId: Int, s: BiSignalComponent, pointMap: Map[String, Fixed2DPoint], actor: ActorComponent, canvas: FixedWidthCanvas) = {
 
-		val minTextPosition:Long = x.name.length + 4L
+
+		val minTextPosition:Long = s.name.length + 4L
 		//TODO implementare activity id
-		val leftActivityPoint = pointMap(Activity.leftPointStart(x.toActorId, 0, x.currentIndex()))
-		val distance = Math.max(minTextPosition, leftActivityPoint.x - signalPoint.x - 1)
+		if(s.leftToRight()){
+			val signalPoint = pointMap(Activity.rightPointStart(actor.id, activityId, s.currentIndex()))
+			val leftActivityPoint = pointMap(Activity.leftPointStart(s.toActorId, 0, s.currentIndex()))
+			val distance = Math.max(minTextPosition, leftActivityPoint.x - signalPoint.x - 1)
 
-		canvas.write(signalPoint.right((distance-x.name.length)/2), x.name)
-		canvas.write(signalPoint.down(1), Util.r("-",distance) + ">")
+			canvas.write(signalPoint.right((distance-s.name.length)/2), s.name)
+			canvas.write(signalPoint.down(1), Util.r("-",distance) + ">")
+		}else{
+			val signalLeftPoint= pointMap(Activity.rightPointStart(s.toActorId, 0, s.currentIndex()))
+			val signalRightPoint  = pointMap(Activity.leftPointStart(s.fromActorId, 0, s.currentIndex()))
+			val distance = Math.max(minTextPosition, signalRightPoint.x - signalLeftPoint.x - 1)
+
+			canvas.write(signalLeftPoint.right((distance-s.name.length)/2), s.name)
+			canvas.write(signalLeftPoint.down(1), "<" + Util.r("-",distance) )
+		}
 	}
 }
 

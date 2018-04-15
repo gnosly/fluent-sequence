@@ -22,7 +22,7 @@ class ActorComponent(val id: Int, val name: String, val activities: mutable.Buff
 		val lastCallerActivity = this.activeUntil(index)
 		val lastCalledActivity = called.activeUntil(index)
 		val signal = new BiSignalComponent(something, index, this.id, called.id)
-		if(this.id < called.id){
+		if(signal.leftToRight()){
 			lastCallerActivity.right(signal)
 			lastCalledActivity.left(signal)
 		}else{

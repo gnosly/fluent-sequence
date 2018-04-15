@@ -66,7 +66,7 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 
 	}
 
-	ignore should "render user box with a bisignal entering" in {
+	it should "render user box with a bisignal entering" in {
 		val user = new ActorComponent(0, "user", 0)
 		val system = new ActorComponent(1, "user", 0)
 		system.link(user, "something", 1)

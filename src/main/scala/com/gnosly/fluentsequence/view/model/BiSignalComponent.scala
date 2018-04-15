@@ -4,6 +4,7 @@ class BiSignalComponent(val name: String,
 												val index: Int,
 												val fromActorId: Int,
 												val toActorId: Int) extends SignalComponent(index){
+	def leftToRight(): Boolean = fromActorId < toActorId
 
 	def canEqual(other: Any): Boolean = other.isInstanceOf[BiSignalComponent]
 
