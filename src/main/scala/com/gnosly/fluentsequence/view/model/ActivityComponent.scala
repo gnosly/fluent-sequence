@@ -2,10 +2,10 @@ package com.gnosly.fluentsequence.view.model
 
 import scala.collection.mutable
 
-case class ActivityComponent(id: Int,
-														 fromIndex: Int,
-														 var toIndex: Int,
-														 var active: Boolean = false) extends Component {
+class ActivityComponent(val id: Int,
+												val fromIndex: Int,
+												var toIndex: Int,
+												var active: Boolean = false) extends Component {
 
 
 	val rightPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap()
@@ -29,6 +29,29 @@ case class ActivityComponent(id: Int,
 	def increaseUntil(index: Int): Unit = {
 		toIndex = index
 	}
+
+
+	def canEqual(other: Any): Boolean = other.isInstanceOf[ActivityComponent]
+
+	override def equals(other: Any): Boolean = other match {
+		case that: ActivityComponent =>
+			(that canEqual this) &&
+				rightPoints == that.rightPoints &&
+				leftPoints == that.leftPoints &&
+				id == that.id &&
+				fromIndex == that.fromIndex &&
+				toIndex == that.toIndex &&
+				active == that.active
+		case _ => false
+	}
+
+	override def hashCode(): Int = {
+		val state = Seq(rightPoints, leftPoints, id, fromIndex, toIndex, active)
+		state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+	}
+
+
+	override def toString = s"ActivityComponent($rightPoints, $leftPoints, $id, $fromIndex, $toIndex, $active)"
 }
 
-case class ActivityPoint(id: Int, signalComponent: SignalComponent, direction:String)
+case class ActivityPoint(id: Int, signalComponent: SignalComponent, direction: String)

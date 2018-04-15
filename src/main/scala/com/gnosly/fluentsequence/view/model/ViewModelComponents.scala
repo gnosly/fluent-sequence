@@ -48,7 +48,7 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent],
 		val replied = createOrGet(toSomebody, index)
 		replier.end(index)
 		replied.activeUntil(index)
-		_signals += BiSignalComponent(something, index, replier, replied)
+		_signals += new BiSignalComponent(something, index, replier, replied)
 	}
 
 	def end(index: Int) = {

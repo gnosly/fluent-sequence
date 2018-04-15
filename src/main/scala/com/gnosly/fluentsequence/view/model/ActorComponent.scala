@@ -8,12 +8,12 @@ class ActorComponent(val id: Int, val name: String, val activities: mutable.Buff
 	}
 
 	def this(column: Int, name: String, fromIndex: Int) {
-		this(column, name, ActivityComponent(0, fromIndex, 0, true))
+		this(column, name, new ActivityComponent(0, fromIndex, 0, true))
 	}
 
 	def done(something: String, index: Int): SignalComponent = {
 		val lastActivity = this.activeUntil(index)
-		val autoSignal = AutoSignalComponent(something, index, this)
+		val autoSignal = new AutoSignalComponent(something, index, this)
 		lastActivity.right(autoSignal)
 		autoSignal
 	}
@@ -21,7 +21,7 @@ class ActorComponent(val id: Int, val name: String, val activities: mutable.Buff
 	def link(called: ActorComponent, something: String, index: Int): SignalComponent = {
 		val lastCallerActivity = this.activeUntil(index)
 		val lastCalledActivity = called.activeUntil(index)
-		val signal = BiSignalComponent(something, index, this, called)
+		val signal = new BiSignalComponent(something, index, this, called)
 		lastCallerActivity.right(signal)
 		lastCalledActivity.left(signal)
 		signal
@@ -34,7 +34,7 @@ class ActorComponent(val id: Int, val name: String, val activities: mutable.Buff
 			last
 		}
 		else {
-			val component = ActivityComponent(last.id + 1, index, 0, true)
+			val component = new  ActivityComponent(last.id + 1, index, 0, true)
 			activities += component
 			component
 		}
@@ -60,4 +60,7 @@ class ActorComponent(val id: Int, val name: String, val activities: mutable.Buff
 		val state = Seq(id, name, activities)
 		state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
 	}
+
+
+	override def toString = s"ActorComponent($id, $name, $activities)"
 }
