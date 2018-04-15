@@ -38,29 +38,39 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 	it should "format two actors" in {
 
 		val flow = Sequence("example").startWith(
-			USER.call("call", SYSTEM) :: Nil
+			USER.call("call", SYSTEM) ::
+				SYSTEM.call("reply", USER)  :: Nil
 		)
 
 		val viewModel = generate(flow.toEventBook)
 
+		println(viewModel)
+
 		formatter.format(viewModel) shouldBe mutable.TreeMap(
+			//Actor user
 			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 1),
 			Coordinates.Actor.topRight(0) -> Fixed2DPoint(9, 1),
 			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 5),
+			//Actor system
 			Coordinates.Actor.topLeft(1) -> Fixed2DPoint(19, 1),
 			Coordinates.Actor.topRight(1) -> Fixed2DPoint(29, 1),
 			Coordinates.Actor.bottomMiddle(1) -> Fixed2DPoint(23, 5),
-
+			//Activity of actor user
 			Coordinates.Activity.topLeft(0,0) -> Fixed2DPoint(3, 5),
 			Coordinates.Activity.topRight(0,0) -> Fixed2DPoint(5, 5),
 			Coordinates.Activity.rightPointStart(0,0,1) -> Fixed2DPoint(6, 6),
 			Coordinates.Activity.rightPointEnd(0,0,1) -> Fixed2DPoint(6, 8),
-			Coordinates.Activity.bottomLeft(0,0) -> Fixed2DPoint(3, 8),
+			Coordinates.Activity.rightPointStart(0,0,2) -> Fixed2DPoint(6, 9),
+			Coordinates.Activity.rightPointEnd(0,0,2) -> Fixed2DPoint(6, 11),
+			Coordinates.Activity.bottomLeft(0,0) -> Fixed2DPoint(3, 11),
+			//Activity of actor system
 			Coordinates.Activity.topLeft(1,0) -> Fixed2DPoint(22, 5),
 			Coordinates.Activity.topRight(1,0) -> Fixed2DPoint(24, 5),
 			Coordinates.Activity.leftPointStart(1,0,1) -> Fixed2DPoint(22, 6),
 			Coordinates.Activity.leftPointEnd(1,0,1) -> Fixed2DPoint(22, 8),
-			Coordinates.Activity.bottomLeft(1,0) -> Fixed2DPoint(22, 8)
+			Coordinates.Activity.leftPointStart(1,0,2) -> Fixed2DPoint(22, 9),
+			Coordinates.Activity.leftPointEnd(1,0,2) -> Fixed2DPoint(22, 11),
+			Coordinates.Activity.bottomLeft(1,0) -> Fixed2DPoint(22, 11)
 		)
 	}
 

@@ -23,7 +23,7 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 		str shouldBe load("two-actors-one-call.txt")
 	}
 
-	ignore should "do a two actor sequence" in {
+	it should "do a two actor sequence" in {
 
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) ::

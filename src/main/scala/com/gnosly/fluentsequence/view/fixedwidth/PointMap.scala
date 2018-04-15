@@ -15,6 +15,7 @@ class PointMap {
 	def apply(key: String): Fixed2DPoint = {
 		if (map.contains(key))
 			return map(key)
+		println(s"Not found $key in PointMap")
 		return Fixed2DPoint(0, 0)
 	}
 

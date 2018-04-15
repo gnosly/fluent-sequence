@@ -10,11 +10,13 @@ class ActivityComponent(val id: Int,
 												val leftPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap()) extends Component {
 
 	def right(signal: SignalComponent): Unit = {
-		rightPoints.put(rightPoints.size, ActivityPoint(signal.currentIndex(), signal, "right"))
+		val pointId = rightPoints.size
+		rightPoints.put(pointId, ActivityPoint(signal.currentIndex(), signal, "right"))
 	}
 
 	def left(signal: BiSignalComponent): Unit = {
-		leftPoints.put(leftPoints.size, ActivityPoint(signal.currentIndex(), signal, "left"))
+		val pointId = leftPoints.size
+		leftPoints.put(pointId, ActivityPoint(signal.currentIndex(), signal, "left"))
 	}
 
 	def end(index: Int): Unit = {
