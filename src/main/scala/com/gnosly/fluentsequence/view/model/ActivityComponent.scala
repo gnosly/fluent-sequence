@@ -2,7 +2,10 @@ package com.gnosly.fluentsequence.view.model
 
 import scala.collection.mutable
 
-case class ActivityComponent(id: Int, fromIndex: Int, var toIndex: Int, var active: Boolean = false) extends Component {
+case class ActivityComponent(id: Int,
+														 fromIndex: Int,
+														 var toIndex: Int,
+														 var active: Boolean = false) extends Component {
 
 
 	val rightPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap()

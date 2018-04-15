@@ -2,7 +2,15 @@ package com.gnosly.fluentsequence.view.model
 
 import scala.collection.mutable
 
-case class ActorComponent(id: Int, name: String, var activities: mutable.Buffer[ActivityComponent]) extends Component {
+case class ActorComponent(id: Int, name: String, activities: mutable.Buffer[ActivityComponent]) extends Component {
+	def this(column: Int, name: String, activity: ActivityComponent) {
+		this(column, name, mutable.Buffer(activity))
+	}
+
+	def this(column: Int, name: String, fromIndex: Int) {
+		this(column, name, ActivityComponent(0, fromIndex, 0, true))
+	}
+
 	def done(something: String, index: Int): SignalComponent = {
 		val lastActivity = this.activeUntil(index)
 		val autoSignal = AutoSignalComponent(something, index, this)
@@ -30,14 +38,6 @@ case class ActorComponent(id: Int, name: String, var activities: mutable.Buffer[
 			activities += component
 			component
 		}
-	}
-
-	def this(column: Int, name: String, activity: ActivityComponent) {
-		this(column, name, mutable.Buffer(activity))
-	}
-
-	def this(column: Int, name: String, fromIndex: Int) {
-		this(column, name, ActivityComponent(0, fromIndex, 0, true))
 	}
 
 	def end(index: Int): Unit = {
