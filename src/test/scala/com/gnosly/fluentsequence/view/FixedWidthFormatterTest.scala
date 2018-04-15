@@ -106,9 +106,9 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			//Activity system
 			Coordinates.Activity.topLeft(1, 0) -> Fixed2DPoint(22, 10),
 			Coordinates.Activity.topRight(1, 0) -> Fixed2DPoint(24, 10),
-			Coordinates.Activity.leftPointStart(1, 0, 1) -> Fixed2DPoint(22, 11),
-			Coordinates.Activity.leftPointEnd(1, 0, 1) -> Fixed2DPoint(22, 13),
-			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(22, 14),
+			Coordinates.Activity.leftPointStart(1, 0, 2) -> Fixed2DPoint(22, 11),
+			Coordinates.Activity.leftPointEnd(1, 0, 2) -> Fixed2DPoint(22, 13),
+			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(22, 13),
 
 			Coordinates.endOfIndex(1) -> Fixed2DPoint(6, 10),
 			Coordinates.endOfIndex(2) -> Fixed2DPoint(6, 13)

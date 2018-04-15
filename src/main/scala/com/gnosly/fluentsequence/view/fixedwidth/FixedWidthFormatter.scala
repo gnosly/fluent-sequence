@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
-import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent, SignalComponent, ViewModelComponents}
+import com.gnosly.fluentsequence.view.model.{ActorComponent, SignalComponent, ViewModelComponents}
 
 import scala.collection.mutable
 
@@ -38,18 +38,20 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			for (activity <- actor.activities) {
 				if (activity.id == 0) {
 
-					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth)
+					var yy = 0L
+					if(activity.fromIndex > 1){
+						yy = pointMap(Coordinates.endOfIndex(activity.fromIndex - 1)).y - actorBottomMiddle.y
+					}
+
+					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth).down(yy)
 					val activityTopRight = activityTopLeft.right(painter.preRender(activity).width)
 
 					pointMap.put(Activity.topLeft(actor.id, activity.id), activityTopLeft)
 					pointMap.put(Activity.topRight(actor.id, activity.id), activityTopRight)
 
-					//todo gestire la posizione verticale in base ai signal precedenti
 					for (point <- activity.rightPoints) {
 						val signal = point._2.signalComponent
-
-						//todo per ora tengo conto lo stesso attore ma dopo bisognera tener traccia gli altri
-						val distanceBetweenSignals = lastRightPointOrDefault(pointMap, activity, signal, activityTopRight)
+						val distanceBetweenSignals = previousIndexPointOrDefault(pointMap, signal, activityTopLeft.y)
 
 						pointMap.put(Activity.rightPointStart(actor.id, activity.id, signal.currentIndex()),
 							Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals))
@@ -61,7 +63,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 					for (point <- activity.leftPoints) {
 						val signal = point._2.signalComponent
-						val distanceBetweenSignals = lastLeftPointOrDefault(pointMap, activity, signal, activityTopLeft)
+						val distanceBetweenSignals = previousIndexPointOrDefault(pointMap, signal, activityTopLeft.y)
 
 						pointMap.put(Activity.leftPointStart(actor.id, activity.id, signal.currentIndex()),
 							Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals))
@@ -72,12 +74,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					}
 
 
-					val allPoint = activity.rightPoints ++ activity.leftPoints
-					val lastActivityPoint = allPoint.maxBy(_._2.signalComponent.currentIndex())._2
-
-					val lastPoint = pointMap(Activity.pointEnd(actor.id, activity.id, lastActivityPoint.id, lastActivityPoint.direction))
-
-
+					val lastPoint = pointMap(endOfIndex(activity.toIndex))
 
 					pointMap.put(Activity.bottomLeft(actor.id, activity.id), Fixed2DPoint(activityTopLeft.x, lastPoint.y))
 				}
@@ -85,17 +82,9 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		}
 	}
 
-	private def lastRightPointOrDefault(pointMap: PointMap, activity: ActivityComponent, signal: SignalComponent, activityTopRight: Fixed2DPoint): Long = {
+	private def previousIndexPointOrDefault(pointMap: PointMap, signal: SignalComponent, activityTop: Long): Long = {
 		if (signal.currentIndex() == 1) {
-			return activityTopRight.y + 1
-		} else {
-			return pointMap(Coordinates.endOfIndex(signal.currentIndex() - 1)).y + DISTANCE_BETWEEN_SIGNALS
-		}
-	}
-
-	private def lastLeftPointOrDefault(pointMap: PointMap, activity: ActivityComponent, signal: SignalComponent, activityTopLeft: Fixed2DPoint): Long = {
-		if (signal.currentIndex() == 1) {
-			return activityTopLeft.y + 1
+			return activityTop + 1
 		} else {
 			return pointMap(Coordinates.endOfIndex(signal.currentIndex() - 1)).y + DISTANCE_BETWEEN_SIGNALS
 		}
