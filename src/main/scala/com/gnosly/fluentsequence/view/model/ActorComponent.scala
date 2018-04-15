@@ -2,14 +2,8 @@ package com.gnosly.fluentsequence.view.model
 
 import scala.collection.mutable
 
-class ActorComponent(val id: Int, val name: String, val activities: mutable.Buffer[ActivityComponent]) extends Component {
-	def this(column: Int, name: String, activity: ActivityComponent) {
-		this(column, name, mutable.Buffer(activity))
-	}
-
-	def this(column: Int, name: String, fromIndex: Int) {
-		this(column, name, new ActivityComponent(0, fromIndex, 0, true))
-	}
+class ActorComponent(val id: Int, val name: String,
+										 val activities: mutable.Buffer[ActivityComponent] = mutable.Buffer[ActivityComponent]()) extends Component {
 
 	def done(something: String, index: Int): SignalComponent = {
 		val lastActivity = this.activeUntil(index)
@@ -18,39 +12,39 @@ class ActorComponent(val id: Int, val name: String, val activities: mutable.Buff
 		autoSignal
 	}
 
-	def link(called: ActorComponent, something: String, index: Int): SignalComponent = {
-		val lastCallerActivity = this.activeUntil(index)
-		val lastCalledActivity = called.activeUntil(index)
-		val signal = new BiSignalComponent(something, index, this.id, called.id)
-		if(signal.leftToRight()){
-			lastCallerActivity.right(signal)
-			lastCalledActivity.left(signal)
-		}else{
-			lastCallerActivity.left(signal)
-			lastCalledActivity.right(signal)
-		}
-		signal
-	}
-
 	def activeUntil(index: Int): ActivityComponent = {
+		if (activities.isEmpty) {
+			activities += new ActivityComponent(0, index, index, true)
+		}
 		val last = activities.last
 		if (last.active) {
 			last.increaseUntil(index)
 			last
 		}
 		else {
-			val component = new  ActivityComponent(last.id + 1, index, 0, true)
+			val component = new ActivityComponent(last.id + 1, index, 0, true)
 			activities += component
 			component
 		}
 	}
 
+	def link(called: ActorComponent, something: String, index: Int): SignalComponent = {
+		val lastCallerActivity = this.activeUntil(index)
+		val lastCalledActivity = called.activeUntil(index)
+		val signal = new BiSignalComponent(something, index, this.id, called.id)
+		if (signal.leftToRight()) {
+			lastCallerActivity.right(signal)
+			lastCalledActivity.left(signal)
+		} else {
+			lastCallerActivity.left(signal)
+			lastCalledActivity.right(signal)
+		}
+		signal
+	}
+
 	def end(index: Int): Unit = {
 		activities.last.end(index)
 	}
-
-
-	def canEqual(other: Any): Boolean = other.isInstanceOf[ActorComponent]
 
 	override def equals(other: Any): Boolean = other match {
 		case that: ActorComponent =>
@@ -60,6 +54,8 @@ class ActorComponent(val id: Int, val name: String, val activities: mutable.Buff
 				activities == that.activities
 		case _ => false
 	}
+
+	def canEqual(other: Any): Boolean = other.isInstanceOf[ActorComponent]
 
 	override def hashCode(): Int = {
 		val state = Seq(id, name, activities)

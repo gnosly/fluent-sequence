@@ -9,7 +9,7 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 
 
 	it should "render user box" in {
-		val user = new ActorComponent(0, "user", 0)
+		val user = new ActorComponent(0, "user")
 		user.done("something", 0)
 		val canvas = new FixedWidthCanvas()
 
@@ -37,8 +37,8 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 	}
 
 	it should "render user box with a bisignal exiting" in {
-		val user = new ActorComponent(0, "user", 0)
-		val system = new ActorComponent(1, "user", 0)
+		val user = new ActorComponent(0, "user")
+		val system = new ActorComponent(1, "user")
 		user.link(system, "something", 1)
 
 		val canvas = new FixedWidthCanvas()
@@ -67,8 +67,8 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 	}
 
 	it should "render user box with a bisignal entering" in {
-		val user = new ActorComponent(0, "user", 0)
-		val system = new ActorComponent(1, "user", 0)
+		val user = new ActorComponent(0, "user")
+		val system = new ActorComponent(1, "user")
 		system.link(user, "something", 1)
 
 		val canvas = new FixedWidthCanvas()

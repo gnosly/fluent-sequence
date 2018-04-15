@@ -51,7 +51,7 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 
 	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
 		val actor = _actors.getOrElse(who.name, {
-			val newActor = new ActorComponent(_actors.size, who.name, index)
+			val newActor = new ActorComponent(_actors.size, who.name)
 			_actors += who.name -> newActor
 			newActor
 		})

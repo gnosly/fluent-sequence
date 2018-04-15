@@ -35,7 +35,7 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 		str shouldBe load("two-actors.txt")
 	}
 
-	ignore should "do a complete sequence" in {
+	it should "do a complete sequence" in {
 
 		val flow = Sequence("example").startWith(
 			USER.does("something") ::
@@ -44,7 +44,10 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 				SYSTEM.reply("reply", USER) :: Nil
 		)
 
-		viewer.view(flow.toEventBook) shouldBe load("complete-fixed-sequence.txt")
+		val str = viewer.view(flow.toEventBook)
+		println(str)
+
+		str shouldBe load("complete-fixed-sequence.txt")
 	}
 
 	private def load(filename: String) = {
