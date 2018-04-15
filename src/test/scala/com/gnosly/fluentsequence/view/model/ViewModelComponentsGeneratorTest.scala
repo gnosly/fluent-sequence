@@ -8,8 +8,8 @@ import scala.collection.mutable
 
 class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 
-	"generator" should "create matrix with DOES " in {
-		val matrix = generate(EventBook(
+	"generator" should "create view model with DOES " in {
+		val viewModel = generate(EventBook(
 			DONE(Actor(USER(), "user"), "something"),
 			DONE(new Actor(USER(), "user"), "something else")
 		))
@@ -19,14 +19,14 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			mutable.HashMap("user" -> matrixUserActor),
 			mutable.Buffer(AutoSignalComponent("something", 0, matrixUserActor), AutoSignalComponent("something else", 1, matrixUserActor))
 		)
-		matrix shouldBe expected
+		viewModel shouldBe expected
 	}
 
-	it should "create matrix with CALL " in {
+	it should "create viewModel with CALL " in {
 		val systemActor = Actor(SEQUENCE_ACTOR(), "system")
 		val userActor = new Actor(USER(), "user")
 
-		val matrix = generate(EventBook(
+		val viewModel = generate(EventBook(
 			CALLED(userActor, "call", systemActor),
 			DONE(systemActor, "something"),
 		))
@@ -37,15 +37,15 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			mutable.HashMap("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			mutable.Buffer(BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor), AutoSignalComponent("something", 1, matrixSystemActor))
 		)
-		matrix shouldBe expected
+		viewModel shouldBe expected
 
 	}
 
-	it should "create matrix with REPLY " in {
+	it should "create viewModel with REPLY " in {
 		val systemActor = Actor(SEQUENCE_ACTOR(), "system")
 		val userActor = new Actor(USER(), "user")
 
-		val matrix = generate(EventBook(
+		val viewModel = generate(EventBook(
 			CALLED(userActor, "call", systemActor),
 			DONE(systemActor, "something"),
 			REPLIED(systemActor, "response", userActor)
@@ -60,15 +60,15 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 				AutoSignalComponent("something", 1, matrixSystemActor),
 				BiSignalComponent("response", 2, matrixSystemActor, matrixUserActor))
 		)
-		matrix shouldBe expected
+		viewModel shouldBe expected
 
 	}
 
-	it should "create matrix with mixed events" in {
+	it should "create viewModel with mixed events" in {
 		val systemActor = Actor(SEQUENCE_ACTOR(), "system")
 		val userActor = new Actor(USER(), "user")
 
-		val matrix = generate(EventBook(
+		val viewModel = generate(EventBook(
 			DONE(userActor, "something"),
 			CALLED(userActor, "call", systemActor),
 			DONE(systemActor, "something else"),
@@ -88,7 +88,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 				AutoSignalComponent("something end", 4, matrixUserActor),
 			)
 		)
-		matrix shouldBe expected
+		viewModel shouldBe expected
 
 	}
 
@@ -96,7 +96,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 		val systemActor = Actor(SEQUENCE_ACTOR(), "system")
 		val userActor = new Actor(USER(), "user")
 
-		val matrix = generate(EventBook(
+		val viewModel = generate(EventBook(
 			CALLED(userActor, "call", systemActor),
 			DONE(systemActor, "something"),
 			REPLIED(systemActor, "response", userActor),
@@ -109,7 +109,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 		val matrixSystemActor = ActorComponent(1, "system", mutable.Buffer(ActivityComponent(0, 0, 2), ActivityComponent(1, 4, 5)))
 
 
-		matrix shouldBe new ViewModelComponents(
+		viewModel shouldBe new ViewModelComponents(
 			mutable.HashMap("user" -> matrixUserActor, "system" -> matrixSystemActor),
 			mutable.Buffer(
 				BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor),
