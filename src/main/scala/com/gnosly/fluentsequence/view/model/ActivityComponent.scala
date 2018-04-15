@@ -5,11 +5,9 @@ import scala.collection.mutable
 class ActivityComponent(val id: Int,
 												val fromIndex: Int,
 												var toIndex: Int,
-												var active: Boolean = false) extends Component {
-
-
-	val rightPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap()
-	val leftPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap()
+												var active: Boolean = false,
+												val rightPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap(),
+												val leftPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap()) extends Component {
 
 	def right(signal: SignalComponent): Unit = {
 		rightPoints.put(rightPoints.size, ActivityPoint(signal.currentIndex(), signal, "right"))

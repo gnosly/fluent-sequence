@@ -73,7 +73,7 @@ class FixedWidthPainter {
 
 		val minTextPosition:Long = x.name.length + 4L
 		//TODO implementare activity id
-		val leftActivityPoint = pointMap(Activity.leftPointStart(x.toActor.id, 0, x.currentIndex()))
+		val leftActivityPoint = pointMap(Activity.leftPointStart(x.toActorId, 0, x.currentIndex()))
 		val distance = Math.max(minTextPosition, leftActivityPoint.x - signalPoint.x - 1)
 
 		canvas.write(signalPoint.right((distance-4)/2), x.name)

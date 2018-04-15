@@ -13,7 +13,7 @@ class ActorComponent(val id: Int, val name: String, val activities: mutable.Buff
 
 	def done(something: String, index: Int): SignalComponent = {
 		val lastActivity = this.activeUntil(index)
-		val autoSignal = new AutoSignalComponent(something, index, this)
+		val autoSignal = new AutoSignalComponent(something, index, this.id)
 		lastActivity.right(autoSignal)
 		autoSignal
 	}
@@ -21,9 +21,14 @@ class ActorComponent(val id: Int, val name: String, val activities: mutable.Buff
 	def link(called: ActorComponent, something: String, index: Int): SignalComponent = {
 		val lastCallerActivity = this.activeUntil(index)
 		val lastCalledActivity = called.activeUntil(index)
-		val signal = new BiSignalComponent(something, index, this, called)
-		lastCallerActivity.right(signal)
-		lastCalledActivity.left(signal)
+		val signal = new BiSignalComponent(something, index, this.id, called.id)
+		if(this.id < called.id){
+			lastCallerActivity.right(signal)
+			lastCalledActivity.left(signal)
+		}else{
+			lastCallerActivity.left(signal)
+			lastCalledActivity.right(signal)
+		}
 		signal
 	}
 

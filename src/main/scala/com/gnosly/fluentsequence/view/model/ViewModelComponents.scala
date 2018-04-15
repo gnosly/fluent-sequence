@@ -25,30 +25,24 @@ object ViewModelComponentsGenerator {
 	}
 }
 
-case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent],
-															 _signals: mutable.Buffer[SignalComponent]) {
-
-	def this() = {
-		this(mutable.HashMap(), mutable.Buffer())
-	}
+case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap()) {
 
 	def done(who: core.Actor, something: String, index: Int): Unit = {
 		val actor = createOrGet(who, index)
-		_signals += actor.done(something, index)
+		/*_signals += */actor.done(something, index)
 	}
 
 	def called(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
 		val caller = createOrGet(who, index)
 		val called = createOrGet(toSomebody, index)
-		_signals += caller.link(called, something, index)
+		/*_signals += */caller.link(called, something, index)
 	}
 
 	def replied(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
 		val replier = createOrGet(who, index)
 		val replied = createOrGet(toSomebody, index)
+		/*_signals += */ replier.link(replied, something, index)
 		replier.end(index)
-		replied.activeUntil(index)
-		_signals += new BiSignalComponent(something, index, replier, replied)
 	}
 
 	def end(index: Int) = {
