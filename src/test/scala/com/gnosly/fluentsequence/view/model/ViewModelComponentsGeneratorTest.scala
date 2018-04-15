@@ -100,7 +100,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 		))
 
 		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 5))
-		val matrixSystemActor = ActorComponent(1, "system", mutable.Buffer(ActivityComponent(0, 0, 2), ActivityComponent(1, 4, 5)))
+		val matrixSystemActor = new ActorComponent(1, "system", mutable.Buffer(ActivityComponent(0, 0, 2), ActivityComponent(1, 4, 5)))
 
 
 		viewModel shouldBe ViewModelComponents(

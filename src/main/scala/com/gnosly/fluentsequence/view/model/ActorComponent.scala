@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.model
 
 import scala.collection.mutable
 
-case class ActorComponent(id: Int, name: String, activities: mutable.Buffer[ActivityComponent]) extends Component {
+class ActorComponent(val id: Int, val name: String, val activities: mutable.Buffer[ActivityComponent]) extends Component {
 	def this(column: Int, name: String, activity: ActivityComponent) {
 		this(column, name, mutable.Buffer(activity))
 	}
@@ -42,5 +42,22 @@ case class ActorComponent(id: Int, name: String, activities: mutable.Buffer[Acti
 
 	def end(index: Int): Unit = {
 		activities.last.end(index)
+	}
+
+
+	def canEqual(other: Any): Boolean = other.isInstanceOf[ActorComponent]
+
+	override def equals(other: Any): Boolean = other match {
+		case that: ActorComponent =>
+			(that canEqual this) &&
+				id == that.id &&
+				name == that.name &&
+				activities == that.activities
+		case _ => false
+	}
+
+	override def hashCode(): Int = {
+		val state = Seq(id, name, activities)
+		state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
 	}
 }
