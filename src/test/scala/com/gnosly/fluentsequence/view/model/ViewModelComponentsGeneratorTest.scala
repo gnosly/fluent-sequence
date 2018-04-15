@@ -51,17 +51,18 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			REPLIED(systemActor, "response", userActor)
 		))
 
-		val matrixUserActor = new ActorComponent(0, "user", ActivityComponent(0, 0, 2))
-		val matrixSystemActor = new ActorComponent(1, "system", ActivityComponent(0, 0, 2))
-		val expected = new ViewModelComponents(
-			mutable.HashMap("user" -> matrixUserActor, "system" -> matrixSystemActor),
-			mutable.Buffer(
-				BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor),
-				AutoSignalComponent("something", 1, matrixSystemActor),
-				BiSignalComponent("response", 2, matrixSystemActor, matrixUserActor))
-		)
-		viewModel shouldBe expected
+		val user = new ActorComponent(0, "user", ActivityComponent(0, 0, 2))
+		val system = new ActorComponent(1, "system", ActivityComponent(0, 0, 2))
 
+		val expected = ViewModelComponents(
+			mutable.HashMap("user" -> user, "system" -> system),
+			mutable.Buffer(
+				BiSignalComponent("call", 0, user, system),
+				AutoSignalComponent("something", 1, system),
+				BiSignalComponent("response", 2, system, user))
+		)
+
+		viewModel shouldBe expected
 	}
 
 	it should "create viewModel with mixed events" in {
