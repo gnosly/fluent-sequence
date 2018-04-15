@@ -8,20 +8,20 @@ import scala.collection.mutable
 object ViewModelComponentsGenerator {
 
 	def generate(book: EventBook) = {
-		val matrix = new ViewModelComponents()
+		val viewModel = new ViewModelComponents()
 		val list = book.toList
 		list.foreach(
 			t => {
 				t.event match {
-					case DONE(who, something) => matrix.done(who, something, t.index)
-					case CALLED(who, something, toSomebody) => matrix.called(who, something, toSomebody, t.index)
-					case REPLIED(who, something, toSomebody) => matrix.replied(who, something, toSomebody, t.index)
+					case DONE(who, something) => viewModel.done(who, something, t.index)
+					case CALLED(who, something, toSomebody) => viewModel.called(who, something, toSomebody, t.index)
+					case REPLIED(who, something, toSomebody) => viewModel.replied(who, something, toSomebody, t.index)
 					case other => println(s"WARN ignoring ${other} creating view model")
 				}
 			}
 		)
-		matrix.end(list.last.index)
-		matrix
+		viewModel.end(list.last.index)
+		viewModel
 	}
 }
 

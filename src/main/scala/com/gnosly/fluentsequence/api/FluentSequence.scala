@@ -62,7 +62,7 @@ object FluentSequence {
 
 	}
 
-	class FluentActor(name: String, val entity: ActorType = SEQUENCE_ACTOR())
+	class FluentActor(name: String, val entity: ActorType = SEQUENCE_ACTOR_TYPE())
 		extends Actor(entity, name)
 			with Actorable {
 
@@ -103,6 +103,6 @@ object FluentSequence {
 		override def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
 	}
 
-	class User(role: String) extends FluentActor(name = role, entity = USER()) {}
+	class User(role: String) extends FluentActor(name = role, entity = USER_TYPE()) {}
 
 }
