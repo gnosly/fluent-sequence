@@ -17,8 +17,6 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			DONE(USER, "something else")
 		))
 
-
-
 		val somethingSignal = new AutoSignalComponent("something", 0, 0)
 		val somethingElseSignal = new AutoSignalComponent("something else", 1, 0)
 		val rightPoints = mutable.TreeMap[Int, ActivityPoint](
@@ -58,58 +56,5 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			new ActivityComponent(0, 0, 1, leftPoints = systemRightPoints))
 
 		viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
-
-
 	}
-
-//	it should "create viewModel with mixed events" in {
-//
-//		val viewModel = generate(EventBook(
-//			DONE(USER, "something"),
-//			CALLED(USER, "call", SYSTEM),
-//			DONE(SYSTEM, "something else"),
-//			REPLIED(SYSTEM, "response", USER),
-//			DONE(USER, "something end")
-//		))
-//
-//		val matrixUserActor = new ActorComponent(0, "user", new ActivityComponent(0, 0, 4))
-//		val matrixSystemActor = new ActorComponent(1, "system", new ActivityComponent(0, 1, 3))
-//		val something = new AutoSignalComponent("something", 0, 0)
-//		val call = new BiSignalComponent("call", 1, matrixUserActor, matrixSystemActor)
-//		val somethingElse = new AutoSignalComponent("something else", 2, 1)
-//		val response = new BiSignalComponent("response", 3, matrixSystemActor, matrixUserActor)
-//		val somethingEnd = new AutoSignalComponent("something end", 4, 0)
-//		val expected = ViewModelComponents(
-//			mutable.HashMap("user" -> matrixUserActor, "system" -> matrixSystemActor)
-//		)
-//		viewModel shouldBe expected
-//
-//	}
-	//
-	//	it should "handle multiple activity" in {
-	//		val viewModel = generate(EventBook(
-	//			CALLED(USER, "call", SYSTEM),
-	//			DONE(SYSTEM, "something"),
-	//			REPLIED(SYSTEM, "response", USER),
-	//			DONE(USER, "something end"),
-	//			CALLED(USER, "call again", SYSTEM),
-	//			REPLIED(SYSTEM, "response again", USER)
-	//		))
-	//
-	//		val matrixUserActor = new ActorComponent(0, "user", new ActivityComponent(0, 0, 5))
-	//		val matrixSystemActor = new ActorComponent(1, "system", mutable.Buffer(new ActivityComponent(0, 0, 2), new ActivityComponent(1, 4, 5)))
-	//
-	//
-	//		viewModel shouldBe ViewModelComponents(
-	//			mutable.HashMap("user" -> matrixUserActor, "system" -> matrixSystemActor),
-	//			mutable.Buffer(
-	//				new BiSignalComponent("call", 0, matrixUserActor, matrixSystemActor),
-	//				new AutoSignalComponent("something", 1, 1),
-	//				new BiSignalComponent("response", 2, matrixSystemActor, matrixUserActor),
-	//				new AutoSignalComponent("something end", 3, 0),
-	//				new BiSignalComponent("call again", 4, matrixUserActor, matrixSystemActor),
-	//				new BiSignalComponent("response again", 5, matrixSystemActor, matrixUserActor)
-	//			)
-	//		)
-	//	}
 }
