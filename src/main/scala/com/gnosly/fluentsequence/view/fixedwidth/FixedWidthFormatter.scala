@@ -10,10 +10,11 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, Fixed2DPoint] = {
 		val pointMap = new PointMap
+		val columnWidth = new ColumnWidth()
 
 		while (true) {
 			val previousPointMap = pointMap.toMap().toMap
-			formatIteration(viewModel, pointMap)
+			formatIteration(viewModel, pointMap, columnWidth)
 			if (pointMap.toMap().toMap == previousPointMap) {
 				return pointMap.toMap()
 			}
@@ -23,11 +24,12 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	}
 
 
-	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap) = {
+	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap, columnWidth:ColumnWidth) = {
 		for (actor <- viewModel._actors.values) {
 			val actorBox = painter.preRender(actor)
+			columnWidth.updateMax(actor.id, DISTANCE_BETWEEN_ACTORS)
 
-			val actorTopLeft = previousActorDistanceOrDefault(pointMap, actor)
+			val actorTopLeft = previousActorDistanceOrDefault(pointMap, actor, columnWidth)
 			val actorTopRight = actorTopLeft.right(actorBox.width)
 			val actorBottomMiddle = actorTopLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
 
@@ -38,12 +40,12 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			for (activity <- actor.activities) {
 				if (activity.id == 0) {
 
-					var yy = 0L
-					if(activity.fromIndex > 1){
-						yy = pointMap(Coordinates.endOfIndex(activity.fromIndex - 1)).y - actorBottomMiddle.y
+					var activityYDistance = 0L
+					if (activity.fromIndex > 1) {
+						activityYDistance = pointMap(Coordinates.endOfIndex(activity.fromIndex - 1)).y - actorBottomMiddle.y
 					}
 
-					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth).down(yy)
+					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth).down(activityYDistance)
 					val activityTopRight = activityTopLeft.right(painter.preRender(activity).width)
 
 					pointMap.put(Activity.topLeft(actor.id, activity.id), activityTopLeft)
@@ -56,7 +58,10 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 						pointMap.put(Activity.rightPointStart(actor.id, activity.id, signal.currentIndex()),
 							Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals))
 
-						val fixedPointEnd: Fixed2DPoint = Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals + painter.preRender(signal).height)
+						val signalBox = painter.preRender(signal)
+						columnWidth.updateMax(actor.id, signalBox.width)
+
+						val fixedPointEnd: Fixed2DPoint = Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals + signalBox.height)
 						pointMap.put(Activity.rightPointEnd(actor.id, activity.id, signal.currentIndex()), fixedPointEnd)
 						pointMap.put(Coordinates.endOfIndex(signal.currentIndex()), fixedPointEnd)
 					}
@@ -68,8 +73,11 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 						pointMap.put(Activity.leftPointStart(actor.id, activity.id, signal.currentIndex()),
 							Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals))
 
-						val  fixedPointEnd = Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals + painter.preRender(signal).height)
-						pointMap.put(Activity.leftPointEnd(actor.id, activity.id, signal.currentIndex()),fixedPointEnd)
+						val signalBox = painter.preRender(signal)
+						columnWidth.updateMax(actor.id, signalBox.width)
+
+						val fixedPointEnd = Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals + signalBox.height)
+						pointMap.put(Activity.leftPointEnd(actor.id, activity.id, signal.currentIndex()), fixedPointEnd)
 						pointMap.put(Coordinates.endOfIndex(signal.currentIndex()), fixedPointEnd)
 					}
 
@@ -90,16 +98,32 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		}
 	}
 
-	private def previousActorDistanceOrDefault(pointMap: PointMap, actor: ActorComponent) = {
+	private def previousActorDistanceOrDefault(pointMap: PointMap, actor: ActorComponent, columnWidth: ColumnWidth) = {
 		if (actor.id == 0)
 			Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
 		else
-			pointMap(Actor.topRight(actor.id - 1)).right(DISTANCE_BETWEEN_ACTORS)
+			pointMap(Actor.topRight(actor.id - 1)).right(Math.max(columnWidth(actor.id-1),DISTANCE_BETWEEN_ACTORS))
 	}
 
 }
 
+class ColumnWidth(columns:mutable.TreeMap[Int, Long] = mutable.TreeMap[Int, Long]()){
+	def updateMax(column:Int, width: Long):Unit = {
+		if (columns.contains(column)){
+			if( width > columns(column) ){
+				columns.put(column,width)
+			}
+		}else{
+			columns.put(column,width)
+		}
+	}
+
+	def apply(column:Int): Long = columns.getOrElse(column, 0)
+}
+
 object Coordinates {
+
+	def endOfIndex(index: Int): String = s"index_${index}_end"
 
 	object Actor {
 		def topLeft(actorId: Int) = s"actor_${actorId}_top_left"
@@ -125,13 +149,11 @@ object Coordinates {
 
 		def rightPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "right")
 
-		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
-
 		def pointEnd(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
 
-	}
+		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
 
-	def endOfIndex(index: Int): String = s"index_${index}_end"
+	}
 }
 
 

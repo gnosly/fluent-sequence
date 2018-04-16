@@ -77,7 +77,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 	it should "format actor with a auto-signal and a call to another actor" in {
 
 		val flow = Sequence("example").startWith(
-			USER.does("something") ::
+			USER.does("something very very long") ::
 				USER.call("call", SYSTEM) :: Nil
 		)
 
@@ -91,9 +91,9 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			Coordinates.Actor.topRight(0) -> Fixed2DPoint(9, 1),
 			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 5),
 			//Actor system
-			Coordinates.Actor.topLeft(1) -> Fixed2DPoint(19, 1),
-			Coordinates.Actor.topRight(1) -> Fixed2DPoint(29, 1),
-			Coordinates.Actor.bottomMiddle(1) -> Fixed2DPoint(23, 5),
+			Coordinates.Actor.topLeft(1) -> Fixed2DPoint(39, 1),
+			Coordinates.Actor.topRight(1) -> Fixed2DPoint(49, 1),
+			Coordinates.Actor.bottomMiddle(1) -> Fixed2DPoint(43, 5),
 			//Activity user
 			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 5),
 			Coordinates.Activity.topRight(0, 0) -> Fixed2DPoint(5, 5),
@@ -104,11 +104,11 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 13),
 
 			//Activity system
-			Coordinates.Activity.topLeft(1, 0) -> Fixed2DPoint(22, 10),
-			Coordinates.Activity.topRight(1, 0) -> Fixed2DPoint(24, 10),
-			Coordinates.Activity.leftPointStart(1, 0, 2) -> Fixed2DPoint(22, 11),
-			Coordinates.Activity.leftPointEnd(1, 0, 2) -> Fixed2DPoint(22, 13),
-			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(22, 13),
+			Coordinates.Activity.topLeft(1, 0) -> Fixed2DPoint(42, 10),
+			Coordinates.Activity.topRight(1, 0) -> Fixed2DPoint(44, 10),
+			Coordinates.Activity.leftPointStart(1, 0, 2) -> Fixed2DPoint(42, 11),
+			Coordinates.Activity.leftPointEnd(1, 0, 2) -> Fixed2DPoint(42, 13),
+			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(42, 13),
 
 			Coordinates.endOfIndex(1) -> Fixed2DPoint(6, 10),
 			Coordinates.endOfIndex(2) -> Fixed2DPoint(6, 13)

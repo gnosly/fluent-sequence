@@ -4,6 +4,7 @@ import scala.collection.mutable
 
 class PointMap {
 
+
 	private val defaultOrdering = new Ordering[String]() {
 		override def compare(a: String, b: String): Int = a.compareTo(b)
 	}
