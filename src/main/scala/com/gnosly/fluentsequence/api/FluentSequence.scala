@@ -1,9 +1,7 @@
 package com.gnosly.fluentsequence.api
 
-import java.io.PrintWriter
-
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.ConsolePrinter
+import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthViewer
 
 object FluentSequence {
 
@@ -14,8 +12,7 @@ object FluentSequence {
 		val eventBook = new EventBook()
 
 		def printToConsole() = {
-			ConsolePrinter.print(this.toEventBook)
-				.on(new PrintWriter(System.out))
+			println(new FixedWidthViewer().view(this.toEventBook))
 		}
 
 		def startWith(flow: Seq[SequenceFlow]): Sequence = {

@@ -20,7 +20,7 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 
 		val str = viewer.view(flow.toEventBook)
 		println(str)
-		str shouldBe load("two-actors-one-call.txt")
+		str shouldBe sequenceFromFile("two-actors-one-call.txt")
 	}
 
 	it should "do a two actor sequence" in {
@@ -32,7 +32,7 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 
 		val str = viewer.view(flow.toEventBook)
 		println(str)
-		str shouldBe load("two-actors.txt")
+		str shouldBe sequenceFromFile("two-actors.txt")
 	}
 
 	it should "do a complete sequence" in {
@@ -47,10 +47,10 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 		val str = viewer.view(flow.toEventBook)
 		println(str)
 
-		str shouldBe load("complete-fixed-sequence.txt")
+		str shouldBe sequenceFromFile("complete-fixed-sequence.txt")
 	}
 
-	private def load(filename: String) = {
+	private def sequenceFromFile(filename: String) = {
 		Source.fromResource(filename).mkString
 	}
 

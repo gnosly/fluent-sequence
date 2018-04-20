@@ -10,7 +10,6 @@ class FluentSequenceTest extends FlatSpec with Matchers {
 		new FluentSequence.Sequence("sequenceName").toEventBook.toList shouldBe List()
 	}
 
-
 	it should "be simple sequence" in {
 		val user = new User("user")
 
@@ -79,4 +78,6 @@ class FluentSequenceTest extends FlatSpec with Matchers {
 					.does(checkout) :: Nil
 			).printToConsole()
 	}
+
+
 }
