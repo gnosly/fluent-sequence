@@ -33,18 +33,24 @@ class FixedWidthPainter {
 		canvas.write(actorTopLeft.down(2), "'" + str + "'")
 		canvas.write(actorTopLeft.down(3).right(innerSize / 2), "|")
 
-		val timelineStart = pointMap(Actor.bottomMiddle(actor.id))
+
+		var timelineStart = pointMap(Actor.bottomMiddle(actor.id))
 
 		for (activity <- actor.activities) {
+			val topLeftActivity = pointMap(Activity.topLeft(actor.id, activity.id))
+			val bottomLeftActivity = pointMap(Activity.bottomLeft(actor.id, activity.id))
+
+			0L until topLeftActivity.y - timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
+
 			paintActivity(actor, pointMap, canvas, timelineStart, activity)
+
+			timelineStart = Fixed2DPoint(timelineStart.x, bottomLeftActivity.down(2).y)
 		}
 	}
 
 	private def paintActivity(actor: ActorComponent, pointMap: Map[String, Fixed2DPoint], canvas: FixedWidthCanvas, timelineStart: Fixed2DPoint, activity: ActivityComponent) = {
 		val topLeftActivity = pointMap(Activity.topLeft(actor.id, activity.id))
 		val bottomLeftActivity = pointMap(Activity.bottomLeft(actor.id, activity.id))
-
-		0L until topLeftActivity.y - timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
 
 		canvas.write(topLeftActivity, "_|_")
 
