@@ -4,15 +4,15 @@ import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.model._
 
 class FixedWidthPainter {
-	def preRender(signalComponent: SignalComponent) = signalComponent match {
-		case x: AutoSignalComponent => Box(x.name.length + 6, 4)
-		case x: BiSignalComponent => Box(x.name.length + 5, 2)
+	def preRender(actorComponent: ActorComponent): Box = {
+		Box(s"| ${actorComponent.name} |".length, 4)
 	}
 
 	def preRender(activity: ActivityComponent): Box = Box(2, 2)
 
-	def preRender(actorComponent: ActorComponent): Box = {
-		Box(s"| ${actorComponent.name} |".length, 4)
+	def preRender(signalComponent: SignalComponent) = signalComponent match {
+		case x: AutoSignalComponent => Box(x.name.length + 6, 4)
+		case x: BiSignalComponent => Box(x.name.length + 5, 2)
 	}
 
 	def paint(actor: ActorComponent,
@@ -36,27 +36,31 @@ class FixedWidthPainter {
 		val timelineStart = pointMap(Actor.bottomMiddle(actor.id))
 
 		for (activity <- actor.activities) {
-			val topLeftActivity = pointMap(Activity.topLeft(actor.id, activity.id))
-			val bottomLeftActivity = pointMap(Activity.bottomLeft(actor.id, activity.id))
+			paintActivity(actor, pointMap, canvas, timelineStart, activity)
+		}
+	}
 
-			0L until topLeftActivity.y-timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
+	private def paintActivity(actor: ActorComponent, pointMap: Map[String, Fixed2DPoint], canvas: FixedWidthCanvas, timelineStart: Fixed2DPoint, activity: ActivityComponent) = {
+		val topLeftActivity = pointMap(Activity.topLeft(actor.id, activity.id))
+		val bottomLeftActivity = pointMap(Activity.bottomLeft(actor.id, activity.id))
 
-			canvas.write(topLeftActivity, "_|_")
+		0L until topLeftActivity.y - timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
 
-			val activityStart = topLeftActivity.down(1)
-			for (i <- 0L to bottomLeftActivity.up(1).y - activityStart.y) {
-				canvas.write(activityStart.down(i), "| |")
-			}
+		canvas.write(topLeftActivity, "_|_")
 
-			canvas.write(bottomLeftActivity, "|_|")
-			canvas.write(bottomLeftActivity.down(1).right(1), "|")
+		val activityStart = topLeftActivity.down(1)
+		for (i <- 0L to bottomLeftActivity.up(1).y - activityStart.y) {
+			canvas.write(activityStart.down(i), "| |")
+		}
 
-			//print right signal
-			for (rightPoint <- activity.rightPoints) {
-				rightPoint._2.signalComponent match {
-					case x: AutoSignalComponent => paintAutoSignal(activity.id, x, pointMap, actor, canvas)
-					case x: BiSignalComponent => paintBiSignal(activity.id, x, pointMap, actor, canvas)
-				}
+		canvas.write(bottomLeftActivity, "|_|")
+		canvas.write(bottomLeftActivity.down(1).right(1), "|")
+
+		//print right signal
+		for (rightPoint <- activity.rightPoints) {
+			rightPoint._2.signalComponent match {
+				case x: AutoSignalComponent => paintAutoSignal(activity.id, x, pointMap, actor, canvas)
+				case x: BiSignalComponent => paintBiSignal(activity.id, x, pointMap, actor, canvas)
 			}
 		}
 	}
