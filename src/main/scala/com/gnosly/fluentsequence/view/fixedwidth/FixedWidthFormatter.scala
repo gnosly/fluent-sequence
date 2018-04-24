@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
-import com.gnosly.fluentsequence.view.model.{ActorComponent, SignalComponent, ViewModelComponents}
+import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent, SignalComponent, ViewModelComponents}
 
 import scala.collection.mutable
 
@@ -25,72 +25,74 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	}
 
 
-	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap, columnWidth:SingleSize, rowHeight:SingleSize) = {
+	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap, columnWidth: SingleSize, rowHeight: SingleSize) = {
 		for (actor <- viewModel._actors.values) {
-			val actorBox = painter.preRender(actor)
 			columnWidth.updateMax(actor.id, DISTANCE_BETWEEN_ACTORS)
 
-			val actorTopLeft = previousActorDistanceOrDefault(pointMap, actor, columnWidth)
-			val actorTopRight = actorTopLeft.right(actorBox.width)
-			val actorBottomMiddle = actorTopLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
-
-			pointMap.put(Actor.topLeft(actor.id), actorTopLeft)
-			pointMap.put(Actor.topRight(actor.id), actorTopRight)
-			pointMap.put(Actor.bottomMiddle(actor.id), actorBottomMiddle)
+			val actorBottomMiddle: Fixed2DPoint = formatActor(pointMap, columnWidth, actor)
 
 			for (activity <- actor.activities) {
-					var activityTopLeft = Fixed2DPoint(0,0)
-					if (activity.fromIndex > 1) {
-						activityTopLeft = actorBottomMiddle
-							.left(painter.preRender(activity).halfWidth)
-							.atY(rowHeight(activity.fromIndex - 1))
-					}else{
-						activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth)
-					}
-
-					val activityTopRight = activityTopLeft.right(painter.preRender(activity).width)
-
-					pointMap.put(Activity.topLeft(actor.id, activity.id), activityTopLeft)
-					pointMap.put(Activity.topRight(actor.id, activity.id), activityTopRight)
-
-					for (point <- activity.rightPoints) {
-						val signal = point._2.signalComponent
-						val distanceBetweenSignals = previousIndexPointOrDefault(signal, activityTopLeft.y, rowHeight)
-
-						pointMap.put(Activity.rightPointStart(actor.id, activity.id, signal.currentIndex()),
-							Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals))
-
-						val signalBox = painter.preRender(signal)
-						columnWidth.updateMax(actor.id, signalBox.width)
-
-						val fixedPointEnd: Fixed2DPoint = Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals + signalBox.height)
-						pointMap.put(Activity.rightPointEnd(actor.id, activity.id, signal.currentIndex()), fixedPointEnd)
-						rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
-					}
-
-					for (point <- activity.leftPoints) {
-						val signal = point._2.signalComponent
-						val distanceBetweenSignals = previousIndexPointOrDefault(signal, activityTopLeft.y, rowHeight)
-
-						pointMap.put(Activity.leftPointStart(actor.id, activity.id, signal.currentIndex()),
-							Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals))
-
-						val signalBox = painter.preRender(signal)
-						columnWidth.updateMax(actor.id, signalBox.width)
-
-						val fixedPointEnd = Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals + signalBox.height)
-						pointMap.put(Activity.leftPointEnd(actor.id, activity.id, signal.currentIndex()), fixedPointEnd)
-						rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
-					}
-
-					val lastPoint = rowHeight(activity.toIndex)
-
-					pointMap.put(Activity.bottomLeft(actor.id, activity.id), Fixed2DPoint(activityTopLeft.x, lastPoint))
+				formatActivity(actor.id, actorBottomMiddle, pointMap, columnWidth, rowHeight, activity)
 			}
 		}
 	}
 
-	private def previousIndexPointOrDefault(signal: SignalComponent, activityTop: Long, rowHeight:SingleSize): Long = {
+	private def formatActivity(actorId: Int,
+														 actorBottomMiddle: Fixed2DPoint,
+														 pointMap: PointMap,
+														 columnWidth: SingleSize,
+														 rowHeight: SingleSize,
+														 activity: ActivityComponent) = {
+		var activityTopLeft = Fixed2DPoint(0, 0)
+		if (activity.fromIndex > 1) {
+			activityTopLeft = actorBottomMiddle
+				.left(painter.preRender(activity).halfWidth)
+				.atY(rowHeight(activity.fromIndex - 1))
+		} else {
+			activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth)
+		}
+
+		val activityTopRight = activityTopLeft.right(painter.preRender(activity).width)
+
+		pointMap.put(Activity.topLeft(actorId, activity.id), activityTopLeft)
+		pointMap.put(Activity.topRight(actorId, activity.id), activityTopRight)
+
+		for (point <- activity.rightPoints) {
+			val signal = point._2.signalComponent
+			val distanceBetweenSignals = previousIndexPointOrDefault(signal, activityTopLeft.y, rowHeight)
+
+			pointMap.put(Activity.rightPointStart(actorId, activity.id, signal.currentIndex()),
+				Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals))
+
+			val signalBox = painter.preRender(signal)
+			columnWidth.updateMax(actorId, signalBox.width)
+
+			val fixedPointEnd: Fixed2DPoint = Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals + signalBox.height)
+			pointMap.put(Activity.rightPointEnd(actorId, activity.id, signal.currentIndex()), fixedPointEnd)
+			rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
+		}
+
+		for (point <- activity.leftPoints) {
+			val signal = point._2.signalComponent
+			val distanceBetweenSignals = previousIndexPointOrDefault(signal, activityTopLeft.y, rowHeight)
+
+			pointMap.put(Activity.leftPointStart(actorId, activity.id, signal.currentIndex()),
+				Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals))
+
+			val signalBox = painter.preRender(signal)
+			columnWidth.updateMax(actorId, signalBox.width)
+
+			val fixedPointEnd = Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals + signalBox.height)
+			pointMap.put(Activity.leftPointEnd(actorId, activity.id, signal.currentIndex()), fixedPointEnd)
+			rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
+		}
+
+		val lastPoint = rowHeight(activity.toIndex)
+
+		pointMap.put(Activity.bottomLeft(actorId, activity.id), Fixed2DPoint(activityTopLeft.x, lastPoint))
+	}
+
+	private def previousIndexPointOrDefault(signal: SignalComponent, activityTop: Long, rowHeight: SingleSize): Long = {
 		if (signal.currentIndex() == 1) {
 			return activityTop + 1
 		} else {
@@ -98,27 +100,39 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		}
 	}
 
+	private def formatActor(pointMap: PointMap, columnWidth: SingleSize, actor: ActorComponent) = {
+		val actorBox = painter.preRender(actor)
+		val actorTopLeft = previousActorDistanceOrDefault(pointMap, actor, columnWidth)
+		val actorTopRight = actorTopLeft.right(actorBox.width)
+		val actorBottomMiddle = actorTopLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
+
+		pointMap.put(Actor.topLeft(actor.id), actorTopLeft)
+		pointMap.put(Actor.topRight(actor.id), actorTopRight)
+		pointMap.put(Actor.bottomMiddle(actor.id), actorBottomMiddle)
+		actorBottomMiddle
+	}
+
 	private def previousActorDistanceOrDefault(pointMap: PointMap, actor: ActorComponent, columnWidth: SingleSize) = {
 		if (actor.id == 0)
 			Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
 		else
-			pointMap(Actor.topRight(actor.id - 1)).right(Math.max(columnWidth(actor.id-1),DISTANCE_BETWEEN_ACTORS))
+			pointMap(Actor.topRight(actor.id - 1)).right(Math.max(columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
 	}
 
 }
 
-class SingleSize(intervals:mutable.TreeMap[Int, Long] = mutable.TreeMap[Int, Long]()){
-	def updateMax(interval:Int, size: Long):Unit = {
-		if (intervals.contains(interval)){
-			if( size > intervals(interval) ){
-				intervals.put(interval,size)
+class SingleSize(intervals: mutable.TreeMap[Int, Long] = mutable.TreeMap[Int, Long]()) {
+	def updateMax(interval: Int, size: Long): Unit = {
+		if (intervals.contains(interval)) {
+			if (size > intervals(interval)) {
+				intervals.put(interval, size)
 			}
-		}else{
-			intervals.put(interval,size)
+		} else {
+			intervals.put(interval, size)
 		}
 	}
 
-	def apply(column:Int): Long = intervals.getOrElse(column, 0)
+	def apply(column: Int): Long = intervals.getOrElse(column, 0)
 }
 
 object Coordinates {
@@ -152,6 +166,7 @@ object Coordinates {
 		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
 
 	}
+
 }
 
 
