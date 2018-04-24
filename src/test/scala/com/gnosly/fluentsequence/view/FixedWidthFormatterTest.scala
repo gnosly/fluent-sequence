@@ -83,7 +83,9 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 
 		println(viewModel)
 
-		formatter.format(viewModel) shouldBe mutable.TreeMap(
+		val pointMap = formatter.format(viewModel)
+		printThe(pointMap)
+		pointMap shouldBe mutable.TreeMap(
 			//Actor user
 			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 1),
 			Coordinates.Actor.topRight(0) -> Fixed2DPoint(9, 1),
@@ -179,20 +181,20 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 	private def printThe(pointMap: mutable.TreeMap[String, Fixed2DPoint]) = {
 		val canvas = new FixedWidthCanvas()
 
-		var legendY = 2
 		var charForPoint: String = "a"
 
 		pointMap.foreach(
 			p => {
-				canvas.write(Fixed2DPoint(15, legendY), charForPoint + ": " + p._1)
+				println(charForPoint + ": " + p._1)
 				canvas.write(p._2, charForPoint)
-				legendY += 1
 				charForPoint = (charForPoint(0) + 1).toChar.toString
 			}
 
 		)
 
+		println("--------------")
 		println(canvas.print())
+		println("--------------")
 	}
 	//test with signal in different actor sequence
 	//test with more activity
