@@ -66,7 +66,7 @@ class FixedWidthPainter {
 		for (rightPoint <- activity.rightPoints) {
 			rightPoint._2.signalComponent match {
 				case x: AutoSignalComponent => paintAutoSignal(activity.id, x, pointMap, actor, canvas)
-				case x: BiSignalComponent => paintBiSignal(activity.id, x, pointMap, actor, canvas)
+				case x: BiSignalComponent => paintBiSignal(x, pointMap, canvas)
 			}
 		}
 	}
@@ -80,14 +80,13 @@ class FixedWidthPainter {
 		canvas.write(signalPoint.down(3), "<---'")
 	}
 
-	private def paintBiSignal(activityId: Int, s: BiSignalComponent, pointMap: Map[String, Fixed2DPoint], actor: ActorComponent, canvas: FixedWidthCanvas) = {
+	private def paintBiSignal(s: BiSignalComponent, pointMap: Map[String, Fixed2DPoint], canvas: FixedWidthCanvas) = {
 
 
 		val minTextPosition: Long = s.name.length + 4L
-		//TODO implementare activity id
 		if (s.leftToRight()) {
-			val signalPoint = pointMap(Activity.rightPointStart(actor.id, activityId, s.currentIndex()))
-			val leftActivityPoint = pointMap(Activity.leftPointStart(s.toActorId, 0, s.currentIndex()))
+			val signalPoint = pointMap(Activity.rightPointStart(s.fromActorId, s.fromActivityId, s.currentIndex()))
+			val leftActivityPoint = pointMap(Activity.leftPointStart(s.toActorId, s.toActivityId, s.currentIndex()))
 			val distance = Math.max(minTextPosition, leftActivityPoint.x - signalPoint.x - 1)
 
 			canvas.write(signalPoint.right((distance - s.name.length) / 2), s.name)

@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 case class Fixed2DPoint(x: Long, y: Long) {
+	def atY(newY: Long): Fixed2DPoint = Fixed2DPoint(x, newY)
 
 	def left(i: Long): Fixed2DPoint = Fixed2DPoint(x - i, y)
 

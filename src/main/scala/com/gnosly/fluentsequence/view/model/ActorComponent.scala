@@ -15,7 +15,7 @@ class ActorComponent(val id: Int, val name: String,
 	def link(called: ActorComponent, something: String, index: Int): SignalComponent = {
 		val lastCallerActivity = this.activeUntil(index)
 		val lastCalledActivity = called.activeUntil(index)
-		val signal = new BiSignalComponent(something, index, this.id, called.id)
+		val signal = new BiSignalComponent(something, index, this.id, lastCallerActivity.id,  called.id,  lastCalledActivity.id)
 		if (signal.leftToRight()) {
 			lastCallerActivity.right(signal)
 			lastCalledActivity.left(signal)

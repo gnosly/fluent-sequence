@@ -38,14 +38,16 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			pointMap.put(Actor.bottomMiddle(actor.id), actorBottomMiddle)
 
 			for (activity <- actor.activities) {
-				if (activity.id == 0) {
-
-					var activityYDistance = 0L
+					var activityTopLeft = Fixed2DPoint(0,0)
 					if (activity.fromIndex > 1) {
-						activityYDistance = pointMap(Coordinates.endOfIndex(activity.fromIndex - 1)).y - actorBottomMiddle.y
+						activityTopLeft = actorBottomMiddle
+							.left(painter.preRender(activity).halfWidth)
+							.atY(pointMap(Coordinates.endOfIndex(activity.fromIndex - 1)).y)
+					}else{
+						activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth)
 					}
 
-					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth).down(activityYDistance)
+//					val activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth).down(activityYDistance)
 					val activityTopRight = activityTopLeft.right(painter.preRender(activity).width)
 
 					pointMap.put(Activity.topLeft(actor.id, activity.id), activityTopLeft)
@@ -85,7 +87,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					val lastPoint = pointMap(endOfIndex(activity.toIndex))
 
 					pointMap.put(Activity.bottomLeft(actor.id, activity.id), Fixed2DPoint(activityTopLeft.x, lastPoint.y))
-				}
 			}
 		}
 	}
