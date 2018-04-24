@@ -60,30 +60,32 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		for (point <- activity.rightPoints) {
 			val signal = point._2.signalComponent
 			val distanceBetweenSignals = previousIndexPointOrDefault(signal, activityTopLeft.y, rowHeight)
+			val signalXStart = activityTopRight.x + 1
 
-			pointMap.put(Activity.rightPointStart(actorId, activity.id, signal.currentIndex()),
-				Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals))
+			pointMap.put(Activity.pointStart(actorId, activity.id, signal.currentIndex(), "right"),
+				Fixed2DPoint(signalXStart, distanceBetweenSignals))
 
 			val signalBox = painter.preRender(signal)
 			columnWidth.updateMax(actorId, signalBox.width)
 
-			val fixedPointEnd: Fixed2DPoint = Fixed2DPoint(activityTopRight.x + 1, distanceBetweenSignals + signalBox.height)
-			pointMap.put(Activity.rightPointEnd(actorId, activity.id, signal.currentIndex()), fixedPointEnd)
+			val fixedPointEnd: Fixed2DPoint = Fixed2DPoint(signalXStart, distanceBetweenSignals + signalBox.height)
+			pointMap.put(Activity.pointEnd(actorId, activity.id, signal.currentIndex(), "right"), fixedPointEnd)
 			rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
 		}
 
 		for (point <- activity.leftPoints) {
 			val signal = point._2.signalComponent
 			val distanceBetweenSignals = previousIndexPointOrDefault(signal, activityTopLeft.y, rowHeight)
+			val signalXStart = activityTopLeft.x
 
-			pointMap.put(Activity.leftPointStart(actorId, activity.id, signal.currentIndex()),
-				Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals))
+			pointMap.put(Activity.pointStart(actorId, activity.id, signal.currentIndex(), "left"),
+				Fixed2DPoint(signalXStart, distanceBetweenSignals))
 
 			val signalBox = painter.preRender(signal)
 			columnWidth.updateMax(actorId, signalBox.width)
 
-			val fixedPointEnd = Fixed2DPoint(activityTopLeft.x, distanceBetweenSignals + signalBox.height)
-			pointMap.put(Activity.leftPointEnd(actorId, activity.id, signal.currentIndex()), fixedPointEnd)
+			val fixedPointEnd = Fixed2DPoint(signalXStart, distanceBetweenSignals + signalBox.height)
+			pointMap.put(Activity.pointEnd(actorId, activity.id, signal.currentIndex(), "left"), fixedPointEnd)
 			rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
 		}
 
