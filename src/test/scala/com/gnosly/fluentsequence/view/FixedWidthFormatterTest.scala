@@ -13,26 +13,6 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 
 	val formatter = new FixedWidthFormatter(new FixedWidthPainter())
 
-
-	def printThe(pointMap: mutable.TreeMap[String, Fixed2DPoint]) = {
-		val canvas = new FixedWidthCanvas()
-
-		var legendY = 2
-		var charForPoint:String = "a"
-
-		pointMap.foreach(
-			p => {
-				canvas.write(Fixed2DPoint(15,legendY),charForPoint + ": " + p._1)
-				canvas.write(p._2, charForPoint)
-				legendY+=1
-				charForPoint = (charForPoint(0) + 1).toChar.toString
-			}
-
-		)
-
-		println(canvas.print())
-	}
-
 	it should "format actor with a auto-signal" in {
 
 		val flow = Sequence("example").startWith(
@@ -51,8 +31,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			Coordinates.Activity.topRight(0, 0) -> Fixed2DPoint(5, 5),
 			Coordinates.Activity.rightPointStart(0, 0, 1) -> Fixed2DPoint(6, 6),
 			Coordinates.Activity.rightPointEnd(0, 0, 1) -> Fixed2DPoint(6, 10),
-			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 10),
-			Coordinates.endOfIndex(1) -> Fixed2DPoint(6, 10)
+			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 10)
 		)
 	}
 
@@ -89,9 +68,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			Coordinates.Activity.leftPointEnd(1, 0, 1) -> Fixed2DPoint(22, 8),
 			Coordinates.Activity.leftPointStart(1, 0, 2) -> Fixed2DPoint(22, 9),
 			Coordinates.Activity.leftPointEnd(1, 0, 2) -> Fixed2DPoint(22, 11),
-			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(22, 11),
-			Coordinates.endOfIndex(1) -> Fixed2DPoint(6, 8),
-			Coordinates.endOfIndex(2) -> Fixed2DPoint(6, 11)
+			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(22, 11)
 		)
 	}
 
@@ -129,10 +106,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			Coordinates.Activity.topRight(1, 0) -> Fixed2DPoint(44, 10),
 			Coordinates.Activity.leftPointStart(1, 0, 2) -> Fixed2DPoint(42, 11),
 			Coordinates.Activity.leftPointEnd(1, 0, 2) -> Fixed2DPoint(42, 13),
-			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(42, 13),
-
-			Coordinates.endOfIndex(1) -> Fixed2DPoint(6, 10),
-			Coordinates.endOfIndex(2) -> Fixed2DPoint(6, 13)
+			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(42, 13)
 
 		)
 	}
@@ -197,12 +171,28 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			//second reply
 			Coordinates.Activity.leftPointStart(1, 1, 4) -> Fixed2DPoint(22, 15),
 			Coordinates.Activity.leftPointEnd(1, 1, 4) -> Fixed2DPoint(22, 17),
-			Coordinates.Activity.bottomLeft(1, 1) -> Fixed2DPoint(22, 17),
+			Coordinates.Activity.bottomLeft(1, 1) -> Fixed2DPoint(22, 17)
+		)
+	}
 
-			Coordinates.endOfIndex(1) -> Fixed2DPoint(6, 10),
-			Coordinates.endOfIndex(2) -> Fixed2DPoint(6, 13)
+
+	private def printThe(pointMap: mutable.TreeMap[String, Fixed2DPoint]) = {
+		val canvas = new FixedWidthCanvas()
+
+		var legendY = 2
+		var charForPoint: String = "a"
+
+		pointMap.foreach(
+			p => {
+				canvas.write(Fixed2DPoint(15, legendY), charForPoint + ": " + p._1)
+				canvas.write(p._2, charForPoint)
+				legendY += 1
+				charForPoint = (charForPoint(0) + 1).toChar.toString
+			}
 
 		)
+
+		println(canvas.print())
 	}
 	//test with signal in different actor sequence
 	//test with more activity
