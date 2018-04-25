@@ -32,7 +32,7 @@ class ActorComponent(val id: Int, val name: String,
 
 	private def activeUntil(index: Int): ActivityComponent = {
 		if (activities.isEmpty) {
-			activities += new ActivityComponent(0, index, index, true)
+			activities += new ActivityComponent(0, this.id, index, index, true)
 		}
 		val last = activities.last
 		if (last.active) {
@@ -40,7 +40,7 @@ class ActorComponent(val id: Int, val name: String,
 			last
 		}
 		else {
-			val component = new ActivityComponent(last.id + 1, index, 0, true)
+			val component = new ActivityComponent(last.id + 1, this.id, index, 0, true)
 			activities += component
 			component
 		}

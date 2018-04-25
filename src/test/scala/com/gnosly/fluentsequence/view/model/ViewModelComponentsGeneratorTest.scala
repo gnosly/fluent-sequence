@@ -24,7 +24,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			1 -> ActivityPoint(1, somethingElseSignal, "right")
 		)
 		val userComponent = new ActorComponent(0, "user",
-			asBuffer(new ActivityComponent(0, 0, 1, rightPoints = rightPoints)))
+			asBuffer(new ActivityComponent(0,  0,0, 1, rightPoints = rightPoints)))
 
 		viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent))
 	}
@@ -46,7 +46,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 		)
 
 		val userComponent = new ActorComponent(0, "user",
-			asBuffer(new ActivityComponent(0, 0, 1, rightPoints = userRightPoints)))
+			asBuffer(new ActivityComponent(0, 0,0, 1, rightPoints = userRightPoints)))
 
 		val systemRightPoints = mutable.TreeMap[Int, ActivityPoint](
 			0 -> ActivityPoint(0, call, "left"),
@@ -54,7 +54,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 		)
 
 		val systemComponent = new ActorComponent(1, "system",
-			asBuffer(new ActivityComponent(0, 0, 1, leftPoints = systemRightPoints)))
+			asBuffer(new ActivityComponent(0, 0,0, 1, leftPoints = systemRightPoints)))
 
 		viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
 	}

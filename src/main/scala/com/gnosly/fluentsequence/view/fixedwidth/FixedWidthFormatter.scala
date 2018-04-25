@@ -32,32 +32,30 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			val actorBottomMiddle: Fixed2DPoint = formatActor(pointMap, columnWidth, actor)
 
 			for (activity <- actor.activities) {
-				formatActivity(actor.id, actorBottomMiddle, pointMap, columnWidth, rowHeight, activity)
+				formatActivity(actorBottomMiddle, pointMap, columnWidth, rowHeight, activity)
 			}
 		}
 	}
 
-	private def formatActivity(actorId: Int,
-														 actorBottomMiddle: Fixed2DPoint,
+	private def formatActivity(actorBottomMiddle: Fixed2DPoint,
 														 pointMap: PointMap,
 														 columnWidth: SingleSize,
 														 rowHeight: SingleSize,
 														 activity: ActivityComponent) = {
-		var activityTopLeft = Fixed2DPoint(0, 0)
+
+		var activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth)
+
 		if (activity.fromIndex > 1) {
-			activityTopLeft = actorBottomMiddle
-				.left(painter.preRender(activity).halfWidth)
-				.atY(rowHeight(activity.fromIndex - 1))
-		} else {
-			activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth)
+			activityTopLeft = activityTopLeft.atY(rowHeight(activity.fromIndex - 1))
 		}
 
 		val activityTopRight = activityTopLeft.right(painter.preRender(activity).width)
 
+		val actorId = activity.actorId
 		pointMap.put(Activity.topLeft(actorId, activity.id), activityTopLeft)
 		pointMap.put(Activity.topRight(actorId, activity.id), activityTopRight)
 
-		formatSignals(actorId, pointMap, columnWidth, rowHeight, activity, activityTopLeft, activityTopRight, activity.rightPoints, "right")
+		formatSignals(activity.actorId, pointMap, columnWidth, rowHeight, activity, activityTopLeft, activityTopRight, activity.rightPoints, "right")
 		formatSignals(actorId, pointMap, columnWidth, rowHeight, activity, activityTopLeft, activityTopRight, activity.leftPoints, "left")
 
 		val lastPoint = rowHeight(activity.toIndex)
@@ -100,6 +98,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			else
 				pointMap(Actor.topRight(actor.id - 1)).right(Math.max(columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
 		}
+
 		val actorBox = painter.preRender(actor)
 		val actorTopLeft = previousActorDistanceOrDefault()
 		val actorTopRight = actorTopLeft.right(actorBox.width)
@@ -148,9 +147,9 @@ object Coordinates {
 
 		def rightPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "right")
 
-		def leftPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "left")
-
 		def pointStart(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_start"
+
+		def leftPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "left")
 
 		def rightPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "right")
 

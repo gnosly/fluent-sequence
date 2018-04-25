@@ -103,8 +103,8 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 
 	it should "render user box with many activities" in {
 		val user = new ActorComponent(0, "user", mutable.Buffer(
-			new ActivityComponent(0,0,3,true),
-			new ActivityComponent(1,5,8,true)
+			new ActivityComponent(0,0, 0,3,true),
+			new ActivityComponent(1,0, 5,8,true)
 		))
 
 		val canvas = new FixedWidthCanvas()

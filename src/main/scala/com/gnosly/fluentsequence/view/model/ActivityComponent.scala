@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view.model
 import scala.collection.mutable
 
 class ActivityComponent(val id: Int,
+												val actorId:Int,
 												val fromIndex: Int,
 												var toIndex: Int,
 												var active: Boolean = false,
