@@ -71,7 +71,15 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	}
 
 	private def formatSignal(actorId: Int, pointMap: PointMap, columnWidth: SingleSize, rowHeight: SingleSize, activity: ActivityComponent, activityTopLeft: Fixed2DPoint, activityTopRight: Fixed2DPoint, signal: SignalComponent, direction: String) = {
-		val distanceBetweenSignals = previousIndexPointOrDefault(signal, activityTopLeft.y, rowHeight)
+		def previousIndexPointOrDefault(): Long = {
+			if (signal.currentIndex() == 1) {
+				return activityTopLeft.y + 1
+			} else {
+				return rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS
+			}
+		}
+
+		val distanceBetweenSignals = previousIndexPointOrDefault()
 		val signalXStart = if (direction.equals("right")) activityTopRight.x + 1 else activityTopLeft.x
 		pointMap.put(Activity.pointStart(actorId, activity.id, signal.currentIndex(), direction), Fixed2DPoint(signalXStart, distanceBetweenSignals))
 		val signalBox = painter.preRender(signal)
@@ -79,14 +87,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		val fixedPointEnd = Fixed2DPoint(signalXStart, distanceBetweenSignals + signalBox.height)
 		pointMap.put(Activity.pointEnd(actorId, activity.id, signal.currentIndex(), direction), fixedPointEnd)
 		rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
-	}
-
-	private def previousIndexPointOrDefault(signal: SignalComponent, activityTop: Long, rowHeight: SingleSize): Long = {
-		if (signal.currentIndex() == 1) {
-			return activityTop + 1
-		} else {
-			return rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS
-		}
 	}
 
 	private def formatActor(pointMap: PointMap,
