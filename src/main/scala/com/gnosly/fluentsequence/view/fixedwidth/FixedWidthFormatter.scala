@@ -91,9 +91,17 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		}
 	}
 
-	private def formatActor(pointMap: PointMap, columnWidth: SingleSize, actor: ActorComponent) = {
+	private def formatActor(pointMap: PointMap,
+													columnWidth: SingleSize,
+													actor: ActorComponent) = {
+		def previousActorDistanceOrDefault() = {
+			if (actor.id == 0)
+				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
+			else
+				pointMap(Actor.topRight(actor.id - 1)).right(Math.max(columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
+		}
 		val actorBox = painter.preRender(actor)
-		val actorTopLeft = previousActorDistanceOrDefault(pointMap, actor, columnWidth)
+		val actorTopLeft = previousActorDistanceOrDefault()
 		val actorTopRight = actorTopLeft.right(actorBox.width)
 		val actorBottomMiddle = actorTopLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
 
@@ -103,12 +111,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		actorBottomMiddle
 	}
 
-	private def previousActorDistanceOrDefault(pointMap: PointMap, actor: ActorComponent, columnWidth: SingleSize) = {
-		if (actor.id == 0)
-			Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
-		else
-			pointMap(Actor.topRight(actor.id - 1)).right(Math.max(columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
-	}
 
 }
 
