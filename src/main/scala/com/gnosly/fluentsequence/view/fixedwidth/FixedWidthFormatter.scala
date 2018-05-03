@@ -46,24 +46,31 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 														 rowHeight: SingleSize,
 														 activity: ActivityComponent) = {
 
-		var activityTopLeft = actorBottomMiddle.left(painter.preRender(activity).halfWidth)
+		val activityBox = painter.preRender(activity)
+
+
+
+		var activityY = 0L
 
 		if (activity.fromIndex > 1) {
-			activityTopLeft = activityTopLeft.atY(rowHeight(activity.fromIndex - 1))
+			activityY = rowHeight(activity.fromIndex - 1)
+		}else{
+			activityY = actorBottomMiddle.y
 		}
 
-		val activityTopRight = activityTopLeft.right(painter.preRender(activity).width)
+		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth).atY(activityY)
+		val activityTopRight = activityTopLeft.right(activityBox.width)
 
 		val actorId = activity.actorId
-		pointMap.put(Activity.topLeft(actorId, activity.id), activityTopLeft)
-		pointMap.put(Activity.topRight(actorId, activity.id), activityTopRight)
 
 		formatSignals(activity.actorId, pointMap, columnWidth, rowHeight, activity, activityTopLeft, activityTopRight, activity.rightPoints, "right")
 		formatSignals(actorId, pointMap, columnWidth, rowHeight, activity, activityTopLeft, activityTopRight, activity.leftPoints, "left")
 
 		val lastPoint = rowHeight(activity.toIndex)
 
-		pointMap.put(Activity.bottomLeft(actorId, activity.id), Fixed2DPoint(activityTopLeft.x, lastPoint))
+		pointMap.putAll(
+		new ActivityPoints(actorId, activity.id,actorBottomMiddle, activityBox, activityY, lastPoint).toPoints()
+		)
 	}
 
 	private def formatSignals(actorId: Int, pointMap: PointMap, columnWidth: SingleSize, rowHeight: SingleSize, activity: ActivityComponent, activityTopLeft: Fixed2DPoint, activityTopRight: Fixed2DPoint, rightPoints: mutable.TreeMap[Int, ActivityPoint], direction: String) = {
@@ -166,6 +173,18 @@ object Coordinates {
 			Actor.topRight(actorId) ->  actorTopRight ::
 			Actor.bottomMiddle(actorId) -> actorBottomMiddle :: Nil
 
+		}
+	}
+
+
+	class ActivityPoints(actorId: Int, activityId: Int, actorBottomMiddle: Fixed2DPoint, activityBox: Box, activityYStart:Long, activityYEnd:Long){
+		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth).atY(activityYStart)
+		val activityTopRight = activityTopLeft.right(activityBox.width)
+
+		def toPoints():Seq[(String, Fixed2DPoint)] = {
+			Activity.topLeft(actorId, activityId) -> activityTopLeft ::
+			Activity.topRight(actorId, activityId) -> activityTopRight ::
+			Activity.bottomLeft(actorId, activityId) -> Fixed2DPoint(activityTopLeft.x, activityYEnd) :: Nil
 		}
 	}
 
