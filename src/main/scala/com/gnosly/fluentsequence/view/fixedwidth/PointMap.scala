@@ -13,6 +13,8 @@ class PointMap {
 
 	def put(str: String, point: Fixed2DPoint): Option[Fixed2DPoint] = map.put(str, point)
 
+	def putAll(entries:Seq[(String,Fixed2DPoint)]) = map ++= entries
+
 	def apply(key: String): Fixed2DPoint = {
 		if (map.contains(key))
 			return map(key)

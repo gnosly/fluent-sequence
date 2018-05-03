@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
+import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.ActorPoints
 import com.gnosly.fluentsequence.view.fixedwidth._
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
 import org.scalatest.{FlatSpec, Matchers}
@@ -23,16 +24,16 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 
 		val pointMap = formatter.format(viewModel)
 		printThe(pointMap)
-		pointMap shouldBe mutable.TreeMap(
-			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 1),
-			Coordinates.Actor.topRight(0) -> Fixed2DPoint(9, 1),
-			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 5),
+
+		val a = mutable.TreeMap(
 			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 5),
 			Coordinates.Activity.topRight(0, 0) -> Fixed2DPoint(5, 5),
 			Coordinates.Activity.rightPointStart(0, 0, 1) -> Fixed2DPoint(6, 6),
 			Coordinates.Activity.rightPointEnd(0, 0, 1) -> Fixed2DPoint(6, 10),
 			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 10)
-		)
+		) ++= new ActorPoints(0,Fixed2DPoint(1, 1), Box(8,4)).toPoints()
+
+		pointMap shouldBe  a
 	}
 
 	it should "format two actors" in {

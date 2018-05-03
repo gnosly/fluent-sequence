@@ -29,7 +29,10 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		for (actor <- viewModel._actors.values) {
 			columnWidth.updateMax(actor.id, DISTANCE_BETWEEN_ACTORS)
 
-			val actorBottomMiddle: Fixed2DPoint = formatActor(pointMap, columnWidth, actor)
+			val actorPoints = formatActor(pointMap, columnWidth, actor)
+			pointMap.putAll(actorPoints.toPoints())
+
+			val actorBottomMiddle: Fixed2DPoint = actorPoints.actorBottomMiddle
 
 			for (activity <- actor.activities) {
 				formatActivity(actorBottomMiddle, pointMap, columnWidth, rowHeight, activity)
@@ -99,15 +102,10 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 				pointMap(Actor.topRight(actor.id - 1)).right(Math.max(columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
 		}
 
-		val actorBox = painter.preRender(actor)
 		val actorTopLeft = previousActorDistanceOrDefault()
-		val actorTopRight = actorTopLeft.right(actorBox.width)
-		val actorBottomMiddle = actorTopLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
 
-		pointMap.put(Actor.topLeft(actor.id), actorTopLeft)
-		pointMap.put(Actor.topRight(actor.id), actorTopRight)
-		pointMap.put(Actor.bottomMiddle(actor.id), actorBottomMiddle)
-		actorBottomMiddle
+		val actorBox = painter.preRender(actor)
+		new ActorPoints(actor.id, actorTopLeft, actorBox)
 	}
 
 
@@ -157,6 +155,18 @@ object Coordinates {
 
 		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
 
+	}
+
+	class ActorPoints(actorId:Int, topLeft:Fixed2DPoint, actorBox:Box) {
+		val actorTopRight = topLeft.right(actorBox.width)
+		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
+
+		def toPoints():Seq[(String,Fixed2DPoint)] = {
+			Actor.topLeft(actorId) -> topLeft ::
+			Actor.topRight(actorId) ->  actorTopRight ::
+			Actor.bottomMiddle(actorId) -> actorBottomMiddle :: Nil
+
+		}
 	}
 
 }
