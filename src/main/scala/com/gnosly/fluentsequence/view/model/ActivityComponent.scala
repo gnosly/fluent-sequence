@@ -9,6 +9,8 @@ class ActivityComponent(val id: Int,
 												var active: Boolean = false,
 												val rightPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap(),
 												val leftPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap()) extends Component {
+	def points() = rightPoints ++ leftPoints
+
 
 	def right(signal: SignalComponent): Unit = {
 		val pointId = rightPoints.size

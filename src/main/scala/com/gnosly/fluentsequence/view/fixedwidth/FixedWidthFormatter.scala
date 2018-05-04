@@ -62,25 +62,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 		val actorId = activity.actorId
 
-		formatSignals(actorId, pointMap, columnWidth, rowHeight, activity, activityTopLeft, activityTopRight, activity.rightPoints, "right")
-		formatSignals(actorId, pointMap, columnWidth, rowHeight, activity, activityTopLeft, activityTopRight, activity.leftPoints, "left")
-
-		val lastPoint = rowHeight(activity.toIndex)
-
-		pointMap.putAll(
-			new ActivityPoints(actorId, activity.id, actorBottomMiddle, activityBox, activityY, lastPoint).toPoints()
-		)
-	}
-
-	private def formatSignals(actorId: Int, pointMap: PointMap, columnWidth: SingleSize, rowHeight: SingleSize, activity: ActivityComponent, activityTopLeft: Fixed2DPoint, activityTopRight: Fixed2DPoint, rightPoints: mutable.TreeMap[Int, ActivityPoint], direction: String) = {
-		for (point <- rightPoints) {
-			val signal = point._2.signalComponent
-			formatSignal(actorId, pointMap, columnWidth, rowHeight, activity, activityTopLeft, activityTopRight, signal, direction)
-		}
-	}
-
-	private def formatSignal(actorId: Int, pointMap: PointMap, columnWidth: SingleSize, rowHeight: SingleSize, activity: ActivityComponent, activityTopLeft: Fixed2DPoint, activityTopRight: Fixed2DPoint, signal: SignalComponent, direction: String) = {
-		def previousIndexPointOrDefault(): Long = {
+		def previousIndexPointOrDefault(signal: SignalComponent): Long = {
 			if (signal.currentIndex() == 1) {
 				return activityTopLeft.y + 1
 			} else {
@@ -88,19 +70,31 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			}
 		}
 
-		val distanceBetweenSignals = previousIndexPointOrDefault()
+
+		for (point <- activity.points()) {
+			val activityPoint = point._2
+			val signal = activityPoint.signalComponent
+
+			val distanceBetweenSignals = previousIndexPointOrDefault(signal)
+			val signalBox = painter.preRender(signal)
+
+			columnWidth.updateMax(actorId, signalBox.width)
+			rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
+
+			pointMap.putAll(
+				new SignalPoints(actorId, activity.id, signal.currentIndex(),
+					signalBox, distanceBetweenSignals, activityPoint.direction,
+					activityTopRight, activityTopLeft).toPoints()
+			)
+
+		}
 
 
-		val signalBox = painter.preRender(signal)
-		columnWidth.updateMax(actorId, signalBox.width)
-
-		rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
-
+		val lastPoint = rowHeight(activity.toIndex)
 
 		pointMap.putAll(
-			new SignalPoints(actorId, activity.id, signal.currentIndex(), signalBox, distanceBetweenSignals, direction, activityTopRight, activityTopLeft).toPoints()
+			new ActivityPoints(actorId, activity.id, actorBottomMiddle, activityBox, activityY, lastPoint).toPoints()
 		)
-
 	}
 
 	private def formatActor(pointMap: PointMap,
@@ -189,15 +183,15 @@ object Coordinates {
 
 		def rightPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "right")
 
-		def pointStart(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_start"
-
 		def leftPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "left")
+
+		def pointStart(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_start"
 
 		def rightPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "right")
 
-		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
-
 		def pointEnd(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
+
+		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
 
 	}
 
