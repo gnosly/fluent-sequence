@@ -45,6 +45,13 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 														 columnWidth: SingleSize,
 														 rowHeight: SingleSize,
 														 activity: ActivityComponent) = {
+		def previousIndexPointOrDefault(activityTopLeft:Fixed2DPoint, signal: SignalComponent): Long = {
+			if (signal.currentIndex() == 1) {
+				return activityTopLeft.y + 1
+			} else {
+				return rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS
+			}
+		}
 
 		val activityBox = painter.preRender(activity)
 
@@ -62,29 +69,20 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 		val actorId = activity.actorId
 
-		def previousIndexPointOrDefault(signal: SignalComponent): Long = {
-			if (signal.currentIndex() == 1) {
-				return activityTopLeft.y + 1
-			} else {
-				return rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS
-			}
-		}
-
-
 		for (point <- activity.points()) {
 			val activityPoint = point._2
 			val signal = activityPoint.signalComponent
 
-			val distanceBetweenSignals = previousIndexPointOrDefault(signal)
+			val distanceBetweenSignals = previousIndexPointOrDefault(activityTopLeft, signal)
 			val signalBox = painter.preRender(signal)
 
 			columnWidth.updateMax(actorId, signalBox.width)
 			rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
 
+			val signalXStart = if (activityPoint.direction.equals("right")) activityTopRight.x + 1 else activityTopLeft.x
+
 			pointMap.putAll(
-				new SignalPoints(actorId, activity.id, signal.currentIndex(),
-					signalBox, distanceBetweenSignals, activityPoint.direction,
-					activityTopRight, activityTopLeft).toPoints()
+				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox, activityPoint.direction, signalXStart, distanceBetweenSignals).toPoints()
 			)
 
 		}
@@ -155,12 +153,11 @@ object Coordinates {
 		}
 	}
 
-	class SignalPoints(actorId: Int, activityId: Int, signalIndex: Int, signalBox: Box, distanceBetweenSignals: Long, direction: String, activityTopRight: Fixed2DPoint, activityTopLeft: Fixed2DPoint) {
-		val signalXStart = if (direction.equals("right")) activityTopRight.x + 1 else activityTopLeft.x
-		val fixedPointEnd = Fixed2DPoint(signalXStart, distanceBetweenSignals + signalBox.height)
+	class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBox: Box, direction: String, signalXStart: Long, signalYStart: Long) {
+		val fixedPointEnd = Fixed2DPoint(signalXStart, signalYStart + signalBox.height)
 
 		def toPoints(): Seq[(String, Fixed2DPoint)] = {
-			Activity.pointStart(actorId, activityId, signalIndex, direction) -> Fixed2DPoint(signalXStart, distanceBetweenSignals) ::
+			Activity.pointStart(actorId, activityId, signalIndex, direction) -> Fixed2DPoint(signalXStart, signalYStart) ::
 				Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd :: Nil
 		}
 	}
