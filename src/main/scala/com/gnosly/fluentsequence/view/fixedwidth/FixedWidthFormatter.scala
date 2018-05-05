@@ -27,8 +27,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap, columnWidth: SingleSize, rowHeight: SingleSize) = {
 		for (actor <- viewModel._actors.values) {
-			columnWidth.updateMax(actor.id, DISTANCE_BETWEEN_ACTORS)
-
 			val actorPoints = formatActor(pointMap, columnWidth, actor)
 			pointMap.putAll(actorPoints.toPoints())
 
@@ -53,11 +51,10 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			}
 		}
 
+		//1. prerenderizzazione
 		val activityBox = painter.preRender(activity)
-
-
+		//2. determinazione punto in alto a sx
 		var activityY = 0L
-
 		if (activity.fromIndex > 1) {
 			activityY = rowHeight(activity.fromIndex - 1)
 		} else {
@@ -66,6 +63,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth).atY(activityY)
 		val activityTopRight = activityTopLeft.right(activityBox.width)
+		//
 
 		val actorId = activity.actorId
 
@@ -73,16 +71,18 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			val activityPoint = point._2
 			val signal = activityPoint.signalComponent
 
-			val distanceBetweenSignals = previousIndexPointOrDefault(activityTopLeft, signal)
+			//1. prerenderizzazione
 			val signalBox = painter.preRender(signal)
-
-			columnWidth.updateMax(actorId, signalBox.width)
-			rowHeight.updateMax(signal.currentIndex(), distanceBetweenSignals + signalBox.height)
-
+			//2. determinazione punto in alto a sx
+			val signalYStart = previousIndexPointOrDefault(activityTopLeft, signal)
 			val signalXStart = if (activityPoint.direction.equals("right")) activityTopRight.x + 1 else activityTopLeft.x
+			//3. aggiornamento rettangoloni
+			columnWidth.updateMax(actorId, signalBox.width)
+			rowHeight.updateMax(signal.currentIndex(), signalYStart + signalBox.height)
+
 
 			pointMap.putAll(
-				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox, activityPoint.direction, signalXStart, distanceBetweenSignals).toPoints()
+				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox, activityPoint.direction, signalXStart, signalYStart).toPoints()
 			)
 
 		}
@@ -105,9 +105,10 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 				pointMap(Actor.topRight(actor.id - 1)).right(Math.max(columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
 		}
 
-		val actorTopLeft = previousActorDistanceOrDefault()
-
+		//1. prerenderizzazione
 		val actorBox = painter.preRender(actor)
+		//2. determinazione punto in alto a sx
+		val actorTopLeft = previousActorDistanceOrDefault()
 		new ActorPoints(actor.id, actorTopLeft, actorBox)
 	}
 

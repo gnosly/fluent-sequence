@@ -122,55 +122,52 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 
 		println(viewModel)
 
-		formatter.format(viewModel) shouldBe mutable.TreeMap(
-			//Actor user
-			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 1),
-			Coordinates.Actor.topRight(0) -> Fixed2DPoint(9, 1),
-			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 5),
-			//Actor system
-			Coordinates.Actor.topLeft(1) -> Fixed2DPoint(19, 1),
-			Coordinates.Actor.topRight(1) -> Fixed2DPoint(29, 1),
-			Coordinates.Actor.bottomMiddle(1) -> Fixed2DPoint(23, 5),
-			//Activity 0 user
-			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 5),
-			Coordinates.Activity.topRight(0, 0) -> Fixed2DPoint(5, 5),
-			//call
-			Coordinates.Activity.rightPointStart(0, 0, 1) -> Fixed2DPoint(6, 6),
-			Coordinates.Activity.rightPointEnd(0, 0, 1) -> Fixed2DPoint(6, 8),
-			//reply
-			Coordinates.Activity.rightPointStart(0, 0, 2) -> Fixed2DPoint(6, 9),
-			Coordinates.Activity.rightPointEnd(0, 0, 2) -> Fixed2DPoint(6, 11),
-			//second call
-			Coordinates.Activity.rightPointStart(0, 0, 3) -> Fixed2DPoint(6, 12),
-			Coordinates.Activity.rightPointEnd(0, 0, 3) -> Fixed2DPoint(6, 14),
-			//second reply
-			Coordinates.Activity.rightPointStart(0, 0, 4) -> Fixed2DPoint(6, 15),
-			Coordinates.Activity.rightPointEnd(0, 0, 4) -> Fixed2DPoint(6, 17),
-
-			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 17),
-
-			//Activity 0 system
-			Coordinates.Activity.topLeft(1, 0) -> Fixed2DPoint(22, 5),
-			Coordinates.Activity.topRight(1, 0) -> Fixed2DPoint(24, 5),
-			//call
-			Coordinates.Activity.leftPointStart(1, 0, 1) -> Fixed2DPoint(22, 6),
-			Coordinates.Activity.leftPointEnd(1, 0, 1) -> Fixed2DPoint(22, 8),
-			//reply
-			Coordinates.Activity.leftPointStart(1, 0, 2) -> Fixed2DPoint(22, 9),
-			Coordinates.Activity.leftPointEnd(1, 0, 2) -> Fixed2DPoint(22, 11),
-			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(22, 11),
-
-			//Activity 1 system
-			Coordinates.Activity.topLeft(1, 1) -> Fixed2DPoint(22, 12),
-			Coordinates.Activity.topRight(1, 1) -> Fixed2DPoint(24, 12),
-			//second call
-			Coordinates.Activity.leftPointStart(1, 1, 3) -> Fixed2DPoint(22, 12),
-			Coordinates.Activity.leftPointEnd(1, 1, 3) -> Fixed2DPoint(22, 14),
-			//second reply
-			Coordinates.Activity.leftPointStart(1, 1, 4) -> Fixed2DPoint(22, 15),
-			Coordinates.Activity.leftPointEnd(1, 1, 4) -> Fixed2DPoint(22, 17),
-			Coordinates.Activity.bottomLeft(1, 1) -> Fixed2DPoint(22, 17)
-		)
+//		formatter.format(viewModel) should contain theSameElementsAs (
+//			new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4)).toPoints() ++
+//				new ActivityPoints(0, 0, Fixed2DPoint(5, 5), Box(2, 2), 5, 10).toPoints() ++
+//				new SignalPoint(0, 0, 1, Box(5, 4), "right", 6L, 6L).toPoints())
+//			new ActorPoints(1, Fixed2DPoint(19, 1), Box(10, 4)).toPoints() ++
+//
+//			//Activity 0 user
+//			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 5),
+//			Coordinates.Activity.topRight(0, 0) -> Fixed2DPoint(5, 5),
+//			//call
+//			Coordinates.Activity.rightPointStart(0, 0, 1) -> Fixed2DPoint(6, 6),
+//			Coordinates.Activity.rightPointEnd(0, 0, 1) -> Fixed2DPoint(6, 8),
+//			//reply
+//			Coordinates.Activity.rightPointStart(0, 0, 2) -> Fixed2DPoint(6, 9),
+//			Coordinates.Activity.rightPointEnd(0, 0, 2) -> Fixed2DPoint(6, 11),
+//			//second call
+//			Coordinates.Activity.rightPointStart(0, 0, 3) -> Fixed2DPoint(6, 12),
+//			Coordinates.Activity.rightPointEnd(0, 0, 3) -> Fixed2DPoint(6, 14),
+//			//second reply
+//			Coordinates.Activity.rightPointStart(0, 0, 4) -> Fixed2DPoint(6, 15),
+//			Coordinates.Activity.rightPointEnd(0, 0, 4) -> Fixed2DPoint(6, 17),
+//
+//			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 17),
+//
+//			//Activity 0 system
+//			Coordinates.Activity.topLeft(1, 0) -> Fixed2DPoint(22, 5),
+//			Coordinates.Activity.topRight(1, 0) -> Fixed2DPoint(24, 5),
+//			//call
+//			Coordinates.Activity.leftPointStart(1, 0, 1) -> Fixed2DPoint(22, 6),
+//			Coordinates.Activity.leftPointEnd(1, 0, 1) -> Fixed2DPoint(22, 8),
+//			//reply
+//			Coordinates.Activity.leftPointStart(1, 0, 2) -> Fixed2DPoint(22, 9),
+//			Coordinates.Activity.leftPointEnd(1, 0, 2) -> Fixed2DPoint(22, 11),
+//			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(22, 11),
+//
+//			//Activity 1 system
+//			Coordinates.Activity.topLeft(1, 1) -> Fixed2DPoint(22, 12),
+//			Coordinates.Activity.topRight(1, 1) -> Fixed2DPoint(24, 12),
+//			//second call
+//			Coordinates.Activity.leftPointStart(1, 1, 3) -> Fixed2DPoint(22, 12),
+//			Coordinates.Activity.leftPointEnd(1, 1, 3) -> Fixed2DPoint(22, 14),
+//			//second reply
+//			Coordinates.Activity.leftPointStart(1, 1, 4) -> Fixed2DPoint(22, 15),
+//			Coordinates.Activity.leftPointEnd(1, 1, 4) -> Fixed2DPoint(22, 17),
+//			Coordinates.Activity.bottomLeft(1, 1) -> Fixed2DPoint(22, 17)
+//		)
 	}
 
 
