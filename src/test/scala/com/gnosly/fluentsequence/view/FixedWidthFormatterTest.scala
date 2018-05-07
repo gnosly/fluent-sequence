@@ -27,7 +27,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 
 		pointMap should contain theSameElementsAs (
 			new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4)).toPoints() ++
-				new ActivityPoints(0, 0, Fixed2DPoint(4, 5), Box(2, 2), 5, 10).toPoints() ++
+				new ActivityPoints(0, 0, Fixed2DPoint(3, 5), Box(2, 5)).toPoints() ++
 				new SignalPoint(0, 0, 1, Box(5, 4), "right", 6L, 6L).toPoints())
 	}
 

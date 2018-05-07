@@ -87,8 +87,9 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 		val lastPoint = rowHeight(activity.toIndex)
 
+
 		pointMap.putAll(
-			new ActivityPoints(actorId, activity.id, actorBottomMiddle, activityBox, activityY, lastPoint).toPoints()
+			new ActivityPoints(actorId, activity.id, activityTopLeft, Box(activityBox.width, lastPoint-activityY)).toPoints()
 		)
 	}
 
@@ -142,14 +143,13 @@ object Coordinates {
 		}
 	}
 
-	class ActivityPoints(actorId: Int, activityId: Int, actorBottomMiddle: Fixed2DPoint, activityBox: Box, activityYStart: Long, activityYEnd: Long) {
-		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth).atY(activityYStart)
+	class ActivityPoints(actorId: Int, activityId: Int, activityTopLeft: Fixed2DPoint, activityBox: Box) {
 		val activityTopRight = activityTopLeft.right(activityBox.width)
 
 		def toPoints(): Seq[(String, Fixed2DPoint)] = {
 			Activity.topLeft(actorId, activityId) -> activityTopLeft ::
 				Activity.topRight(actorId, activityId) -> activityTopRight ::
-				Activity.bottomLeft(actorId, activityId) -> Fixed2DPoint(activityTopLeft.x, activityYEnd) :: Nil
+				Activity.bottomLeft(actorId, activityId) -> Fixed2DPoint(activityTopLeft.x, activityTopLeft.down(activityBox.height).y) :: Nil
 		}
 	}
 
