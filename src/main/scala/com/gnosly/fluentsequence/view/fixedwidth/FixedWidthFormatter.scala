@@ -76,12 +76,15 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			//2. determinazione punto in alto a sx
 			val signalYStart = previousIndexPointOrDefault(activityTopLeft, signal)
 			val signalXStart = if (activityPoint.direction.equals("right")) activityTopRight.x + 1 else activityTopLeft.x
+			val signalTopLeft = Fixed2DPoint(signalXStart, signalYStart)
+
 			//3. aggiornamento rettangoloni
 			columnWidth.updateMax(actorId, signalBox.width)
 			rowHeight.updateMax(signal.currentIndex(), signalYStart + signalBox.height)
 
 			pointMap.putAll(
-				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox, activityPoint.direction, signalXStart, signalYStart).toPoints()
+				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox,
+					activityPoint.direction, signalTopLeft).toPoints()
 			)
 		}
 
@@ -153,11 +156,12 @@ object Coordinates {
 		}
 	}
 
-	class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBox: Box, direction: String, signalXStart: Long, signalYStart: Long) {
-		val fixedPointEnd = Fixed2DPoint(signalXStart, signalYStart + signalBox.height)
+	class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBox: Box,
+										direction: String, signalTopLeft: Fixed2DPoint) {
+		val fixedPointEnd = signalTopLeft.down(signalBox.height)
 
 		def toPoints(): Seq[(String, Fixed2DPoint)] = {
-			Activity.pointStart(actorId, activityId, signalIndex, direction) -> Fixed2DPoint(signalXStart, signalYStart) ::
+			Activity.pointStart(actorId, activityId, signalIndex, direction) -> signalTopLeft ::
 				Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd :: Nil
 		}
 	}
