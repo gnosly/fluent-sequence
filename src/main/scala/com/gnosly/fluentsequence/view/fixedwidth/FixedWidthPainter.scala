@@ -42,15 +42,15 @@ class FixedWidthPainter {
 
 			0L until topLeftActivity.y - timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
 
-			paintActivity(actor, pointMap, canvas, timelineStart, activity)
+			paintActivity(pointMap, canvas, timelineStart, activity)
 
 			timelineStart = Fixed2DPoint(timelineStart.x, bottomLeftActivity.down(2).y)
 		}
 	}
 
-	private def paintActivity(actor: ActorComponent, pointMap: Map[String, Fixed2DPoint], canvas: FixedWidthCanvas, timelineStart: Fixed2DPoint, activity: ActivityComponent) = {
-		val topLeftActivity = pointMap(Activity.topLeft(actor.id, activity.id))
-		val bottomLeftActivity = pointMap(Activity.bottomLeft(actor.id, activity.id))
+	private def paintActivity(pointMap: Map[String, Fixed2DPoint], canvas: FixedWidthCanvas, timelineStart: Fixed2DPoint, activity: ActivityComponent) = {
+		val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
+		val bottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
 
 		canvas.write(topLeftActivity, "_|_")
 

@@ -43,7 +43,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 														 columnWidth: SingleSize,
 														 rowHeight: SingleSize,
 														 activity: ActivityComponent) = {
-		def previousIndexPointOrDefault(activityTopLeft:Fixed2DPoint, signal: SignalComponent): Long = {
+		def previousIndexPointOrDefault(activityTopLeft: Fixed2DPoint, signal: SignalComponent): Long = {
 			if (signal.currentIndex() == 1) {
 				return activityTopLeft.y + 1
 			} else {
@@ -80,13 +80,10 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			columnWidth.updateMax(actorId, signalBox.width)
 			rowHeight.updateMax(signal.currentIndex(), signalYStart + signalBox.height)
 
-
 			pointMap.putAll(
 				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox, activityPoint.direction, signalXStart, signalYStart).toPoints()
 			)
-
 		}
-
 
 		val lastPoint = rowHeight(activity.toIndex)
 
@@ -130,6 +127,8 @@ class SingleSize(intervals: mutable.TreeMap[Int, Long] = mutable.TreeMap[Int, Lo
 }
 
 object Coordinates {
+
+
 
 	class ActorPoints(actorId: Int, topLeft: Fixed2DPoint, actorBox: Box) {
 		val actorTopRight = topLeft.right(actorBox.width)
@@ -187,9 +186,9 @@ object Coordinates {
 
 		def rightPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "right")
 
-		def pointEnd(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
-
 		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
+
+		def pointEnd(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
 
 	}
 
