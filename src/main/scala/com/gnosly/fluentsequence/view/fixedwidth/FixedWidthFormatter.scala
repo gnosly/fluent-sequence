@@ -47,6 +47,12 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			if (signal.currentIndex() == 1) {
 				return activityTopLeft.y + 1
 			} else {
+				if(signal.isInstanceOf[BiSignalComponent]){
+					val biSignal = signal.asInstanceOf[BiSignalComponent]
+					val toActivityTopLeft = pointMap(Activity.topLeft(biSignal.toActorId, biSignal.toActivityId))
+					return Math.max(rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS,
+											toActivityTopLeft.y + 1)
+				}
 				return rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS
 			}
 		}
@@ -56,7 +62,9 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		//2. determinazione punto in alto a sx
 		var activityY = 0L
 		if (activity.fromIndex > 1) {
-			activityY = rowHeight(activity.fromIndex - 1)
+			val lastSignalEnd = rowHeight(activity.fromIndex - 1)
+			val marginSinceLastActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id - 1)).y + 1
+			activityY = Math.max(lastSignalEnd, marginSinceLastActivity)
 		} else {
 			activityY = actorBottomMiddle.y
 		}
@@ -78,6 +86,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			val signalXStart = if (activityPoint.direction.equals("right")) activityTopRight.x + 1 else activityTopLeft.x
 			val signalTopLeft = Fixed2DPoint(signalXStart, signalYStart)
 
+
 			//3. aggiornamento rettangoloni
 			columnWidth.updateMax(actorId, signalBox.width)
 			rowHeight.updateMax(signal.currentIndex(), signalYStart + signalBox.height)
@@ -94,6 +103,14 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		pointMap.putAll(
 			new ActivityPoints(actorId, activity.id, activityTopLeft, Box(activityBox.width, lastPoint-activityY)).toPoints()
 		)
+	}
+
+	private def marginActivityEnd(activity: ActivityComponent, signal: SignalComponent) = {
+		if (signal.currentIndex() == activity.toIndex) {
+			1
+		} else {
+			0
+		}
 	}
 
 	private def formatActor(pointMap: PointMap,
@@ -146,7 +163,7 @@ object Coordinates {
 		}
 	}
 
-	class ActivityPoints(actorId: Int, activityId: Int, activityTopLeft: Fixed2DPoint, activityBox: Box) {
+	class ActivityPoints(actorId: Int, activityId: Int, val activityTopLeft: Fixed2DPoint, activityBox: Box) {
 		val activityTopRight = activityTopLeft.right(activityBox.width)
 
 		def toPoints(): Seq[(String, Fixed2DPoint)] = {

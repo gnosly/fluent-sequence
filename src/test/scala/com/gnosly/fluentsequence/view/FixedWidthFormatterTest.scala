@@ -25,10 +25,13 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		val pointMap = formatter.format(viewModel)
 		printThe(pointMap)
 
+		val actorPoints = new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4))
+		val activityPoints = new ActivityPoints(0, 0, actorPoints.actorBottomMiddle.left(1), Box(2, 5))
+		val signalPoints = new SignalPoint(0, 0, 1, Box(5, 4), "right", activityPoints.activityTopRight.down(1).right(1))
+
 		pointMap should contain theSameElementsAs (
-			new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4)).toPoints() ++
-				new ActivityPoints(0, 0, Fixed2DPoint(3, 5), Box(2, 5)).toPoints() ++
-				new SignalPoint(0, 0, 1, Box(5, 4), "right", Fixed2DPoint(6, 6)).toPoints())
+			actorPoints.toPoints() ++ activityPoints.toPoints() ++ signalPoints.toPoints()
+			)
 	}
 
 	it should "format two actors" in {
@@ -40,7 +43,9 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 
 		val viewModel = generate(flow.toEventBook)
 
-		formatter.format(viewModel) shouldBe mutable.TreeMap(
+		val pointMap = formatter.format(viewModel)
+		printThe(pointMap)
+		pointMap shouldBe mutable.TreeMap(
 			//Actor user
 			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 1),
 			Coordinates.Actor.topRight(0) -> Fixed2DPoint(9, 1),
@@ -109,7 +114,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		)
 	}
 
-	ignore should "format actor with multi activities" in {
+	it should "format actor with multi activities" in {
 
 		val flow = Sequence("example").startWith(
 			USER.call("c", SYSTEM) ::
@@ -122,56 +127,32 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 
 		println(viewModel)
 
-//		formatter.format(viewModel) should contain theSameElementsAs (
-//			new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4)).toPoints() ++
-//				new ActivityPoints(0, 0, Fixed2DPoint(5, 5), Box(2, 2), 5, 10).toPoints() ++
-//				new SignalPoint(0, 0, 1, Box(5, 4), "right", 6L, 6L).toPoints())
-//			new ActorPoints(1, Fixed2DPoint(19, 1), Box(10, 4)).toPoints() ++
-//
-//			//Activity 0 user
-//			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 5),
-//			Coordinates.Activity.topRight(0, 0) -> Fixed2DPoint(5, 5),
-//			//call
-//			Coordinates.Activity.rightPointStart(0, 0, 1) -> Fixed2DPoint(6, 6),
-//			Coordinates.Activity.rightPointEnd(0, 0, 1) -> Fixed2DPoint(6, 8),
-//			//reply
-//			Coordinates.Activity.rightPointStart(0, 0, 2) -> Fixed2DPoint(6, 9),
-//			Coordinates.Activity.rightPointEnd(0, 0, 2) -> Fixed2DPoint(6, 11),
-//			//second call
-//			Coordinates.Activity.rightPointStart(0, 0, 3) -> Fixed2DPoint(6, 12),
-//			Coordinates.Activity.rightPointEnd(0, 0, 3) -> Fixed2DPoint(6, 14),
-//			//second reply
-//			Coordinates.Activity.rightPointStart(0, 0, 4) -> Fixed2DPoint(6, 15),
-//			Coordinates.Activity.rightPointEnd(0, 0, 4) -> Fixed2DPoint(6, 17),
-//
-//			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 17),
-//
-//			//Activity 0 system
-//			Coordinates.Activity.topLeft(1, 0) -> Fixed2DPoint(22, 5),
-//			Coordinates.Activity.topRight(1, 0) -> Fixed2DPoint(24, 5),
-//			//call
-//			Coordinates.Activity.leftPointStart(1, 0, 1) -> Fixed2DPoint(22, 6),
-//			Coordinates.Activity.leftPointEnd(1, 0, 1) -> Fixed2DPoint(22, 8),
-//			//reply
-//			Coordinates.Activity.leftPointStart(1, 0, 2) -> Fixed2DPoint(22, 9),
-//			Coordinates.Activity.leftPointEnd(1, 0, 2) -> Fixed2DPoint(22, 11),
-//			Coordinates.Activity.bottomLeft(1, 0) -> Fixed2DPoint(22, 11),
-//
-//			//Activity 1 system
-//			Coordinates.Activity.topLeft(1, 1) -> Fixed2DPoint(22, 12),
-//			Coordinates.Activity.topRight(1, 1) -> Fixed2DPoint(24, 12),
-//			//second call
-//			Coordinates.Activity.leftPointStart(1, 1, 3) -> Fixed2DPoint(22, 12),
-//			Coordinates.Activity.leftPointEnd(1, 1, 3) -> Fixed2DPoint(22, 14),
-//			//second reply
-//			Coordinates.Activity.leftPointStart(1, 1, 4) -> Fixed2DPoint(22, 15),
-//			Coordinates.Activity.leftPointEnd(1, 1, 4) -> Fixed2DPoint(22, 17),
-//			Coordinates.Activity.bottomLeft(1, 1) -> Fixed2DPoint(22, 17)
-//		)
+		val pointMap = formatter.format(viewModel)
+		printThe(pointMap)
+		println(pointMap.toMap)
+
+
+		val expectedPointMap: Seq[(String, Fixed2DPoint)] =
+			new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4)).toPoints() ++
+			new ActorPoints(1, Fixed2DPoint(19, 1), Box(10, 4)).toPoints() ++
+			new ActivityPoints(0, 0, Fixed2DPoint(3, 5), Box(2, 13)).toPoints() ++
+			new SignalPoint(0, 0, 1, Box(5, 2), "right", Fixed2DPoint(6, 6)).toPoints() ++
+			new SignalPoint(0, 0, 2, Box(5, 2), "right", Fixed2DPoint(6, 9)).toPoints() ++
+			new SignalPoint(1, 0, 1, Box(5, 2), "left", Fixed2DPoint(22, 6)).toPoints() ++
+			new SignalPoint(1, 0, 2, Box(5, 2), "left", Fixed2DPoint(22, 9)).toPoints() ++
+			new ActivityPoints(1, 0, Fixed2DPoint(22, 5), Box(2, 6)).toPoints() ++
+			new ActivityPoints(1, 1, Fixed2DPoint(22, 12), Box(2, 6)).toPoints() ++
+			new SignalPoint(0, 0, 3, Box(5, 2), "right", Fixed2DPoint(6, 13)).toPoints() ++
+			new SignalPoint(0, 0, 4, Box(5, 2), "right", Fixed2DPoint(6, 16)).toPoints() ++
+			new SignalPoint(1, 1, 3, Box(5, 2), "left", Fixed2DPoint(22, 13)).toPoints() ++
+			new SignalPoint(1, 1, 4, Box(5, 2), "left", Fixed2DPoint(22, 16)).toPoints()
+		println(expectedPointMap.toMap)
+
+		pointMap.toMap should contain theSameElementsAs expectedPointMap.toMap
 	}
 
 
-	private def printThe(pointMap: mutable.TreeMap[String, Fixed2DPoint]) = {
+	private def printThe(pointMap: mutable.TreeMap[String, Fixed2DPoint]): String = {
 		val canvas = new FixedWidthCanvas()
 
 		var charForPoint: String = "a"
@@ -186,8 +167,11 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		)
 
 		println("--------------")
-		println(canvas.print())
+		val str = canvas.print()
+		println(str)
 		println("--------------")
+
+		str
 	}
 
 	//test with signal in different actor sequence

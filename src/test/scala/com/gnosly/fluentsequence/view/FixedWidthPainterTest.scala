@@ -17,7 +17,7 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 
 		painter.paint(user, Map(
 			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 0),
-			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(3, 4),
+			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 4),
 			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 4),
 			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 8),
 			Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2DPoint(6, 5)
@@ -48,7 +48,7 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 
 		painter.paint(user, Map(
 			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 0),
-			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(3, 4),
+			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 4),
 			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 4),
 			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 7),
 			Coordinates.Activity.rightPointStart(0, 0, 1) -> Fixed2DPoint(6, 5),
@@ -79,7 +79,7 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 
 		painter.paint(user, Map(
 			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 0),
-			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(3, 4),
+			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 4),
 			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 4),
 			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 7),
 			Coordinates.Activity.rightPointStart(0, 0, 1) -> Fixed2DPoint(6, 5),
@@ -111,7 +111,7 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 
 		painter.paint(user, Map(
 			Coordinates.Actor.topLeft(0) -> Fixed2DPoint(1, 0),
-			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(3, 4),
+			Coordinates.Actor.bottomMiddle(0) -> Fixed2DPoint(4, 4),
 			Coordinates.Activity.topLeft(0, 0) -> Fixed2DPoint(3, 4),
 			Coordinates.Activity.bottomLeft(0, 0) -> Fixed2DPoint(3, 7),
 			Coordinates.Activity.topLeft(0, 1) -> Fixed2DPoint(3, 9),

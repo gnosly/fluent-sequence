@@ -59,12 +59,11 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 				USER.call("finalize", SYSTEM) ::
 				SYSTEM.reply("finalize done", USER) ::
 				Nil
-
 		)
 
 		val str = viewer.view(flow.toEventBook)
 		println(str)
-		str shouldBe sequenceFromFile("two-actors-one-call.txt")
+		str shouldBe sequenceFromFile("multi-activity.txt")
 	}
 
 	private def sequenceFromFile(filename: String) = {

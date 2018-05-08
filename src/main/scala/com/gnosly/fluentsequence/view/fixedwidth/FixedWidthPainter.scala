@@ -44,8 +44,9 @@ class FixedWidthPainter {
 
 			paintActivity(pointMap, canvas, timelineStart, activity)
 
-			timelineStart = Fixed2DPoint(timelineStart.x, bottomLeftActivity.down(2).y)
+			timelineStart = Fixed2DPoint(timelineStart.x, bottomLeftActivity.down(1).y)
 		}
+		canvas.write(timelineStart, "|")
 	}
 
 	private def paintActivity(pointMap: Map[String, Fixed2DPoint], canvas: FixedWidthCanvas, timelineStart: Fixed2DPoint, activity: ActivityComponent) = {
@@ -60,7 +61,7 @@ class FixedWidthPainter {
 		}
 
 		canvas.write(bottomLeftActivity, "|_|")
-		canvas.write(bottomLeftActivity.down(1).right(1), "|")
+		//canvas.write(bottomLeftActivity.down(1).right(1), "|")
 
 		//print right signal
 		for (rightPoint <- activity.rightPoints) {
@@ -92,8 +93,8 @@ class FixedWidthPainter {
 			canvas.write(signalPoint.right((distance - s.name.length) / 2), s.name)
 			canvas.write(signalPoint.down(1), Util.r("-", distance) + ">")
 		} else {
-			val signalLeftPoint = pointMap(Activity.rightPointStart(s.toActorId, 0, s.currentIndex()))
-			val signalRightPoint = pointMap(Activity.leftPointStart(s.fromActorId, 0, s.currentIndex()))
+			val signalLeftPoint = pointMap(Activity.rightPointStart(s.toActorId, s.toActivityId, s.currentIndex()))
+			val signalRightPoint = pointMap(Activity.leftPointStart(s.fromActorId, s.fromActivityId, s.currentIndex()))
 			val distance = Math.max(minTextPosition, signalRightPoint.x - signalLeftPoint.x - 1)
 
 			canvas.write(signalLeftPoint.right((distance - s.name.length) / 2), s.name)
