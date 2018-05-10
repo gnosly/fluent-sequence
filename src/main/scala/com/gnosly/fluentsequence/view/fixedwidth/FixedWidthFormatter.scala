@@ -9,7 +9,7 @@ import scala.collection.mutable
 class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, Fixed2DPoint] = {
-		val formatRule = new FormatRule()
+		val formatRule = FormatRule()
 
 		while (true) {
 			val previousPointMap = formatRule.pointMap.toMap().toMap
@@ -78,7 +78,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			activityY = actorBottomMiddle.y
 		}
 
-		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth).atY(activityY)
+		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth()).atY(activityY)
 		val activityTopRight = activityTopLeft.right(activityBox.width)
 		//
 
