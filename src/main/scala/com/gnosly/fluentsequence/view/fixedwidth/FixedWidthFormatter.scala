@@ -34,7 +34,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		}
 	}
 
-	private def formatActor(actor: ActorComponent) = {
+	 def formatActor(actor: ActorComponent) = {
 		def previousActorDistanceOrDefault() = {
 			if (actor.id == 0)
 				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
@@ -139,7 +139,7 @@ class SingleSize(intervals: mutable.TreeMap[Int, Long] = mutable.TreeMap[Int, Lo
 object Coordinates {
 
 
-	class ActorPoints(actorId: Int, topLeft: Point, actorBox: Box) {
+	case class ActorPoints(actorId: Int, topLeft: Point, actorBox: Box) {
 		val actorTopRight = topLeft.right(actorBox.width)
 		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
 

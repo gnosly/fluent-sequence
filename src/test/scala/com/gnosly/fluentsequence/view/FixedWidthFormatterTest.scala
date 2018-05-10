@@ -1,8 +1,10 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{ActivityPoints, ActorPoints, SignalPoint}
-import com.gnosly.fluentsequence.view.fixedwidth._
+import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{ActivityPoints, Actor, ActorPoints, SignalPoint}
+import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_ACTORS
+import com.gnosly.fluentsequence.view.fixedwidth.{Box, _}
+import com.gnosly.fluentsequence.view.model.ActorComponent
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -13,6 +15,16 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 	val SYSTEM = new FluentActor("SYSTEM")
 
 	val formatter = new FixedWidthFormatter(new FixedWidthPainter())
+
+	it should "format single actor alone" in {
+		formatter.formatActor(new ActorComponent(0, "user", null)) shouldBe ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4))
+		formatter.formatActor(new ActorComponent(1, "user", null)) shouldBe
+			ActorPoints(1,
+				ReferencePoint(Actor.topRight(0))
+					.right(PointMath.max(Reference1DPoint(s"column_${0}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS))),
+				Box(8, 4)
+			)
+	}
 
 	it should "format actor with a auto-signal" in {
 
@@ -26,7 +38,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		printThe(pointMap)
 
 		val actorPoints = new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4))
-		val activityPoints = new ActivityPoints(0, 0, Fixed2DPoint(3,5), Box(2, 5))
+		val activityPoints = new ActivityPoints(0, 0, Fixed2DPoint(3, 5), Box(2, 5))
 		val signalPoints = new SignalPoint(0, 0, 1, Box(5, 4), "right", activityPoints.activityTopRight.down(1).right(1))
 
 		pointMap should contain theSameElementsAs (
@@ -133,19 +145,19 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		val expectedPointMap: Seq[(String, Fixed2DPoint)] =
 		//actor #0
 			new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4)).toPoints(null, null) ++
-			new ActivityPoints(0, 0, Fixed2DPoint(3, 5), Box(2, 13)).toPoints() ++
-			new SignalPoint(0, 0, 1, Box(5, 2), "right", Fixed2DPoint(6, 6)).toPoints() ++
-			new SignalPoint(0, 0, 2, Box(5, 2), "right", Fixed2DPoint(6, 9)).toPoints() ++
-			new SignalPoint(0, 0, 3, Box(5, 2), "right", Fixed2DPoint(6, 13)).toPoints() ++
-			new SignalPoint(0, 0, 4, Box(5, 2), "right", Fixed2DPoint(6, 16)).toPoints() ++
-		//actor #1
-			new ActorPoints(1, Fixed2DPoint(19, 1), Box(10, 4)).toPoints(null, null) ++
-			new ActivityPoints(1, 0, Fixed2DPoint(22, 5), Box(2, 6)).toPoints() ++
-			new SignalPoint(1, 0, 1, Box(5, 2), "left", Fixed2DPoint(22, 6)).toPoints() ++
-			new SignalPoint(1, 0, 2, Box(5, 2), "left", Fixed2DPoint(22, 9)).toPoints() ++
-			new ActivityPoints(1, 1, Fixed2DPoint(22, 12), Box(2, 6)).toPoints() ++
-			new SignalPoint(1, 1, 3, Box(5, 2), "left", Fixed2DPoint(22, 13)).toPoints() ++
-			new SignalPoint(1, 1, 4, Box(5, 2), "left", Fixed2DPoint(22, 16)).toPoints()
+				new ActivityPoints(0, 0, Fixed2DPoint(3, 5), Box(2, 13)).toPoints() ++
+				new SignalPoint(0, 0, 1, Box(5, 2), "right", Fixed2DPoint(6, 6)).toPoints() ++
+				new SignalPoint(0, 0, 2, Box(5, 2), "right", Fixed2DPoint(6, 9)).toPoints() ++
+				new SignalPoint(0, 0, 3, Box(5, 2), "right", Fixed2DPoint(6, 13)).toPoints() ++
+				new SignalPoint(0, 0, 4, Box(5, 2), "right", Fixed2DPoint(6, 16)).toPoints() ++
+				//actor #1
+				new ActorPoints(1, Fixed2DPoint(19, 1), Box(10, 4)).toPoints(null, null) ++
+				new ActivityPoints(1, 0, Fixed2DPoint(22, 5), Box(2, 6)).toPoints() ++
+				new SignalPoint(1, 0, 1, Box(5, 2), "left", Fixed2DPoint(22, 6)).toPoints() ++
+				new SignalPoint(1, 0, 2, Box(5, 2), "left", Fixed2DPoint(22, 9)).toPoints() ++
+				new ActivityPoints(1, 1, Fixed2DPoint(22, 12), Box(2, 6)).toPoints() ++
+				new SignalPoint(1, 1, 3, Box(5, 2), "left", Fixed2DPoint(22, 13)).toPoints() ++
+				new SignalPoint(1, 1, 4, Box(5, 2), "left", Fixed2DPoint(22, 16)).toPoints()
 
 		pointMap.toMap should contain theSameElementsAs expectedPointMap.toMap
 	}
