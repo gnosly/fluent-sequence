@@ -174,5 +174,4 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 	}
 
 	//test with signal in different actor sequence
-	//test with more activity
 }

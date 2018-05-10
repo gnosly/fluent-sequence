@@ -9,51 +9,47 @@ import scala.collection.mutable
 class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, Fixed2DPoint] = {
-		val pointMap = new PointMap
-		val columnWidth = new SingleSize()
-		val rowHeight = new SingleSize()
+		val formatRule = new FormatRule()
 
 		while (true) {
-			val previousPointMap = pointMap.toMap().toMap
-			formatIteration(viewModel, pointMap, columnWidth, rowHeight)
-			if (pointMap.toMap().toMap == previousPointMap) {
-				return pointMap.toMap()
+			val previousPointMap = formatRule.pointMap.toMap().toMap
+			formatIteration(viewModel, formatRule)
+			if (formatRule.pointMap.toMap().toMap == previousPointMap) {
+				return formatRule.pointMap.toMap()
 			}
 		}
 
-		pointMap.toMap()
+		formatRule.pointMap.toMap()
 	}
 
 
-	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap, columnWidth: SingleSize, rowHeight: SingleSize) = {
+	private def formatIteration(viewModel: ViewModelComponents, formatRule: FormatRule) = {
 		for (actor <- viewModel._actors.values) {
-			val actorPoints = formatActor(pointMap, columnWidth, actor)
-			pointMap.putAll(actorPoints.toPoints())
+			val actorPoints = formatActor(formatRule, actor)
+			formatRule.pointMap.putAll(actorPoints.toPoints())
 
 			val actorBottomMiddle: Fixed2DPoint = actorPoints.actorBottomMiddle
 
 			for (activity <- actor.activities) {
-				formatActivity(actorBottomMiddle, pointMap, columnWidth, rowHeight, activity)
+				formatActivity(actorBottomMiddle, formatRule, activity)
 			}
 		}
 	}
 
 	private def formatActivity(actorBottomMiddle: Fixed2DPoint,
-														 pointMap: PointMap,
-														 columnWidth: SingleSize,
-														 rowHeight: SingleSize,
+														 formatRule: FormatRule,
 														 activity: ActivityComponent) = {
 		def previousIndexPointOrDefault(activityTopLeft: Fixed2DPoint, signal: SignalComponent): Long = {
 			if (signal.currentIndex() == 1) {
 				return activityTopLeft.y + 1
 			} else {
-				if(signal.isInstanceOf[BiSignalComponent]){
+				if (signal.isInstanceOf[BiSignalComponent]) {
 					val biSignal = signal.asInstanceOf[BiSignalComponent]
-					val toActivityTopLeft = pointMap(Activity.topLeft(biSignal.toActorId, biSignal.toActivityId))
-					return Math.max(rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS,
-											toActivityTopLeft.y + 1)
+					val toActivityTopLeft = formatRule.pointMap(Activity.topLeft(biSignal.toActorId, biSignal.toActivityId))
+					return Math.max(formatRule.rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS,
+						toActivityTopLeft.y + 1)
 				}
-				return rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS
+				return formatRule.rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS
 			}
 		}
 
@@ -62,8 +58,8 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		//2. determinazione punto in alto a sx
 		var activityY = 0L
 		if (activity.fromIndex > 1) {
-			val lastSignalEnd = rowHeight(activity.fromIndex - 1)
-			val marginSinceLastActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id - 1)).y + 1
+			val lastSignalEnd = formatRule.rowHeight(activity.fromIndex - 1)
+			val marginSinceLastActivity = formatRule.pointMap(Activity.bottomLeft(activity.actorId, activity.id - 1)).y + 1
 			activityY = Math.max(lastSignalEnd, marginSinceLastActivity)
 		} else {
 			activityY = actorBottomMiddle.y
@@ -88,21 +84,37 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 
 			//3. aggiornamento rettangoloni
-			columnWidth.updateMax(actorId, signalBox.width)
-			rowHeight.updateMax(signal.currentIndex(), signalYStart + signalBox.height)
+			formatRule.columnWidth.updateMax(actorId, signalBox.width)
+			formatRule.rowHeight.updateMax(signal.currentIndex(), signalYStart + signalBox.height)
 
-			pointMap.putAll(
+			formatRule.pointMap.putAll(
 				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox,
 					activityPoint.direction, signalTopLeft).toPoints()
 			)
 		}
 
-		val lastPoint = rowHeight(activity.toIndex)
+		val lastPoint = formatRule.rowHeight(activity.toIndex)
 
 
-		pointMap.putAll(
-			new ActivityPoints(actorId, activity.id, activityTopLeft, Box(activityBox.width, lastPoint-activityY)).toPoints()
+		formatRule.pointMap.putAll(
+			new ActivityPoints(actorId, activity.id, activityTopLeft, Box(activityBox.width, lastPoint - activityY)).toPoints()
 		)
+	}
+
+	private def formatActor(formatRule: FormatRule,
+													actor: ActorComponent) = {
+		def previousActorDistanceOrDefault() = {
+			if (actor.id == 0)
+				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
+			else
+				formatRule.pointMap(Actor.topRight(actor.id - 1)).right(Math.max(formatRule.columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
+		}
+
+		//1. prerenderizzazione
+		val actorBox = painter.preRender(actor)
+		//2. determinazione punto in alto a sx
+		val actorTopLeft = previousActorDistanceOrDefault()
+		new ActorPoints(actor.id, actorTopLeft, actorBox)
 	}
 
 	private def marginActivityEnd(activity: ActivityComponent, signal: SignalComponent) = {
@@ -111,23 +123,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		} else {
 			0
 		}
-	}
-
-	private def formatActor(pointMap: PointMap,
-													columnWidth: SingleSize,
-													actor: ActorComponent) = {
-		def previousActorDistanceOrDefault() = {
-			if (actor.id == 0)
-				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
-			else
-				pointMap(Actor.topRight(actor.id - 1)).right(Math.max(columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
-		}
-
-		//1. prerenderizzazione
-		val actorBox = painter.preRender(actor)
-		//2. determinazione punto in alto a sx
-		val actorTopLeft = previousActorDistanceOrDefault()
-		new ActorPoints(actor.id, actorTopLeft, actorBox)
 	}
 
 
@@ -148,7 +143,6 @@ class SingleSize(intervals: mutable.TreeMap[Int, Long] = mutable.TreeMap[Int, Lo
 }
 
 object Coordinates {
-
 
 
 	class ActorPoints(actorId: Int, topLeft: Fixed2DPoint, actorBox: Box) {
@@ -183,6 +177,8 @@ object Coordinates {
 		}
 	}
 
+	case class FormatRule(rowHeight: SingleSize = new SingleSize, columnWidth: SingleSize = new SingleSize, pointMap: PointMap = new PointMap)
+
 	object Actor {
 		def topLeft(actorId: Int) = s"actor_${actorId}_top_left"
 
@@ -201,9 +197,9 @@ object Coordinates {
 
 		def rightPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "right")
 
-		def leftPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "left")
-
 		def pointStart(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_start"
+
+		def leftPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "left")
 
 		def rightPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "right")
 
