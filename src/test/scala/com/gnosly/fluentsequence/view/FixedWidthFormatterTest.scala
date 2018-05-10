@@ -26,11 +26,11 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		printThe(pointMap)
 
 		val actorPoints = new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4))
-		val activityPoints = new ActivityPoints(0, 0, actorPoints.actorBottomMiddle.left(1), Box(2, 5))
+		val activityPoints = new ActivityPoints(0, 0, Fixed2DPoint(3,5), Box(2, 5))
 		val signalPoints = new SignalPoint(0, 0, 1, Box(5, 4), "right", activityPoints.activityTopRight.down(1).right(1))
 
 		pointMap should contain theSameElementsAs (
-			actorPoints.toPoints() ++ activityPoints.toPoints() ++ signalPoints.toPoints()
+			actorPoints.toPoints(null) ++ activityPoints.toPoints() ++ signalPoints.toPoints()
 			)
 	}
 
@@ -132,14 +132,14 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 
 		val expectedPointMap: Seq[(String, Fixed2DPoint)] =
 		//actor #0
-			new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4)).toPoints() ++
+			new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4)).toPoints(null) ++
 			new ActivityPoints(0, 0, Fixed2DPoint(3, 5), Box(2, 13)).toPoints() ++
 			new SignalPoint(0, 0, 1, Box(5, 2), "right", Fixed2DPoint(6, 6)).toPoints() ++
 			new SignalPoint(0, 0, 2, Box(5, 2), "right", Fixed2DPoint(6, 9)).toPoints() ++
 			new SignalPoint(0, 0, 3, Box(5, 2), "right", Fixed2DPoint(6, 13)).toPoints() ++
 			new SignalPoint(0, 0, 4, Box(5, 2), "right", Fixed2DPoint(6, 16)).toPoints() ++
 		//actor #1
-			new ActorPoints(1, Fixed2DPoint(19, 1), Box(10, 4)).toPoints() ++
+			new ActorPoints(1, Fixed2DPoint(19, 1), Box(10, 4)).toPoints(null) ++
 			new ActivityPoints(1, 0, Fixed2DPoint(22, 5), Box(2, 6)).toPoints() ++
 			new SignalPoint(1, 0, 1, Box(5, 2), "left", Fixed2DPoint(22, 6)).toPoints() ++
 			new SignalPoint(1, 0, 2, Box(5, 2), "left", Fixed2DPoint(22, 9)).toPoints() ++

@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.fixedwidth
 
 
 trait Point {
-	def resolve(pointMap: PointMap):Fixed2DPoint
+	def resolve(pointMap: PointMap): Fixed2DPoint
 
 	def atY(newY: Long): Point
 
@@ -31,7 +31,7 @@ case class Fixed2DPoint(x: Long, y: Long) extends Point {
 
 }
 
-case class ReferencePoint(referenceName:String) extends Point {
+case class ReferencePoint(referenceName: String) extends Point {
 	override def resolve(pointMap: PointMap) = pointMap(referenceName)
 
 	override def atY(newY: Long): Point = VariablePoint(this, x => x.atY(newY))

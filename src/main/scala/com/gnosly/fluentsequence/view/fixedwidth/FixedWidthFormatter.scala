@@ -26,7 +26,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	private def formatIteration(viewModel: ViewModelComponents, formatRule: FormatRule) = {
 		for (actor <- viewModel._actors.values) {
 			val actorPoints = formatActor(formatRule, actor)
-			formatRule.pointMap.putAll(actorPoints.toPoints())
+			formatRule.pointMap.putAll(actorPoints.toPoints(formatRule.pointMap))
 
 			for (activity <- actor.activities) {
 				formatActivity(activity, formatRule)
@@ -142,14 +142,14 @@ class SingleSize(intervals: mutable.TreeMap[Int, Long] = mutable.TreeMap[Int, Lo
 object Coordinates {
 
 
-	class ActorPoints(actorId: Int, topLeft: Fixed2DPoint, actorBox: Box) {
+	class ActorPoints(actorId: Int, topLeft: Point, actorBox: Box) {
 		val actorTopRight = topLeft.right(actorBox.width)
 		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
 
-		def toPoints(): Seq[(String, Fixed2DPoint)] = {
-			Actor.topLeft(actorId) -> topLeft ::
-				Actor.topRight(actorId) -> actorTopRight ::
-				Actor.bottomMiddle(actorId) -> actorBottomMiddle :: Nil
+		def toPoints(pointMap: PointMap): Seq[(String, Fixed2DPoint)] = {
+			Actor.topLeft(actorId) -> topLeft.resolve(pointMap) ::
+				Actor.topRight(actorId) -> actorTopRight.resolve(pointMap) ::
+				Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap) :: Nil
 
 		}
 	}
