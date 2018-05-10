@@ -144,9 +144,9 @@ object Coordinates {
 		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
 
 		def toPoints(pointMap: PointMap): Seq[(String, Fixed2DPoint)] = {
-			Actor.topLeft(actorId) -> topLeft.resolve(pointMap) ::
-				Actor.topRight(actorId) -> actorTopRight.resolve(pointMap) ::
-				Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap) :: Nil
+			Actor.topLeft(actorId) -> topLeft.resolve(pointMap, null) ::
+				Actor.topRight(actorId) -> actorTopRight.resolve(pointMap, null) ::
+				Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap, null) :: Nil
 
 		}
 	}
