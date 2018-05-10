@@ -46,7 +46,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		val actorBox = painter.preRender(actor)
 		//2. determinazione punto in alto a sx
 		val actorTopLeft = previousActorDistanceOrDefault()
-		new ActorPoints(actor.id, actorTopLeft.resolve(formatRule.pointMap), actorBox)
+		new ActorPoints(actor.id, actorTopLeft, actorBox)
 	}
 
 	private def formatActivity(activity: ActivityComponent, formatRule: FormatRule): Any = {
@@ -108,7 +108,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 		val lastPoint = formatRule.rowHeight(activity.toIndex)
 
-
 		formatRule.pointMap.putAll(
 			new ActivityPoints(actorId, activity.id, activityTopLeft, Box(activityBox.width, lastPoint - activityY)).toPoints()
 		)
@@ -121,8 +120,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			0
 		}
 	}
-
-
 }
 
 class SingleSize(intervals: mutable.TreeMap[Int, Long] = mutable.TreeMap[Int, Long]()) {
