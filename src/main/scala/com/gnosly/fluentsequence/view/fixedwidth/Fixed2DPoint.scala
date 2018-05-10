@@ -38,11 +38,11 @@ case class ReferencePoint(referenceName:String) extends Point {
 
 	override def left(i: Long): Point = VariablePoint(this, x => x.left(i))
 
-	override def right(i: Long): Point = ???
+	override def right(i: Long): Point = VariablePoint(this, x => x.right(i))
 
-	override def up(i: Long): Point = ???
+	override def up(i: Long): Point = VariablePoint(this, x => x.up(i))
 
-	override def down(i: Long): Point = ???
+	override def down(i: Long): Point = VariablePoint(this, x => x.down(i))
 }
 
 case class VariablePoint(referencePoint: ReferencePoint, op: Fixed2DPoint => Point) extends Point {
