@@ -48,13 +48,17 @@ case class ReferencePoint(referenceName:String) extends Point {
 case class VariablePoint(referencePoint: ReferencePoint, op: Fixed2DPoint => Point) extends Point {
 	override def resolve(pointMap: PointMap) = op(pointMap(referencePoint.referenceName)).resolve(pointMap)
 
-	override def atY(newY: Long): Point = VariablePoint(referencePoint, x => op(x).atY(newY))
+	override def atY(newY: Long): Point = carrying(_.atY(newY))
 
-	override def left(i: Long): Point = VariablePoint(referencePoint, x => op(x).left(i))
+	override def left(i: Long): Point = carrying(_.left(i))
 
-	override def right(i: Long): Point = ???
+	override def right(i: Long): Point = carrying(_.right(i))
 
-	override def up(i: Long): Point = ???
+	override def up(i: Long): Point = carrying(_.up(i))
 
-	override def down(i: Long): Point = ???
+	override def down(i: Long): Point = carrying(_.down(i))
+
+	private def carrying(op2: Point => Point) = {
+		VariablePoint(referencePoint, x => op2(op(x)))
+	}
 }

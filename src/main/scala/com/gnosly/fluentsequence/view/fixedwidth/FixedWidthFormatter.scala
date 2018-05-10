@@ -39,14 +39,14 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			if (actor.id == 0)
 				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
 			else
-				formatRule.pointMap(Actor.topRight(actor.id - 1)).right(Math.max(formatRule.columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
+				ReferencePoint(Actor.topRight(actor.id - 1)).right(Math.max(formatRule.columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
 		}
 
 		//1. prerenderizzazione
 		val actorBox = painter.preRender(actor)
 		//2. determinazione punto in alto a sx
 		val actorTopLeft = previousActorDistanceOrDefault()
-		new ActorPoints(actor.id, actorTopLeft, actorBox)
+		new ActorPoints(actor.id, actorTopLeft.resolve(formatRule.pointMap), actorBox)
 	}
 
 	private def formatActivity(activity: ActivityComponent, formatRule: FormatRule): Any = {
