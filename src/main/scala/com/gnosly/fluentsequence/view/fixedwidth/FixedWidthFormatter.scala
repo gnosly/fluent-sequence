@@ -25,8 +25,8 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 	private def formatIteration(viewModel: ViewModelComponents, formatRule: FormatRule) = {
 		for (actor <- viewModel._actors.values) {
-			val actorPoints = formatActor(formatRule, actor)
-			formatRule.pointMap.putAll(actorPoints.toPoints(formatRule.pointMap))
+			val actorPoints = formatActor(actor)
+			formatRule.pointMap.putAll(actorPoints.toPoints(formatRule.pointMap, formatRule.columnWidth))
 
 			for (activity <- actor.activities) {
 				formatActivity(activity, formatRule)
@@ -34,12 +34,12 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		}
 	}
 
-	private def formatActor(formatRule: FormatRule, actor: ActorComponent) = {
+	private def formatActor(actor: ActorComponent) = {
 		def previousActorDistanceOrDefault() = {
 			if (actor.id == 0)
 				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
 			else
-				ReferencePoint(Actor.topRight(actor.id - 1)).right(Math.max(formatRule.columnWidth(actor.id - 1), DISTANCE_BETWEEN_ACTORS))
+				ReferencePoint(Actor.topRight(actor.id - 1)).right(PointMath.max(Reference1DPoint(s"column_${actor.id - 1}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
 		}
 
 		//1. prerenderizzazione
@@ -97,7 +97,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 
 			//3. aggiornamento rettangoloni
-			formatRule.columnWidth.updateMax(actorId, signalBox.width)
+			formatRule.columnWidth.updateMax(s"column_${actorId}", Fixed1DPoint(signalBox.width))
 			formatRule.rowHeight.updateMax(signal.currentIndex(), signalYStart + signalBox.height)
 
 			formatRule.pointMap.putAll(
@@ -143,10 +143,10 @@ object Coordinates {
 		val actorTopRight = topLeft.right(actorBox.width)
 		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
 
-		def toPoints(pointMap: PointMap): Seq[(String, Fixed2DPoint)] = {
-			Actor.topLeft(actorId) -> topLeft.resolve(pointMap, null) ::
-				Actor.topRight(actorId) -> actorTopRight.resolve(pointMap, null) ::
-				Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap, null) :: Nil
+		def toPoints(pointMap: PointMap, singlePointMap: SinglePointMap): Seq[(String, Fixed2DPoint)] = {
+			Actor.topLeft(actorId) -> topLeft.resolve(pointMap, singlePointMap) ::
+				Actor.topRight(actorId) -> actorTopRight.resolve(pointMap, singlePointMap) ::
+				Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap, singlePointMap) :: Nil
 
 		}
 	}
@@ -171,7 +171,7 @@ object Coordinates {
 		}
 	}
 
-	case class FormatRule(rowHeight: SingleSize = new SingleSize, columnWidth: SingleSize = new SingleSize, pointMap: PointMap = new PointMap)
+	case class FormatRule(rowHeight: SingleSize = new SingleSize, columnWidth: SinglePointMap = new SinglePointMap(), pointMap: PointMap = new PointMap)
 
 	object Actor {
 		def topLeft(actorId: Int) = s"actor_${actorId}_top_left"

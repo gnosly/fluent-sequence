@@ -122,6 +122,10 @@ case class Reference1DPoint(name: String) extends OneDimensionPoint {
 	override def resolve(pointMap: SinglePointMap): Fixed1DPoint = pointMap(name)
 }
 
+case class Variable1DPoint(a: OneDimensionPoint, b: OneDimensionPoint, op: (Fixed1DPoint,Fixed1DPoint) => Fixed1DPoint) extends OneDimensionPoint {
+	override def resolve(pointMap: SinglePointMap): Fixed1DPoint = op(a.resolve(pointMap),b.resolve(pointMap))
+}
+
 class SinglePointMap(intervals: mutable.TreeMap[String, Fixed1DPoint] = mutable.TreeMap[String, Fixed1DPoint]()) {
 	def updateMax(interval: String, size: Fixed1DPoint): Unit = {
 		if (intervals.contains(interval)) {
@@ -134,4 +138,10 @@ class SinglePointMap(intervals: mutable.TreeMap[String, Fixed1DPoint] = mutable.
 	}
 
 	def apply(name: String): Fixed1DPoint = intervals.getOrElse(name, Fixed1DPoint(0))
+}
+
+object PointMath {
+	def max(a: OneDimensionPoint, b: OneDimensionPoint): OneDimensionPoint ={
+		Variable1DPoint(a,b, (x,y) => Fixed1DPoint(Math.max(x.x,y.x)))
+	}
 }
