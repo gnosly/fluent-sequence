@@ -34,12 +34,13 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		}
 	}
 
-	 def formatActor(actor: ActorComponent) = {
+	 val formatActor = (actor: ActorComponent) => {
 		def previousActorDistanceOrDefault() = {
 			if (actor.id == 0)
 				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
 			else
-				ReferencePoint(Actor.topRight(actor.id - 1)).right(PointMath.max(Reference1DPoint(s"column_${actor.id - 1}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
+				ReferencePoint(Actor.topRight(actor.id - 1))
+					.right(PointMath.max(Reference1DPoint(s"column_${actor.id - 1}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
 		}
 
 		//1. prerenderizzazione
