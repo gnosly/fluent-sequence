@@ -24,31 +24,31 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 
 	private def formatIteration(viewModel: ViewModelComponents, formatRule: FormatRule) = {
-		for (actor <- viewModel._actors.values) {
-			val actorPoints = formatActor(actor)
-			formatRule.pointMap.putAll(actorPoints.toPoints(formatRule.pointMap, formatRule.columnWidth))
-
-			for (activity <- actor.activities) {
-				formatActivity(activity, formatRule)
-			}
-		}
+//		for (actor <- viewModel._actors.values) {
+//			val actorPoints = formatActor(actor)
+//			formatRule.pointMap.putAll(actorPoints.toPoints(formatRule.pointMap, formatRule.columnWidth))
+//
+//			for (activity <- actor.activities) {
+//				formatActivity(activity, formatRule)
+//			}
+//		}
 	}
 
-	 val formatActor = (actor: ActorComponent) => {
-		def previousActorDistanceOrDefault() = {
-			if (actor.id == 0)
-				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
-			else
-				ReferencePoint(Actor.topRight(actor.id - 1))
-					.right(PointMath.max(Reference1DPoint(s"column_${actor.id - 1}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
-		}
-
-		//1. prerenderizzazione
-		val actorBox = painter.preRender(actor)
-		//2. determinazione punto in alto a sx
-		val actorTopLeft = previousActorDistanceOrDefault()
-		new ActorPoints(actor.id, actorTopLeft, actorBox)
-	}
+//	 val formatActor = (actor: ActorComponent) => {
+//		def previousActorDistanceOrDefault() = {
+//			if (actor.id == 0)
+//				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
+//			else
+//				ReferencePoint(Actor.topRight(actor.id - 1))
+//					.right(PointMath.max(Reference1DPoint(s"column_${actor.id - 1}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
+//		}
+//
+//		//1. prerenderizzazione
+//		val actorBox = painter.preRender(actor)
+//		//2. determinazione punto in alto a sx
+//		val actorTopLeft = previousActorDistanceOrDefault()
+//		new ActorPoints(actor.id, actorTopLeft, actorBox)
+//	}
 
 	private def formatActivity(activity: ActivityComponent, formatRule: FormatRule): Any = {
 		def previousIndexPointOrDefault(activityTopLeft: Fixed2DPoint, signal: SignalComponent): Long = {
@@ -140,16 +140,16 @@ class SingleSize(intervals: mutable.TreeMap[Int, Long] = mutable.TreeMap[Int, Lo
 object Coordinates {
 
 
-	case class ActorPoints(actorId: Int, topLeft: Point, actorBox: Box) {
-		val actorTopRight = topLeft.right(actorBox.width)
-		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
-
-		def toPoints(pointMap: PointMap, singlePointMap: SinglePointMap): Seq[(String, Fixed2DPoint)] = {
-			Actor.topLeft(actorId) -> topLeft.resolve(pointMap, singlePointMap) ::
-				Actor.topRight(actorId) -> actorTopRight.resolve(pointMap, singlePointMap) ::
-				Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap, singlePointMap) :: Nil
-
-		}
+	case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) {
+//		val actorTopRight = topLeft.right(actorBox.width)
+//		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
+//
+//		def toPoints(pointMap: PointMap, singlePointMap: SinglePointMap): Seq[(String, Fixed2DPoint)] = {
+//			Actor.topLeft(actorId) -> topLeft.resolve(pointMap, singlePointMap) ::
+//				Actor.topRight(actorId) -> actorTopRight.resolve(pointMap, singlePointMap) ::
+//				Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap, singlePointMap) :: Nil
+//
+//		}
 	}
 
 	class ActivityPoints(actorId: Int, activityId: Int, val activityTopLeft: Fixed2DPoint, activityBox: Box) {

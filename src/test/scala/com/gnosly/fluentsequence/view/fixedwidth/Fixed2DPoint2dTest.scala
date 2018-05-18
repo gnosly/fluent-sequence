@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.fixedwidth
 
 import org.scalatest.{FlatSpec, Matchers}
 
-class Fixed2DPointTest extends FlatSpec with Matchers {
+class Fixed2DPoint2dTest extends FlatSpec with Matchers {
 
 	it should "compute down" in {
 		Fixed2DPoint(0,0).down(1) shouldBe Fixed2DPoint(0,1)
