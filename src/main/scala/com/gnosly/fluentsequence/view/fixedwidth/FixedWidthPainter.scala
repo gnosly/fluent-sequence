@@ -16,7 +16,7 @@ class FixedWidthPainter {
 	}
 
 	def paint(actor: ActorComponent,
-						pointMap: Map[String, Fixed2DPoint],
+						pointMap: Map[String, VeryFixed2dPoint],
 						canvas: FixedWidthCanvas): Unit = {
 		import Util._
 
@@ -44,12 +44,12 @@ class FixedWidthPainter {
 
 			paintActivity(pointMap, canvas, timelineStart, activity)
 
-			timelineStart = Fixed2DPoint(timelineStart.x, bottomLeftActivity.down(1).y)
+			timelineStart = new VeryFixed2dPoint(timelineStart.x, bottomLeftActivity.down(1).y)
 		}
 		canvas.write(timelineStart, "|")
 	}
 
-	private def paintActivity(pointMap: Map[String, Fixed2DPoint], canvas: FixedWidthCanvas, timelineStart: Fixed2DPoint, activity: ActivityComponent) = {
+	private def paintActivity(pointMap: Map[String, VeryFixed2dPoint], canvas: FixedWidthCanvas, timelineStart: VeryFixed2dPoint, activity: ActivityComponent) = {
 		val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
 		val bottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
 
@@ -72,7 +72,7 @@ class FixedWidthPainter {
 		}
 	}
 
-	private def paintAutoSignal(activityId: Int, x: AutoSignalComponent, pointMap: Map[String, Fixed2DPoint], canvas: FixedWidthCanvas) = {
+	private def paintAutoSignal(activityId: Int, x: AutoSignalComponent, pointMap: Map[String, VeryFixed2dPoint], canvas: FixedWidthCanvas) = {
 		val signalPoint = pointMap(Activity.rightPointStart(x.actorId, activityId, x.currentIndex()))
 
 		canvas.write(signalPoint, "____")
@@ -81,7 +81,7 @@ class FixedWidthPainter {
 		canvas.write(signalPoint.down(3), "<---'")
 	}
 
-	private def paintBiSignal(s: BiSignalComponent, pointMap: Map[String, Fixed2DPoint], canvas: FixedWidthCanvas) = {
+	private def paintBiSignal(s: BiSignalComponent, pointMap: Map[String, VeryFixed2dPoint], canvas: FixedWidthCanvas) = {
 
 
 		val minTextPosition: Long = s.name.length + 4L

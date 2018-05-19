@@ -6,7 +6,7 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	it should "render single point" in {
 		val fixedWidthCanvas = new FixedWidthCanvas()
 
-		fixedWidthCanvas.write(Fixed2DPoint(0, 0), '-')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(0, 0), '-')
 
 		fixedWidthCanvas.print() shouldBe "-"
 	}
@@ -14,7 +14,7 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	it should "render single point along x" in {
 		val fixedWidthCanvas = new FixedWidthCanvas()
 
-		fixedWidthCanvas.write(Fixed2DPoint(2, 0), '-')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(2, 0), '-')
 
 		fixedWidthCanvas.print() shouldBe "  -"
 	}
@@ -22,7 +22,7 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	it should "render single point along y" in {
 		val fixedWidthCanvas = new FixedWidthCanvas()
 
-		fixedWidthCanvas.write(Fixed2DPoint(0, 2), '-')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(0, 2), '-')
 
 		fixedWidthCanvas.print() shouldBe "\n" +
 			"\n" +
@@ -32,8 +32,8 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	it should "render two points " in {
 		val fixedWidthCanvas = new FixedWidthCanvas()
 
-		fixedWidthCanvas.write(Fixed2DPoint(0, 0), '1')
-		fixedWidthCanvas.write(Fixed2DPoint(3, 0), '2')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(0, 0), '1')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(3, 0), '2')
 
 		fixedWidthCanvas.print() shouldBe "1  2"
 	}
@@ -41,8 +41,8 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	it should "render two points in inverse order " in {
 		val fixedWidthCanvas = new FixedWidthCanvas()
 
-		fixedWidthCanvas.write(Fixed2DPoint(3, 0), '2')
-		fixedWidthCanvas.write(Fixed2DPoint(0, 0), '1')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(3, 0), '2')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(0, 0), '1')
 
 		fixedWidthCanvas.print() shouldBe "1  2"
 	}
@@ -50,10 +50,10 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	it should "render multi points " in {
 		val fixedWidthCanvas = new FixedWidthCanvas()
 
-		fixedWidthCanvas.write(Fixed2DPoint(0, 0), '1')
-		fixedWidthCanvas.write(Fixed2DPoint(3, 0), '2')
-		fixedWidthCanvas.write(Fixed2DPoint(0, 3), '3')
-		fixedWidthCanvas.write(Fixed2DPoint(3, 3), '4')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(0, 0), '1')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(3, 0), '2')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(0, 3), '3')
+		fixedWidthCanvas.write(new VeryFixed2dPoint(3, 3), '4')
 
 		fixedWidthCanvas.print() shouldBe "1  2\n" +
 			"\n" +
@@ -64,8 +64,8 @@ class FixedWidthCanvasTest extends FlatSpec with Matchers {
 	it should "render a string" in {
 		val fixedWidthCanvas = new FixedWidthCanvas()
 
-		fixedWidthCanvas.write(Fixed2DPoint(0, 0), "1  2")
-		fixedWidthCanvas.write(Fixed2DPoint(0, 3), "3  4")
+		fixedWidthCanvas.write(new VeryFixed2dPoint(0, 0), "1  2")
+		fixedWidthCanvas.write(new VeryFixed2dPoint(0, 3), "3  4")
 
 		fixedWidthCanvas.print() shouldBe "1  2\n" +
 			"\n" +

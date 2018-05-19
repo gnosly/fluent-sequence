@@ -4,121 +4,119 @@ trait Point {
 	def resolve(pointMap: PointMap): FixedPoint
 }
 
-trait FixedPoint extends Point {
-
-}
+trait FixedPoint extends Point {}
 
 trait Point1d extends Point {
-	def resolve(pointMap: PointMap): Fixed1DPoint
-}
+	def +(i: Point1d): Point1d
 
+	def -(i: Point1d): Point1d
+
+	override def resolve(pointMap: PointMap): Fixed1DPoint
+}
 
 trait Point2d extends Point {
-	override def resolve(pointMap: PointMap): Fixed2DPoint
+	def x(): Point1d
+
+	def y(): Point1d
+
+	override def resolve(pointMap: PointMap): VeryFixed2dPoint
+
+	def atY(newY: Long): Point2d
+
+	def atY(newY: Point1d): Point2d
+
+	def left(i: Long): Point2d
+
+	def left(i: Point1d): Point2d
+
+	def right(i: Long): Point2d
+
+	def right(i: Point1d): Point2d
+
+	def up(i: Long): Point2d
+
+	def up(i: Point1d): Point2d
+
+	def down(i: Long): Point2d
+
+	def down(i: Point1d): Point2d
 }
 
-case class Fixed2DPoint(x: Long, y: Long) extends Point2d with FixedPoint {
+case class VeryFixed2dPoint(val x:Long, val y:Long) extends FixedPoint {
 
-	def resolve(pointMap: PointMap): Fixed2DPoint = this
 
-	def atY(newY: Point1d): Point2d = VariablePoint(this, newY, _.atY(_))
+	override def resolve(pointMap: PointMap): FixedPoint = this
 
-	def atY(newY: Fixed1DPoint): Fixed2DPoint = Fixed2DPoint(x, newY.x)
-
-	def atY(newY: Long): Fixed2DPoint = Fixed2DPoint(x, newY)
-
-	def left(i: Point1d): Point2d = VariablePoint(this, i, _.left(_))
-
-	def left(i: Fixed1DPoint): Fixed2DPoint = Fixed2DPoint(x - i.x, y)
-
-	def left(i: Long): Fixed2DPoint = Fixed2DPoint(x - i, y)
-
-	def right(i: Point1d): Point2d = VariablePoint(this, i, _.right(_))
-
-	def right(i: Fixed1DPoint): Fixed2DPoint = Fixed2DPoint(x + i.x, y)
-
-	def right(i: Long): Fixed2DPoint = Fixed2DPoint(x + i, y)
-
-	def up(i: Point1d): Point2d = VariablePoint(this, i, _.up(_))
-
-	def up(i: Fixed1DPoint): Fixed2DPoint = Fixed2DPoint(x, y - i.x)
-
-	def up(i: Long): Fixed2DPoint = Fixed2DPoint(x, y - i)
-
-	def down(i: Point1d): Point2d = VariablePoint(this, i, _.down(_))
-
-	def down(i: Fixed1DPoint): Fixed2DPoint = Fixed2DPoint(x, y + i.x)
-
-	def down(i: Long): Fixed2DPoint = Fixed2DPoint(x, y + i)
+	def right(i: Long): VeryFixed2dPoint = new VeryFixed2dPoint(x + i, y)
+	def left(i: Long): VeryFixed2dPoint = new VeryFixed2dPoint(x - i, y)
+	def down(i: Long): VeryFixed2dPoint = new VeryFixed2dPoint(x, y + i)
+	def up(i: Long) = new VeryFixed2dPoint(x, y - i)
 }
 
-case class ReferencePoint(referenceName: String) extends Point2d {
-	def x() = Reference1DPoint(s"$referenceName#x")
-	def y() = Reference1DPoint(s"$referenceName#x")
+case class Fixed2DPoint(_x: Point1d, _y: Point1d) extends Point2d with FixedPoint {
 
-	override def resolve(pointMap: PointMap): Fixed2DPoint = pointMap(referenceName)
-
-	def atY(newY: Long): Point2d = VariablePoint(this, Fixed1DPoint(newY), _.atY(_))
-
-	def left(i: Long): Point2d = VariablePoint(this, Fixed1DPoint(i), _.left(_))
-
-	def right(i: Long): Point2d = VariablePoint(this, Fixed1DPoint(i), _.right(_))
-
-	def up(i: Long): Point2d = VariablePoint(this, Fixed1DPoint(i), _.up(_))
-
-	def down(i: Long): Point2d = VariablePoint(this, Fixed1DPoint(i), _.down(_))
-
-	def atY(newY: Point1d): Point2d = VariablePoint(this, newY, _.atY(_))
-
-	def left(i: Point1d): Point2d = VariablePoint(this, i, _.left(_))
-
-	def right(i: Point1d): Point2d = VariablePoint(this, i, _.right(_))
-
-	def up(i: Point1d): Point2d = VariablePoint(this, i, _.up(_))
-
-	def down(i: Point1d): Point2d = VariablePoint(this, i, _.down(_))
-}
-
-case class VariablePoint(referencePoint: Point2d, i: Point1d, op: (Fixed2DPoint, Fixed1DPoint) => Fixed2DPoint) extends Point2d {
-	override def resolve(pointMap: PointMap) = op(referencePoint.resolve(pointMap), i.resolve(pointMap))
-
-	def atY(newY: Long): Point2d = carrying(Fixed1DPoint(newY), _.atY(_))
-
-	def left(i: Long): Point2d = carrying(Fixed1DPoint(i), _.left(_))
-
-	def right(i: Long): Point2d = carrying(Fixed1DPoint(i), _.right(_))
-
-	private def carrying(i2: Point1d, op2: (Fixed2DPoint, Fixed1DPoint) => Fixed2DPoint) = {
-		VariablePoint(this, i2, (x, y) => op2(x, y))
+	def this(x: Long, y: Long) = {
+		this(Fixed1DPoint(x), Fixed1DPoint(y))
 	}
 
-	def up(i: Long): Point2d = carrying(Fixed1DPoint(i), _.up(_))
+	def resolve(pointMap: PointMap): VeryFixed2dPoint = new VeryFixed2dPoint(x.resolve(pointMap).x, y.resolve(pointMap).x)
 
-	def down(i: Long): Point2d = carrying(Fixed1DPoint(i), _.down(_))
+	override def x(): Point1d = _x
 
-	def atY(newY: Point1d): Point2d = carrying(newY, _.atY(_))
+	override def y(): Point1d = _y
 
-	def left(i: Point1d): Point2d = carrying(i, _.left(_))
+	def atY(newY: Long): Point2d = atY(Fixed1DPoint(newY))
 
-	def right(i: Point1d): Point2d = carrying(i, _.right(_))
+	def atY(newY: Point1d): Point2d = Fixed2DPoint(x, newY)
 
-	def up(i: Point1d): Point2d = carrying(i, _.up(_))
+	def left(i: Long): Point2d = left(Fixed1DPoint(i))
 
-	def down(i: Point1d): Point2d = carrying(i, _.down(_))
+	def left(i: Point1d): Point2d = Fixed2DPoint(x - i, _y)
+
+	def right(i: Long): Point2d = right(Fixed1DPoint(i))
+
+	def right(i: Point1d): Point2d = Fixed2DPoint(x + i, y)
+
+	def up(i: Long): Point2d = up(Fixed1DPoint(i))
+
+	def up(i: Point1d): Point2d = Fixed2DPoint(x, y - i)
+
+	def down(i: Long): Point2d = down(Fixed1DPoint(i))
+
+	def down(i: Point1d): Point2d = Fixed2DPoint(x, y + i)
+}
+
+class ReferencePoint(referenceName: String)
+	extends Fixed2DPoint(Reference1DPoint(s"$referenceName#x"), Reference1DPoint(s"$referenceName#y")) {
 }
 
 case class Fixed1DPoint(x: Long) extends Point1d with FixedPoint {
 	override def resolve(pointMap: PointMap): Fixed1DPoint = this
+
+	override def +(i: Point1d) = Variable1DPoint(this, i, (a, b) => Fixed1DPoint(a.x + b.x))
+
+	override def -(i: Point1d) = Variable1DPoint(this, i, (a, b) => Fixed1DPoint(a.x - b.x))
+
+	def <(other: Fixed1DPoint): Boolean = this.x < other.x
+
+	def <=(other: Fixed1DPoint): Boolean = this.x <= other.x
 }
 
 case class Reference1DPoint(name: String) extends Point1d {
 	override def resolve(pointMap: PointMap): Fixed1DPoint = pointMap.get1DPoint(name)
+
+	override def +(i: Point1d): Point1d = Variable1DPoint(this, i, (a, b) => Fixed1DPoint(a.x + b.x))
+
+	override def -(i: Point1d): Point1d = Variable1DPoint(this, i, (a, b) => Fixed1DPoint(a.x - b.x))
 }
 
 case class Variable1DPoint(a: Point1d, b: Point1d, op: (Fixed1DPoint, Fixed1DPoint) => Fixed1DPoint) extends Point1d {
 	override def resolve(pointMap: PointMap): Fixed1DPoint = op(a.resolve(pointMap), b.resolve(pointMap))
-}
 
+	override def +(i: Point1d): Point1d = Variable1DPoint(this, i, (a2, b2) => Fixed1DPoint(a2.x + b2.x))
+
+	override def -(i: Point1d): Point1d = Variable1DPoint(this, i, (a2, b2) => Fixed1DPoint(a2.x - b2.x))
+}
 
 object PointMath {
 	def max(a: Point1d, b: Point1d): Point = {

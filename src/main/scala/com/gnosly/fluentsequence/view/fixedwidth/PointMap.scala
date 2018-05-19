@@ -13,7 +13,7 @@ class PointMap {
 				return Fixed1DPoint(apply(point).y)
 			}
 		}else{
-			return Fixed1DPoint(apply(name).x)
+			return Fixed1DPoint(apply(name).x) // x for convention
 		}
 	}
 
@@ -21,18 +21,18 @@ class PointMap {
 		override def compare(a: String, b: String): Int = a.compareTo(b)
 	}
 
-	val map: mutable.TreeMap[String, Fixed2DPoint] = mutable.TreeMap[String, Fixed2DPoint]()(defaultOrdering)
+	val map: mutable.TreeMap[String, VeryFixed2dPoint] = mutable.TreeMap[String, VeryFixed2dPoint]()(defaultOrdering)
 
-	def putAll(entries:Seq[(String,Fixed2DPoint)]) = map ++= entries
+	def putAll(entries:Seq[(String,VeryFixed2dPoint)]) = map ++= entries
 
-	def apply(key: String): Fixed2DPoint = {
+	def apply(key: String): VeryFixed2dPoint = {
 		if (map.contains(key))
 			return map(key)
 		println(s"Not found $key in PointMap")
-		return Fixed2DPoint(0, 0)
+		return new VeryFixed2dPoint(0, 0)
 	}
 
-	def toMap(): mutable.TreeMap[String, Fixed2DPoint] = map
+	def toMap(): mutable.TreeMap[String, VeryFixed2dPoint] = map
 }
 
 
