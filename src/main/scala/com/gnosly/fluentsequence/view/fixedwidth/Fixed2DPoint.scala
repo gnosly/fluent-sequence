@@ -1,7 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 trait Point {
-	def resolve(pointMap: PointMap): FixedPoint
 }
 
 trait FixedPoint extends Point {}
@@ -11,7 +10,7 @@ trait Point1d extends Point {
 
 	def -(i: Point1d): Point1d
 
-	override def resolve(pointMap: PointMap): Fixed1DPoint
+	def resolve(pointMap: PointMap): Fixed1DPoint
 }
 
 trait Point2d extends Point {
@@ -19,7 +18,7 @@ trait Point2d extends Point {
 
 	def y(): Point1d
 
-	override def resolve(pointMap: PointMap): VeryFixed2dPoint
+	def resolve(pointMap: PointMap): VeryFixed2dPoint
 
 	def atY(newY: Long): Point2d
 
@@ -42,11 +41,7 @@ trait Point2d extends Point {
 	def down(i: Point1d): Point2d
 }
 
-case class VeryFixed2dPoint(val x:Long, val y:Long) extends FixedPoint {
-
-
-	override def resolve(pointMap: PointMap): FixedPoint = this
-
+case class VeryFixed2dPoint(val x:Long, val y:Long) {
 	def right(i: Long): VeryFixed2dPoint = new VeryFixed2dPoint(x + i, y)
 	def left(i: Long): VeryFixed2dPoint = new VeryFixed2dPoint(x - i, y)
 	def down(i: Long): VeryFixed2dPoint = new VeryFixed2dPoint(x, y + i)
