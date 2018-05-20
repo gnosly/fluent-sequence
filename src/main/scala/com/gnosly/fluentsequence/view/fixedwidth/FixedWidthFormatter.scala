@@ -104,8 +104,8 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 
 			//3. aggiornamento rettangoloni
-			pointMap.put1DPoint(s"column_${actorId}" -> Fixed1DPoint(signalBox.width))
-			pointMap.put1DPoint(s"row_${signal.currentIndex()}" -> (signalYStart + Fixed1DPoint(signalBox.height)).resolve(pointMap))
+			pointMap.put1DPoint(s"column_${actorId}" -> PointMath.max(Reference1DPoint(s"column_${actorId}"), Fixed1DPoint(signalBox.width)).resolve(pointMap))
+			pointMap.put1DPoint(s"row_${signal.currentIndex()}" -> PointMath.max(Reference1DPoint(s"row_${actorId}"), (signalYStart + Fixed1DPoint(signalBox.height))).resolve(pointMap))
 
 			pointMap.putAll(
 				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox,
@@ -130,6 +130,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 }
 
 object Coordinates {
+
 	case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) {
 		val actorTopRight = topLeft.right(actorBox.width)
 		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
