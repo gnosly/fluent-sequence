@@ -1,11 +1,29 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
+import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
 import com.gnosly.fluentsequence.view.model._
 
 import scala.collection.mutable
 
 class FixedWidthFormatter(painter: FixedWidthPainter) {
+
+	val formatActor = (actor: ActorComponent) => {
+		def previousActorDistanceOrDefault(): Point2d = {
+			if (actor.id == 0)
+				return new Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
+			else {
+				return new ReferencePoint(Actor.topRight(actor.id - 1))
+					.right(PointMath.max(Reference1DPoint(s"column_${actor.id - 1}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
+			}
+		}
+
+		//1. prerenderizzazione
+		val actorBox = painter.preRender(actor)
+		//2. determinazione punto in alto a sx
+		val actorTopLeft = previousActorDistanceOrDefault()
+		new ActorPoints(actor.id, actorTopLeft, actorBox)
+	}
 
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, VeryFixed2dPoint] = {
 		val formatRule = FormatRule()
@@ -21,96 +39,79 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		formatRule.pointMap.toMap()
 	}
 
-
 	private def formatIteration(viewModel: ViewModelComponents, formatRule: FormatRule) = {
-//		for (actor <- viewModel._actors.values) {
-//			val actorPoints = formatActor(actor)
-//			formatRule.pointMap.putAll(actorPoints.toPoints(formatRule.pointMap, formatRule.columnWidth))
-//
-//			for (activity <- actor.activities) {
-//				formatActivity(activity, formatRule)
-//			}
-//		}
+		//		for (actor <- viewModel._actors.values) {
+		//			val actorPoints = formatActor(actor)
+		//			formatRule.pointMap.putAll(actorPoints.toPoints(formatRule.pointMap, formatRule.columnWidth))
+		//
+		//			for (activity <- actor.activities) {
+		//				formatActivity(activity, formatRule)
+		//			}
+		//		}
 	}
 
-//	 val formatActor = (actor: ActorComponent) => {
-//		def previousActorDistanceOrDefault() = {
-//			if (actor.id == 0)
-//				Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
-//			else
-//				ReferencePoint(Actor.topRight(actor.id - 1))
-//					.right(PointMath.max(Reference1DPoint(s"column_${actor.id - 1}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
-//		}
-//
-//		//1. prerenderizzazione
-//		val actorBox = painter.preRender(actor)
-//		//2. determinazione punto in alto a sx
-//		val actorTopLeft = previousActorDistanceOrDefault()
-//		new ActorPoints(actor.id, actorTopLeft, actorBox)
-//	}
-
 	private def formatActivity(activity: ActivityComponent, formatRule: FormatRule): Any = {
-//		def previousIndexPointOrDefault(activityTopLeft: Fixed2DPoint, signal: SignalComponent): Long = {
-//			if (signal.currentIndex() == 1) {
-//				return activityTopLeft.y + 1
-//			} else {
-//				if (signal.isInstanceOf[BiSignalComponent]) {
-//					val biSignal = signal.asInstanceOf[BiSignalComponent]
-//					val toActivityTopLeft = formatRule.pointMap(Activity.topLeft(biSignal.toActorId, biSignal.toActivityId))
-//					return Math.max(formatRule.rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS,
-//						toActivityTopLeft.y + 1)
-//				}
-//				return formatRule.rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS
-//			}
-//		}
-//
-//
-//		val actorBottomMiddle = formatRule.pointMap(Actor.bottomMiddle(activity.actorId))
-//		//1. prerenderizzazione
-//		val activityBox = painter.preRender(activity)
-//		//2. determinazione punto in alto a sx
-//		var activityY = 0L
-//		if (activity.fromIndex > 1) {
-//			val lastSignalEnd = formatRule.rowHeight(activity.fromIndex - 1)
-//			val marginSinceLastActivity = formatRule.pointMap(Activity.bottomLeft(activity.actorId, activity.id - 1)).y + 1
-//			activityY = Math.max(lastSignalEnd, marginSinceLastActivity)
-//		} else {
-//			activityY = actorBottomMiddle.y
-//		}
-//
-//		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth()).atY(activityY)
-//		val activityTopRight = activityTopLeft.right(activityBox.width)
-//		//
-//
-//		val actorId = activity.actorId
-//
-//		for (point <- activity.points()) {
-//			val activityPoint = point._2
-//			val signal = activityPoint.signalComponent
-//
-//			//1. prerenderizzazione
-//			val signalBox = painter.preRender(signal)
-//			//2. determinazione punto in alto a sx
-//			val signalYStart = previousIndexPointOrDefault(activityTopLeft, signal)
-//			val signalXStart = if (activityPoint.direction.equals("right")) activityTopRight.x + 1 else activityTopLeft.x
-//			val signalTopLeft = Fixed2DPoint(signalXStart, signalYStart)
-//
-//
-//			//3. aggiornamento rettangoloni
-//			formatRule.columnWidth.updateMax(s"column_${actorId}", Fixed1DPoint(signalBox.width))
-//			formatRule.rowHeight.updateMax(signal.currentIndex(), signalYStart + signalBox.height)
-//
-//			formatRule.pointMap.putAll(
-//				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox,
-//					activityPoint.direction, signalTopLeft).toPoints()
-//			)
-//		}
-//
-//		val lastPoint = formatRule.rowHeight(activity.toIndex)
-//
-//		formatRule.pointMap.putAll(
-//			new ActivityPoints(actorId, activity.id, activityTopLeft, Box(activityBox.width, lastPoint - activityY)).toPoints()
-//		)
+		//		def previousIndexPointOrDefault(activityTopLeft: Fixed2DPoint, signal: SignalComponent): Long = {
+		//			if (signal.currentIndex() == 1) {
+		//				return activityTopLeft.y + 1
+		//			} else {
+		//				if (signal.isInstanceOf[BiSignalComponent]) {
+		//					val biSignal = signal.asInstanceOf[BiSignalComponent]
+		//					val toActivityTopLeft = formatRule.pointMap(Activity.topLeft(biSignal.toActorId, biSignal.toActivityId))
+		//					return Math.max(formatRule.rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS,
+		//						toActivityTopLeft.y + 1)
+		//				}
+		//				return formatRule.rowHeight(signal.currentIndex() - 1) + DISTANCE_BETWEEN_SIGNALS
+		//			}
+		//		}
+		//
+		//
+		//		val actorBottomMiddle = formatRule.pointMap(Actor.bottomMiddle(activity.actorId))
+		//		//1. prerenderizzazione
+		//		val activityBox = painter.preRender(activity)
+		//		//2. determinazione punto in alto a sx
+		//		var activityY = 0L
+		//		if (activity.fromIndex > 1) {
+		//			val lastSignalEnd = formatRule.rowHeight(activity.fromIndex - 1)
+		//			val marginSinceLastActivity = formatRule.pointMap(Activity.bottomLeft(activity.actorId, activity.id - 1)).y + 1
+		//			activityY = Math.max(lastSignalEnd, marginSinceLastActivity)
+		//		} else {
+		//			activityY = actorBottomMiddle.y
+		//		}
+		//
+		//		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth()).atY(activityY)
+		//		val activityTopRight = activityTopLeft.right(activityBox.width)
+		//		//
+		//
+		//		val actorId = activity.actorId
+		//
+		//		for (point <- activity.points()) {
+		//			val activityPoint = point._2
+		//			val signal = activityPoint.signalComponent
+		//
+		//			//1. prerenderizzazione
+		//			val signalBox = painter.preRender(signal)
+		//			//2. determinazione punto in alto a sx
+		//			val signalYStart = previousIndexPointOrDefault(activityTopLeft, signal)
+		//			val signalXStart = if (activityPoint.direction.equals("right")) activityTopRight.x + 1 else activityTopLeft.x
+		//			val signalTopLeft = Fixed2DPoint(signalXStart, signalYStart)
+		//
+		//
+		//			//3. aggiornamento rettangoloni
+		//			formatRule.columnWidth.updateMax(s"column_${actorId}", Fixed1DPoint(signalBox.width))
+		//			formatRule.rowHeight.updateMax(signal.currentIndex(), signalYStart + signalBox.height)
+		//
+		//			formatRule.pointMap.putAll(
+		//				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox,
+		//					activityPoint.direction, signalTopLeft).toPoints()
+		//			)
+		//		}
+		//
+		//		val lastPoint = formatRule.rowHeight(activity.toIndex)
+		//
+		//		formatRule.pointMap.putAll(
+		//			new ActivityPoints(actorId, activity.id, activityTopLeft, Box(activityBox.width, lastPoint - activityY)).toPoints()
+		//		)
 	}
 
 	private def marginActivityEnd(activity: ActivityComponent, signal: SignalComponent) = {

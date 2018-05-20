@@ -1,11 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-trait Point {
-}
-
-trait FixedPoint extends Point {}
-
-trait Point1d extends Point {
+trait Point1d {
 	def +(i: Point1d): Point1d
 
 	def -(i: Point1d): Point1d
@@ -13,7 +8,7 @@ trait Point1d extends Point {
 	def resolve(pointMap: PointMap): Fixed1DPoint
 }
 
-trait Point2d extends Point {
+trait Point2d {
 	def x(): Point1d
 
 	def y(): Point1d
@@ -48,7 +43,7 @@ case class VeryFixed2dPoint(val x:Long, val y:Long) {
 	def up(i: Long) = new VeryFixed2dPoint(x, y - i)
 }
 
-case class Fixed2DPoint(_x: Point1d, _y: Point1d) extends Point2d with FixedPoint {
+case class Fixed2DPoint(_x: Point1d, _y: Point1d) extends Point2d {
 
 	def this(x: Long, y: Long) = {
 		this(Fixed1DPoint(x), Fixed1DPoint(y))
@@ -85,7 +80,7 @@ class ReferencePoint(referenceName: String)
 	extends Fixed2DPoint(Reference1DPoint(s"$referenceName#x"), Reference1DPoint(s"$referenceName#y")) {
 }
 
-case class Fixed1DPoint(x: Long) extends Point1d with FixedPoint {
+case class Fixed1DPoint(x: Long) extends Point1d {
 	override def resolve(pointMap: PointMap): Fixed1DPoint = this
 
 	override def +(i: Point1d) = Variable1DPoint(this, i, (a, b) => Fixed1DPoint(a.x + b.x))
@@ -114,7 +109,7 @@ case class Variable1DPoint(a: Point1d, b: Point1d, op: (Fixed1DPoint, Fixed1DPoi
 }
 
 object PointMath {
-	def max(a: Point1d, b: Point1d): Point = {
+	def max(a: Point1d, b: Point1d): Point1d = {
 		Variable1DPoint(a, b, (x, y) => Fixed1DPoint(Math.max(x.x, y.x)))
 	}
 }
