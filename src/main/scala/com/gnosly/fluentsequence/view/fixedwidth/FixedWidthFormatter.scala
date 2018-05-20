@@ -26,7 +26,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		new ActorPoints(actor.id, actorTopLeft, actorBox)
 	}
 
-	val formatActivity = (activity: ActivityComponent, pointMap: PointMap) => {
+	val formatActivity = (activity: ActivityComponent) => {
 		val actorBottomMiddle = new ReferencePoint(Actor.bottomMiddle(activity.actorId))
 		//1. prerenderizzazione
 		val activityBox = painter.preRender(activity)
@@ -46,7 +46,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		val activityTopRight = activityTopLeft.right(activityBox.width)
 		val activityEndY = Reference1DPoint(ViewMatrix.row(activity.toIndex))
 
-		new ActivityPoints(activity.actorId, activity.id, activityTopLeft, activityBox.width, activityEndY)
+		ActivityPoints(activity.actorId, activity.id, activityTopLeft, activityBox.width, activityEndY)
 	}
 
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, VeryFixed2dPoint] = {
@@ -69,7 +69,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			pointMap.putAll(actorPoints.toPoints(pointMap))
 
 			for (activity <- actor.activities) {
-				val activityPoints = formatActivity(activity, pointMap)
+				val activityPoints = formatActivity(activity)
 				pointMap.putAll(activityPoints.toPoints(pointMap))
 
 				for (point <- activity.points()) {
@@ -140,7 +140,7 @@ object Coordinates {
 		}
 	}
 
-	class ActivityPoints(actorId: Int, activityId: Int, val activityTopLeft: Point2d, activityWith: Long, lastPoint: Point1d) {
+	case class ActivityPoints(actorId: Int, activityId: Int, val activityTopLeft: Point2d, activityWith: Long, lastPoint: Point1d) {
 		val activityTopRight = activityTopLeft.right(activityWith)
 		val activityBottomLeft = activityTopLeft.atY(lastPoint)
 

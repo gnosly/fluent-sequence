@@ -1,11 +1,11 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{ActivityPoints, Actor, ActorPoints, SignalPoint}
+import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_ACTORS
 import com.gnosly.fluentsequence.view.fixedwidth.{Box, _}
-import com.gnosly.fluentsequence.view.model.ActorComponent
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
+import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent}
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.mutable
@@ -29,6 +29,11 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			)
 	}
 
+	it should "format first activity" in {
+		formatter.formatActivity(new ActivityComponent(0, 0,0,3, true,null,null )) shouldBe
+			ActivityPoints(0,0, new ReferencePoint(Actor.bottomMiddle(0)).left(1), 2, Reference1DPoint(ViewMatrix.row(3)))
+	}
+
 	it should "format actor with a auto-signal" in {
 
 		val flow = Sequence("example").startWith(
@@ -39,7 +44,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		printThe(pointMap)
 
 		val actorPoints = new ActorPoints(0, new Fixed2DPoint(1, 1), Box(8, 4))
-		val activityPoints = new ActivityPoints(0, 0, new Fixed2DPoint(3, 5), 2, Fixed1DPoint(5))
+		val activityPoints = ActivityPoints(0, 0, new Fixed2DPoint(3, 5), 2, Fixed1DPoint(5))
 		val signalPoints = new SignalPoint(0, 0, 1, Box(5, 4), "right", activityPoints.activityTopRight.down(1).right(1))
 
 		pointMap should contain theSameElementsAs (
