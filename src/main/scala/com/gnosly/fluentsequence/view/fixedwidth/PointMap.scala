@@ -12,7 +12,7 @@ class PointMap {
 		if (name.split("#").size > 1) {
 			val point = name.split("#")(0)
 			val coordinate = name.split("#")(1)
-			if (coordinate.equals("#x")) {
+			if (coordinate.equals("x")) {
 				return Fixed1DPoint(apply(point).x)
 			} else {
 				return Fixed1DPoint(apply(point).y)
