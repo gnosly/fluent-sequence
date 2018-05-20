@@ -26,6 +26,29 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		new ActorPoints(actor.id, actorTopLeft, actorBox)
 	}
 
+	val formatActivity = (activity: ActivityComponent, pointMap: PointMap) => {
+		val actorBottomMiddle = new ReferencePoint(Actor.bottomMiddle(activity.actorId))
+		//1. prerenderizzazione
+		val activityBox = painter.preRender(activity)
+		//2. determinazione punto in alto a sx
+
+		val activityStartY = {
+			if (activity.fromIndex > 1) {
+				val lastSignalEnd = Reference1DPoint(ViewMatrix.row(activity.fromIndex - 1))
+				val marginSinceLastActivity = new ReferencePoint(Activity.bottomLeft(activity.actorId, activity.id - 1)).down(1).y()
+				max(lastSignalEnd, marginSinceLastActivity)
+			} else {
+				actorBottomMiddle.y()
+			}
+		}
+
+		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth()).atY(activityStartY)
+		val activityTopRight = activityTopLeft.right(activityBox.width)
+		val activityEndY = Reference1DPoint(ViewMatrix.row(activity.toIndex))
+
+		new ActivityPoints(activity.actorId, activity.id, activityTopLeft, activityBox.width, activityEndY)
+	}
+
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, VeryFixed2dPoint] = {
 		val pointMap = new PointMap()
 
@@ -46,82 +69,52 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			pointMap.putAll(actorPoints.toPoints(pointMap))
 
 			for (activity <- actor.activities) {
-				formatActivity(activity, pointMap)
+				val activityPoints = formatActivity(activity, pointMap)
+				pointMap.putAll(activityPoints.toPoints(pointMap))
+
+				for (point <- activity.points()) {
+					val activityPoint = point._2
+					val signal = activityPoint.signalComponent
+
+					//1. prerenderizzazione
+					val signalBox = painter.preRender(signal)
+					//2. determinazione punto in alto a sx
+					val signalYStart = previousIndexPointOrDefault(activityPoints.activityTopLeft, signal)
+					val signalXStart = if (activityPoint.direction.equals("right")) activityPoints.activityTopRight.right(1).x() else activityPoints.activityTopLeft.x()
+					val signalTopLeft = Fixed2DPoint(signalXStart, signalYStart)
+
+
+					//3. aggiornamento rettangoloni
+					val currentRow = ViewMatrix.row(signal.currentIndex())
+					val currentColumn = ViewMatrix.column(activity.actorId)
+
+					pointMap.put1DPoint(currentColumn -> max(Reference1DPoint(currentColumn), Fixed1DPoint(signalBox.width)).resolve(pointMap))
+					pointMap.put1DPoint(currentRow -> max(Reference1DPoint(currentRow), (signalYStart + Fixed1DPoint(signalBox.height))).resolve(pointMap))
+
+					pointMap.putAll(
+						new SignalPoint(activity.actorId, activity.id, signal.currentIndex(), signalBox,
+							activityPoint.direction, signalTopLeft).toPoints(pointMap)
+					)
+				}
 			}
 		}
 	}
 
-	private def formatActivity(activity: ActivityComponent, pointMap: PointMap): Any = {
-		def previousIndexPointOrDefault(activityTopLeft: Point2d, signal: SignalComponent): Point1d = {
-			if (signal.currentIndex() == 1) {
-				return activityTopLeft.down(1).y()
-			} else {
-				if (signal.isInstanceOf[BiSignalComponent]) {
-					val biSignal = signal.asInstanceOf[BiSignalComponent]
-					val toActivityTopLeft = new ReferencePoint(Activity.topLeft(biSignal.toActorId, biSignal.toActivityId))
+	def previousIndexPointOrDefault(activityTopLeft: Point2d, signal: SignalComponent): Point1d = {
+		if (signal.currentIndex() == 1) {
+			return activityTopLeft.down(1).y()
+		} else {
+			if (signal.isInstanceOf[BiSignalComponent]) {
+				val biSignal = signal.asInstanceOf[BiSignalComponent]
+				val toActivityTopLeft = new ReferencePoint(Activity.topLeft(biSignal.toActorId, biSignal.toActivityId))
 
-					return PointMath.max(Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS),
-						toActivityTopLeft.down(1).y()
-					)
-				}
-
-				return Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)
+				return PointMath.max(Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS),
+					toActivityTopLeft.down(1).y()
+				)
 			}
+
+			return Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)
 		}
-
-		val actorBottomMiddle = new ReferencePoint(Actor.bottomMiddle(activity.actorId))
-		//1. prerenderizzazione
-		val activityBox = painter.preRender(activity)
-		//2. determinazione punto in alto a sx
-
-		def activityYStart: Point1d = {
-			if (activity.fromIndex > 1) {
-				val lastSignalEnd = Reference1DPoint(ViewMatrix.row(activity.fromIndex - 1))
-				val marginSinceLastActivity = new ReferencePoint(Activity.bottomLeft(activity.actorId, activity.id - 1)).down(1).y()
-				return max(lastSignalEnd, marginSinceLastActivity)
-			} else {
-				return actorBottomMiddle.y()
-			}
-		}
-
-		val activityY = activityYStart
-
-		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth()).atY(activityY)
-		val activityTopRight = activityTopLeft.right(activityBox.width)
-		//
-
-		val actorId = activity.actorId
-
-		for (point <- activity.points()) {
-			val activityPoint = point._2
-			val signal = activityPoint.signalComponent
-
-			//1. prerenderizzazione
-			val signalBox = painter.preRender(signal)
-			//2. determinazione punto in alto a sx
-			val signalYStart = previousIndexPointOrDefault(activityTopLeft, signal)
-			val signalXStart = if (activityPoint.direction.equals("right")) activityTopRight.right(1).x() else activityTopLeft.x()
-			val signalTopLeft = Fixed2DPoint(signalXStart, signalYStart)
-
-
-			//3. aggiornamento rettangoloni
-			val currentRow = ViewMatrix.row(signal.currentIndex())
-			val currentColumn = ViewMatrix.column(actorId)
-
-			pointMap.put1DPoint(currentColumn -> max(Reference1DPoint(currentColumn), Fixed1DPoint(signalBox.width)).resolve(pointMap))
-			pointMap.put1DPoint(currentRow -> max(Reference1DPoint(currentRow), (signalYStart + Fixed1DPoint(signalBox.height))).resolve(pointMap))
-
-			pointMap.putAll(
-				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox,
-					activityPoint.direction, signalTopLeft).toPoints(pointMap)
-			)
-		}
-
-		val lastPoint = Reference1DPoint(ViewMatrix.row(activity.toIndex))
-
-		pointMap.putAll(
-			new ActivityPoints(actorId, activity.id, activityTopLeft, activityBox.width, lastPoint).toPoints(pointMap)
-		)
 	}
 
 	private def marginActivityEnd(activity: ActivityComponent, signal: SignalComponent) = {
@@ -202,6 +195,7 @@ object Coordinates {
 
 		def row(signalIndex: Int): String = s"row_${signalIndex}"
 	}
+
 }
 
 
