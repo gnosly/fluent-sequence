@@ -2,6 +2,7 @@ package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
+import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.model._
 
 import scala.collection.mutable
@@ -14,7 +15,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 				return new Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
 			else {
 				return new ReferencePoint(Actor.topRight(actor.id - 1))
-					.right(PointMath.max(Reference1DPoint(s"column_${actor.id - 1}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
+					.right(max(Reference1DPoint(ViewMatrix.column(actor.id - 1)), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
 			}
 		}
 
@@ -59,12 +60,12 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 					val biSignal = signal.asInstanceOf[BiSignalComponent]
 					val toActivityTopLeft = new ReferencePoint(Activity.topLeft(biSignal.toActorId, biSignal.toActivityId))
 
-					return PointMath.max(Reference1DPoint(s"row_${signal.currentIndex() - 1}") + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS),
+					return PointMath.max(Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS),
 						toActivityTopLeft.down(1).y()
 					)
 				}
 
-				return Reference1DPoint(s"row_${signal.currentIndex() - 1}") + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)
+				return Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)
 			}
 		}
 
@@ -75,9 +76,9 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 		def activityYStart: Point1d = {
 			if (activity.fromIndex > 1) {
-				val lastSignalEnd = Reference1DPoint(s"row_${activity.fromIndex - 1}")
+				val lastSignalEnd = Reference1DPoint(ViewMatrix.row(activity.fromIndex - 1))
 				val marginSinceLastActivity = new ReferencePoint(Activity.bottomLeft(activity.actorId, activity.id - 1)).down(1).y()
-				return PointMath.max(lastSignalEnd, marginSinceLastActivity)
+				return max(lastSignalEnd, marginSinceLastActivity)
 			} else {
 				return actorBottomMiddle.y()
 			}
@@ -104,8 +105,11 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 
 			//3. aggiornamento rettangoloni
-			pointMap.put1DPoint(s"column_${actorId}" -> PointMath.max(Reference1DPoint(s"column_${actorId}"), Fixed1DPoint(signalBox.width)).resolve(pointMap))
-			pointMap.put1DPoint(s"row_${signal.currentIndex()}" -> PointMath.max(Reference1DPoint(s"row_${actorId}"), (signalYStart + Fixed1DPoint(signalBox.height))).resolve(pointMap))
+			val currentRow = ViewMatrix.row(signal.currentIndex())
+			val currentColumn = ViewMatrix.column(actorId)
+
+			pointMap.put1DPoint(currentColumn -> max(Reference1DPoint(currentColumn), Fixed1DPoint(signalBox.width)).resolve(pointMap))
+			pointMap.put1DPoint(currentRow -> max(Reference1DPoint(currentRow), (signalYStart + Fixed1DPoint(signalBox.height))).resolve(pointMap))
 
 			pointMap.putAll(
 				new SignalPoint(actorId, activity.id, signal.currentIndex(), signalBox,
@@ -113,7 +117,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			)
 		}
 
-		val lastPoint = Reference1DPoint(s"row_${activity.toIndex}")
+		val lastPoint = Reference1DPoint(ViewMatrix.row(activity.toIndex))
 
 		pointMap.putAll(
 			new ActivityPoints(actorId, activity.id, activityTopLeft, activityBox.width, lastPoint).toPoints(pointMap)
@@ -182,18 +186,22 @@ object Coordinates {
 
 		def rightPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "right")
 
-		def pointStart(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_start"
-
 		def leftPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "left")
+
+		def pointStart(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_start"
 
 		def rightPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "right")
 
 		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
 
 		def pointEnd(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
-
 	}
 
+	object ViewMatrix {
+		def column(actorId: Int): String = s"column_${actorId}"
+
+		def row(signalIndex: Int): String = s"row_${signalIndex}"
+	}
 }
 
 
