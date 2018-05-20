@@ -1,50 +1,51 @@
-//package com.gnosly.fluentsequence.view
-//
-//import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
-//import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{ActivityPoints, Actor, ActorPoints, SignalPoint}
-//import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_ACTORS
-//import com.gnosly.fluentsequence.view.fixedwidth.{Box, _}
-//import com.gnosly.fluentsequence.view.model.ActorComponent
-//import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
-//import org.scalatest.{FlatSpec, Matchers}
-//
-//import scala.collection.mutable
-//
-//class FixedWidthFormatterTest extends FlatSpec with Matchers {
-//	val USER = new User("USER")
-//	val SYSTEM = new FluentActor("SYSTEM")
-//
-//	val formatter = new FixedWidthFormatter(new FixedWidthPainter())
-//
-//	it should "format single actor alone" in {
-//		formatter.formatActor(new ActorComponent(0, "user", null)) shouldBe ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4))
-//		formatter.formatActor(new ActorComponent(1, "user", null)) shouldBe
-//			ActorPoints(1,
-//				ReferencePoint(Actor.topRight(0))
-//					.right(PointMath.max(Reference1DPoint(s"column_${0}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS))),
-//				Box(8, 4)
-//			)
-//	}
-//
-//	it should "format actor with a auto-signal" in {
-//
-//		val flow = Sequence("example").startWith(
-//			USER.does("something") :: Nil
-//		)
-//
-//		val viewModel = generate(flow.toEventBook)
-//
-//		val pointMap = formatter.format(viewModel)
-//		printThe(pointMap)
-//
-//		val actorPoints = new ActorPoints(0, Fixed2DPoint(1, 1), Box(8, 4))
-//		val activityPoints = new ActivityPoints(0, 0, Fixed2DPoint(3, 5), Box(2, 5))
-//		val signalPoints = new SignalPoint(0, 0, 1, Box(5, 4), "right", activityPoints.activityTopRight.down(1).right(1))
-//
-//		pointMap should contain theSameElementsAs (
-//			actorPoints.toPoints(null, null) ++ activityPoints.toPoints() ++ signalPoints.toPoints()
-//			)
-//	}
+package com.gnosly.fluentsequence.view
+
+import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
+import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{ActivityPoints, Actor, ActorPoints, SignalPoint}
+import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_ACTORS
+import com.gnosly.fluentsequence.view.fixedwidth.{Box, _}
+import com.gnosly.fluentsequence.view.model.ActorComponent
+import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
+import org.scalatest.{FlatSpec, Matchers}
+
+import scala.collection.mutable
+
+class FixedWidthFormatterTest extends FlatSpec with Matchers {
+	val USER = new User("USER")
+	val SYSTEM = new FluentActor("SYSTEM")
+
+	val formatter = new FixedWidthFormatter(new FixedWidthPainter())
+
+	it should "format first actor alone" in {
+		formatter.formatActor(new ActorComponent(0, "user", null)) shouldBe ActorPoints(0, new Fixed2DPoint(1, 1), Box(8, 4))
+	}
+
+	it should "format second actor alone" in {
+		formatter.formatActor(new ActorComponent(1, "user", null)) shouldBe
+			ActorPoints(1,
+				new ReferencePoint(Actor.topRight(0))
+					.right(PointMath.max(Reference1DPoint(s"column_${0}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS))),
+				Box(8, 4)
+			)
+	}
+
+	it should "format actor with a auto-signal" in {
+
+		val flow = Sequence("example").startWith(
+			USER.does("something") :: Nil
+		)
+
+		val pointMap = formatter.format(generate(flow.toEventBook))
+		printThe(pointMap)
+
+		val actorPoints = new ActorPoints(0, new Fixed2DPoint(1, 1), Box(8, 4))
+		val activityPoints = new ActivityPoints(0, 0, new Fixed2DPoint(3, 5), 2, Fixed1DPoint(5))
+		val signalPoints = new SignalPoint(0, 0, 1, Box(5, 4), "right", activityPoints.activityTopRight.down(1).right(1))
+
+		pointMap should contain theSameElementsAs (
+			actorPoints.toPoints(null) ++ activityPoints.toPoints(null) ++ signalPoints.toPoints(null)
+			)
+	}
 //
 //	it should "format two actors" in {
 //
@@ -161,29 +162,29 @@
 //
 //		pointMap.toMap should contain theSameElementsAs expectedPointMap.toMap
 //	}
-//
-//
-//	private def printThe(pointMap: mutable.TreeMap[String, Fixed2DPoint]): String = {
-//		val canvas = new FixedWidthCanvas()
-//
-//		var charForPoint: String = "a"
-//
-//		pointMap.foreach(
-//			p => {
-//				println(charForPoint + ": " + p._1)
-//				canvas.write(p._2, charForPoint)
-//				charForPoint = (charForPoint(0) + 1).toChar.toString
-//			}
-//
-//		)
-//
-//		println("--------------")
-//		val str = canvas.print()
-//		println(str)
-//		println("--------------")
-//
-//		str
-//	}
-//
-//	//test with signal in different actor sequence
-//}
+
+
+	private def printThe(pointMap: mutable.TreeMap[String, VeryFixed2dPoint]): String = {
+		val canvas = new FixedWidthCanvas()
+
+		var charForPoint: String = "a"
+
+		pointMap.foreach(
+			p => {
+				println(charForPoint + ": " + p._1)
+				canvas.write(p._2, charForPoint)
+				charForPoint = (charForPoint(0) + 1).toChar.toString
+			}
+
+		)
+
+		println("--------------")
+		val str = canvas.print()
+		println(str)
+		println("--------------")
+
+		str
+	}
+
+	//test with signal in different actor sequence
+}
