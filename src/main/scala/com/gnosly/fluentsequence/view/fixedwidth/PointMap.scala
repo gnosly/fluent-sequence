@@ -37,18 +37,3 @@ class PointMap {
 
 	def toMap(): mutable.TreeMap[String, VeryFixed2dPoint] = map
 }
-
-
-class SinglePointMap(intervals: mutable.TreeMap[String, Fixed1DPoint] = mutable.TreeMap[String, Fixed1DPoint]()) {
-	def updateMax(interval: String, size: Fixed1DPoint): Unit = {
-		if (intervals.contains(interval)) {
-			if (size.x > intervals(interval).x) {
-				intervals.put(interval, size)
-			}
-		} else {
-			intervals.put(interval, size)
-		}
-	}
-
-	def apply(name: String): Fixed1DPoint = intervals.getOrElse(name, Fixed1DPoint(0))
-}
