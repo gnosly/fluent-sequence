@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_ACTORS
+import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.fixedwidth.{Box, _}
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
 import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent}
@@ -24,15 +25,29 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		formatter.formatActor(new ActorComponent(1, "user", null)) shouldBe
 			ActorPoints(1,
 				new ReferencePoint(Actor.topRight(0))
-					.right(PointMath.max(Reference1DPoint(s"column_${0}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS))),
+					.right(max(Reference1DPoint(s"column_${0}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS))),
 				Box(8, 4)
 			)
 	}
 
 	it should "format first activity" in {
-		val lastSignalIndex = 3
-		formatter.formatActivity(new ActivityComponent(0, 0, 0, lastSignalIndex, true, null, null)) shouldBe
-			ActivityPoints(0, 0, new ReferencePoint(Actor.bottomMiddle(0)).left(1), 2, Reference1DPoint(ViewMatrix.row(lastSignalIndex)))
+		val LAST_SIGNAL_INDEX = 3
+
+		val activityPoints = formatter.formatActivity(new ActivityComponent(0, 0, 0, LAST_SIGNAL_INDEX, true, null, null))
+
+		activityPoints shouldBe ActivityPoints(0, 0, new ReferencePoint(Actor.bottomMiddle(0)).left(1), 2, Reference1DPoint(ViewMatrix.row(LAST_SIGNAL_INDEX)))
+	}
+
+	it should "format second activity" in {
+		val FIRST_SIGNAL_INDEX = 2
+		val LAST_SIGNAL_INDEX = 5
+
+		val activityPoints = formatter.formatActivity(new ActivityComponent(0, 0, FIRST_SIGNAL_INDEX, LAST_SIGNAL_INDEX, true, null, null))
+
+		activityPoints shouldBe ActivityPoints(0, 0, new ReferencePoint(Actor.bottomMiddle(0))
+			.atY(max(Reference1DPoint(ViewMatrix.row(FIRST_SIGNAL_INDEX-1)),
+				new ReferencePoint(Activity.bottomLeft(0, -1)).down(1).y()))
+			.left(1), 2, Reference1DPoint(ViewMatrix.row(LAST_SIGNAL_INDEX)))
 	}
 
 	it should "format actor with a auto-signal" in {
