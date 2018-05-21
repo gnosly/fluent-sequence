@@ -43,7 +43,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		}
 
 		val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth()).atY(activityStartY)
-		val activityTopRight = activityTopLeft.right(activityBox.width)
 		val activityEndY = Reference1DPoint(ViewMatrix.row(activity.toIndex))
 
 		ActivityPoints(activity.actorId, activity.id, activityTopLeft, activityBox.width, activityEndY)
