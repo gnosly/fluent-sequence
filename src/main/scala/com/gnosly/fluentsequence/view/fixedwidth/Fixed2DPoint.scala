@@ -81,6 +81,8 @@ class ReferencePoint(referenceName: String)
 }
 
 case class Fixed1DPoint(x: Long) extends Point1d {
+	def to2d(): VeryFixed2dPoint = VeryFixed2dPoint(x, 0)
+
 	override def resolve(pointMap: PointMap): Fixed1DPoint = this
 
 	override def +(i: Point1d) = Variable1DPoint(this, i, (a, b) => Fixed1DPoint(a.x + b.x))

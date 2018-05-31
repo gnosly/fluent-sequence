@@ -1,6 +1,5 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.model._
 
@@ -29,11 +28,9 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap) = {
 		for (actor <- viewModel._actors.values) {
 			val actorPoints = actorFormatter.formatActor(actor)
-			pointMap.putAll(actorPoints.toPoints(pointMap))
 
 			for (activity <- actor.activities) {
 				val activityPoints = activityFormatter.format(activity)
-				pointMap.putAll(activityPoints.toPoints(pointMap))
 
 				for (point <- activity.points()) {
 
@@ -41,15 +38,15 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 						case a: AutoSignalComponent => autoSignalFormatter.format(a)
 						case b: BiSignalComponent => bisignalFormatter.format(b, point._2.outgoing)
 					}
-					//3. aggiornamento rettangoloni
-					val currentRow = ViewMatrix.row(signalPoints.signalIndex)
-					val currentColumn = ViewMatrix.column(signalPoints.actorId)
-					pointMap.put1DPoint(currentColumn -> max(Reference1DPoint(currentColumn), Fixed1DPoint(signalPoints.signalBox.width)).resolve(pointMap))
-					pointMap.put1DPoint(currentRow -> max(Reference1DPoint(currentRow), (signalPoints.fixedPointEnd.y())).resolve(pointMap))
 
 					pointMap.putAll(signalPoints.toPoints(pointMap))
 				}
+
+				pointMap.putAll(activityPoints.toPoints(pointMap))
 			}
+
+
+			pointMap.putAll(actorPoints.toPoints(pointMap))
 		}
 	}
 }
@@ -84,6 +81,12 @@ object Coordinates {
 		val fixedPointEnd = signalTopLeft.down(signalBox.height)
 
 		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
+			//3. aggiornamento rettangoloni
+			val currentRow = ViewMatrix.row(signalIndex)
+			val currentColumn = ViewMatrix.column(actorId)
+
+			currentColumn -> max(Reference1DPoint(currentColumn), Fixed1DPoint(signalBox.width)).resolve(pointMap).to2d() ::
+			currentRow -> max(Reference1DPoint(currentRow), fixedPointEnd.y()).resolve(pointMap).to2d() ::
 			Activity.pointStart(actorId, activityId, signalIndex, direction) -> signalTopLeft.resolve(pointMap) ::
 				Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd.resolve(pointMap) :: Nil
 		}
