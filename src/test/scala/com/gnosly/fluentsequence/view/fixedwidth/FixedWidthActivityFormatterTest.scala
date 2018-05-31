@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{Activity, ActivityPoints, Actor, ViewMatrix}
+import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{Activity, Actor, ViewMatrix}
 import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.model.ActivityComponent
 import org.scalatest.{FunSuite, Matchers}

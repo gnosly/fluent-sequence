@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
+import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model._
 
 import scala.collection.mutable
@@ -16,7 +16,14 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 		while (true) {
 			val previousPointMap = pointMap.toMap().toMap
-			formatIteration(viewModel, pointMap)
+			val pointables = formatIteration(viewModel, pointMap)
+			pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
+			pointMap.putAll(pointables.flatMap(p => p.toMatrixConstraint(pointMap))
+				.groupBy[String](_._1)
+				.mapValues(x => x.map(_._2))
+				.mapValues(_.reduce((a, b) => max(a, b)))
+				.toSeq)
+
 			if (pointMap.toMap().toMap == previousPointMap) {
 				return pointMap.toMap()
 			}
@@ -25,12 +32,21 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		pointMap.toMap()
 	}
 
-	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap) = {
+
+	def max(a: VeryFixed2dPoint, b: VeryFixed2dPoint): VeryFixed2dPoint = {
+		if (a.x > b.x) a else b
+	}
+
+	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap): Seq[Pointable] = {
+		val pointable = mutable.ArrayBuffer[Pointable]()
+
 		for (actor <- viewModel._actors.values) {
 			val actorPoints = actorFormatter.formatActor(actor)
+			pointable += actorPoints
 
 			for (activity <- actor.activities) {
 				val activityPoints = activityFormatter.format(activity)
+				pointable += activityPoints
 
 				for (point <- activity.points()) {
 
@@ -39,61 +55,43 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 						case b: BiSignalComponent => bisignalFormatter.format(b, point._2.outgoing)
 					}
 
-					pointMap.putAll(signalPoints.toPoints(pointMap))
+					pointable += signalPoints
 				}
-
-				pointMap.putAll(activityPoints.toPoints(pointMap))
 			}
-
-
-			pointMap.putAll(actorPoints.toPoints(pointMap))
 		}
+
+		return pointable
 	}
 }
 
 object Coordinates {
 
-	trait Pointable {
+	trait ViewMatrixContenable {
+		def toMatrixConstraint(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = Seq()
+	}
+
+	trait Pointable extends ViewMatrixContenable {
 		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)]
 	}
 
-	case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) extends Pointable {
-		val actorTopRight = topLeft.right(actorBox.width)
-		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
+	case class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBox: Box,
+												 direction: String, signalTopLeft: Point2d) extends Pointable with ViewMatrixContenable {
+		private val fixedPointEnd = signalTopLeft.down(signalBox.height)
 
 		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
-			Actor.topLeft(actorId) -> topLeft.resolve(pointMap) ::
-				Actor.topRight(actorId) -> actorTopRight.resolve(pointMap) ::
-				Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap) :: Nil
-
+			Activity.pointStart(actorId, activityId, signalIndex, direction) -> signalTopLeft.resolve(pointMap) ::
+				Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd.resolve(pointMap) :: Nil
 		}
-	}
 
-	case class ActivityPoints(actorId: Int, activityId: Int, activityTopLeft: Point2d, activityWith: Long, lastPoint: Point1d) extends Pointable {
-		val activityTopRight = activityTopLeft.right(activityWith)
-		val activityBottomLeft = activityTopLeft.atY(lastPoint)
-
-		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
-			Activity.topLeft(actorId, activityId) -> activityTopLeft.resolve(pointMap) ::
-				Activity.topRight(actorId, activityId) -> activityTopRight.resolve(pointMap) ::
-				Activity.bottomLeft(actorId, activityId) -> activityBottomLeft.resolve(pointMap) :: Nil
-		}
-	}
-
-	case class SignalPoint(val actorId: Int, val activityId: Int, val signalIndex: Int, val signalBox: Box,
-										direction: String, signalTopLeft: Point2d) extends Pointable{
-		val fixedPointEnd = signalTopLeft.down(signalBox.height)
-
-		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
+		override def toMatrixConstraint(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
 			//3. aggiornamento rettangoloni
 			val currentRow = ViewMatrix.row(signalIndex)
 			val currentColumn = ViewMatrix.column(actorId)
 
-			currentColumn -> max(Reference1DPoint(currentColumn), Fixed1DPoint(signalBox.width)).resolve(pointMap).to2d() ::
-			currentRow -> max(Reference1DPoint(currentRow), fixedPointEnd.y()).resolve(pointMap).to2d() ::
-			Activity.pointStart(actorId, activityId, signalIndex, direction) -> signalTopLeft.resolve(pointMap) ::
-				Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd.resolve(pointMap) :: Nil
+			currentColumn -> Fixed1DPoint(signalBox.width).resolve(pointMap).to2d() ::
+				currentRow -> fixedPointEnd.y().resolve(pointMap).to2d() :: Nil
 		}
+
 	}
 
 	object Actor {
@@ -114,15 +112,15 @@ object Coordinates {
 
 		def rightPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "right")
 
-		def leftPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "left")
-
 		def pointStart(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_start"
+
+		def leftPointStart(actorId: Int, activityId: Int, pointId: Int): String = pointStart(actorId, activityId, pointId, "left")
 
 		def rightPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "right")
 
-		def pointEnd(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
-
 		def leftPointEnd(actorId: Int, activityId: Int, pointId: Int): String = pointEnd(actorId, activityId, pointId, "left")
+
+		def pointEnd(actorId: Int, activityId: Int, pointId: Int, direction: String) = s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
 	}
 
 	object ViewMatrix {

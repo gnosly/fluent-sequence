@@ -23,7 +23,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 		val pointMap = formatter.format(generate(flow.toEventBook))
 		printThe(pointMap)
 
-		val actorPoints = new ActorPoints(0, new Fixed2DPoint(1, 1), Box(8, 4))
+		val actorPoints = ActorPoints(0, new Fixed2DPoint(1, 1), Box(8, 4))
 		val activityPoints = ActivityPoints(0, 0, new Fixed2DPoint(3, 5), 2, Fixed1DPoint(5))
 		val signalPoints = new SignalPoint(0, 0, 1, Box(5, 4), "right", activityPoints.activityTopRight.down(1).right(1))
 

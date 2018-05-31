@@ -1,12 +1,12 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{Activity, SignalPoint, ViewMatrix}
+import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{Activity, Pointable, SignalPoint, ViewMatrix}
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
 import com.gnosly.fluentsequence.view.model.{AutoSignalComponent, SignalComponent}
 
 class FixedWidthAutoSignalFormatter(painter: FixedWidthPainter) {
 
-	def format(signal: AutoSignalComponent): SignalPoint = {
+	def format(signal: AutoSignalComponent): Pointable = {
 		val signalBox = painter.preRender(signal)
 		val activityTopRight = new ReferencePoint(Activity.topRight(signal.fromActorId, signal.fromActivityId))
 		//2. determinazione punto in alto a sx

@@ -2,18 +2,18 @@ package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthViewer
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source
 
-class FixedWidthViewerTest extends FlatSpec with Matchers {
+class FixedWidthViewerTest extends FunSuite with Matchers {
 	val USER = new User("user")
 	val SYSTEM = new FluentActor("system")
 	val SYSTEM_B = new FluentActor("another system")
 
 	val viewer = new FixedWidthViewer()
 
-	it should "view an actor that calls another" in {
+	test("view an actor that calls another"){
 
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) :: Nil
@@ -24,7 +24,7 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 		str shouldBe sequenceFromFile("two-actors-one-call.txt")
 	}
 
-	it should "do a two actor sequence" in {
+	test("do a two actor sequence"){
 
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) ::
@@ -36,7 +36,7 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 		str shouldBe sequenceFromFile("two-actors.txt")
 	}
 
-	it should "do a complete sequence" in {
+	test("do a complete sequence"){
 
 		val flow = Sequence("example").startWith(
 			USER.does("something") ::
@@ -51,7 +51,7 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 		str shouldBe sequenceFromFile("complete-fixed-sequence.txt")
 	}
 
-	it should "multi activity" in {
+	test("multi activity"){
 
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) ::

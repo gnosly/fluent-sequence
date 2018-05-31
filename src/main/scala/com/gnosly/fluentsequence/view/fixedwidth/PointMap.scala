@@ -22,7 +22,7 @@ class PointMap {
 		}
 	}
 
-	def apply(key: String): VeryFixed2dPoint = {
+	private def apply(key: String): VeryFixed2dPoint = {
 		if (map.contains(key))
 			return map(key)
 		println(s"Not found $key in PointMap")
