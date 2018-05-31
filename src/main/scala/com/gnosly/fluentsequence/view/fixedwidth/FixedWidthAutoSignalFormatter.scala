@@ -8,21 +8,18 @@ class FixedWidthAutoSignalFormatter(painter: FixedWidthPainter) {
 
 	def format(signal: AutoSignalComponent): SignalPoint = {
 		val signalBox = painter.preRender(signal)
-		val activityTopLeft = new ReferencePoint(Activity.topLeft(signal.fromActorId, signal.fromActivityId))
 		val activityTopRight = new ReferencePoint(Activity.topRight(signal.fromActorId, signal.fromActivityId))
 		//2. determinazione punto in alto a sx
-		val signalYStart = previousIndexPointOrDefaultForAutoSignal(activityTopLeft, signal)
-		//TODO
-		val signalTopLeft = Fixed2DPoint(activityTopRight.right(1).x(), signalYStart)
+		val signalTopLeft = previousIndexPointOrDefaultForAutoSignal(activityTopRight, signal)
 
 		new SignalPoint(signal.fromActorId, signal.fromActivityId, signal.currentIndex(), signalBox, "right", signalTopLeft)
 	}
 
-	def previousIndexPointOrDefaultForAutoSignal(activityTopLeft: Point2d, signal: SignalComponent): Point1d = {
+	def previousIndexPointOrDefaultForAutoSignal(activityTopRight: Point2d, signal: SignalComponent): Point2d = {
 		if (signal.currentIndex() == 1) {
-			return activityTopLeft.down(1).y()
+			return activityTopRight.down(1).right(1)
 		} else {
-			return Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)
+			return Fixed2DPoint(activityTopRight.right(1).x(), Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS))
 		}
 	}
 

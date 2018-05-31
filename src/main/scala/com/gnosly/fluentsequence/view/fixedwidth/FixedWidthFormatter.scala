@@ -173,7 +173,7 @@ object Coordinates {
 		}
 	}
 
-	class SignalPoint(val actorId: Int, val activityId: Int, val signalIndex: Int, val signalBox: Box,
+	case class SignalPoint(val actorId: Int, val activityId: Int, val signalIndex: Int, val signalBox: Box,
 										direction: String, signalTopLeft: Point2d) {
 		val fixedPointEnd = signalTopLeft.down(signalBox.height)
 
