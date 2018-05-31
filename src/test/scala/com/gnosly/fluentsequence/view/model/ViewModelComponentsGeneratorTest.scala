@@ -19,9 +19,9 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 
 		val somethingSignal = new AutoSignalComponent("something", 0, 0, 0)
 		val somethingElseSignal = new AutoSignalComponent("something else", 1, 0, 0)
-		val rightPoints = mutable.TreeMap[Int, ActivityPoint](
-			0 -> ActivityPoint(0, somethingSignal, true),
-			1 -> ActivityPoint(1, somethingElseSignal, true)
+		val rightPoints = mutable.TreeMap[Int, RightPoint](
+			0 -> ActivityPointLoopOnTheRight(0, somethingSignal),
+			1 -> ActivityPointLoopOnTheRight(1, somethingElseSignal)
 		)
 		val userComponent = new ActorComponent(0, "user",
 			asBuffer(new ActivityComponent(0,  0,0, 1, rightPoints = rightPoints)))
@@ -40,17 +40,17 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 		val call = new BiSignalComponent("call", 0, 0, 0, 1, 0)
 		val response = new BiSignalComponent("response", 1, 1, 0, 0, 0)
 
-		val userRightPoints = mutable.TreeMap[Int, ActivityPoint](
-			0 -> ActivityPoint(0, call, true),
-			1 -> ActivityPoint(1, response, true)
+		val userRightPoints = mutable.TreeMap[Int, RightPoint](
+			0 -> ActivityPointForBiSignalOnTheRight(0, call),
+			1 -> ActivityPointForBiSignalOnTheRight(1, response)
 		)
 
 		val userComponent = new ActorComponent(0, "user",
 			asBuffer(new ActivityComponent(0, 0,0, 1, rightPoints = userRightPoints)))
 
-		val systemRightPoints = mutable.TreeMap[Int, ActivityPoint](
-			0 -> ActivityPoint(0, call, false),
-			1 -> ActivityPoint(1, response, false)
+		val systemRightPoints = mutable.TreeMap[Int, LeftPoint](
+			0 -> ActivityPointForBiSignalOnTheLeft(0, call),
+			1 -> ActivityPointForBiSignalOnTheLeft(1, response)
 		)
 
 		val systemComponent = new ActorComponent(1, "system",

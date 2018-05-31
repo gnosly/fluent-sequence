@@ -10,9 +10,10 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	val activityFormatter = new FixedWidthActivityFormatter(painter)
 	val autoSignalFormatter = new FixedWidthAutoSignalFormatter(painter)
 	val bisignalFormatter = new FixedWidthBiSignalFormatter(painter)
-	val formatSignal = (signal: SignalComponent, onActivityRightSide: Boolean) => signal match {
-		case a: AutoSignalComponent => autoSignalFormatter.format(a)
-		case b: BiSignalComponent => bisignalFormatter.format(b, onActivityRightSide)
+	val formatSignal = (signal: ActivityPoint) => signal match {
+		case a: ActivityPointLoopOnTheRight => autoSignalFormatter.format(a.signalComponent)
+		case b: ActivityPointForBiSignalOnTheRight => bisignalFormatter.formatOnRight(b.signalComponent)
+		case b: ActivityPointForBiSignalOnTheLeft => bisignalFormatter.formatOnLeft(b.signal)
 	}
 
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, VeryFixed2dPoint] = {
@@ -54,7 +55,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			a <- viewModel._actors.values
 			b <- a.activities
 			c <- b.points()
-		} yield formatSignal(c._2.signalComponent, c._2.onActivityRightSide)
+		} yield formatSignal(c._2)
 
 		return (actors ++ activities ++ signals).toSeq
 	}

@@ -7,19 +7,24 @@ class ActivityComponent(val id: Int,
 												val fromIndex: Int,
 												var toIndex: Int,
 												var active: Boolean = false,
-												val rightPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap(),
-												val leftPoints: mutable.TreeMap[Int, ActivityPoint] = mutable.TreeMap()) extends Component {
+												val rightPoints: mutable.TreeMap[Int, RightPoint] = mutable.TreeMap(),
+												val leftPoints: mutable.TreeMap[Int, LeftPoint] = mutable.TreeMap()) extends Component {
 	def points() = rightPoints ++ leftPoints
 
 
-	def right(signal: SignalComponent): Unit = {
+	def rightLoop(signal: AutoSignalComponent): Unit = {
 		val pointId = rightPoints.size
-		rightPoints.put(pointId, ActivityPoint(signal.currentIndex(), signal, true))
+		rightPoints.put(pointId, ActivityPointLoopOnTheRight(signal.currentIndex(), signal))
+	}
+
+	def right(signal: BiSignalComponent): Unit = {
+		val pointId = rightPoints.size
+		rightPoints.put(pointId, ActivityPointForBiSignalOnTheRight(signal.currentIndex(), signal))
 	}
 
 	def left(signal: BiSignalComponent): Unit = {
 		val pointId = leftPoints.size
-		leftPoints.put(pointId, ActivityPoint(signal.currentIndex(), signal, false))
+		leftPoints.put(pointId, ActivityPointForBiSignalOnTheLeft(signal.currentIndex(), signal))
 	}
 
 	def end(index: Int): Unit = {
@@ -57,4 +62,19 @@ class ActivityComponent(val id: Int,
 	override def toString = s"ActivityComponent($id, $fromIndex, $toIndex, $active,$rightPoints, $leftPoints)"
 }
 
-case class ActivityPoint(id: Int, signalComponent: SignalComponent, onActivityRightSide: Boolean)
+trait ActivityPoint
+trait RightPoint extends ActivityPoint{
+	def signalComponent():SignalComponent
+}
+trait LeftPoint extends ActivityPoint{
+	def signalComponent():BiSignalComponent
+}
+case class ActivityPointLoopOnTheRight(id: Int, signal: AutoSignalComponent) extends RightPoint {
+	override def signalComponent(): AutoSignalComponent = signal
+}
+case class ActivityPointForBiSignalOnTheRight(id: Int, signal: BiSignalComponent) extends RightPoint {
+	override def signalComponent(): BiSignalComponent = signal
+}
+case class ActivityPointForBiSignalOnTheLeft(id: Int, signal: BiSignalComponent) extends LeftPoint {
+	override def signalComponent(): BiSignalComponent = signal
+}
