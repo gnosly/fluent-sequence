@@ -2,9 +2,7 @@ package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
-import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.fixedwidth.{Box, _}
-import com.gnosly.fluentsequence.view.model.ActivityComponent
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -15,26 +13,6 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 	val SYSTEM = new FluentActor("SYSTEM")
 
 	val formatter = new FixedWidthFormatter(new FixedWidthPainter())
-
-	it should "format first activity" in {
-		val LAST_SIGNAL_INDEX = 3
-
-		val activityPoints = formatter.formatActivity(new ActivityComponent(0, 0, 0, LAST_SIGNAL_INDEX, true, null, null))
-
-		activityPoints shouldBe ActivityPoints(0, 0, new ReferencePoint(Actor.bottomMiddle(0)).left(1), 2, Reference1DPoint(ViewMatrix.row(LAST_SIGNAL_INDEX)))
-	}
-
-	it should "format second activity" in {
-		val FIRST_SIGNAL_INDEX = 2
-		val LAST_SIGNAL_INDEX = 5
-
-		val activityPoints = formatter.formatActivity(new ActivityComponent(0, 0, FIRST_SIGNAL_INDEX, LAST_SIGNAL_INDEX, true, null, null))
-
-		activityPoints shouldBe ActivityPoints(0, 0, new ReferencePoint(Actor.bottomMiddle(0))
-			.atY(max(Reference1DPoint(ViewMatrix.row(FIRST_SIGNAL_INDEX-1)),
-				new ReferencePoint(Activity.bottomLeft(0, -1)).down(1).y()))
-			.left(1), 2, Reference1DPoint(ViewMatrix.row(LAST_SIGNAL_INDEX)))
-	}
 
 	ignore should "format actor with a auto-signal" in {
 
