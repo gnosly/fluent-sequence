@@ -8,23 +8,7 @@ import com.gnosly.fluentsequence.view.model._
 import scala.collection.mutable
 
 class FixedWidthFormatter(painter: FixedWidthPainter) {
-
-	val formatActor = (actor: ActorComponent) => {
-		def previousActorDistanceOrDefault(): Point2d = {
-			if (actor.id == 0)
-				return new Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
-			else {
-				return new ReferencePoint(Actor.topRight(actor.id - 1))
-					.right(max(Reference1DPoint(ViewMatrix.column(actor.id - 1)), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
-			}
-		}
-
-		//1. prerenderizzazione
-		val actorBox = painter.preRender(actor)
-		//2. determinazione punto in alto a sx
-		val actorTopLeft = previousActorDistanceOrDefault()
-		new ActorPoints(actor.id, actorTopLeft, actorBox)
-	}
+	val actorFormatter = new FixedWidthActorFormatter(painter)
 
 	val formatActivity = (activity: ActivityComponent) => {
 		val actorBottomMiddle = new ReferencePoint(Actor.bottomMiddle(activity.actorId))
@@ -152,7 +136,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap) = {
 		for (actor <- viewModel._actors.values) {
-			val actorPoints = formatActor(actor)
+			val actorPoints = actorFormatter.formatActor(actor)
 			pointMap.putAll(actorPoints.toPoints(pointMap))
 
 			for (activity <- actor.activities) {
