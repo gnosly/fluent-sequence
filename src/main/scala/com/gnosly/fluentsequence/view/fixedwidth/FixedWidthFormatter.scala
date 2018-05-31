@@ -53,7 +53,11 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 
 object Coordinates {
 
-	case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) {
+	trait Pointable {
+		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)]
+	}
+
+	case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) extends Pointable {
 		val actorTopRight = topLeft.right(actorBox.width)
 		val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
 
@@ -65,7 +69,7 @@ object Coordinates {
 		}
 	}
 
-	case class ActivityPoints(actorId: Int, activityId: Int, activityTopLeft: Point2d, activityWith: Long, lastPoint: Point1d) {
+	case class ActivityPoints(actorId: Int, activityId: Int, activityTopLeft: Point2d, activityWith: Long, lastPoint: Point1d) extends Pointable {
 		val activityTopRight = activityTopLeft.right(activityWith)
 		val activityBottomLeft = activityTopLeft.atY(lastPoint)
 
@@ -77,7 +81,7 @@ object Coordinates {
 	}
 
 	case class SignalPoint(val actorId: Int, val activityId: Int, val signalIndex: Int, val signalBox: Box,
-										direction: String, signalTopLeft: Point2d) {
+										direction: String, signalTopLeft: Point2d) extends Pointable{
 		val fixedPointEnd = signalTopLeft.down(signalBox.height)
 
 		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
