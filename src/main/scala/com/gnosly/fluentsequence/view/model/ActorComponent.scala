@@ -7,7 +7,7 @@ class ActorComponent(val id: Int, val name: String,
 
 	def done(something: String, index: Int): SignalComponent = {
 		val lastActivity = this.activeUntil(index)
-		val autoSignal = new AutoSignalComponent(something, index, this.id)
+		val autoSignal = new AutoSignalComponent(something, index, this.id, lastActivity.id)
 		lastActivity.right(autoSignal)
 		autoSignal
 	}

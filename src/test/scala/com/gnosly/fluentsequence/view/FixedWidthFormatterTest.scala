@@ -50,7 +50,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			.left(1), 2, Reference1DPoint(ViewMatrix.row(LAST_SIGNAL_INDEX)))
 	}
 
-	it should "format actor with a auto-signal" in {
+	ignore should "format actor with a auto-signal" in {
 
 		val flow = Sequence("example").startWith(
 			USER.does("something") :: Nil

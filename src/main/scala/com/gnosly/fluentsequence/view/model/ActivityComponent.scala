@@ -14,12 +14,12 @@ class ActivityComponent(val id: Int,
 
 	def right(signal: SignalComponent): Unit = {
 		val pointId = rightPoints.size
-		rightPoints.put(pointId, ActivityPoint(signal.currentIndex(), signal, "right"))
+		rightPoints.put(pointId, ActivityPoint(signal.currentIndex(), signal, true))
 	}
 
 	def left(signal: BiSignalComponent): Unit = {
 		val pointId = leftPoints.size
-		leftPoints.put(pointId, ActivityPoint(signal.currentIndex(), signal, "left"))
+		leftPoints.put(pointId, ActivityPoint(signal.currentIndex(), signal, false))
 	}
 
 	def end(index: Int): Unit = {
@@ -57,4 +57,4 @@ class ActivityComponent(val id: Int,
 	override def toString = s"ActivityComponent($id, $fromIndex, $toIndex, $active,$rightPoints, $leftPoints)"
 }
 
-case class ActivityPoint(id: Int, signalComponent: SignalComponent, direction: String)
+case class ActivityPoint(id: Int, signalComponent: SignalComponent, outgoing: Boolean)

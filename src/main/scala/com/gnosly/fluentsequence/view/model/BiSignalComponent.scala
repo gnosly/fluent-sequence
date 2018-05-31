@@ -2,10 +2,10 @@ package com.gnosly.fluentsequence.view.model
 
 class BiSignalComponent(val name: String,
 												val index: Int,
-												val fromActorId: Int,
-												val fromActivityId: Int,
+												override val fromActorId: Int,
+												override val fromActivityId: Int,
 												val toActorId: Int,
-												val toActivityId: Int) extends SignalComponent(index){
+												val toActivityId: Int) extends SignalComponent(index, fromActorId, fromActivityId){
 	def leftToRight(): Boolean = fromActorId < toActorId
 
 	def canEqual(other: Any): Boolean = other.isInstanceOf[BiSignalComponent]

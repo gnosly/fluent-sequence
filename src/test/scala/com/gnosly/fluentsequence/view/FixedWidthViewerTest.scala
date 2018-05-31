@@ -13,7 +13,7 @@ class FixedWidthViewerTest extends FlatSpec with Matchers {
 
 	val viewer = new FixedWidthViewer()
 
-	it should "do a actor that calls another" in {
+	it should "view an actor that calls another" in {
 
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) :: Nil

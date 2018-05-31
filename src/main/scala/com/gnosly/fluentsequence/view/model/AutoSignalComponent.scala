@@ -2,7 +2,8 @@ package com.gnosly.fluentsequence.view.model
 
 class AutoSignalComponent(val name: String,
 													val index: Int,
-													val actorId: Int) extends SignalComponent(index){
+													val actorId: Int,
+													val activityId:Int) extends SignalComponent(index, actorId, activityId){
 
 	def canEqual(other: Any): Boolean = other.isInstanceOf[AutoSignalComponent]
 

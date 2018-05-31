@@ -17,11 +17,11 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 			DONE(USER, "something else")
 		))
 
-		val somethingSignal = new AutoSignalComponent("something", 0, 0)
-		val somethingElseSignal = new AutoSignalComponent("something else", 1, 0)
+		val somethingSignal = new AutoSignalComponent("something", 0, 0, 0)
+		val somethingElseSignal = new AutoSignalComponent("something else", 1, 0, 0)
 		val rightPoints = mutable.TreeMap[Int, ActivityPoint](
-			0 -> ActivityPoint(0, somethingSignal, "right"),
-			1 -> ActivityPoint(1, somethingElseSignal, "right")
+			0 -> ActivityPoint(0, somethingSignal, true),
+			1 -> ActivityPoint(1, somethingElseSignal, true)
 		)
 		val userComponent = new ActorComponent(0, "user",
 			asBuffer(new ActivityComponent(0,  0,0, 1, rightPoints = rightPoints)))
@@ -41,16 +41,16 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 		val response = new BiSignalComponent("response", 1, 1, 0, 0, 0)
 
 		val userRightPoints = mutable.TreeMap[Int, ActivityPoint](
-			0 -> ActivityPoint(0, call, "right"),
-			1 -> ActivityPoint(1, response, "right")
+			0 -> ActivityPoint(0, call, true),
+			1 -> ActivityPoint(1, response, true)
 		)
 
 		val userComponent = new ActorComponent(0, "user",
 			asBuffer(new ActivityComponent(0, 0,0, 1, rightPoints = userRightPoints)))
 
 		val systemRightPoints = mutable.TreeMap[Int, ActivityPoint](
-			0 -> ActivityPoint(0, call, "left"),
-			1 -> ActivityPoint(1, response, "left")
+			0 -> ActivityPoint(0, call, false),
+			1 -> ActivityPoint(1, response, false)
 		)
 
 		val systemComponent = new ActorComponent(1, "system",
