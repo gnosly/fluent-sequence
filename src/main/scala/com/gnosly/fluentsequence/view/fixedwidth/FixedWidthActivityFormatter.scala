@@ -6,7 +6,7 @@ import com.gnosly.fluentsequence.view.model.ActivityComponent
 
 class FixedWidthActivityFormatter(painter: FixedWidthPainter) {
 
-	def formatActivity(activity: ActivityComponent): ActivityPoints = {
+	def format(activity: ActivityComponent): ActivityPoints = {
 		val actorBottomMiddle = new ReferencePoint(Actor.bottomMiddle(activity.actorId))
 		//1. prerenderizzazione
 		val activityBox = painter.preRender(activity)

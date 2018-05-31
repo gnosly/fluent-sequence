@@ -12,7 +12,7 @@ class FixedWidthActivityFormatterTest extends FunSuite with Matchers {
 		val LAST_SIGNAL_INDEX = 3
 		val activity = new ActivityComponent(0, 0, 0, LAST_SIGNAL_INDEX, true, null, null)
 
-		val activityPoints = formatter.formatActivity(activity)
+		val activityPoints = formatter.format(activity)
 
 		activityPoints shouldBe ActivityPoints(0, 0,
 			new ReferencePoint(Actor.bottomMiddle(0)).left(1),
@@ -25,7 +25,7 @@ class FixedWidthActivityFormatterTest extends FunSuite with Matchers {
 		val LAST_SIGNAL_INDEX = 5
 		val activity = new ActivityComponent(0, 0, FIRST_SIGNAL_INDEX, LAST_SIGNAL_INDEX, true, null, null)
 
-		val activityPoints = formatter.formatActivity(activity)
+		val activityPoints = formatter.format(activity)
 
 		activityPoints shouldBe ActivityPoints(0, 0, new ReferencePoint(Actor.bottomMiddle(0))
 			.atY(max(Reference1DPoint(ViewMatrix.row(FIRST_SIGNAL_INDEX - 1)),
