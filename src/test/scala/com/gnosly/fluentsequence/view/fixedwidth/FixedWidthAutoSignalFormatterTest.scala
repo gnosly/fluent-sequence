@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{Activity, SignalPoint, ViewMatrix}
+import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{Activity, ViewMatrix}
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
 import com.gnosly.fluentsequence.view.model.AutoSignalComponent
 import org.scalatest.{FunSuite, Matchers}

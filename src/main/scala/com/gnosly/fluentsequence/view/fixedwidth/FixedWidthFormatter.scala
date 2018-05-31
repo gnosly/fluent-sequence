@@ -74,26 +74,6 @@ object Coordinates {
 		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)]
 	}
 
-	case class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBox: Box,
-												 direction: String, signalTopLeft: Point2d) extends Pointable with ViewMatrixContenable {
-		private val fixedPointEnd = signalTopLeft.down(signalBox.height)
-
-		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
-			Activity.pointStart(actorId, activityId, signalIndex, direction) -> signalTopLeft.resolve(pointMap) ::
-				Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd.resolve(pointMap) :: Nil
-		}
-
-		override def toMatrixConstraint(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
-			//3. aggiornamento rettangoloni
-			val currentRow = ViewMatrix.row(signalIndex)
-			val currentColumn = ViewMatrix.column(actorId)
-
-			currentColumn -> Fixed1DPoint(signalBox.width).resolve(pointMap).to2d() ::
-				currentRow -> fixedPointEnd.y().resolve(pointMap).to2d() :: Nil
-		}
-
-	}
-
 	object Actor {
 		def topLeft(actorId: Int) = s"actor_${actorId}_top_left"
 
