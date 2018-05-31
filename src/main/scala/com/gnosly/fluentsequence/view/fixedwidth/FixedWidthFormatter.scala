@@ -11,17 +11,8 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	val actorFormatter = new FixedWidthActorFormatter(painter)
 	val activityFormatter = new FixedWidthActivityFormatter(painter)
 
-	val autoSignalFormatter = (signal: AutoSignalComponent) => {
-		val signalBox = painter.preRender(signal)
-		val activityTopLeft = new ReferencePoint(Activity.topLeft(signal.fromActorId, signal.fromActivityId))
-		val activityTopRight = new ReferencePoint(Activity.topRight(signal.fromActorId, signal.fromActivityId))
-		//2. determinazione punto in alto a sx
-		val signalYStart = previousIndexPointOrDefaultForAutoSignal(activityTopLeft, signal)
-		//TODO
-		val signalTopLeft = Fixed2DPoint(activityTopRight.right(1).x(), signalYStart)
+	val autoSignalFormatter = new FixedWidthAutoSignalFormatter(painter)
 
-		new SignalPoint(signal.fromActorId, signal.fromActivityId, signal.currentIndex(), signalBox, "right", signalTopLeft)
-	}
 	val bisignalFormatter = (signal: BiSignalComponent, onActivityRightSide: Boolean) => {
 		//1. prerenderizzazione
 		val signalBox = painter.preRender(signal)
@@ -126,7 +117,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 				for (point <- activity.points()) {
 
 					val signalPoints = point._2.signalComponent match {
-						case a: AutoSignalComponent => autoSignalFormatter(a)
+						case a: AutoSignalComponent => autoSignalFormatter.format(a)
 						case b: BiSignalComponent => bisignalFormatter(b, point._2.outgoing)
 					}
 					//3. aggiornamento rettangoloni
@@ -141,13 +132,6 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		}
 	}
 
-	def previousIndexPointOrDefaultForAutoSignal(activityTopLeft: Point2d, signal: SignalComponent): Point1d = {
-		if (signal.currentIndex() == 1) {
-			return activityTopLeft.down(1).y()
-		} else {
-			return Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)
-		}
-	}
 
 	def previousIndexPointOrDefaultForBisignal(activityTopLeft: Point2d, actorId:Int, activityId:Int, signalIndex:Int): Point1d = {
 		if (signalIndex == 1) {
