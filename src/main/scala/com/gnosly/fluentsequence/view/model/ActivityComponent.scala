@@ -57,4 +57,4 @@ class ActivityComponent(val id: Int,
 	override def toString = s"ActivityComponent($id, $fromIndex, $toIndex, $active,$rightPoints, $leftPoints)"
 }
 
-case class ActivityPoint(id: Int, signalComponent: SignalComponent, outgoing: Boolean)
+case class ActivityPoint(id: Int, signalComponent: SignalComponent, onActivityRightSide: Boolean)

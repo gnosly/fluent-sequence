@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.view.fixedwidth
 object Coordinates {
 
 	trait ViewMatrixContenable {
-		def toMatrixConstraint(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = Seq()
+		def toMatrixConstraints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = Seq()
 	}
 
 	trait Pointable extends ViewMatrixContenable {

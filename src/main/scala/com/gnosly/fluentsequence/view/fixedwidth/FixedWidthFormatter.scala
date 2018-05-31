@@ -10,6 +10,10 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	val activityFormatter = new FixedWidthActivityFormatter(painter)
 	val autoSignalFormatter = new FixedWidthAutoSignalFormatter(painter)
 	val bisignalFormatter = new FixedWidthBiSignalFormatter(painter)
+	val formatSignal = (signal: SignalComponent, onActivityRightSide: Boolean) => signal match {
+		case a: AutoSignalComponent => autoSignalFormatter.format(a)
+		case b: BiSignalComponent => bisignalFormatter.format(b, onActivityRightSide)
+	}
 
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, VeryFixed2dPoint] = {
 		val pointMap = new PointMap()
@@ -18,7 +22,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			val previousPointMap = pointMap.toMap().toMap
 			val pointables = formatIteration(viewModel, pointMap)
 			pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
-			pointMap.putAll(pointables.flatMap(p => p.toMatrixConstraint(pointMap))
+			pointMap.putAll(pointables.flatMap(p => p.toMatrixConstraints(pointMap))
 				.groupBy[String](_._1)
 				.mapValues(x => x.map(_._2))
 				.mapValues(_.reduce((a, b) => max(a, b)))
@@ -32,34 +36,26 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		pointMap.toMap()
 	}
 
-
-	def max(a: VeryFixed2dPoint, b: VeryFixed2dPoint): VeryFixed2dPoint = {
+	private def max(a: VeryFixed2dPoint, b: VeryFixed2dPoint): VeryFixed2dPoint = {
 		if (a.x > b.x) a else b
 	}
 
 	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap): Seq[Pointable] = {
-		val pointable = mutable.ArrayBuffer[Pointable]()
+		val actors = for {
+			a <- viewModel._actors.values
+		} yield actorFormatter.format(a)
 
-		for (actor <- viewModel._actors.values) {
-			val actorPoints = actorFormatter.formatActor(actor)
-			pointable += actorPoints
+		val activities = for {
+			a <- viewModel._actors.values
+			b <- a.activities
+		} yield activityFormatter.format(b)
 
-			for (activity <- actor.activities) {
-				val activityPoints = activityFormatter.format(activity)
-				pointable += activityPoints
+		val signals = for {
+			a <- viewModel._actors.values
+			b <- a.activities
+			c <- b.points()
+		} yield formatSignal(c._2.signalComponent, c._2.onActivityRightSide)
 
-				for (point <- activity.points()) {
-
-					val signalPoints = point._2.signalComponent match {
-						case a: AutoSignalComponent => autoSignalFormatter.format(a)
-						case b: BiSignalComponent => bisignalFormatter.format(b, point._2.outgoing)
-					}
-
-					pointable += signalPoints
-				}
-			}
-		}
-
-		return pointable
+		return (actors ++ activities ++ signals).toSeq
 	}
 }

@@ -6,7 +6,7 @@ import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.model.ActorComponent
 
 class FixedWidthActorFormatter(painter: FixedWidthPainter) {
-	def formatActor(actor: ActorComponent): Pointable = {
+	def format(actor: ActorComponent): Pointable = {
 		def previousActorDistanceOrDefault(): Point2d = {
 			if (actor.id == 0)
 				return new Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
