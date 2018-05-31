@@ -3,10 +3,10 @@ package com.gnosly.fluentsequence.view.fixedwidth
 import scala.collection.mutable
 
 class PointMap {
+	val map: mutable.TreeMap[String, VeryFixed2dPoint] = mutable.TreeMap[String, VeryFixed2dPoint]()(defaultOrdering)
 	private val defaultOrdering = new Ordering[String]() {
 		override def compare(a: String, b: String): Int = a.compareTo(b)
 	}
-	val map: mutable.TreeMap[String, VeryFixed2dPoint] = mutable.TreeMap[String, VeryFixed2dPoint]()(defaultOrdering)
 
 	def get1DPoint(name: String): Fixed1DPoint = {
 		if (name.split("#").size > 1) {
@@ -29,8 +29,8 @@ class PointMap {
 		return new VeryFixed2dPoint(0, 0)
 	}
 
-	def put1DPoint(pair: (String, Fixed1DPoint)) {
-		putAll(pair._1 -> VeryFixed2dPoint(pair._2.x, 0) :: Nil) // x for convention
+	def put1DPoint(entries: Seq[(String, Fixed1DPoint)]) {
+		putAll(entries.map(x => (x._1, VeryFixed2dPoint(x._2.x, 0)))) // x for convention
 	}
 
 	def putAll(entries: Seq[(String, VeryFixed2dPoint)]) = map ++= entries

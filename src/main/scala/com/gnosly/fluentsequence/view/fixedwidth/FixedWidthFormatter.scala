@@ -22,7 +22,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			val previousPointMap = pointMap.toMap().toMap
 			val pointables = formatIteration(viewModel, pointMap)
 			pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
-			pointMap.putAll(pointables.flatMap(p => p.toMatrixConstraints(pointMap))
+			pointMap.put1DPoint(pointables.flatMap(p => p.toMatrixConstraints(pointMap))
 				.groupBy[String](_._1)
 				.mapValues(x => x.map(_._2))
 				.mapValues(_.reduce((a, b) => max(a, b)))
@@ -36,7 +36,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		pointMap.toMap()
 	}
 
-	private def max(a: VeryFixed2dPoint, b: VeryFixed2dPoint): VeryFixed2dPoint = {
+	private def max(a: Fixed1DPoint, b: Fixed1DPoint): Fixed1DPoint = {
 		if (a.x > b.x) a else b
 	}
 

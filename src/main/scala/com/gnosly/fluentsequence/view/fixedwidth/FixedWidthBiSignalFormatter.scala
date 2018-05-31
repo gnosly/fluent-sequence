@@ -110,13 +110,13 @@ case class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBo
 			Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd.resolve(pointMap) :: Nil
 	}
 
-	override def toMatrixConstraints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
+	override def toMatrixConstraints(pointMap: PointMap): Seq[(String, Fixed1DPoint)] = {
 		//3. aggiornamento rettangoloni
 		val currentRow = ViewMatrix.row(signalIndex)
 		val currentColumn = ViewMatrix.column(actorId)
 
-		currentColumn -> Fixed1DPoint(signalBox.width).resolve(pointMap).to2d() ::
-			currentRow -> fixedPointEnd.y().resolve(pointMap).to2d() :: Nil
+		currentColumn -> Fixed1DPoint(signalBox.width).resolve(pointMap) ::
+			currentRow -> fixedPointEnd.y().resolve(pointMap) :: Nil
 	}
 
 }
