@@ -5,9 +5,9 @@ import com.gnosly.fluentsequence.core.{CALLED, DONE, EventBook, REPLIED}
 
 import scala.collection.mutable
 
-object ViewModelComponentsGenerator {
+object ViewModelComponentsFactory {
 
-	def generate(book: EventBook) = {
+	def createFrom(book: EventBook) = {
 		val viewModel = new ViewModelComponents()
 		val list = book.toList
 		list.foreach(

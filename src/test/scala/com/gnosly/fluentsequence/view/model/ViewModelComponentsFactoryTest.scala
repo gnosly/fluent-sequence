@@ -1,18 +1,18 @@
 package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
+import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.createFrom
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.mutable
 
-class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
+class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
 
 	val SYSTEM = Actor(SEQUENCE_ACTOR_TYPE(), "system")
 	val USER = Actor(USER_TYPE(), "user")
 
 	"generator" should "create view model with DOES " in {
-		val viewModel = generate(EventBook(
+		val viewModel = createFrom(EventBook(
 			DONE(USER, "something"),
 			DONE(USER, "something else")
 		))
@@ -31,7 +31,7 @@ class ViewModelComponentsGeneratorTest extends FlatSpec with Matchers {
 
 
 	it should "create viewModel with REPLY " in {
-		val viewModel = generate(EventBook(
+		val viewModel = createFrom(EventBook(
 			CALLED(USER, "call", SYSTEM),
 			REPLIED(SYSTEM, "response", USER)
 		))

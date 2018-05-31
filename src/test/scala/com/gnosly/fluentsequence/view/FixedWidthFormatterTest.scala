@@ -1,9 +1,8 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.{Box, _}
-import com.gnosly.fluentsequence.view.model.ViewModelComponentsGenerator.generate
+import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.createFrom
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.mutable
@@ -20,7 +19,7 @@ class FixedWidthFormatterTest extends FlatSpec with Matchers {
 			USER.does("something") :: Nil
 		)
 
-		val pointMap = formatter.format(generate(flow.toEventBook))
+		val pointMap = formatter.format(createFrom(flow.toEventBook))
 		printThe(pointMap)
 
 		val actorPoints = ActorPoints(0, new Fixed2DPoint(1, 1), Box(8, 4))
