@@ -9,7 +9,6 @@ import scala.io.Source
 class FixedWidthViewerTest extends FunSuite with Matchers {
 	val USER = new User("user")
 	val SYSTEM = new FluentActor("system")
-	val SYSTEM_B = new FluentActor("another system")
 
 	val viewer = new FixedWidthViewer()
 
@@ -64,6 +63,26 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 		val str = viewer.view(flow.toEventBook)
 		println(str)
 		str shouldBe sequenceFromFile("multi-activity.txt")
+	}
+
+	test("multi actor"){
+
+		val secondSystem = new FluentActor("another system")
+		val thirdSystem = new FluentActor("third system")
+
+		val flow = Sequence("example").startWith(
+			USER.call("call", SYSTEM) ::
+				SYSTEM.call("call2", secondSystem) ::
+				secondSystem.call("call3", thirdSystem) ::
+				thirdSystem.reply("reply3", secondSystem) ::
+				secondSystem.reply("reply2", SYSTEM) ::
+				SYSTEM.reply("reply", USER ) ::
+				Nil
+		)
+
+		val str = viewer.view(flow.toEventBook)
+		println(str)
+		str shouldBe sequenceFromFile("multi-actor.txt")
 	}
 
 	private def sequenceFromFile(filename: String) = {

@@ -55,7 +55,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 			a <- viewModel._actors.values
 			b <- a.activities
 			c <- b.points()
-		} yield formatSignal(c._2)
+		} yield formatSignal(c)
 
 		return (actors ++ activities ++ signals).toSeq
 	}
