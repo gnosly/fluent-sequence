@@ -17,31 +17,11 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	}
 
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, VeryFixed2dPoint] = {
-		val pointMap = new PointMap()
-
-		while (true) {
-			val previousPointMap = pointMap.toMap().toMap
-			val pointables = formatIteration(viewModel, pointMap)
-			pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
-			pointMap.put1DPoint(pointables.flatMap(p => p.toMatrixConstraints(pointMap))
-				.groupBy[String](_._1)
-				.mapValues(x => x.map(_._2))
-				.mapValues(_.reduce((a, b) => max(a, b)))
-				.toSeq)
-
-			if (pointMap.toMap().toMap == previousPointMap) {
-				return pointMap.toMap()
-			}
-		}
-
-		pointMap.toMap()
+		val pointables = formatIteration(viewModel)
+		PointableResolverAlgorithms.loopPointableResolverAlgorithm.resolve(pointables)
 	}
 
-	private def max(a: Fixed1DPoint, b: Fixed1DPoint): Fixed1DPoint = {
-		if (a.x > b.x) a else b
-	}
-
-	private def formatIteration(viewModel: ViewModelComponents, pointMap: PointMap): Seq[Pointable] = {
+	private def formatIteration(viewModel: ViewModelComponents): Seq[Pointable] = {
 		val actors = for {
 			a <- viewModel._actors.values
 		} yield actorFormatter.format(a)
