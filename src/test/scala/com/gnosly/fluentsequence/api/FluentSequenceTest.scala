@@ -46,6 +46,8 @@ class FluentSequenceTest extends FunSuite with Matchers {
 				.call("call", system)
 				.and()
 				.reply("reply", anotherSystem)
+				.and()
+				.does(new Sequence("another sequence").startWith(user.does("c") :: Nil))
 				:: Nil
 		)
 
@@ -53,8 +55,11 @@ class FluentSequenceTest extends FunSuite with Matchers {
 			SEQUENCE_STARTED("sequenceName"),
 			DONE(user, "a"),
 			DONE(user, "b"),
-			CALLED(user, "call", system)
-			,			REPLIED(user, "reply", anotherSystem)
+			CALLED(user, "call", system),
+			REPLIED(user, "reply", anotherSystem),
+			NEW_SEQUENCE_SCHEDULED(user, "another sequence"),
+			SEQUENCE_STARTED("another sequence"),
+			DONE(user, "c")
 		)
 	}
 

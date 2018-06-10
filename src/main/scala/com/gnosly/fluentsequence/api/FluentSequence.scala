@@ -42,7 +42,12 @@ object FluentSequence {
 
 			override def launch(tracking: Sequence): SequenceFlow = ???
 
-			override def does(sequence: Sequence): SequenceFlow = ???
+			override def does(sequence: Sequence): SequenceFlow = {
+				eventBook.track(NEW_SEQUENCE_SCHEDULED(subjectActor, sequence.name))
+
+				eventBook.track(sequence.eventBook :: Nil)
+				new SequenceFlow(s"$name ${sequence.name}", eventBook, subjectActor)
+			}
 
 			override def does(action: String): SequenceFlow = {
 				sequenceFlow.eventBook.track(DONE(subjectActor, action))
