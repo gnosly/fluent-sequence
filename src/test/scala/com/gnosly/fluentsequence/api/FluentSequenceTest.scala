@@ -23,6 +23,20 @@ class FluentSequenceTest extends FunSuite with Matchers {
 		)
 	}
 
+	test("user call system") {
+		val user = new User("user")
+
+		val system = new FluentActor("system")
+		val sequence = new Sequence("sequenceName").startWith(
+			user.call("call", system) :: Nil
+		)
+
+		sequence.toEventBook shouldBe EventBook(
+			SEQUENCE_STARTED("sequenceName"),
+			CALLED(user, "call", system)
+		)
+	}
+
 	ignore("handle complex scenario") {
 		val user = new User("tourist")
 		val skyscanner = new FluentActor("skyscanner")
