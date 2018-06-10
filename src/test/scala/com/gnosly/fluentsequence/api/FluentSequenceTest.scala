@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.api
 
-import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, _}
+import com.gnosly.fluentsequence.api.FluentSequence._
 import com.gnosly.fluentsequence.core._
 import org.scalatest.{FunSuite, Matchers}
 
@@ -23,19 +23,22 @@ class FluentSequenceTest extends FunSuite with Matchers {
 		)
 	}
 
-	test("user calls system") {
+	test("user interacts with a system") {
 		val user = new User("user")
 
 		val system = new FluentActor("system")
 		val sequence = new Sequence("sequenceName").startWith(
-			user.call("call", system) :: Nil
+			user.call("call", system) ::
+				system.reply("reply", user) :: Nil
 		)
 
 		sequence.toEventBook shouldBe EventBook(
 			SEQUENCE_STARTED("sequenceName"),
-			CALLED(user, "call", system)
+			CALLED(user, "call", system),
+			REPLIED(system, "reply", user)
 		)
 	}
+
 
 	ignore("handle complex scenario") {
 		val user = new User("tourist")
