@@ -23,7 +23,7 @@ class FluentSequenceTest extends FunSuite with Matchers {
 		)
 	}
 
-	test("user call system") {
+	test("user calls system") {
 		val user = new User("user")
 
 		val system = new FluentActor("system")
