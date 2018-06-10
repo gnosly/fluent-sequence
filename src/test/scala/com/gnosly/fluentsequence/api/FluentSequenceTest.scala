@@ -2,15 +2,15 @@ package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, _}
 import com.gnosly.fluentsequence.core._
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{FunSuite, Matchers}
 
-class FluentSequenceTest extends FlatSpec with Matchers {
+class FluentSequenceTest extends FunSuite with Matchers {
 
-	"Sequence" should "be empty" in {
+	test("empty sequence") {
 		new FluentSequence.Sequence("sequenceName").toEventBook.toList shouldBe List()
 	}
 
-	it should "be simple sequence" in {
+	test("user does something") {
 		val user = new User("user")
 
 		val sequence = new Sequence("sequenceName").startWith(
@@ -23,7 +23,7 @@ class FluentSequenceTest extends FlatSpec with Matchers {
 		)
 	}
 
-	ignore should "handle complex scenario" in {
+	ignore("handle complex scenario") {
 		val user = new User("tourist")
 		val skyscanner = new FluentActor("skyscanner")
 		val tracker = new FluentActor("tracker")

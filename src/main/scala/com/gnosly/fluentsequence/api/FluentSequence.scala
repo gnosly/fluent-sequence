@@ -5,7 +5,6 @@ import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthViewer
 
 object FluentSequence {
 
-
 	def to(actor: FluentActor): FluentActor = ???
 
 	case class Sequence(name: String) extends EventBookable {
