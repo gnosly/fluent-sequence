@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.Pointable
+import com.gnosly.fluentsequence.view.fixedwidth.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model._
 
 import scala.collection.mutable
@@ -17,11 +18,11 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 	}
 
 	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, VeryFixed2dPoint] = {
-		val pointables = formatIteration(viewModel)
-		PointableResolverAlgorithms.loopPointableResolverAlgorithm.resolve(pointables)
+		val pointables = pointableListFor(viewModel)
+		loopPointableResolverAlgorithm.resolve(pointables)
 	}
 
-	private def formatIteration(viewModel: ViewModelComponents): Seq[Pointable] = {
+	private def pointableListFor(viewModel: ViewModelComponents): Seq[Pointable] = {
 		val actors = for {
 			a <- viewModel._actors.values
 		} yield actorFormatter.format(a)
