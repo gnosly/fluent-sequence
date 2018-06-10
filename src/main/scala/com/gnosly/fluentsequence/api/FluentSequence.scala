@@ -33,7 +33,7 @@ object FluentSequence {
 
 		override def toEventBook: EventBook = eventBook
 
-		class ActorContinueSequenceFlow(sequenceFlow: SequenceFlow, val actor: FluentActor) extends Actorable {
+		class ActorContinueSequenceFlow(sequenceFlow: SequenceFlow, val subjectActor: FluentActor) extends Actorable {
 			override def check(condition: String): SequenceFlow = ???
 
 			override def stop(): SequenceFlow = ???
@@ -45,13 +45,19 @@ object FluentSequence {
 			override def does(sequence: Sequence): SequenceFlow = ???
 
 			override def does(action: String): SequenceFlow = {
-				sequenceFlow.eventBook.track(DONE(actor, action))
+				sequenceFlow.eventBook.track(DONE(subjectActor, action))
 				sequenceFlow
 			}
 
-			override def call(action: String, actor: FluentActor): SequenceFlow = ???
+			override def call(action: String, actor: FluentActor): SequenceFlow = {
+				eventBook.track(CALLED(subjectActor, action, actor))
+				new SequenceFlow(s"$name $action to ${actor.name}", eventBook, subjectActor)
+			}
 
-			override def reply(action: String, actor: FluentActor): SequenceFlow = ???
+			override def reply(action: String, toActor: FluentActor): SequenceFlow = {
+				eventBook.track(REPLIED(subjectActor, action, toActor))
+				new SequenceFlow(s"$name replied $action to ${toActor.name}", eventBook, subjectActor)
+			}
 
 			override def forEach(item: String, sequenceFlow: SequenceFlow): SequenceFlow = ???
 		}

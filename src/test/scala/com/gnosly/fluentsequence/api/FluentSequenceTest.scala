@@ -1,18 +1,19 @@
 package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.api.FluentSequence._
-import com.gnosly.fluentsequence.core._
+import com.gnosly.fluentsequence.core.{DONE, _}
 import org.scalatest.{FunSuite, Matchers}
 
 class FluentSequenceTest extends FunSuite with Matchers {
+	val user = new User("user")
+	val system = new FluentActor("system")
+	val anotherSystem = new FluentActor("anotherSystem")
 
 	test("empty sequence") {
 		new FluentSequence.Sequence("sequenceName").toEventBook.toList shouldBe List()
 	}
 
 	test("user does something") {
-		val user = new User("user")
-
 		val sequence = new Sequence("sequenceName").startWith(
 			user.does("something") :: Nil
 		)
@@ -24,9 +25,6 @@ class FluentSequenceTest extends FunSuite with Matchers {
 	}
 
 	test("user interacts with a system") {
-		val user = new User("user")
-
-		val system = new FluentActor("system")
 		val sequence = new Sequence("sequenceName").startWith(
 			user.call("call", system) ::
 				system.reply("reply", user) :: Nil
@@ -39,6 +37,26 @@ class FluentSequenceTest extends FunSuite with Matchers {
 		)
 	}
 
+	test("user does multiple things") {
+		val sequence = new Sequence("sequenceName").startWith(
+			user.does("a")
+				.and()
+				.does("b")
+				.and()
+				.call("call", system)
+				.and()
+				.reply("reply", anotherSystem)
+				:: Nil
+		)
+
+		sequence.toEventBook shouldBe EventBook(
+			SEQUENCE_STARTED("sequenceName"),
+			DONE(user, "a"),
+			DONE(user, "b"),
+			CALLED(user, "call", system)
+			,			REPLIED(user, "reply", anotherSystem)
+		)
+	}
 
 	ignore("handle complex scenario") {
 		val user = new User("tourist")
