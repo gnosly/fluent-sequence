@@ -24,7 +24,7 @@ class FixedWidthViewer {
 	}
 
 	private def autoFormatting(viewModel: ViewModelComponents,
-														 painter: FixedWidthPainter): Map[String, VeryFixed2dPoint] = {
+														 painter: FixedWidthPainter): Map[String, Fixed2dPoint] = {
 		new FixedWidthFormatter(painter).format(viewModel).toMap
 	}
 }

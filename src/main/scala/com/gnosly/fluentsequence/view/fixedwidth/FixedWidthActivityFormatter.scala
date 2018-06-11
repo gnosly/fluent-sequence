@@ -33,7 +33,7 @@ case class ActivityPoints(actorId: Int, activityId: Int, activityTopLeft: Point2
 	val activityTopRight = activityTopLeft.right(activityWith)
 	val activityBottomLeft = activityTopLeft.atY(lastPoint)
 
-	def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
+	def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] = {
 		Activity.topLeft(actorId, activityId) -> activityTopLeft.resolve(pointMap) ::
 			Activity.topRight(actorId, activityId) -> activityTopRight.resolve(pointMap) ::
 			Activity.bottomLeft(actorId, activityId) -> activityBottomLeft.resolve(pointMap) :: Nil

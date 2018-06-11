@@ -1,15 +1,21 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.{FlatSpec, Matchers}
 
-class Fixed2DPointTest extends FunSuite with Matchers {
+class Fixed2DPointTest extends FlatSpec with Matchers {
 
-	test("ok"){
-		resolve(Fixed2DPoint(Fixed1DPoint(1), Fixed1DPoint(2)).right(1)) shouldBe VeryFixed2dPoint(2,2)
-		resolve(Fixed2DPoint(Fixed1DPoint(1), Fixed1DPoint(2)).left(1)) shouldBe VeryFixed2dPoint(0,2)
+	it should "compute down" in {
+		new Fixed2dPoint(0,0).down(1) shouldBe new Fixed2dPoint(0,1)
+		new Fixed2dPoint(0,0).down(5) shouldBe new Fixed2dPoint(0,5)
 	}
 
-	def resolve(point2d: Point2d): VeryFixed2dPoint ={
-		point2d.resolve(null)
+	it should "compute right" in {
+		new Fixed2dPoint(0,0).right(1) shouldBe new Fixed2dPoint(1,0)
+		new Fixed2dPoint(0,0).right(6) shouldBe new Fixed2dPoint(6,0)
+	}
+
+	it should "compute left" in {
+		new Fixed2dPoint(10,0).left(1) shouldBe new Fixed2dPoint(9,0)
+		new Fixed2dPoint(10,0).left(6) shouldBe new Fixed2dPoint(4,0)
 	}
 }

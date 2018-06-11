@@ -47,7 +47,7 @@ class FixedWidthBiSignalFormatter(painter: FixedWidthPainter) {
 
 		val signalYStart = previousIndexPointOrDefaultForBisignal(activityTopRight, toActorId, toActivityId, signal.currentIndex())
 		val signalXStart = activityTopRight.right(1).x()
-		val signalTopLeft = Fixed2DPoint(signalXStart, signalYStart)
+		val signalTopLeft = Variable2DPoint(signalXStart, signalYStart)
 
 		new SignalPoint(fromActorId, fromActivityId, signal.currentIndex(), signalBox, activitySide, signalTopLeft)
 	}
@@ -97,7 +97,7 @@ class FixedWidthBiSignalFormatter(painter: FixedWidthPainter) {
 
 		val signalYStart = previousIndexPointOrDefaultForBisignal(activityEdge, toActorId, toActivityId, signal.currentIndex())
 		val signalXStart = activityEdge.x()
-		val signalTopLeft = Fixed2DPoint(signalXStart, signalYStart)
+		val signalTopLeft = Variable2DPoint(signalXStart, signalYStart)
 
 		new SignalPoint(fromActorId, fromActivityId, signal.currentIndex(), signalBox, activitySide, signalTopLeft)
 	}
@@ -123,7 +123,7 @@ case class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBo
 											 direction: String, signalTopLeft: Point2d) extends Pointable with ViewMatrixContenable {
 	private val fixedPointEnd = signalTopLeft.down(signalBox.height)
 
-	def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
+	def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] = {
 		Activity.pointStart(actorId, activityId, signalIndex, direction) -> signalTopLeft.resolve(pointMap) ::
 			Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd.resolve(pointMap) :: Nil
 	}

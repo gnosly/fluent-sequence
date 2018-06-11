@@ -10,7 +10,7 @@ class FixedWidthActorFormatterTest extends FunSuite with Matchers {
 	val formatter = new FixedWidthActorFormatter(new FixedWidthPainter())
 
 	test("format first actor alone") {
-		formatter.format(new ActorComponent(0, "user", null)) shouldBe ActorPoints(0, new Fixed2DPoint(1, 1), Box(8, 4))
+		formatter.format(new ActorComponent(0, "user", null)) shouldBe ActorPoints(0, new Variable2DPoint(1, 1), Box(8, 4))
 	}
 
 	test("format second actor alone") {

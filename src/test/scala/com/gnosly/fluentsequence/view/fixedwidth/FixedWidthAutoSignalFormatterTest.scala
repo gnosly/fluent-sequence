@@ -25,7 +25,7 @@ class FixedWidthAutoSignalFormatterTest extends FunSuite with Matchers {
 		val point = fixedWidthAutoSignalFormatter.format(autoSignal)
 
 		point shouldBe new SignalPoint(0, 0, AUTOSIGNAL_INDEX, Box(10, 4), "right",
-			Fixed2DPoint(new ReferencePoint(Activity.topRight(0, 0)).right(1).x(),
+			Variable2DPoint(new ReferencePoint(Activity.topRight(0, 0)).right(1).x(),
 				Reference1DPoint(ViewMatrix.row(AUTOSIGNAL_INDEX - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)))
 	}
 

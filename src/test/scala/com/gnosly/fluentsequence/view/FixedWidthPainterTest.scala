@@ -16,11 +16,11 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 		val canvas = new FixedWidthCanvas()
 
 		painter.paint(user, Map(
-			Coordinates.Actor.topLeft(0) -> new VeryFixed2dPoint(1, 0),
-			Coordinates.Actor.bottomMiddle(0) -> new VeryFixed2dPoint(4, 4),
-			Coordinates.Activity.topLeft(0, 0) -> new VeryFixed2dPoint(3, 4),
-			Coordinates.Activity.bottomLeft(0, 0) -> new VeryFixed2dPoint(3, 8),
-			Coordinates.Activity.rightPointStart(0, 0, 0) -> new VeryFixed2dPoint(6, 5)
+			Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 0),
+			Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 4),
+			Coordinates.Activity.topLeft(0, 0) -> new Fixed2dPoint(3, 4),
+			Coordinates.Activity.bottomLeft(0, 0) -> new Fixed2dPoint(3, 8),
+			Coordinates.Activity.rightPointStart(0, 0, 0) -> new Fixed2dPoint(6, 5)
 		), canvas)
 
 		val print = canvas.print
@@ -47,12 +47,12 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 		val canvas = new FixedWidthCanvas()
 
 		painter.paint(user, Map(
-			Coordinates.Actor.topLeft(0) -> new VeryFixed2dPoint(1, 0),
-			Coordinates.Actor.bottomMiddle(0) -> new VeryFixed2dPoint(4, 4),
-			Coordinates.Activity.topLeft(0, 0) -> new VeryFixed2dPoint(3, 4),
-			Coordinates.Activity.bottomLeft(0, 0) -> new VeryFixed2dPoint(3, 7),
-			Coordinates.Activity.rightPointStart(0, 0, 1) -> new VeryFixed2dPoint(6, 5),
-			Coordinates.Activity.leftPointStart(1, 0, 1) -> new VeryFixed2dPoint(20, 5)
+			Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 0),
+			Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 4),
+			Coordinates.Activity.topLeft(0, 0) -> new Fixed2dPoint(3, 4),
+			Coordinates.Activity.bottomLeft(0, 0) -> new Fixed2dPoint(3, 7),
+			Coordinates.Activity.rightPointStart(0, 0, 1) -> new Fixed2dPoint(6, 5),
+			Coordinates.Activity.leftPointStart(1, 0, 1) -> new Fixed2dPoint(20, 5)
 		), canvas)
 
 		val print = canvas.print
@@ -78,12 +78,12 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 		val canvas = new FixedWidthCanvas()
 
 		painter.paint(user, Map(
-			Coordinates.Actor.topLeft(0) -> new VeryFixed2dPoint(1, 0),
-			Coordinates.Actor.bottomMiddle(0) -> new VeryFixed2dPoint(4, 4),
-			Coordinates.Activity.topLeft(0, 0) -> new VeryFixed2dPoint(3, 4),
-			Coordinates.Activity.bottomLeft(0, 0) -> new VeryFixed2dPoint(3, 7),
-			Coordinates.Activity.rightPointStart(0, 0, 1) -> new VeryFixed2dPoint(6, 5),
-			Coordinates.Activity.leftPointStart(1, 0, 1) -> new VeryFixed2dPoint(20, 5)
+			Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 0),
+			Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 4),
+			Coordinates.Activity.topLeft(0, 0) -> new Fixed2dPoint(3, 4),
+			Coordinates.Activity.bottomLeft(0, 0) -> new Fixed2dPoint(3, 7),
+			Coordinates.Activity.rightPointStart(0, 0, 1) -> new Fixed2dPoint(6, 5),
+			Coordinates.Activity.leftPointStart(1, 0, 1) -> new Fixed2dPoint(20, 5)
 		), canvas)
 
 		val print = canvas.print
@@ -110,12 +110,12 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 		val canvas = new FixedWidthCanvas()
 
 		painter.paint(user, Map(
-			Coordinates.Actor.topLeft(0) -> new VeryFixed2dPoint(1, 0),
-			Coordinates.Actor.bottomMiddle(0) -> new VeryFixed2dPoint(4, 4),
-			Coordinates.Activity.topLeft(0, 0) -> new VeryFixed2dPoint(3, 4),
-			Coordinates.Activity.bottomLeft(0, 0) -> new VeryFixed2dPoint(3, 7),
-			Coordinates.Activity.topLeft(0, 1) -> new VeryFixed2dPoint(3, 9),
-			Coordinates.Activity.bottomLeft(0, 1) -> new VeryFixed2dPoint(3, 12)
+			Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 0),
+			Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 4),
+			Coordinates.Activity.topLeft(0, 0) -> new Fixed2dPoint(3, 4),
+			Coordinates.Activity.bottomLeft(0, 0) -> new Fixed2dPoint(3, 7),
+			Coordinates.Activity.topLeft(0, 1) -> new Fixed2dPoint(3, 9),
+			Coordinates.Activity.bottomLeft(0, 1) -> new Fixed2dPoint(3, 12)
 		), canvas)
 
 		val print = canvas.print

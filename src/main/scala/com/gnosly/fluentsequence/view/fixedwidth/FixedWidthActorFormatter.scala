@@ -9,7 +9,7 @@ class FixedWidthActorFormatter(painter: FixedWidthPainter) {
 	def format(actor: ActorComponent): Pointable = {
 		def previousActorDistanceOrDefault(): Point2d = {
 			if (actor.id == 0)
-				return new Fixed2DPoint(LEFT_MARGIN, TOP_MARGIN)
+				return new Variable2DPoint(LEFT_MARGIN, TOP_MARGIN)
 			else {
 				return new ReferencePoint(Actor.topRight(actor.id - 1))
 					.right(max(Reference1DPoint(ViewMatrix.column(actor.id - 1)), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
@@ -28,7 +28,7 @@ case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) extends Po
 	val actorTopRight = topLeft.right(actorBox.width)
 	val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
 
-	def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)] = {
+	def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] = {
 		Actor.topLeft(actorId) -> topLeft.resolve(pointMap) ::
 			Actor.topRight(actorId) -> actorTopRight.resolve(pointMap) ::
 			Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap) :: Nil

@@ -17,7 +17,7 @@ class FixedWidthFormatter(painter: FixedWidthPainter) {
 		case b: ActivityPointForBiSignalOnTheLeft => bisignalFormatter.formatOnLeft(b.signal)
 	}
 
-	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, VeryFixed2dPoint] = {
+	def format(viewModel: ViewModelComponents): mutable.TreeMap[String, Fixed2dPoint] = {
 		val pointables = pointableListFor(viewModel)
 		loopPointableResolverAlgorithm.resolve(pointables)
 	}

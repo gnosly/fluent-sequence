@@ -19,7 +19,7 @@ class FixedWidthAutoSignalFormatter(painter: FixedWidthPainter) {
 		if (signal.currentIndex() == 1) {
 			return activityTopRight.down(1).right(1)
 		} else {
-			return Fixed2DPoint(activityTopRight.right(1).x(),
+			return Variable2DPoint(activityTopRight.right(1).x(),
 				Reference1DPoint(ViewMatrix.row(signal.currentIndex() - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS))
 		}
 	}

@@ -8,11 +8,11 @@ object PointableResolverAlgorithms {
 	val loopPointableResolverAlgorithm = new LoopPointableResolverAlgorithm()
 
 	trait PointableResolverAlgorithm {
-		def resolve(pointables: Seq[Pointable]): mutable.TreeMap[String, VeryFixed2dPoint]
+		def resolve(pointables: Seq[Pointable]): mutable.TreeMap[String, Fixed2dPoint]
 	}
 
 	class LoopPointableResolverAlgorithm extends PointableResolverAlgorithm {
-		override def resolve(pointables: Seq[Pointable]): mutable.TreeMap[String, VeryFixed2dPoint] = {
+		override def resolve(pointables: Seq[Pointable]): mutable.TreeMap[String, Fixed2dPoint] = {
 
 			val pointMap = new PointMap()
 			while (true) {

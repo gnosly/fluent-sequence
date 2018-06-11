@@ -7,7 +7,7 @@ object Coordinates {
 	}
 
 	trait Pointable extends ViewMatrixContenable {
-		def toPoints(pointMap: PointMap): Seq[(String, VeryFixed2dPoint)]
+		def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)]
 	}
 
 	object Actor {
