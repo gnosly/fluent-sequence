@@ -15,11 +15,7 @@ class FixedWidthPainter {
 		case x: BiSignalComponent => Box(x.name.length + 5, 2)
 	}
 
-	def paint(actor: ActorComponent,
-						pointMap: Map[String, Fixed2dPoint],
-						canvas: FixedWidthCanvas): Unit = {
-		import Util._
-
+	def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
 		val padding = 2
 		val name = actor.name
 		val innerSize = name.length + padding
@@ -91,16 +87,19 @@ class FixedWidthPainter {
 			val distance = Math.max(minTextPosition, leftActivityPoint.x - signalPoint.x - 1)
 
 			canvas.write(signalPoint.right((distance - s.name.length) / 2), s.name)
-			canvas.write(signalPoint.down(1), Util.r("-", distance) + ">")
+			canvas.write(signalPoint.down(1), r("-", distance) + ">")
 		} else {
 			val signalLeftPoint = pointMap(Activity.rightPointStart(s.toActorId, s.toActivityId, s.currentIndex()))
 			val signalRightPoint = pointMap(Activity.leftPointStart(s.fromActorId, s.fromActivityId, s.currentIndex()))
 			val distance = Math.max(minTextPosition, signalRightPoint.x - signalLeftPoint.x - 1)
 
 			canvas.write(signalLeftPoint.right((distance - s.name.length) / 2), s.name)
-			canvas.write(signalLeftPoint.down(1), "<" + Util.r("-", distance))
+			canvas.write(signalLeftPoint.down(1), "<" + r("-", distance))
 		}
 	}
+
+	def r(pattern: String, count: Long): String =
+		(0 until count.toInt).map(_ => pattern).reduce(_ + _)
 }
 
 case class Box(width: Long, height: Long) {
