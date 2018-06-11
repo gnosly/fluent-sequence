@@ -25,6 +25,8 @@ object FluentSequence {
 
 	class SequenceFlow(name: String, val eventBook: EventBook, actorDoingSequence: FluentActor) extends EventBookable {
 
+		def -> (call: => SequenceFlow):SequenceFlow = ???
+
 		def inCase(statement: String, flow: SequenceFlow): SequenceFlow = ???
 
 		def and(): ActorContinueSequenceFlow = {
