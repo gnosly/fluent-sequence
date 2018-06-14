@@ -13,7 +13,6 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 	val viewer = new FixedWidthViewer()
 
 	test("view an actor that calls another"){
-
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) :: Nil
 		)

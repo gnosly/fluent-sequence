@@ -29,13 +29,11 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
 		viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent))
 	}
 
-
 	it should "create viewModel with REPLY " in {
 		val viewModel = createFrom(EventBook(
 			CALLED(USER, "call", SYSTEM),
 			REPLIED(SYSTEM, "response", USER)
 		))
-
 
 		val call = new BiSignalComponent("call", 0, 0, 0, 1, 0)
 		val response = new BiSignalComponent("response", 1, 1, 0, 0, 0)

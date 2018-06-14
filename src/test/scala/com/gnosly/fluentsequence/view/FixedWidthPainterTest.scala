@@ -9,7 +9,6 @@ import scala.collection.mutable
 class FixedWidthPainterTest extends FlatSpec with Matchers {
 	val painter = new FixedWidthPainter()
 
-
 	it should "render user box" in {
 		val user = new ActorComponent(0, "user")
 		user.done("something", 0)

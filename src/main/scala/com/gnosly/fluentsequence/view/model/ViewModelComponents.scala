@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core
-import com.gnosly.fluentsequence.core.{CALLED, DONE, EventBook, REPLIED}
+import com.gnosly.fluentsequence.core._
 
 import scala.collection.mutable
 
@@ -16,6 +16,7 @@ object ViewModelComponentsFactory {
 					case DONE(who, something) => viewModel.done(who, something, t.index)
 					case CALLED(who, something, toSomebody) => viewModel.called(who, something, toSomebody, t.index)
 					case REPLIED(who, something, toSomebody) => viewModel.replied(who, something, toSomebody, t.index)
+					case SEQUENCE_STARTED(name) => viewModel.sequenceStarted(name)
 					case other => println(s"WARN ignoring ${other} creating view model")
 				}
 			}
@@ -26,16 +27,21 @@ object ViewModelComponentsFactory {
 }
 
 case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap()) {
+	var sequenceName = ""
+
+	def sequenceStarted(name: String): Unit = {
+		sequenceName = name
+	}
 
 	def done(who: core.Actor, something: String, index: Int): Unit = {
 		val actor = createOrGet(who, index)
-		/*_signals += */actor.done(something, index)
+		/*_signals += */ actor.done(something, index)
 	}
 
 	def called(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
 		val caller = createOrGet(who, index)
 		val called = createOrGet(toSomebody, index)
-		/*_signals += */caller.link(called, something, index)
+		/*_signals += */ caller.link(called, something, index)
 	}
 
 	def replied(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
@@ -43,10 +49,6 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 		val replied = createOrGet(toSomebody, index)
 		/*_signals += */ replier.link(replied, something, index)
 		replier.end(index)
-	}
-
-	def end(index: Int) = {
-		_actors.foreach(a => a._2.end(index))
 	}
 
 	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
@@ -57,5 +59,9 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 		})
 
 		actor
+	}
+
+	def end(index: Int) = {
+		_actors.foreach(a => a._2.end(index))
 	}
 }

@@ -16,6 +16,12 @@ class FixedWidthPainter {
 	}
 
 	def paint(viewModelComponents: ViewModelComponents, pointMap:  Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
+
+		canvas.write(Fixed2dPoint(0,0), r("_", viewModelComponents.sequenceName.size + 3) )
+		canvas.write(Fixed2dPoint(0,1), s"| ${viewModelComponents.sequenceName} \\")
+		canvas.write(Fixed2dPoint(0,2), "|-------------------------------------")
+		viewModelComponents.sequenceName
+
 		viewModelComponents._actors.foreach(
 			a => paint(a._2, pointMap, canvas)
 		)
