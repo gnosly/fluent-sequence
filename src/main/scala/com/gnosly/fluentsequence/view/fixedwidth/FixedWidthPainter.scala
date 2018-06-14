@@ -15,7 +15,13 @@ class FixedWidthPainter {
 		case x: BiSignalComponent => Box(x.name.length + 5, 2)
 	}
 
-	def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
+	def paint(viewModelComponents: ViewModelComponents, pointMap:  Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
+		viewModelComponents._actors.foreach(
+			a => paint(a._2, pointMap, canvas)
+		)
+	}
+
+	 def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
 		val padding = 2
 		val name = actor.name
 		val innerSize = name.length + padding
