@@ -4,6 +4,7 @@ import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{Actor, Pointable, 
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.{DISTANCE_BETWEEN_ACTORS, LEFT_MARGIN, TOP_MARGIN}
 import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.model.ActorComponent
+import com.gnosly.fluentsequence.view.model.point.ActorPoints
 
 class FixedWidthActorFormatter(painter: FixedWidthPainter) {
 	def format(actor: ActorComponent): Pointable = {
@@ -11,7 +12,7 @@ class FixedWidthActorFormatter(painter: FixedWidthPainter) {
 			if (actor.id == 0)
 				return new Variable2DPoint(LEFT_MARGIN, TOP_MARGIN)
 			else {
-				return new ReferencePoint(Actor.topRight(actor.id - 1))
+				return new ReferencePoint(Actor.topLeft(actor.id - 1))
 					.right(max(Reference1DPoint(ViewMatrix.column(actor.id - 1)), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
 			}
 		}
@@ -21,17 +22,5 @@ class FixedWidthActorFormatter(painter: FixedWidthPainter) {
 		//2. determinazione punto in alto a sx
 		val actorTopLeft = previousActorDistanceOrDefault()
 		new ActorPoints(actor.id, actorTopLeft, actorBox)
-	}
-}
-
-case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) extends Pointable {
-	val actorTopRight = topLeft.right(actorBox.width)
-	val actorBottomMiddle = topLeft.right((actorBox.width - 1) / 2).down(actorBox.height)
-
-	def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] = {
-		Actor.topLeft(actorId) -> topLeft.resolve(pointMap) ::
-			Actor.topRight(actorId) -> actorTopRight.resolve(pointMap) ::
-			Actor.bottomMiddle(actorId) -> actorBottomMiddle.resolve(pointMap) :: Nil
-
 	}
 }

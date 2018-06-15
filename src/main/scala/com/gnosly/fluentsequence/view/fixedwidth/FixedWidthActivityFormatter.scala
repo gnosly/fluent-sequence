@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view.fixedwidth
 import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.model.ActivityComponent
+import com.gnosly.fluentsequence.view.model.point.ActivityPoints
 
 class FixedWidthActivityFormatter(painter: FixedWidthPainter) {
 
@@ -26,16 +27,5 @@ class FixedWidthActivityFormatter(painter: FixedWidthPainter) {
 		val activityEndY = Reference1DPoint(ViewMatrix.row(activity.toIndex))
 
 		ActivityPoints(activity.actorId, activity.id, activityTopLeft, activityBox.width, activityEndY)
-	}
-}
-
-case class ActivityPoints(actorId: Int, activityId: Int, activityTopLeft: Point2d, activityWith: Long, lastPoint: Point1d) extends Pointable {
-	val activityTopRight = activityTopLeft.right(activityWith)
-	val activityBottomLeft = activityTopLeft.atY(lastPoint)
-
-	def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] = {
-		Activity.topLeft(actorId, activityId) -> activityTopLeft.resolve(pointMap) ::
-			Activity.topRight(actorId, activityId) -> activityTopRight.resolve(pointMap) ::
-			Activity.bottomLeft(actorId, activityId) -> activityBottomLeft.resolve(pointMap) :: Nil
 	}
 }

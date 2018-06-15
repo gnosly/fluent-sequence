@@ -15,19 +15,34 @@ class FixedWidthPainter {
 		case x: BiSignalComponent => Box(x.name.length + 5, 2)
 	}
 
-	def paint(viewModelComponents: ViewModelComponents, pointMap:  Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
+	def paint(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
+		val sequenceWidth = allColumnWidth(viewModelComponents, pointMap)
+		val sequenceHeight = pointMap(ViewMatrix.row(viewModelComponents.lastIndex)).x + 3
 
-		canvas.write(Fixed2dPoint(0,0), r("_", viewModelComponents.sequenceName.size + 3) )
-		canvas.write(Fixed2dPoint(0,1), s"| ${viewModelComponents.sequenceName} \\")
-		canvas.write(Fixed2dPoint(0,2), "|-------------------------------------")
-		viewModelComponents.sequenceName
+		canvas.write(Fixed2dPoint(0, 0), r("_", viewModelComponents.sequenceName.size + 3))
+		canvas.write(Fixed2dPoint(0, 1), s"| ${viewModelComponents.sequenceName} \\")
+		canvas.write(Fixed2dPoint(0, 2), "|" + r("-", sequenceWidth))
+		canvas.write(Fixed2dPoint(0, sequenceHeight), "|" + r("_", sequenceWidth))
 
+		for (y <- 3 until sequenceHeight.toInt) {
+			canvas.write(Fixed2dPoint(0, y), "|")
+			canvas.write(Fixed2dPoint(sequenceWidth, y), "|")
+		}
 		viewModelComponents._actors.foreach(
 			a => paint(a._2, pointMap, canvas)
 		)
 	}
 
-	 def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
+	private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Long = {
+		val sequenceWidth = 3
+		val count = viewModelComponents._actors.foldLeft(0L)((z, a) => {
+			z + sequenceWidth + pointMap(ViewMatrix.column(a._2.id)).x
+		})
+
+		FormatterConstants.LEFT_MARGIN + count
+	}
+
+	def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
 		val padding = 2
 		val name = actor.name
 		val innerSize = name.length + padding
@@ -90,23 +105,20 @@ class FixedWidthPainter {
 	}
 
 	private def paintBiSignal(s: BiSignalComponent, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas) = {
-
-
-		val minTextPosition: Long = s.name.length + 4L
 		if (s.leftToRight()) {
 			val signalPoint = pointMap(Activity.rightPointStart(s.fromActorId, s.fromActivityId, s.currentIndex()))
 			val leftActivityPoint = pointMap(Activity.leftPointStart(s.toActorId, s.toActivityId, s.currentIndex()))
-			val distance = Math.max(minTextPosition, leftActivityPoint.x - signalPoint.x - 1)
+			val distance = leftActivityPoint.x - signalPoint.x
 
 			canvas.write(signalPoint.right((distance - s.name.length) / 2), s.name)
-			canvas.write(signalPoint.down(1), r("-", distance) + ">")
+			canvas.write(signalPoint.down(1), r("-", distance - 1) + ">")
 		} else {
 			val signalLeftPoint = pointMap(Activity.rightPointStart(s.toActorId, s.toActivityId, s.currentIndex()))
 			val signalRightPoint = pointMap(Activity.leftPointStart(s.fromActorId, s.fromActivityId, s.currentIndex()))
-			val distance = Math.max(minTextPosition, signalRightPoint.x - signalLeftPoint.x - 1)
+			val distance = signalRightPoint.x - signalLeftPoint.x
 
 			canvas.write(signalLeftPoint.right((distance - s.name.length) / 2), s.name)
-			canvas.write(signalLeftPoint.down(1), "<" + r("-", distance))
+			canvas.write(signalLeftPoint.down(1), "<" + r("-", distance - 1))
 		}
 	}
 

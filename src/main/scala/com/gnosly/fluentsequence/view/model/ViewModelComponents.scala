@@ -28,6 +28,7 @@ object ViewModelComponentsFactory {
 
 case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap()) {
 	var sequenceName = ""
+	var lastIndex= 0
 
 	def sequenceStarted(name: String): Unit = {
 		sequenceName = name
@@ -51,6 +52,10 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 		replier.end(index)
 	}
 
+	def lastActorId(): Int ={
+		_actors.size-1
+	}
+
 	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
 		val actor = _actors.getOrElse(who.name, {
 			val newActor = new ActorComponent(_actors.size, who.name)
@@ -62,6 +67,7 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 	}
 
 	def end(index: Int) = {
+		lastIndex = index
 		_actors.foreach(a => a._2.end(index))
 	}
 }

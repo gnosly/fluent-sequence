@@ -11,6 +11,8 @@ object Coordinates {
 	}
 
 	object Actor {
+		def width(actorId: Int) = s"actor_${actorId}_width"
+
 		def topLeft(actorId: Int) = s"actor_${actorId}_top_left"
 
 		def topRight(actorId: Int) = s"actor_${actorId}_top_right"
@@ -40,6 +42,10 @@ object Coordinates {
 	}
 
 	object ViewMatrix {
+		/**
+			* The column is the space between the topLeftCorner of two actors
+			*
+			*/
 		def column(actorId: Int): String = s"column_${actorId}"
 
 		def row(signalIndex: Int): String = s"row_${signalIndex}"

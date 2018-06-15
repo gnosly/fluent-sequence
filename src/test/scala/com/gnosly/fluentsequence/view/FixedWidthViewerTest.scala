@@ -9,10 +9,9 @@ import scala.io.Source
 class FixedWidthViewerTest extends FunSuite with Matchers {
 	val USER = new User("user")
 	val SYSTEM = new FluentActor("system")
-
 	val viewer = new FixedWidthViewer()
 
-	test("view an actor that calls another"){
+	test("view an actor that calls another") {
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) :: Nil
 		)
@@ -22,8 +21,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 		str shouldBe sequenceFromFile("two-actors-one-call.txt")
 	}
 
-	test("do a two actor sequence"){
-
+	test("do a two actor sequence") {
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) ::
 				SYSTEM.reply("reply", USER) :: Nil
@@ -34,7 +32,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 		str shouldBe sequenceFromFile("two-actors.txt")
 	}
 
-	test("do a complete sequence"){
+	test("do a complete sequence") {
 
 		val flow = Sequence("example").startWith(
 			USER.does("something") ::
@@ -49,7 +47,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 		str shouldBe sequenceFromFile("complete-fixed-sequence.txt")
 	}
 
-	test("multi activity"){
+	test("multi activity") {
 
 		val flow = Sequence("example").startWith(
 			USER.call("call", SYSTEM) ::
@@ -64,8 +62,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 		str shouldBe sequenceFromFile("multi-activity.txt")
 	}
 
-	test("multi actor"){
-
+	test("multi actor") {
 		val secondSystem = new FluentActor("another system")
 		val thirdSystem = new FluentActor("third system")
 
@@ -75,7 +72,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 				secondSystem.call("call3", thirdSystem) ::
 				thirdSystem.reply("reply3", secondSystem) ::
 				secondSystem.reply("reply2", SYSTEM) ::
-				SYSTEM.reply("reply", USER ) ::
+				SYSTEM.reply("reply", USER) ::
 				Nil
 		)
 
@@ -87,5 +84,4 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 	private def sequenceFromFile(filename: String) = {
 		Source.fromResource(filename).mkString
 	}
-
 }
