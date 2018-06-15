@@ -33,31 +33,23 @@ class FixedWidthPainter {
 		)
 	}
 
-	private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Long = {
-		val sequenceWidth = 3
-		val count = viewModelComponents._actors.foldLeft(0L)((z, a) => {
-			z + sequenceWidth + pointMap(ViewMatrix.column(a._2.id)).x
-		})
-
-		FormatterConstants.LEFT_MARGIN + count
-	}
-
 	def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
 		val padding = 2
 		val name = actor.name
 		val innerSize = name.length + padding
 
 		val actorTopLeft = pointMap(Actor.topLeft(actor.id))
+		val actorBottomMiddle = pointMap(Actor.bottomMiddle(actor.id))
 
 		val str = r("-", innerSize)
 
 		canvas.write(actorTopLeft, "." + str + ".")
 		canvas.write(actorTopLeft.down(1), "| " + name + " |")
 		canvas.write(actorTopLeft.down(2), "'" + str + "'")
-		canvas.write(actorTopLeft.down(3).right(innerSize / 2), "|")
+		canvas.write(actorBottomMiddle.up(1), "|")
 
 
-		var timelineStart = pointMap(Actor.bottomMiddle(actor.id))
+		var timelineStart = actorBottomMiddle
 
 		for (activity <- actor.activities) {
 			val topLeftActivity = pointMap(Activity.topLeft(actor.id, activity.id))
@@ -120,6 +112,15 @@ class FixedWidthPainter {
 			canvas.write(signalLeftPoint.right((distance - s.name.length) / 2), s.name)
 			canvas.write(signalLeftPoint.down(1), "<" + r("-", distance - 1))
 		}
+	}
+
+	private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Long = {
+		val sequenceWidth = 3
+		val count = viewModelComponents._actors.foldLeft(0L)((z, a) => {
+			z + sequenceWidth + pointMap(ViewMatrix.column(a._2.id)).x
+		})
+
+		FormatterConstants.LEFT_MARGIN + count
 	}
 
 	def r(pattern: String, count: Long): String =

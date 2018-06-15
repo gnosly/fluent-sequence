@@ -12,7 +12,7 @@ object Main {
 		val msr = new FluentActor("msr")
 		val opco = new FluentActor("opco")
 
-		FluentSequence.Sequence("pippo")
+		FluentSequence.Sequence("mss tracking")
 			.startWith(
 				user.call("call", meta) ::
 					meta.call("call", mss) ::
