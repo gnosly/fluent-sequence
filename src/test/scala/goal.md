@@ -10,8 +10,8 @@
 <h1>requirements</h1>
 
 
-- multi activity
-- nome del sequence
+- ~~multi activity~~
+- ~~nome del sequence~~
 - gestione dei forEach
 - gestione dei case
 - gestione flow paralleli

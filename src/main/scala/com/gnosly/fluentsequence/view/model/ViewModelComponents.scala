@@ -16,7 +16,7 @@ object ViewModelComponentsFactory {
 					case DONE(who, something) => viewModel.done(who, something, t.index)
 					case CALLED(who, something, toSomebody) => viewModel.called(who, something, toSomebody, t.index)
 					case REPLIED(who, something, toSomebody) => viewModel.replied(who, something, toSomebody, t.index)
-					case SEQUENCE_STARTED(name) => viewModel.sequenceStarted(name)
+					case SEQUENCE_STARTED(name) => viewModel.sequenceStarted(name, t.index)
 					case other => println(s"WARN ignoring ${other} creating view model")
 				}
 			}
@@ -26,12 +26,11 @@ object ViewModelComponentsFactory {
 	}
 }
 
-case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap()) {
-	var sequenceName = ""
-	var lastIndex= 0
+case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(), sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent]()) {
+	var lastIndex = 0
 
-	def sequenceStarted(name: String): Unit = {
-		sequenceName = name
+	def sequenceStarted(name: String, index: Int): Unit = {
+		sequenceComponents += new SequenceComponent(name)
 	}
 
 	def done(who: core.Actor, something: String, index: Int): Unit = {
@@ -52,10 +51,6 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 		replier.end(index)
 	}
 
-	def lastActorId(): Int ={
-		_actors.size-1
-	}
-
 	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
 		val actor = _actors.getOrElse(who.name, {
 			val newActor = new ActorComponent(_actors.size, who.name)
@@ -64,6 +59,10 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 		})
 
 		actor
+	}
+
+	def lastActorId(): Int = {
+		_actors.size - 1
 	}
 
 	def end(index: Int) = {

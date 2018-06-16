@@ -19,8 +19,10 @@ class FixedWidthPainter {
 		val sequenceWidth = allColumnWidth(viewModelComponents, pointMap)
 		val sequenceHeight = pointMap(ViewMatrix.row(viewModelComponents.lastIndex)).x + 3
 
-		canvas.write(Fixed2dPoint(0, 0), r("_", viewModelComponents.sequenceName.size + 3))
-		canvas.write(Fixed2dPoint(0, 1), s"| ${viewModelComponents.sequenceName} \\")
+		val component = viewModelComponents.sequenceComponents(0)
+		val sequenceTitle = component.name
+		canvas.write(Fixed2dPoint(0, 0), r("_", sequenceTitle.length + 3))
+		canvas.write(Fixed2dPoint(0, 1), s"| ${sequenceTitle} \\")
 		canvas.write(Fixed2dPoint(0, 2), "|" + r("-", sequenceWidth))
 		canvas.write(Fixed2dPoint(0, sequenceHeight), "|" + r("_", sequenceWidth))
 
