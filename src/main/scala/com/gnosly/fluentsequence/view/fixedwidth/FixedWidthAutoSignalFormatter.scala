@@ -17,7 +17,7 @@ class FixedWidthAutoSignalFormatter(painter: FixedWidthPainter) {
 	}
 
 	def previousIndexPointOrDefaultForAutoSignal(activityTopRight: Point2d, signal: SignalComponent): Point2d = {
-		if (signal.currentIndex() == 1) {
+		if (isFirstSignal(signal)) {
 			return activityTopRight.down(1).right(1)
 		} else {
 			return Variable2DPoint(activityTopRight.right(1).x(),
@@ -25,4 +25,7 @@ class FixedWidthAutoSignalFormatter(painter: FixedWidthPainter) {
 		}
 	}
 
+	private def isFirstSignal(signal: SignalComponent) = {
+		signal.currentIndex() == 0
+	}
 }

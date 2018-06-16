@@ -14,12 +14,12 @@ class FixedWidthActivityFormatter(painter: FixedWidthPainter) {
 		//2. determinazione punto in alto a sx
 
 		val activityStartY = {
-			if (activity.fromIndex > 1) {
+			if (isFirstSignal(activity.fromIndex)) {
+				actorBottomMiddle.y()
+			} else {
 				val lastSignalEnd = Reference1DPoint(ViewMatrix.row(activity.fromIndex - 1))
 				val marginSinceLastActivity = new ReferencePoint(Activity.bottomLeft(activity.actorId, activity.id - 1)).down(1).y()
 				max(lastSignalEnd, marginSinceLastActivity)
-			} else {
-				actorBottomMiddle.y()
 			}
 		}
 
@@ -27,5 +27,9 @@ class FixedWidthActivityFormatter(painter: FixedWidthPainter) {
 		val activityEndY = Reference1DPoint(ViewMatrix.row(activity.toIndex))
 
 		ActivityPoints(activity.actorId, activity.id, activityTopLeft, activityBox.width, activityEndY)
+	}
+
+	private def isFirstSignal(fromIndex: Int) = {
+		fromIndex == 0
 	}
 }

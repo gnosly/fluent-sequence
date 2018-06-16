@@ -13,10 +13,10 @@ object ViewModelComponentsFactory {
 		list.foreach(
 			t => {
 				t.event match {
-					case DONE(who, something) => viewModel.done(who, something, t.index)
-					case CALLED(who, something, toSomebody) => viewModel.called(who, something, toSomebody, t.index)
-					case REPLIED(who, something, toSomebody) => viewModel.replied(who, something, toSomebody, t.index)
-					case SEQUENCE_STARTED(name) => viewModel.sequenceStarted(name, t.index)
+					case DONE(who, something) => viewModel.done(who, something)
+					case CALLED(who, something, toSomebody) => viewModel.called(who, something, toSomebody)
+					case REPLIED(who, something, toSomebody) => viewModel.replied(who, something, toSomebody)
+					case SEQUENCE_STARTED(name) => viewModel.sequenceStarted(name)
 					case other => println(s"WARN ignoring ${other} creating view model")
 				}
 			}
@@ -27,31 +27,31 @@ object ViewModelComponentsFactory {
 }
 
 case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(), sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent]()) {
-	var lastSignalIndex = 0
+	var lastSignalIndex = -1
 
-	def sequenceStarted(name: String, startIndex: Int): Unit = {
-		sequenceComponents += new SequenceComponent(name,startIndex)
+	def sequenceStarted(name: String): Unit = {
+		sequenceComponents += new SequenceComponent(name,lastSignalIndex)
 	}
 
-	def done(who: core.Actor, something: String, index: Int): Unit = {
-		val actor = createOrGet(who, index)
-		/*_signals += */ actor.done(something, index)
-		lastSignalIndex = index
+	def done(who: core.Actor, something: String): Unit = {
+		lastSignalIndex += 1
+		val actor = createOrGet(who, lastSignalIndex)
+		/*_signals += */ actor.done(something, lastSignalIndex)
 	}
 
-	def called(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
-		val caller = createOrGet(who, index)
-		val called = createOrGet(toSomebody, index)
-		/*_signals += */ caller.link(called, something, index)
-		lastSignalIndex = index
+	def called(who: core.Actor, something: String, toSomebody: core.Actor) = {
+		lastSignalIndex += 1
+		val caller = createOrGet(who, lastSignalIndex)
+		val called = createOrGet(toSomebody, lastSignalIndex)
+		/*_signals += */ caller.link(called, something, lastSignalIndex)
 	}
 
-	def replied(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
-		val replier = createOrGet(who, index)
-		val replied = createOrGet(toSomebody, index)
-		/*_signals += */ replier.link(replied, something, index)
-		replier.end(index)
-		lastSignalIndex = index
+	def replied(who: core.Actor, something: String, toSomebody: core.Actor) = {
+		lastSignalIndex += 1
+		val replier = createOrGet(who, lastSignalIndex)
+		val replied = createOrGet(toSomebody, lastSignalIndex)
+		/*_signals += */ replier.link(replied, something, lastSignalIndex)
+		replier.end(lastSignalIndex)
 	}
 
 	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {

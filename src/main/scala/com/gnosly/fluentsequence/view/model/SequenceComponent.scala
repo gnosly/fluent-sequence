@@ -16,4 +16,7 @@ class SequenceComponent(val name:String,val startIndex:Int) extends Component {
 		val state = Seq(name, startIndex)
 		state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
 	}
+
+
+	override def toString = s"SequenceComponent($name, $startIndex)"
 }

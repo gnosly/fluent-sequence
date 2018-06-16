@@ -81,6 +81,21 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 		str shouldBe sequenceFromFile("multi-actor.txt")
 	}
 
+	test("sub sequence") {
+
+		val subSequence = new Sequence("sub sequence")
+			.startWith(SYSTEM.does("something") :: Nil)
+
+		val parentFlow = Sequence("sequence parent").startWith(
+			USER.call("call", SYSTEM) ::
+				SYSTEM.does(subSequence) :: Nil
+		)
+
+		val str = viewer.view(parentFlow.toEventBook)
+		println(str)
+		str shouldBe sequenceFromFile("sub-sequence.txt")
+	}
+
 	private def sequenceFromFile(filename: String) = {
 		Source.fromResource(filename).mkString
 	}

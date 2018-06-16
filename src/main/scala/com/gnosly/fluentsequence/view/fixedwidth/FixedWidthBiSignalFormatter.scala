@@ -53,7 +53,7 @@ class FixedWidthBiSignalFormatter(painter: FixedWidthPainter) {
 	}
 
 	def previousIndexPointOrDefaultForBisignal(activityTop: Point2d, actorId: Int, activityId: Int, signalIndex: Int): Point1d = {
-		if (signalIndex == 1) {
+		if (isFirstSignal(signalIndex)) {
 			return activityTop.down(1).y()
 		} else {
 
@@ -63,6 +63,10 @@ class FixedWidthBiSignalFormatter(painter: FixedWidthPainter) {
 				toActivityTopLeft.down(1).y()
 			)
 		}
+	}
+
+	private def isFirstSignal(signalIndex: Int) = {
+		signalIndex == 0
 	}
 
 	def formatOnLeft(signal: BiSignalComponent): Pointable = {
