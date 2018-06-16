@@ -1,18 +1,19 @@
 package com.gnosly.fluentsequence.view.model
 
-class SequenceComponent(val name:String) extends Component {
+class SequenceComponent(val name:String,val startIndex:Int) extends Component {
 
 	def canEqual(other: Any): Boolean = other.isInstanceOf[SequenceComponent]
 
 	override def equals(other: Any): Boolean = other match {
 		case that: SequenceComponent =>
 			(that canEqual this) &&
-				name == that.name
+				name == that.name &&
+				startIndex == that.startIndex
 		case _ => false
 	}
 
 	override def hashCode(): Int = {
-		val state = Seq(name)
+		val state = Seq(name, startIndex)
 		state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
 	}
 }

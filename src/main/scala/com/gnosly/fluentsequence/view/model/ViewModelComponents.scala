@@ -29,8 +29,8 @@ object ViewModelComponentsFactory {
 case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(), sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent]()) {
 	var lastIndex = 0
 
-	def sequenceStarted(name: String, index: Int): Unit = {
-		sequenceComponents += new SequenceComponent(name)
+	def sequenceStarted(name: String, startIndex: Int): Unit = {
+		sequenceComponents += new SequenceComponent(name,startIndex)
 	}
 
 	def done(who: core.Actor, something: String, index: Int): Unit = {

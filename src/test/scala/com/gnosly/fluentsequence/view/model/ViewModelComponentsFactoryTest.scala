@@ -59,10 +59,13 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
 
 	it should "generate start" in {
 		val viewModel = createFrom(EventBook(
-			SEQUENCE_STARTED("sequence name")
+			SEQUENCE_STARTED("sequence name"),
+			SEQUENCE_STARTED("another sub sequence name")
 		))
 
-		viewModel shouldBe ViewModelComponents(sequenceComponents = mutable.ListBuffer(new SequenceComponent("sequence name")))
+		viewModel shouldBe ViewModelComponents(sequenceComponents = mutable.ListBuffer(
+			new SequenceComponent("sequence name",0),
+			new SequenceComponent("another sub sequence name",1)))
 	}
 
 	private def asBuffer(component: ActivityComponent): mutable.Buffer[ActivityComponent] = {
