@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.fixedwidth
 
 import org.scalatest.{FunSuite, Matchers}
 
-class ReferencePoint2dTest extends FunSuite with Matchers{
+class ReferencePointTest extends FunSuite with Matchers{
 
 	test("referencePoint"){
 		val pointMap = new PointMap()
