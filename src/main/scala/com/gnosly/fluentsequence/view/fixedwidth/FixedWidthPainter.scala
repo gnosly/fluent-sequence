@@ -17,7 +17,7 @@ class FixedWidthPainter {
 
 	def paint(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
 		val sequenceWidth = allColumnWidth(viewModelComponents, pointMap)
-		val sequenceHeight = pointMap(ViewMatrix.row(viewModelComponents.lastIndex)).x + 3
+		val sequenceHeight = pointMap(ViewMatrix.row(viewModelComponents.lastSignalIndex)).x + 3
 
 		val component = viewModelComponents.sequenceComponents(0)
 		val sequenceTitle = component.name

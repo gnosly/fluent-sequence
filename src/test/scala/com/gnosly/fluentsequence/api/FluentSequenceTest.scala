@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.api.FluentSequence._
-import com.gnosly.fluentsequence.core.{DONE, _}
+import com.gnosly.fluentsequence.core.{DONE, SEQUENCE_STARTED, _}
 import org.scalatest.{FunSuite, Matchers}
 
 class FluentSequenceTest extends FunSuite with Matchers {
@@ -20,7 +20,8 @@ class FluentSequenceTest extends FunSuite with Matchers {
 
 		sequence.toEventBook shouldBe EventBook(
 			SEQUENCE_STARTED("sequenceName"),
-			DONE(user, "something")
+			DONE(user, "something"),
+			SEQUENCE_ENDED("sequenceName")
 		)
 	}
 
@@ -33,7 +34,8 @@ class FluentSequenceTest extends FunSuite with Matchers {
 		sequence.toEventBook shouldBe EventBook(
 			SEQUENCE_STARTED("sequenceName"),
 			CALLED(user, "call", system),
-			REPLIED(system, "reply", user)
+			REPLIED(system, "reply", user),
+			SEQUENCE_ENDED("sequenceName")
 		)
 	}
 
@@ -59,7 +61,9 @@ class FluentSequenceTest extends FunSuite with Matchers {
 			REPLIED(user, "reply", anotherSystem),
 			NEW_SEQUENCE_SCHEDULED(user, "another sequence"),
 			SEQUENCE_STARTED("another sequence"),
-			DONE(user, "c")
+			DONE(user, "c"),
+			SEQUENCE_ENDED("another sequence"),
+			SEQUENCE_ENDED("sequenceName")
 		)
 	}
 

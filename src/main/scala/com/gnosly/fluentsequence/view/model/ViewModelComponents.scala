@@ -21,13 +21,13 @@ object ViewModelComponentsFactory {
 				}
 			}
 		)
-		viewModel.end(list.last.index)
+		viewModel.end()
 		viewModel
 	}
 }
 
 case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(), sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent]()) {
-	var lastIndex = 0
+	var lastSignalIndex = 0
 
 	def sequenceStarted(name: String, startIndex: Int): Unit = {
 		sequenceComponents += new SequenceComponent(name,startIndex)
@@ -36,12 +36,14 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 	def done(who: core.Actor, something: String, index: Int): Unit = {
 		val actor = createOrGet(who, index)
 		/*_signals += */ actor.done(something, index)
+		lastSignalIndex = index
 	}
 
 	def called(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
 		val caller = createOrGet(who, index)
 		val called = createOrGet(toSomebody, index)
 		/*_signals += */ caller.link(called, something, index)
+		lastSignalIndex = index
 	}
 
 	def replied(who: core.Actor, something: String, toSomebody: core.Actor, index: Int) = {
@@ -49,6 +51,7 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 		val replied = createOrGet(toSomebody, index)
 		/*_signals += */ replier.link(replied, something, index)
 		replier.end(index)
+		lastSignalIndex = index
 	}
 
 	private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
@@ -65,8 +68,7 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 		_actors.size - 1
 	}
 
-	def end(index: Int) = {
-		lastIndex = index
-		_actors.foreach(a => a._2.end(index))
+	def end() = {
+		_actors.foreach(a => a._2.end(lastSignalIndex))
 	}
 }

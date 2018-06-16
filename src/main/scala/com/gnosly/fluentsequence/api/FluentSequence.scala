@@ -17,6 +17,7 @@ object FluentSequence {
 		def startWith(flow: Seq[SequenceFlow]): Sequence = {
 			eventBook.track(SEQUENCE_STARTED(name))
 			eventBook.track(flow.map(_.toEventBook))
+			eventBook.track(SEQUENCE_ENDED(name))
 			this
 		}
 

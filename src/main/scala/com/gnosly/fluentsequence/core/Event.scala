@@ -11,3 +11,5 @@ case class DONE(who: Actor, something: String) extends Event
 case class NEW_SEQUENCE_SCHEDULED(who: Actor, sequence: String) extends Event
 
 case class SEQUENCE_STARTED(sequence: String) extends Event
+
+case class SEQUENCE_ENDED(sequence: String) extends Event

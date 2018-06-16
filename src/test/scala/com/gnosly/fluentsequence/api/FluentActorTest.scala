@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.api.FluentSequence._
-import com.gnosly.fluentsequence.core._
+import com.gnosly.fluentsequence.core.{SEQUENCE_ENDED, _}
 import org.scalatest.{FlatSpec, Matchers}
 
 class FluentActorTest extends FlatSpec with Matchers {
@@ -27,6 +27,7 @@ class FluentActorTest extends FlatSpec with Matchers {
 			NEW_SEQUENCE_SCHEDULED(service, "childSequence"),
 			SEQUENCE_STARTED("childSequence"),
 			DONE(service, "something"),
+			SEQUENCE_ENDED("childSequence"),
 			DONE(service, "something else")
 		)
 	}
