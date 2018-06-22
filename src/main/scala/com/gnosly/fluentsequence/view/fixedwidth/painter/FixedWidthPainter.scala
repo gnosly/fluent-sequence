@@ -1,6 +1,7 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.Coordinates._
+import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2dPoint, FixedWidthCanvas, FormatterConstants}
 import com.gnosly.fluentsequence.view.model._
 import com.gnosly.fluentsequence.view.model.component._
 

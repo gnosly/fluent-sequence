@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view.model.point
 import com.gnosly.fluentsequence.view.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
 import com.gnosly.fluentsequence.view.fixedwidth._
+import com.gnosly.fluentsequence.view.fixedwidth.painter.Box
 import org.scalatest.{FunSuite, Matchers}
 
 class ActorPointsTest extends FunSuite with Matchers {

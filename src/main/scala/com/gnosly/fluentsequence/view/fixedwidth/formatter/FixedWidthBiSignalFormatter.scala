@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view.fixedwidth.formatter
 import com.gnosly.fluentsequence.view.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
 import com.gnosly.fluentsequence.view.fixedwidth._
+import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 import com.gnosly.fluentsequence.view.model.point.SignalPoint
 

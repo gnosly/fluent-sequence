@@ -2,7 +2,8 @@ package com.gnosly.fluentsequence.view.fixedwidth.formatter
 
 import com.gnosly.fluentsequence.view.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.fixedwidth.PointableResolverAlgorithms.loopPointableResolverAlgorithm
-import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2dPoint, FixedWidthPainter}
+import com.gnosly.fluentsequence.view.fixedwidth.Fixed2dPoint
+import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
 import com.gnosly.fluentsequence.view.model._
 import com.gnosly.fluentsequence.view.model.component.{ActivityPoint, ActivityPointForBiSignalOnTheLeft, ActivityPointForBiSignalOnTheRight, ActivityPointLoopOnTheRight}
 

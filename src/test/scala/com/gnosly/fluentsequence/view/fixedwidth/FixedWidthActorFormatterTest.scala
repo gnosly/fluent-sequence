@@ -4,6 +4,7 @@ import com.gnosly.fluentsequence.view.Coordinates.Actor
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.{DISTANCE_BETWEEN_ACTORS, LEFT_MARGIN, TOP_MARGIN}
 import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.fixedwidth.formatter.FixedWidthActorFormatter
+import com.gnosly.fluentsequence.view.fixedwidth.painter.{Box, FixedWidthPainter}
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point.ActorPoints
 import org.scalatest.{FunSuite, Matchers}
