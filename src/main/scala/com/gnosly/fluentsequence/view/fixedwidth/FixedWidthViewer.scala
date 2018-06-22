@@ -6,24 +6,13 @@ import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
 import com.gnosly.fluentsequence.view.model.{ViewModelComponents, ViewModelComponentsFactory}
 
 class FixedWidthViewer {
-	private val fixedWidthPainter = new FixedWidthPainter()
+  private val painter = new FixedWidthPainter()
+  private val formatter = new FixedWidthFormatter(painter)
 
-	def view(eventBook: EventBook): String = {
-		val fixedWidthCanvas = new FixedWidthCanvas()
-		val viewModel: ViewModelComponents = ViewModelComponentsFactory.createFrom(eventBook)
-		draw(fixedWidthPainter, fixedWidthCanvas, viewModel)
-		fixedWidthCanvas.print()
-	}
-
-	private def draw(painter: FixedWidthPainter,
-									 fixedWidthCanvas:FixedWidthCanvas,
-									 viewModelComponents: ViewModelComponents): Unit = {
-		val pointMap = autoFormatting(viewModelComponents, painter)
-		painter.paint(viewModelComponents, pointMap,fixedWidthCanvas)
-	}
-
-	private def autoFormatting(viewModel: ViewModelComponents,
-														 painter: FixedWidthPainter): Map[String, Fixed2dPoint] = {
-		new FixedWidthFormatter(painter).format(viewModel).toMap
-	}
+  def view(eventBook: EventBook): String = {
+    val viewModel = ViewModelComponentsFactory.createFrom(eventBook)
+    val pointMap = formatter.format(viewModel).toMap
+    val canvas = painter.paint(viewModel, pointMap)
+    canvas.print()
+  }
 }

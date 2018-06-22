@@ -17,7 +17,8 @@ class FixedWidthPainter {
     case x: BiSignalComponent => Box(x.name.length + 5, 2)
   }
 
-  def paint(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas): Unit = {
+  def paint(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
+    val canvas = new FixedWidthCanvas()
     val sequenceWidth = allColumnWidth(viewModelComponents, pointMap)
     val sequenceHeight = pointMap(ViewMatrix.row(viewModelComponents.lastSignalIndex)).x + 3
 
@@ -59,6 +60,8 @@ class FixedWidthPainter {
         paintActivity(a, canvas, pointMap)
       }
     )
+
+    return canvas
   }
 
   def paint(actor: ActorComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
