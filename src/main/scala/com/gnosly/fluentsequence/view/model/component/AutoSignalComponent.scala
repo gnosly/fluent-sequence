@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view.model
+package com.gnosly.fluentsequence.view.model.component
 
 class AutoSignalComponent(val name: String,
 													val index: Int,

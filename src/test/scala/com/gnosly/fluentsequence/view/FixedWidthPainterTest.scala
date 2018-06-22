@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.view.fixedwidth._
-import com.gnosly.fluentsequence.view.model.{ActivityComponent, ActorComponent}
+import com.gnosly.fluentsequence.view.model.component.{ActivityComponent, ActorComponent}
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.mutable

@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.core.EventBook
+import com.gnosly.fluentsequence.view.fixedwidth.formatter.FixedWidthFormatter
 import com.gnosly.fluentsequence.view.model.{ViewModelComponents, ViewModelComponentsFactory}
 
 class FixedWidthViewer {

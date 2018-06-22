@@ -2,6 +2,7 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
+import com.gnosly.fluentsequence.view.model.component.{ActorComponent, SequenceComponent}
 
 import scala.collection.mutable
 

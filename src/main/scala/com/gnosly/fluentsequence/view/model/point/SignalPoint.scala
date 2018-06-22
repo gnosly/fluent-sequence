@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.model.point
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{Activity, Pointable, ViewMatrix, ViewMatrixContenable}
+import com.gnosly.fluentsequence.view.Coordinates
+import com.gnosly.fluentsequence.view.Coordinates.{Activity, Pointable, ViewMatrix, ViewMatrixContenable}
 import com.gnosly.fluentsequence.view.fixedwidth._
 
 case class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBox: Box,

@@ -1,8 +1,9 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view.fixedwidth.formatter
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
+import com.gnosly.fluentsequence.view.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
-import com.gnosly.fluentsequence.view.model.BiSignalComponent
+import com.gnosly.fluentsequence.view.fixedwidth._
+import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 import com.gnosly.fluentsequence.view.model.point.SignalPoint
 
 class FixedWidthBiSignalFormatter(painter: FixedWidthPainter) {

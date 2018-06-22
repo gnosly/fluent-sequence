@@ -1,7 +1,8 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
+import com.gnosly.fluentsequence.view.Coordinates._
 import com.gnosly.fluentsequence.view.model._
+import com.gnosly.fluentsequence.view.model.component._
 
 class FixedWidthPainter {
 	def preRender(actorComponent: ActorComponent): Box = {

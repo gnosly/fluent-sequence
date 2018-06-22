@@ -1,4 +1,6 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view
+
+import com.gnosly.fluentsequence.view.fixedwidth.{Fixed1DPoint, Fixed2dPoint, PointMap}
 
 object Coordinates {
 

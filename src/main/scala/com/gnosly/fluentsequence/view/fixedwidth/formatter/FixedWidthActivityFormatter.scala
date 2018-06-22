@@ -1,8 +1,9 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view.fixedwidth.formatter
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
+import com.gnosly.fluentsequence.view.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
-import com.gnosly.fluentsequence.view.model.ActivityComponent
+import com.gnosly.fluentsequence.view.fixedwidth.{FixedWidthPainter, Reference1DPoint, ReferencePoint}
+import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 import com.gnosly.fluentsequence.view.model.point.ActivityPoints
 
 class FixedWidthActivityFormatter(painter: FixedWidthPainter) {

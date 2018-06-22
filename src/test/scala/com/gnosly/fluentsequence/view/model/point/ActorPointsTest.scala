@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.model.point
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates._
+import com.gnosly.fluentsequence.view.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants._
 import com.gnosly.fluentsequence.view.fixedwidth._
 import org.scalatest.{FunSuite, Matchers}

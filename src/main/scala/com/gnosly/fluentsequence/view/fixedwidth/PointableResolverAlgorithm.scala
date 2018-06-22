@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.Pointable
+import com.gnosly.fluentsequence.view.Coordinates.Pointable
 
 import scala.collection.mutable
 

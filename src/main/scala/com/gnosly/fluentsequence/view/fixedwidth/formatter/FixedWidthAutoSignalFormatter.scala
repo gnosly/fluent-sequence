@@ -1,9 +1,10 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view.fixedwidth.formatter
 
-import com.gnosly.fluentsequence.view.fixedwidth.Coordinates.{Activity, Pointable, ViewMatrix}
+import com.gnosly.fluentsequence.view.Coordinates.{Activity, Pointable, ViewMatrix}
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
+import com.gnosly.fluentsequence.view.fixedwidth._
+import com.gnosly.fluentsequence.view.model.component.{AutoSignalComponent, SignalComponent}
 import com.gnosly.fluentsequence.view.model.point.SignalPoint
-import com.gnosly.fluentsequence.view.model.{AutoSignalComponent, SignalComponent}
 
 class FixedWidthAutoSignalFormatter(painter: FixedWidthPainter) {
 
