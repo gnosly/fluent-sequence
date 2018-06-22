@@ -1,5 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
+import com.gnosly.fluentsequence.view.Canvas
 import com.gnosly.fluentsequence.view.Coordinates._
 import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2dPoint, FixedWidthCanvas, FormatterConstants}
 import com.gnosly.fluentsequence.view.model._
@@ -17,7 +18,7 @@ class FixedWidthPainter {
     case x: BiSignalComponent => Box(x.name.length + 5, 2)
   }
 
-  def paint(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
+  def paint(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
     val canvas = new FixedWidthCanvas()
     val sequenceWidth = allColumnWidth(viewModelComponents, pointMap)
     val sequenceHeight = pointMap(ViewMatrix.row(viewModelComponents.lastSignalIndex)).x + 3

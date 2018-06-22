@@ -4,6 +4,7 @@ import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthViewer
 
 object FluentSequence {
+	val viewer = new FixedWidthViewer()
 
 	def to(actor: FluentActor): FluentActor = ???
 
@@ -11,7 +12,7 @@ object FluentSequence {
 		val eventBook = new EventBook()
 
 		def printToConsole() = {
-			println(new FixedWidthViewer().view(this.toEventBook))
+			println(viewer.view(this.toEventBook))
 		}
 
 		def startWith(flow: Seq[SequenceFlow]): Sequence = {

@@ -18,7 +18,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 
 		val str = viewer.view(flow.toEventBook)
 		println(str)
-		str shouldBe sequenceFromFile("two-actors-one-call.txt")
+		str.print() shouldBe sequenceFromFile("two-actors-one-call.txt")
 	}
 
 	test("do a two actor sequence") {
@@ -29,7 +29,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 
 		val str = viewer.view(flow.toEventBook)
 		println(str)
-		str shouldBe sequenceFromFile("two-actors.txt")
+		str.print() shouldBe sequenceFromFile("two-actors.txt")
 	}
 
 	test("do a complete sequence") {
@@ -44,7 +44,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 		val str = viewer.view(flow.toEventBook)
 		println(str)
 
-		str shouldBe sequenceFromFile("complete-fixed-sequence.txt")
+		str.print() shouldBe sequenceFromFile("complete-fixed-sequence.txt")
 	}
 
 	test("multi activity") {
@@ -59,7 +59,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 
 		val str = viewer.view(flow.toEventBook)
 		println(str)
-		str shouldBe sequenceFromFile("multi-activity.txt")
+		str.print() shouldBe sequenceFromFile("multi-activity.txt")
 	}
 
 	test("multi actor") {
@@ -78,7 +78,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 
 		val str = viewer.view(flow.toEventBook)
 		println(str)
-		str shouldBe sequenceFromFile("multi-actor.txt")
+		str.print() shouldBe sequenceFromFile("multi-actor.txt")
 	}
 
 	test("sub sequence") {
@@ -93,7 +93,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 
 		val str = viewer.view(parentFlow.toEventBook)
 		println(str)
-		str shouldBe sequenceFromFile("sub-sequence.txt")
+		str.print() shouldBe sequenceFromFile("sub-sequence.txt")
 	}
 
 	private def sequenceFromFile(filename: String) = {
