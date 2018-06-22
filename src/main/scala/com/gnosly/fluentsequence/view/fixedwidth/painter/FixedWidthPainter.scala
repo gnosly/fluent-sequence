@@ -18,6 +18,8 @@ class FixedWidthPainter {
     case x: BiSignalComponent => Box(x.name.length + 5, 2)
   }
 
+  val actorPainter = new FixedWidthActorPainter()
+
   def paint(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
     val canvas = new FixedWidthCanvas()
     val sequenceWidth = allColumnWidth(viewModelComponents, pointMap)
@@ -35,7 +37,7 @@ class FixedWidthPainter {
       canvas.write(Fixed2dPoint(sequenceWidth, y), "|")
     }
     viewModelComponents._actors.foreach(
-      a => paint(a._2, canvas, pointMap)
+      a => actorPainter.paint(a._2, canvas, pointMap)
     )
 
     viewModelComponents._actors.flatMap(_._2.activities).foreach(
@@ -63,23 +65,6 @@ class FixedWidthPainter {
     )
 
     return canvas
-  }
-
-  def paint(actor: ActorComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
-    val padding = 2
-    val name = actor.name
-    val innerSize = name.length + padding
-
-    val actorTopLeft = pointMap(Actor.topLeft(actor.id))
-    val actorBottomMiddle = pointMap(Actor.bottomMiddle(actor.id))
-
-    val str = r("-", innerSize)
-
-    canvas.write(actorTopLeft, "." + str + ".")
-    canvas.write(actorTopLeft.down(1), "| " + name + " |")
-    canvas.write(actorTopLeft.down(2), "'" + str + "'")
-    canvas.write(actorBottomMiddle.up(1), "|")
-
   }
 
   private def paintActivity(activity: ActivityComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
