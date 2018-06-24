@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.view.model.point
 import com.gnosly.fluentsequence.view.Coordinates
 import com.gnosly.fluentsequence.view.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.fixedwidth._
-import com.gnosly.fluentsequence.view.fixedwidth.painter.Box
+import com.gnosly.fluentsequence.view.model.Box
 import org.scalatest.{FunSuite, Matchers}
 
 class SignalPointTest extends FunSuite with Matchers {

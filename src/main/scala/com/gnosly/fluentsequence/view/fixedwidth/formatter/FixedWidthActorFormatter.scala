@@ -20,7 +20,7 @@ class FixedWidthActorFormatter(painter: FixedWidthPainter) {
 		}
 
 		//1. prerenderizzazione
-		val actorBox = painter.preRender(actor)
+		val actorBox = painter.preRenderer.preRender(actor)
 		//2. determinazione punto in alto a sx
 		val actorTopLeft = previousActorDistanceOrDefault()
 		new ActorPoints(actor.id, actorTopLeft, actorBox)

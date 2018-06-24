@@ -10,7 +10,7 @@ import com.gnosly.fluentsequence.view.model.point.SignalPoint
 class FixedWidthAutoSignalFormatter(painter: FixedWidthPainter) {
 
 	def format(signal: AutoSignalComponent): Pointable = {
-		val signalBox = painter.preRender(signal)
+		val signalBox = painter.preRenderer.preRender(signal)
 		val activityTopRight = new ReferencePoint(Activity.topRight(signal.fromActorId, signal.fromActivityId))
 		//2. determinazione punto in alto a sx
 		val signalTopLeft = previousIndexPointOrDefaultForAutoSignal(activityTopRight, signal)

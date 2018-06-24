@@ -12,7 +12,7 @@ class FixedWidthBiSignalFormatter(painter: FixedWidthPainter) {
 	//   | |<---------------a | | a= from
 	def formatOnRight(signal: BiSignalComponent) = {
 		//1. prerenderizzazione
-		val signalBox = painter.preRender(signal)
+		val signalBox = painter.preRenderer.preRender(signal)
 		//2. determinazione punto in alto a sx
 		val activitySide = "right"
 		val leftToRight = signal.leftToRight
@@ -73,7 +73,7 @@ class FixedWidthBiSignalFormatter(painter: FixedWidthPainter) {
 
 	def formatOnLeft(signal: BiSignalComponent): Pointable = {
 		//1. prerenderizzazione
-		val signalBox = painter.preRender(signal)
+		val signalBox = painter.preRenderer.preRender(signal)
 		//2. determinazione punto in alto a sx
 
 		//

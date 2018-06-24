@@ -12,7 +12,7 @@ class FixedWidthActivityFormatter(painter: FixedWidthPainter) {
 	def format(activity: ActivityComponent): Pointable = {
 		val actorBottomMiddle = new ReferencePoint(Actor.bottomMiddle(activity.actorId))
 		//1. prerenderizzazione
-		val activityBox = painter.preRender(activity)
+		val activityBox = painter.preRenderer.preRender(activity)
 		//2. determinazione punto in alto a sx
 
 		val activityStartY = {

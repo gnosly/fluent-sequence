@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.view.model.point
 import com.gnosly.fluentsequence.view.Coordinates
 import com.gnosly.fluentsequence.view.Coordinates.{Actor, Pointable, ViewMatrix, ViewMatrixContenable}
 import com.gnosly.fluentsequence.view.fixedwidth._
-import com.gnosly.fluentsequence.view.fixedwidth.painter.Box
+import com.gnosly.fluentsequence.view.model.Box
 
 case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) extends Pointable with ViewMatrixContenable {
 	val actorTopRight = topLeft.right(actorBox.width)

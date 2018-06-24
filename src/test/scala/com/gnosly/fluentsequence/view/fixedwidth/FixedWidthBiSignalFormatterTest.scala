@@ -2,7 +2,8 @@ package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.Coordinates.Activity
 import com.gnosly.fluentsequence.view.fixedwidth.formatter.FixedWidthBiSignalFormatter
-import com.gnosly.fluentsequence.view.fixedwidth.painter.{Box, FixedWidthPainter}
+import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
+import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 import com.gnosly.fluentsequence.view.model.point.SignalPoint
 import org.scalatest.{FunSuite, Matchers}

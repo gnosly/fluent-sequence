@@ -9,7 +9,6 @@
 
 <h1>requirements</h1>
 
-
 - ~~multi activity~~
 - ~~nome del sequence~~
 - gestione dei forEach
