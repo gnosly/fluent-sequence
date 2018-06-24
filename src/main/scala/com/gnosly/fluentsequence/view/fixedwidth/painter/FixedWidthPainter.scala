@@ -26,8 +26,9 @@ class FixedWidthPainter extends Painter {
 			canvas.write(Fixed2dPoint(0, y), "|")
 			canvas.write(Fixed2dPoint(sequenceWidth, y), "|")
 		}
-		viewModel._actors.foreach(
-			a => actorPainter.paint(a._2, canvas, pointMap)
+
+		val actorCanvas = viewModel._actors.map(
+			a => actorPainter.paint(a._2, pointMap)
 		)
 
 		viewModel._actors.flatMap(_._2.activities).foreach(
@@ -54,7 +55,7 @@ class FixedWidthPainter extends Painter {
 			}
 		)
 
-		return canvas
+		return actorCanvas.reduce(_.merge(_)).merge(canvas)
 	}
 
 	private def paint(activity: ActivityComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {

@@ -6,7 +6,8 @@ import com.gnosly.fluentsequence.view.model.component.ActorComponent
 
 class FixedWidthActorPainter {
 
-  def paint(actor: ActorComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
+  def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
+    val canvas = new FixedWidthCanvas()
     val padding = 2
     val name = actor.name
     val innerSize = name.length + padding
@@ -21,6 +22,7 @@ class FixedWidthActorPainter {
     canvas.write(actorTopLeft.down(2), "'" + str + "'")
     canvas.write(actorBottomMiddle.up(1), "|")
 
+   return canvas
   }
 
   def r(pattern: String, count: Long): String =
