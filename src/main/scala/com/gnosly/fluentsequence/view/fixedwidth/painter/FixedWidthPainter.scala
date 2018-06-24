@@ -22,24 +22,6 @@ class FixedWidthPainter extends Painter {
 
 		viewModel._actors.flatMap(_._2.activities).foreach(
 			a => {
-
-				if (a.isFirst()) {
-					val timelineStart = pointMap(Actor.bottomMiddle(a.actorId))
-					val topLeftActivity = pointMap(Activity.topLeft(a.actorId, a.id))
-					0L until topLeftActivity.y - timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
-				} else {
-					val previousBottomLeftActivity = pointMap(Activity.bottomLeft(a.actorId, a.id - 1))
-					val topLeftActivity = pointMap(Activity.topLeft(a.actorId, a.id))
-
-					1L until topLeftActivity.y - previousBottomLeftActivity.y foreach (i => canvas.write(previousBottomLeftActivity.down(i), "|"))
-				}
-
-				val existNextActivity = pointMap.contains(Activity.bottomLeft(a.actorId, a.id + 1))
-				if (!existNextActivity) { // not exist //todo
-					val bottomLeft = pointMap(Activity.bottomLeft(a.actorId, a.id))
-					canvas.write(bottomLeft.down(1).right(1), "|")
-				}
-
 				paint(a, canvas, pointMap)
 			}
 		)
@@ -90,6 +72,23 @@ class FixedWidthPainter extends Painter {
 	}
 
 	private def paint(activity: ActivityComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
+		if (activity.isFirst()) {
+			val timelineStart = pointMap(Actor.bottomMiddle(activity.actorId))
+			val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
+			0L until topLeftActivity.y - timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
+		} else {
+			val previousBottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id - 1))
+			val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
+
+			1L until topLeftActivity.y - previousBottomLeftActivity.y foreach (i => canvas.write(previousBottomLeftActivity.down(i), "|"))
+		}
+
+		val existNextActivity = pointMap.contains(Activity.bottomLeft(activity.actorId, activity.id + 1))
+		if (!existNextActivity) { // not exist //todo
+			val bottomLeft = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
+			canvas.write(bottomLeft.down(1).right(1), "|")
+		}
+
 		val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
 		val bottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
 
