@@ -8,6 +8,7 @@ import com.gnosly.fluentsequence.view.{Canvas, Painter}
 
 class FixedWidthPainter extends Painter {
 	val actorPainter = new FixedWidthActorPainter()
+	val biSignalPainter = new FixedWidthBiSignalPainter()
 	val preRenderer = new FixedWidthPreRenderer()
 
 	override def paint(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
@@ -62,6 +63,8 @@ class FixedWidthPainter extends Painter {
 		}
 	}
 
+
+
 	private def paint(activity: ActivityComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
 		val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
 		val bottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
@@ -79,7 +82,7 @@ class FixedWidthPainter extends Painter {
 		for (rightPoint <- activity.rightPoints) {
 			rightPoint._2.signalComponent match {
 				case x: AutoSignalComponent => paint(x, canvas, pointMap)
-				case x: BiSignalComponent => paint(x, canvas, pointMap)
+				case x: BiSignalComponent => biSignalPainter.paint(x, canvas, pointMap)
 			}
 		}
 	}
@@ -93,23 +96,7 @@ class FixedWidthPainter extends Painter {
 		canvas.write(signalPoint.down(3), "<---'")
 	}
 
-	private def paint(biSignal: BiSignalComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
-		if (biSignal.leftToRight()) {
-			val signalPoint = pointMap(Activity.rightPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex()))
-			val leftActivityPoint = pointMap(Activity.leftPointStart(biSignal.toActorId, biSignal.toActivityId, biSignal.currentIndex()))
-			val distance = leftActivityPoint.x - signalPoint.x
 
-			canvas.write(signalPoint.right((distance - biSignal.name.length) / 2), biSignal.name)
-			canvas.write(signalPoint.down(1), r("-", distance - 1) + ">")
-		} else {
-			val signalLeftPoint = pointMap(Activity.rightPointStart(biSignal.toActorId, biSignal.toActivityId, biSignal.currentIndex()))
-			val signalRightPoint = pointMap(Activity.leftPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex()))
-			val distance = signalRightPoint.x - signalLeftPoint.x
-
-			canvas.write(signalLeftPoint.right((distance - biSignal.name.length) / 2), biSignal.name)
-			canvas.write(signalLeftPoint.down(1), "<" + r("-", distance - 1))
-		}
-	}
 
 	def r(pattern: String, count: Long): String =
 		(0 until count.toInt).map(_ => pattern).reduce(_ + _)
