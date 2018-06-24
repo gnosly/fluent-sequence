@@ -9,6 +9,7 @@ import com.gnosly.fluentsequence.view.{Canvas, Painter}
 class FixedWidthPainter extends Painter {
 	val actorPainter = new FixedWidthActorPainter()
 	val biSignalPainter = new FixedWidthBiSignalPainter()
+	val autoSignalPainter = new FixedWidthAutoSignalPainter()
 	val preRenderer = new FixedWidthPreRenderer()
 
 	override def paint(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
@@ -43,7 +44,19 @@ class FixedWidthPainter extends Painter {
 			}
 		)
 
-		return actorCanvas.reduce(_.merge(_)).merge(canvas)
+		//print right signal
+		val signalCanvas = for {
+			a <- viewModel._actors
+			activity <- a._2.activities
+			rightPoint <- activity.rightPoints
+		} yield rightPoint._2.signalComponent match {
+			case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
+			case x: BiSignalComponent => biSignalPainter.paint(x, pointMap)
+		}
+
+		return (signalCanvas ++ actorCanvas)
+			.reduce(_.merge(_))
+			.merge(canvas)
 	}
 
 	private def paintTitle(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas) = {
@@ -63,7 +76,18 @@ class FixedWidthPainter extends Painter {
 		}
 	}
 
+	def r(pattern: String, count: Long): String =
+		(0 until count.toInt).map(_ => pattern).reduce(_ + _)
 
+	private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Long = {
+		val sequenceWidth = 3
+		//FIXME: move into viewModel
+		val count = viewModelComponents._actors.foldLeft(0L)((z, a) => {
+			z + sequenceWidth + pointMap(ViewMatrix.column(a._2.id)).x
+		})
+
+		FormatterConstants.LEFT_MARGIN + count
+	}
 
 	private def paint(activity: ActivityComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
 		val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
@@ -77,37 +101,5 @@ class FixedWidthPainter extends Painter {
 		}
 
 		canvas.write(bottomLeftActivity, "|_|")
-
-		//print right signal
-		for (rightPoint <- activity.rightPoints) {
-			rightPoint._2.signalComponent match {
-				case x: AutoSignalComponent => paint(x, canvas, pointMap)
-				case x: BiSignalComponent => biSignalPainter.paint(x, canvas, pointMap)
-			}
-		}
-	}
-
-	private def paint(autoSignal: AutoSignalComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
-		val signalPoint = pointMap(Activity.rightPointStart(autoSignal.actorId, autoSignal.activityId, autoSignal.currentIndex()))
-
-		canvas.write(signalPoint, "____")
-		canvas.write(signalPoint.down(1), "    |")
-		canvas.write(signalPoint.down(2), "    | " + autoSignal.name)
-		canvas.write(signalPoint.down(3), "<---'")
-	}
-
-
-
-	def r(pattern: String, count: Long): String =
-		(0 until count.toInt).map(_ => pattern).reduce(_ + _)
-
-	private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Long = {
-		val sequenceWidth = 3
-		//FIXME: move into viewModel
-		val count = viewModelComponents._actors.foldLeft(0L)((z, a) => {
-			z + sequenceWidth + pointMap(ViewMatrix.column(a._2.id)).x
-		})
-
-		FormatterConstants.LEFT_MARGIN + count
 	}
 }

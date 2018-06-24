@@ -4,9 +4,10 @@ import com.gnosly.fluentsequence.view.Coordinates.Activity
 import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2dPoint, FixedWidthCanvas}
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 
-case class FixedWidthBiSignalPainter() {
+class FixedWidthBiSignalPainter() {
 
-	def paint(biSignal: BiSignalComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
+	def paint(biSignal: BiSignalComponent, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas= {
+		val canvas = new FixedWidthCanvas()
 		if (biSignal.leftToRight()) {
 			val signalPoint = pointMap(Activity.rightPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex()))
 			val leftActivityPoint = pointMap(Activity.leftPointStart(biSignal.toActorId, biSignal.toActivityId, biSignal.currentIndex()))
@@ -22,6 +23,7 @@ case class FixedWidthBiSignalPainter() {
 			canvas.write(signalLeftPoint.right((distance - biSignal.name.length) / 2), biSignal.name)
 			canvas.write(signalLeftPoint.down(1), "<" + r("-", distance - 1))
 		}
+		canvas
 	}
 
 	def r(pattern: String, count: Long): String =
