@@ -12,20 +12,7 @@ class FixedWidthPainter extends Painter {
 
 	override def paint(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
 		val canvas = new FixedWidthCanvas()
-		val sequenceWidth = allColumnWidth(viewModel, pointMap)
-		val sequenceHeight = pointMap(ViewMatrix.row(viewModel.lastSignalIndex)).x + 3
-
-		val component = viewModel.sequenceComponents(0)
-		val sequenceTitle = component.name
-		canvas.write(Fixed2dPoint(0, 0), r("_", sequenceTitle.length + 3))
-		canvas.write(Fixed2dPoint(0, 1), s"| ${sequenceTitle} \\")
-		canvas.write(Fixed2dPoint(0, 2), "|" + r("-", sequenceWidth))
-		canvas.write(Fixed2dPoint(0, sequenceHeight), "|" + r("_", sequenceWidth))
-
-		for (y <- 3 until sequenceHeight.toInt) {
-			canvas.write(Fixed2dPoint(0, y), "|")
-			canvas.write(Fixed2dPoint(sequenceWidth, y), "|")
-		}
+		paintTitle(viewModel, pointMap, canvas)
 
 		val actorCanvas = viewModel._actors.map(
 			a => actorPainter.paint(a._2, pointMap)
@@ -34,7 +21,7 @@ class FixedWidthPainter extends Painter {
 		viewModel._actors.flatMap(_._2.activities).foreach(
 			a => {
 
-				if (a.id == 0) {
+				if (a.isFirst()) {
 					val timelineStart = pointMap(Actor.bottomMiddle(a.actorId))
 					val topLeftActivity = pointMap(Activity.topLeft(a.actorId, a.id))
 					0L until topLeftActivity.y - timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
@@ -56,6 +43,23 @@ class FixedWidthPainter extends Painter {
 		)
 
 		return actorCanvas.reduce(_.merge(_)).merge(canvas)
+	}
+
+	private def paintTitle(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint], canvas: FixedWidthCanvas) = {
+		val sequenceWidth = allColumnWidth(viewModel, pointMap)
+		val sequenceHeight = pointMap(ViewMatrix.row(viewModel.lastSignalIndex)).x + 3
+
+		val component = viewModel.sequenceComponents(0)
+		val sequenceTitle = component.name
+		canvas.write(Fixed2dPoint(0, 0), r("_", sequenceTitle.length + 3))
+		canvas.write(Fixed2dPoint(0, 1), s"| ${sequenceTitle} \\")
+		canvas.write(Fixed2dPoint(0, 2), "|" + r("-", sequenceWidth))
+		canvas.write(Fixed2dPoint(0, sequenceHeight), "|" + r("_", sequenceWidth))
+
+		for (y <- 3 until sequenceHeight.toInt) {
+			canvas.write(Fixed2dPoint(0, y), "|")
+			canvas.write(Fixed2dPoint(sequenceWidth, y), "|")
+		}
 	}
 
 	private def paint(activity: ActivityComponent, canvas: FixedWidthCanvas, pointMap: Map[String, Fixed2dPoint]): Unit = {
@@ -112,6 +116,7 @@ class FixedWidthPainter extends Painter {
 
 	private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Long = {
 		val sequenceWidth = 3
+		//FIXME: move into viewModel
 		val count = viewModelComponents._actors.foldLeft(0L)((z, a) => {
 			z + sequenceWidth + pointMap(ViewMatrix.column(a._2.id)).x
 		})
