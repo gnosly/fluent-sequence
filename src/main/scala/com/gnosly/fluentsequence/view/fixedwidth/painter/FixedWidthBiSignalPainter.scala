@@ -1,7 +1,8 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.Coordinates.Activity
-import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2dPoint, FixedWidthCanvas}
+import com.gnosly.fluentsequence.view.Fixed2dPoint
+import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 
 class FixedWidthBiSignalPainter() {

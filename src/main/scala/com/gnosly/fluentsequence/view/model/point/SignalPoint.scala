@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.model.point
 
-import com.gnosly.fluentsequence.view.Coordinates
+import com.gnosly.fluentsequence.view._
 import com.gnosly.fluentsequence.view.Coordinates.{Activity, Pointable, ViewMatrix, ViewMatrixContenable}
 import com.gnosly.fluentsequence.view.fixedwidth._
 import com.gnosly.fluentsequence.view.model.Box

@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view
 
 trait Point1d {
 	def +(i: Point1d): Point1d

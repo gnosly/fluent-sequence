@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.view.Coordinates.Pointable
 

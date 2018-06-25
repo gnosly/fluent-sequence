@@ -1,9 +1,10 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.Coordinates.Actor
-import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.{DISTANCE_BETWEEN_ACTORS, LEFT_MARGIN, TOP_MARGIN}
-import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
-import com.gnosly.fluentsequence.view.fixedwidth.formatter.FixedWidthActorFormatter
+import com.gnosly.fluentsequence.view._
+import com.gnosly.fluentsequence.view.FormatterConstants.{DISTANCE_BETWEEN_ACTORS, LEFT_MARGIN, TOP_MARGIN}
+import com.gnosly.fluentsequence.view.PointMath.max
+import com.gnosly.fluentsequence.view.formatter.FixedWidthActorFormatter
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point.ActorPoints
@@ -12,7 +13,7 @@ import org.scalatest.{FunSuite, Matchers}
 class FixedWidthActorFormatterTest extends FunSuite with Matchers {
 	val ACTOR_NAME = "user"
 	val ACTOR_PADDING = 4
-	val formatter = new FixedWidthActorFormatter(new FixedWidthPreRenderer())
+	val formatter = new FixedWidthActorFormatter(new FixedPreRenderer())
 
 	test("format first actor alone") {
 		formatter.format(new ActorComponent(0, ACTOR_NAME, null)) shouldBe

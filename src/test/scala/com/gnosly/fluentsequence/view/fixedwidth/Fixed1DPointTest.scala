@@ -1,5 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
+import com.gnosly.fluentsequence.view.{Fixed1DPoint, Point1d}
 import org.scalatest.{FunSuite, Matchers}
 
 class Fixed1DPointTest extends FunSuite with Matchers{

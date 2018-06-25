@@ -1,10 +1,9 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view
 
-import com.gnosly.fluentsequence.view.PreRenderer
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.component._
 
-class FixedWidthPreRenderer extends PreRenderer {
+class FixedPreRenderer extends PreRenderer {
 	override def preRender(actorComponent: ActorComponent): Box = Box(s"| ${actorComponent.name} |".length, 4)
 
 	override def preRender(activity: ActivityComponent): Box = Box(2, 2)

@@ -1,14 +1,14 @@
-package com.gnosly.fluentsequence.view.fixedwidth.formatter
+package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.fixedwidth.PointableResolverAlgorithms.loopPointableResolverAlgorithm
-import com.gnosly.fluentsequence.view.fixedwidth.{Fixed2dPoint, FixedWidthPreRenderer}
+import com.gnosly.fluentsequence.view.{Fixed2dPoint, FixedPreRenderer}
+import com.gnosly.fluentsequence.view.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model._
 import com.gnosly.fluentsequence.view.model.component.{ActivityPoint, ActivityPointForBiSignalOnTheLeft, ActivityPointForBiSignalOnTheRight, ActivityPointLoopOnTheRight}
 
 import scala.collection.mutable
 
-class FixedWidthFormatter(preRenderer: FixedWidthPreRenderer) {
+class FixedWidthFormatter(preRenderer: FixedPreRenderer) {
 	val actorFormatter = new FixedWidthActorFormatter(preRenderer)
 	val activityFormatter = new FixedWidthActivityFormatter(preRenderer)
 	val autoSignalFormatter = new FixedWidthAutoSignalFormatter(preRenderer)

@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.Canvas
+import com.gnosly.fluentsequence.view.{Canvas, Fixed2dPoint}
 
 import scala.collection.mutable
 
