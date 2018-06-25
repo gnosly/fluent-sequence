@@ -8,7 +8,7 @@ import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory
 
 class FixedWidthViewer {
   private val painter = new FixedWidthPainter()
-  private val formatter = new FixedWidthFormatter(painter)
+  private val formatter = new FixedWidthFormatter(new FixedWidthPreRenderer())
 
   def view(eventBook: EventBook): Canvas = {
     val viewModel = ViewModelComponentsFactory.createFrom(eventBook)

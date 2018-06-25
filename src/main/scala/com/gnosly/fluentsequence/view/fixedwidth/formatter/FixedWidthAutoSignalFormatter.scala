@@ -1,16 +1,16 @@
 package com.gnosly.fluentsequence.view.fixedwidth.formatter
 
 import com.gnosly.fluentsequence.view.Coordinates.{Activity, Pointable, ViewMatrix}
+import com.gnosly.fluentsequence.view.PreRenderer
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
 import com.gnosly.fluentsequence.view.fixedwidth._
-import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
 import com.gnosly.fluentsequence.view.model.component.{AutoSignalComponent, SignalComponent}
 import com.gnosly.fluentsequence.view.model.point.SignalPoint
 
-class FixedWidthAutoSignalFormatter(painter: FixedWidthPainter) {
+class FixedWidthAutoSignalFormatter(preRenderer: PreRenderer) {
 
 	def format(signal: AutoSignalComponent): Pointable = {
-		val signalBox = painter.preRenderer.preRender(signal)
+		val signalBox = preRenderer.preRender(signal)
 		val activityTopRight = new ReferencePoint(Activity.topRight(signal.fromActorId, signal.fromActivityId))
 		//2. determinazione punto in alto a sx
 		val signalTopLeft = previousIndexPointOrDefaultForAutoSignal(activityTopRight, signal)

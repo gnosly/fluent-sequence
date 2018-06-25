@@ -1,14 +1,14 @@
 package com.gnosly.fluentsequence.view.fixedwidth.formatter
 
 import com.gnosly.fluentsequence.view.Coordinates.{Actor, Pointable, ViewMatrix}
+import com.gnosly.fluentsequence.view.PreRenderer
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.{DISTANCE_BETWEEN_ACTORS, LEFT_MARGIN, TOP_MARGIN}
 import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
 import com.gnosly.fluentsequence.view.fixedwidth._
-import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point.ActorPoints
 
-class FixedWidthActorFormatter(painter: FixedWidthPainter) {
+class FixedWidthActorFormatter(preRenderer: PreRenderer) {
 	def format(actor: ActorComponent): Pointable = {
 		def previousActorDistanceOrDefault(): Point2d = {
 			if (actor.id == 0)
@@ -20,7 +20,7 @@ class FixedWidthActorFormatter(painter: FixedWidthPainter) {
 		}
 
 		//1. prerenderizzazione
-		val actorBox = painter.preRenderer.preRender(actor)
+		val actorBox = preRenderer.preRender(actor)
 		//2. determinazione punto in alto a sx
 		val actorTopLeft = previousActorDistanceOrDefault()
 		new ActorPoints(actor.id, actorTopLeft, actorBox)

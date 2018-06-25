@@ -1,18 +1,18 @@
 package com.gnosly.fluentsequence.view.fixedwidth.formatter
 
 import com.gnosly.fluentsequence.view.Coordinates._
+import com.gnosly.fluentsequence.view.PreRenderer
 import com.gnosly.fluentsequence.view.fixedwidth.PointMath.max
-import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
 import com.gnosly.fluentsequence.view.fixedwidth.{Reference1DPoint, ReferencePoint}
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 import com.gnosly.fluentsequence.view.model.point.ActivityPoints
 
-class FixedWidthActivityFormatter(painter: FixedWidthPainter) {
+class FixedWidthActivityFormatter(preRenderer:PreRenderer) {
 
 	def format(activity: ActivityComponent): Pointable = {
 		val actorBottomMiddle = new ReferencePoint(Actor.bottomMiddle(activity.actorId))
 		//1. prerenderizzazione
-		val activityBox = painter.preRenderer.preRender(activity)
+		val activityBox = preRenderer.preRender(activity)
 		//2. determinazione punto in alto a sx
 
 		val activityStartY = {

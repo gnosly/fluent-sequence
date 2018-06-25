@@ -1,18 +1,18 @@
 package com.gnosly.fluentsequence.view.fixedwidth.formatter
 
 import com.gnosly.fluentsequence.view.Coordinates._
+import com.gnosly.fluentsequence.view.PreRenderer
 import com.gnosly.fluentsequence.view.fixedwidth.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
 import com.gnosly.fluentsequence.view.fixedwidth._
-import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 import com.gnosly.fluentsequence.view.model.point.SignalPoint
 
-class FixedWidthBiSignalFormatter(painter: FixedWidthPainter) {
+class FixedWidthBiSignalFormatter(preRenderer: PreRenderer) {
 	//   | |a---------------->| | a= from
 	//   | |<---------------a | | a= from
 	def formatOnRight(signal: BiSignalComponent) = {
 		//1. prerenderizzazione
-		val signalBox = painter.preRenderer.preRender(signal)
+		val signalBox = preRenderer.preRender(signal)
 		//2. determinazione punto in alto a sx
 		val activitySide = "right"
 		val leftToRight = signal.leftToRight
@@ -73,7 +73,7 @@ class FixedWidthBiSignalFormatter(painter: FixedWidthPainter) {
 
 	def formatOnLeft(signal: BiSignalComponent): Pointable = {
 		//1. prerenderizzazione
-		val signalBox = painter.preRenderer.preRender(signal)
+		val signalBox = preRenderer.preRender(signal)
 		//2. determinazione punto in alto a sx
 
 		//
