@@ -36,8 +36,6 @@ class FixedWidthCanvas(protected val canvas: mutable.TreeMap[Fixed2dPoint, Chara
 		newCanvas
 	}
 
-	override def toString = print()
-
 	override def print(): String = {
 		val result = new mutable.StringBuilder()
 		var currentX, currentY = 0l
@@ -59,6 +57,7 @@ class FixedWidthCanvas(protected val canvas: mutable.TreeMap[Fixed2dPoint, Chara
 
 		result.result()
 	}
+
 }
 
 

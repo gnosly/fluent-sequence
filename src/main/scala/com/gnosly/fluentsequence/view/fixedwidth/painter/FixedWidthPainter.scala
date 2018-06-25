@@ -1,10 +1,10 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.Coordinates._
-import com.gnosly.fluentsequence.view.fixedwidth.{FixedWidthCanvas}
+import com.gnosly.fluentsequence.view._
+import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.model._
 import com.gnosly.fluentsequence.view.model.component._
-import com.gnosly.fluentsequence.view._
 
 class FixedWidthPainter extends Painter {
   val actorPainter = new FixedWidthActorPainter()
@@ -42,7 +42,7 @@ class FixedWidthPainter extends Painter {
     val sequenceWidth = allColumnWidth(viewModel, pointMap)
     val sequenceHeight = pointMap(ViewMatrix.row(viewModel.lastSignalIndex)).x + 3
 
-    val component = viewModel.sequenceComponents(0)
+    val component = viewModel.sequenceComponents.head
     val sequenceTitle = component.name
     canvas.write(Fixed2dPoint(0, 0), r("_", sequenceTitle.length + 3))
     canvas.write(Fixed2dPoint(0, 1), s"| ${sequenceTitle} \\")
