@@ -1,0 +1,33 @@
+package com.gnosly.fluentsequence.view.svg
+
+import com.gnosly.fluentsequence.view.model.component.ActivityComponent
+import com.gnosly.fluentsequence.view.{Coordinates, Fixed2dPoint}
+import org.scalatest.{FunSuite, Matchers}
+
+import scala.collection.immutable.HashMap
+
+class SvgActivityPainterTest extends FunSuite with Matchers {
+
+	val painter = new SvgActivityPainter()
+
+	test("first activity") {
+		val pointMap: Map[String, Fixed2dPoint] = HashMap(
+			Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 1),
+			Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 5),
+			Coordinates.Activity.topLeft(0, 0) -> new Fixed2dPoint(3, 5),
+			Coordinates.Activity.bottomLeft(0, 0) -> new Fixed2dPoint(3, 8)
+		)
+
+		val canvas = painter.paint(new ActivityComponent(0, 0, 0, 10, true), pointMap)
+
+		canvas.content() shouldBe """<rect x="30" y="50" width="20" height="30" style="stroke-width: 2.0;stroke: black;fill: none" />"""
+	}
+
+	ignore("second activity"){
+
+	}
+
+	ignore("last activity"){
+
+	}
+}

@@ -11,7 +11,7 @@ class SvgActorPainterTest extends FunSuite with Matchers {
 
 	test("actor") {
 
-		var pointMap: Map[String, Fixed2dPoint] = HashMap(
+		val pointMap: Map[String, Fixed2dPoint] = HashMap(
 			Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 1),
 			Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 5)
 		)
