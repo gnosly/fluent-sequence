@@ -1,6 +1,5 @@
 package com.gnosly.fluentsequence.view
 
-import com.gnosly.fluentsequence.view.fixedwidth.Fixed1DPoint
 
 object Coordinates {
 

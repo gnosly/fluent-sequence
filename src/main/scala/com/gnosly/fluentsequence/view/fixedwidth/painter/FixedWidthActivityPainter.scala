@@ -1,13 +1,13 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.Coordinates.{Activity, Actor}
-import com.gnosly.fluentsequence.view.Fixed2dPoint
+import com.gnosly.fluentsequence.view.{ComponentPainter, Fixed2dPoint}
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 
-class FixedWidthActivityPainter() {
+class FixedWidthActivityPainter() extends ComponentPainter[ActivityComponent]{
 
-  def paint(activity: ActivityComponent, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
+  override def paint(activity: ActivityComponent, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
     val canvas = new FixedWidthCanvas()
 
     if (activity.isFirst()) {
