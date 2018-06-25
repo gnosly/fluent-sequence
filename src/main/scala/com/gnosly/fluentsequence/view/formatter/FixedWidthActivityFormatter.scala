@@ -4,7 +4,7 @@ import com.gnosly.fluentsequence.view.Coordinates._
 import com.gnosly.fluentsequence.view.{PreRenderer, Reference1DPoint, ReferencePoint}
 import com.gnosly.fluentsequence.view.PointMath.max
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
-import com.gnosly.fluentsequence.view.model.point.ActivityPoints
+import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
 
 class FixedWidthActivityFormatter(preRenderer:PreRenderer) {
 

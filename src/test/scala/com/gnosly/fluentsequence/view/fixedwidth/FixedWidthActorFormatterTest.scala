@@ -7,7 +7,7 @@ import com.gnosly.fluentsequence.view.PointMath.max
 import com.gnosly.fluentsequence.view.formatter.FixedWidthActorFormatter
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
-import com.gnosly.fluentsequence.view.model.point.ActorPoints
+import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
 import org.scalatest.{FunSuite, Matchers}
 
 class FixedWidthActorFormatterTest extends FunSuite with Matchers {

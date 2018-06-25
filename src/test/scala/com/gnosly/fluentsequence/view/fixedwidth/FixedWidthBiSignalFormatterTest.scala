@@ -5,7 +5,7 @@ import com.gnosly.fluentsequence.view.{FixedPreRenderer, ReferencePoint}
 import com.gnosly.fluentsequence.view.formatter.FixedWidthBiSignalFormatter
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
-import com.gnosly.fluentsequence.view.model.point.SignalPoint
+import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
 import org.scalatest.{FunSuite, Matchers}
 
 class FixedWidthBiSignalFormatterTest extends FunSuite with Matchers {

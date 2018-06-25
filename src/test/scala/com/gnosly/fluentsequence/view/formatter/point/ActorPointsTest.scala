@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view.model.point
+package com.gnosly.fluentsequence.view.formatter.point
 
 import com.gnosly.fluentsequence.view.Coordinates._
 import com.gnosly.fluentsequence.view.FormatterConstants._

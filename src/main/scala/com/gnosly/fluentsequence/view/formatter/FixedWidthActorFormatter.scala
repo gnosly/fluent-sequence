@@ -6,7 +6,7 @@ import com.gnosly.fluentsequence.view.FormatterConstants.{DISTANCE_BETWEEN_ACTOR
 import com.gnosly.fluentsequence.view.PointMath.max
 import com.gnosly.fluentsequence.view.fixedwidth._
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
-import com.gnosly.fluentsequence.view.model.point.ActorPoints
+import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
 
 class FixedWidthActorFormatter(preRenderer: PreRenderer) {
 	def format(actor: ActorComponent): Pointable = {

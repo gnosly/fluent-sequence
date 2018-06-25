@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view.model.point
+package com.gnosly.fluentsequence.view.formatter.point
 
 import com.gnosly.fluentsequence.view.Coordinates.{Activity, Pointable}
 import com.gnosly.fluentsequence.view.{Fixed2dPoint, Point1d, Point2d, PointMap}

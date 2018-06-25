@@ -6,7 +6,7 @@ import com.gnosly.fluentsequence.view.FormatterConstants.DISTANCE_BETWEEN_SIGNAL
 import com.gnosly.fluentsequence.view.formatter.FixedWidthAutoSignalFormatter
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
-import com.gnosly.fluentsequence.view.model.point.SignalPoint
+import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
 import org.scalatest.{FunSuite, Matchers}
 
 class FixedWidthAutoSignalFormatterTest extends FunSuite with Matchers {

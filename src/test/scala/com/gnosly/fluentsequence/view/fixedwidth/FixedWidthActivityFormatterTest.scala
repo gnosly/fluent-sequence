@@ -6,7 +6,7 @@ import com.gnosly.fluentsequence.view.PointMath.max
 import com.gnosly.fluentsequence.view.formatter.FixedWidthActivityFormatter
 import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
-import com.gnosly.fluentsequence.view.model.point.ActivityPoints
+import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
 import org.scalatest.{FunSuite, Matchers}
 
 class FixedWidthActivityFormatterTest extends FunSuite with Matchers {
