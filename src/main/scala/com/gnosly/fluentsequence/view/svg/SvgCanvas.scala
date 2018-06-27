@@ -19,7 +19,7 @@ class SvgCanvas(canvas: String = "") extends Canvas {
 		sb ++= s"""<line x1="${multiplier * from.x}" y1="${multiplier * from.y}" x2="${multiplier * to.x}" y2="${multiplier * to.y}" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />\n"""
 	}
 
-	def drawArrow(from: Fixed2dPoint, to: Fixed2dPoint) = {
+	def drawRightArrow(from: Fixed2dPoint, to: Fixed2dPoint) = {
 		sb ++= s"""<line x1="${multiplier * from.x}" y1="${multiplier * from.y}" x2="${multiplier * to.x}" y2="${multiplier * to.y}" style="stroke:black;stroke-width:2;" />\n"""
 		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${multiplier * to.x - 10},${multiplier * to.y - 10} ${multiplier * to.x},${multiplier * to.y} ${multiplier * to.x - 10},${multiplier * to.y + 10}"/>\n"""
 	}
