@@ -17,6 +17,8 @@ class SvgActorPainterTest extends FunSuite with Matchers {
 		)
 
 		painter.paint(new ActorComponent(0, "name"), pointMap).content() shouldBe
-			"""<rect x="10" y="10" width="60" height="30" style="stroke-width: 2.0;stroke: black;fill: none" /><text x="20" y="30" font-size="16px">name</text>"""
+			"""<rect x="10" y="10" width="60" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
+				|<text x="20" y="30" font-size="16px">name</text>
+				|""".stripMargin
 	}
 }

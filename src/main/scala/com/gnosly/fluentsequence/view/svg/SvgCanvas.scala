@@ -27,7 +27,7 @@ class SvgCanvas(canvas: String = "") extends Canvas {
 		val arrowStartX = toX - 10
 		val arrowTopLeftY = toY - 10
 		val arrowBottomLeftY = toY + 10
-		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${arrowStartX},${arrowTopLeftY} ${toX},${toY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
+		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="${arrowStartX},${arrowTopLeftY} ${toX},${toY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
 	}
 
 	def drawLeftArrow(from: Fixed2dPoint, to: Fixed2dPoint) = {
@@ -40,7 +40,7 @@ class SvgCanvas(canvas: String = "") extends Canvas {
 		val arrowStartX = fromX + 10
 		val arrowTopLeftY = fromY - 10
 		val arrowBottomLeftY = fromY + 10
-		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${arrowStartX},${arrowTopLeftY} ${fromX},${fromY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
+		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="${arrowStartX},${arrowTopLeftY} ${fromX},${fromY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
 	}
 
 	override def print(): String = """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1300" width="1200">""" + "\n" + sb.toString() + """</svg>""" + "\n"

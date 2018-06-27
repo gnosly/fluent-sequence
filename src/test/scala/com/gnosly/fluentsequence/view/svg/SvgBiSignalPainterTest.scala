@@ -20,7 +20,7 @@ class SvgBiSignalPainterTest extends FunSuite with Matchers{
 		canvas.content() shouldBe
 			"""<text x="30" y="100" font-size="16px">name</text>
 				|<line x1="0" y1="110" x2="100" y2="110" style="stroke:black;stroke-width:2;" />
-				|<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="90,100 100,110 90,120"/>
+				|<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="90,100 100,110 90,120"/>
 				|""".stripMargin
 	}
 
@@ -36,7 +36,7 @@ class SvgBiSignalPainterTest extends FunSuite with Matchers{
 		canvas.content() shouldBe
 			"""<text x="30" y="100" font-size="16px">name</text>
 				|<line x1="0" y1="110" x2="100" y2="110" style="stroke:black;stroke-width:2;" />
-				|<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="10,100 0,110 10,120"/>
+				|<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="10,100 0,110 10,120"/>
 				|""".stripMargin
 	}
 
