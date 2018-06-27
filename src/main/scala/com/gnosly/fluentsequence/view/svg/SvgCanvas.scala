@@ -59,7 +59,7 @@ class SvgCanvas(canvas: String = "") extends Canvas {
 		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="${arrowStartX},${arrowTopLeftY} ${toX},${toY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
 	}
 
-	override def print(): String = """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1300" width="1200">""" + "\n" + sb.toString() + """</svg>""" + "\n"
+	override def print(): String = """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="5300" width="5300">""" + "\n" + sb.toString() + """</svg>""" + "\n"
 
 	def content(): String = sb.toString()
 

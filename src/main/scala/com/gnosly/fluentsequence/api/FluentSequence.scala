@@ -2,18 +2,25 @@ package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthViewer
+import com.gnosly.fluentsequence.view.svg.SvgViewer
 
 object FluentSequence {
-	val viewer = new FixedWidthViewer()
+	val fixedWidthViewer = new FixedWidthViewer()
+	val svgViewer = new SvgViewer()
 
 	def to(actor: FluentActor): FluentActor = ???
 
 	case class Sequence(name: String) extends EventBookable {
+
 		val eventBook = new EventBook()
 
 		def printToConsole() = {
-			println(viewer.view(this.toEventBook))
+			println(fixedWidthViewer.view(this.toEventBook))
 		}
+
+		override def toEventBook: EventBook = eventBook
+
+		def printToSvg() = println(svgViewer.view(this.toEventBook))
 
 		def startWith(flow: Seq[SequenceFlow]): Sequence = {
 			eventBook.track(SEQUENCE_STARTED(name))
@@ -21,13 +28,11 @@ object FluentSequence {
 			eventBook.track(SEQUENCE_ENDED(name))
 			this
 		}
-
-		override def toEventBook: EventBook = eventBook
 	}
 
 	class SequenceFlow(name: String, val eventBook: EventBook, actorDoingSequence: FluentActor) extends EventBookable {
 
-		def -> (call: => SequenceFlow):SequenceFlow = ???
+		def ->(call: => SequenceFlow): SequenceFlow = ???
 
 		def inCase(statement: String, flow: SequenceFlow): SequenceFlow = ???
 
@@ -60,6 +65,7 @@ object FluentSequence {
 				eventBook.track(REPLIED(subjectActor, action, toActor))
 				new SequenceFlow(s"$name replied $action to ${toActor.name}", eventBook, subjectActor)
 			}
+
 			override def check(condition: String): SequenceFlow = ???
 
 			override def stop(): SequenceFlow = ???

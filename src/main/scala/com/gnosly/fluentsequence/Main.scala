@@ -67,7 +67,7 @@ object Main {
 					user.call("open OPCO page", opco) ::
 					Nil
 			)
-			.printToConsole()
+			.printToSvg()
 
 		val jan = new FluentActor("janine")
 		val bsa = new FluentActor("bsa")
