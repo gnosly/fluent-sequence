@@ -61,6 +61,25 @@ class SvgViewerTest extends FunSuite with Matchers {
 		str.print() shouldBe sequenceFromFile("svg/multi-activity.svg")
 	}
 
+	test("multi actor") {
+		val secondSystem = new FluentActor("another system")
+		val thirdSystem = new FluentActor("third system")
+
+		val flow = Sequence("example").startWith(
+			USER.call("call", SYSTEM) ::
+				SYSTEM.call("call2", secondSystem) ::
+				secondSystem.call("call3", thirdSystem) ::
+				thirdSystem.reply("reply3", secondSystem) ::
+				secondSystem.reply("reply2", SYSTEM) ::
+				SYSTEM.reply("reply", USER) ::
+				Nil
+		)
+
+		val str = viewer.view(flow.toEventBook)
+		println(str)
+		str.print() shouldBe sequenceFromFile("svg/multi-actor.svg")
+	}
+
 
 	private def sequenceFromFile(filename: String) = {
 		Source.fromResource(s"$filename").mkString
