@@ -8,6 +8,6 @@
 <line x1="240" y1="60" x2="240" y2="110" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
 <rect x="230" y="70" width="20" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
 <text x="130" y="80" font-size="16px">call</text>
-<line x1="60" y1="90" x2="230" y2="90" style="stroke:black;stroke-width:2;" />
-<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="220,80 230,90 220,100"/>
+<line x1="60" y1="90" x2="228" y2="90" style="stroke:black;stroke-width:2;" />
+<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="218,80 228,90 218,100"/>
 </svg>

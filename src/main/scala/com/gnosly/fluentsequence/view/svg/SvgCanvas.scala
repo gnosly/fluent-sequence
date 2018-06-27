@@ -3,6 +3,8 @@ package com.gnosly.fluentsequence.view.svg
 import com.gnosly.fluentsequence.view.{Canvas, Fixed2dPoint}
 
 class SvgCanvas(canvas: String = "") extends Canvas {
+
+	private val STROKE_WIDTH = 2
 	private val multiplier = 10
 
 	private val sb = new StringBuilder(canvas)
@@ -19,8 +21,9 @@ class SvgCanvas(canvas: String = "") extends Canvas {
 		sb ++= s"""<line x1="${multiplier * from.x}" y1="${multiplier * from.y}" x2="${multiplier * to.x}" y2="${multiplier * to.y}" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />\n"""
 	}
 
+
 	def drawRightArrow(from: Fixed2dPoint, to: Fixed2dPoint) = {
-		val toX = multiplier * to.x
+		val toX = multiplier * to.x - STROKE_WIDTH
 		val toY = multiplier * to.y
 		sb ++= s"""<line x1="${multiplier * from.x}" y1="${multiplier * from.y}" x2="${toX}" y2="${toY}" style="stroke:black;stroke-width:2;" />\n"""
 
@@ -31,7 +34,7 @@ class SvgCanvas(canvas: String = "") extends Canvas {
 	}
 
 	def drawLeftArrow(from: Fixed2dPoint, to: Fixed2dPoint) = {
-		val fromX = multiplier * from.x
+		val fromX = multiplier * from.x + STROKE_WIDTH
 		val fromY = multiplier * from.y
 		val toX = multiplier * to.x
 		val toY = multiplier * to.y
@@ -41,6 +44,19 @@ class SvgCanvas(canvas: String = "") extends Canvas {
 		val arrowTopLeftY = fromY - 10
 		val arrowBottomLeftY = fromY + 10
 		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="${arrowStartX},${arrowTopLeftY} ${fromX},${fromY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
+	}
+
+	def drawAutoArrow(from: Fixed2dPoint, to: Fixed2dPoint) = {
+		val fromX = multiplier * from.x
+		val fromY = multiplier * from.y
+		val toX = multiplier * to.x + STROKE_WIDTH
+		val toY = multiplier * to.y
+		val arrowStartX = toX + 10
+		val arrowTopLeftY = toY - 10
+		val arrowBottomLeftY = toY + 10
+
+		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="${fromX},${fromY} ${fromX + 20},${fromY} ${fromX + 20},${toY} ${toX},${toY}"/>\n"""
+		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="${arrowStartX},${arrowTopLeftY} ${toX},${toY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
 	}
 
 	override def print(): String = """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1300" width="1200">""" + "\n" + sb.toString() + """</svg>""" + "\n"

@@ -17,7 +17,7 @@ class SvgViewerTest extends FunSuite with Matchers {
 
 		val str = viewer.view(flow.toEventBook)
 		println(str)
-		str.print() shouldBe sequenceFromFile("two-actors-one-call.svg")
+		str.print() shouldBe sequenceFromFile("svg/two-actors-one-call.svg")
 	}
 
 	test("do a two actor sequence") {
@@ -28,10 +28,25 @@ class SvgViewerTest extends FunSuite with Matchers {
 
 		val str = viewer.view(flow.toEventBook)
 		println(str)
-		str.print() shouldBe sequenceFromFile("two-actors.svg")
+		str.print() shouldBe sequenceFromFile("svg/two-actors.svg")
+	}
+
+	test("do a complete sequence") {
+
+		val flow = Sequence("example").startWith(
+			USER.does("something") ::
+				USER.does("something else") ::
+				USER.call("call", SYSTEM) ::
+				SYSTEM.reply("reply", USER) :: Nil
+		)
+
+		val str = viewer.view(flow.toEventBook)
+		println(str)
+
+		str.print() shouldBe sequenceFromFile("svg/complete-fixed-sequence.svg")
 	}
 
 	private def sequenceFromFile(filename: String) = {
-		Source.fromResource(s"svg/$filename").mkString
+		Source.fromResource(s"$filename").mkString
 	}
 }
