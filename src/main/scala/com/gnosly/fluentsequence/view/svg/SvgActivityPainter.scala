@@ -12,7 +12,7 @@ class SvgActivityPainter extends ComponentPainter[ActivityComponent]{
 		val bottomMiddleActor = pointMap(Actor.bottomMiddle(activity.actorId))
 		val bottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
 
-		canvas.drawLine(bottomMiddleActor, bottomLeftActivity.down(1).right(1))
+		canvas.drawLine(bottomMiddleActor.up(1), bottomLeftActivity.down(1).right(1))
 		canvas.drawRect(topLeftActivity, 2, bottomLeftActivity.y - topLeftActivity.y)
 		canvas
 	}
