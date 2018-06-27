@@ -7,7 +7,6 @@ import org.scalatest.{FunSuite, Matchers}
 import scala.collection.immutable.HashMap
 
 class SvgActivityPainterTest extends FunSuite with Matchers {
-
 	val painter = new SvgActivityPainter()
 
 	test("first activity") {
@@ -26,8 +25,19 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
 				|""".stripMargin
 	}
 
-	ignore("second activity"){
+	test("second activity"){
+		val pointMap: Map[String, Fixed2dPoint] = HashMap(
+			Coordinates.Activity.bottomLeft(0, 0) -> new Fixed2dPoint(3, 5),
+			Coordinates.Activity.topLeft(0, 1) -> new Fixed2dPoint(3, 15),
+			Coordinates.Activity.bottomLeft(0, 1) -> new Fixed2dPoint(3, 25)
+		)
 
+		val canvas = painter.paint(new ActivityComponent(1, 0, 5, 10, true), pointMap)
+
+		canvas.content() shouldBe
+			"""<line x1="40" y1="60" x2="40" y2="260" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
+				|<rect x="30" y="150" width="20" height="100" style="stroke-width: 2.0;stroke: black;fill: white" />
+				|""".stripMargin
 	}
 
 	ignore("last activity"){
