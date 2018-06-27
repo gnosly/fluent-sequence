@@ -13,14 +13,14 @@ class SvgBiSignalPainter() extends ComponentPainter[BiSignalComponent]{
 			val distance = leftActivityPoint.x - signalPoint.x
 
 			canvas.drawText(signalPoint.right((distance - biSignal.name.length) / 2), biSignal.name)
-			canvas.drawRightArrow(signalPoint.down(1), leftActivityPoint.down(1))
+			canvas.drawRightArrow(signalPoint.down(1).left(1), leftActivityPoint.down(1))
 		} else {
 			val signalLeftPoint = pointMap(Activity.rightPointStart(biSignal.toActorId, biSignal.toActivityId, biSignal.currentIndex()))
 			val signalRightPoint = pointMap(Activity.leftPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex()))
 			val distance = signalRightPoint.x - signalLeftPoint.x
 
 			canvas.drawText(signalLeftPoint.right((distance - biSignal.name.length) / 2), biSignal.name)
-			canvas.drawLeftArrow(signalLeftPoint.down(1), signalRightPoint.down(1))
+			canvas.drawLeftArrow(signalLeftPoint.down(1).left(1), signalRightPoint.down(1))
 		}
 
 		canvas

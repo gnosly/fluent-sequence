@@ -11,7 +11,7 @@ class SvgBiSignalPainterTest extends FunSuite with Matchers{
 
 	test("bisignal left to right"){
 		val pointMap: Map[String, Fixed2dPoint] = HashMap(
-			Coordinates.Activity.rightPointStart(0, 0,0) -> new Fixed2dPoint(0, 10),
+			Coordinates.Activity.rightPointStart(0, 0,0) -> new Fixed2dPoint(1, 10),
 			Coordinates.Activity.leftPointStart(1, 0,0) -> new Fixed2dPoint(10, 10)
 		)
 
@@ -27,7 +27,7 @@ class SvgBiSignalPainterTest extends FunSuite with Matchers{
 
 	test("bisignal right to left"){
 		val pointMap: Map[String, Fixed2dPoint] = HashMap(
-			Coordinates.Activity.rightPointStart(0, 0,0) -> new Fixed2dPoint(0, 10),
+			Coordinates.Activity.rightPointStart(0, 0,0) -> new Fixed2dPoint(1, 10),
 			Coordinates.Activity.leftPointStart(1, 0,0) -> new Fixed2dPoint(10, 10)
 		)
 
