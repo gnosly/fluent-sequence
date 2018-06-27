@@ -20,8 +20,27 @@ class SvgCanvas(canvas: String = "") extends Canvas {
 	}
 
 	def drawRightArrow(from: Fixed2dPoint, to: Fixed2dPoint) = {
-		sb ++= s"""<line x1="${multiplier * from.x}" y1="${multiplier * from.y}" x2="${multiplier * to.x}" y2="${multiplier * to.y}" style="stroke:black;stroke-width:2;" />\n"""
-		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${multiplier * to.x - 10},${multiplier * to.y - 10} ${multiplier * to.x},${multiplier * to.y} ${multiplier * to.x - 10},${multiplier * to.y + 10}"/>\n"""
+		val toX = multiplier * to.x
+		val toY = multiplier * to.y
+		sb ++= s"""<line x1="${multiplier * from.x}" y1="${multiplier * from.y}" x2="${toX}" y2="${toY}" style="stroke:black;stroke-width:2;" />\n"""
+
+		val arrowStartX = toX - 10
+		val arrowTopLeftY = toY - 10
+		val arrowBottomLeftY = toY + 10
+		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${arrowStartX},${arrowTopLeftY} ${toX},${toY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
+	}
+
+	def drawLeftArrow(from: Fixed2dPoint, to: Fixed2dPoint) = {
+		val fromX = multiplier * from.x
+		val fromY = multiplier * from.y
+		val toX = multiplier * to.x
+		val toY = multiplier * to.y
+		sb ++= s"""<line x1="${fromX}" y1="${fromY}" x2="${toX}" y2="${toY}" style="stroke:black;stroke-width:2;" />\n"""
+
+		val arrowStartX = fromX + 10
+		val arrowTopLeftY = fromY - 10
+		val arrowBottomLeftY = fromY + 10
+		sb ++= s"""<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${arrowStartX},${arrowTopLeftY} ${fromX},${fromY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
 	}
 
 	override def print(): String = """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1300" width="1200">""" + "\n" + sb.toString() + """</svg>""" + "\n"
