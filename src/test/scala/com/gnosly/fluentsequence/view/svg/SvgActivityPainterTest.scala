@@ -13,14 +13,16 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
 	test("first activity") {
 		val pointMap: Map[String, Fixed2dPoint] = HashMap(
 			Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 1),
-			Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 5),
+			Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 4),
 			Coordinates.Activity.topLeft(0, 0) -> new Fixed2dPoint(3, 5),
 			Coordinates.Activity.bottomLeft(0, 0) -> new Fixed2dPoint(3, 8)
 		)
 
 		val canvas = painter.paint(new ActivityComponent(0, 0, 0, 10, true), pointMap)
 
-		canvas.content() shouldBe """<rect x="30" y="50" width="20" height="30" style="stroke-width: 2.0;stroke: black;fill: none" />"""
+		canvas.content() shouldBe
+			"""<line x1="40" y1="40" x2="40" y2="90" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
+				|<rect x="30" y="50" width="20" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />""".stripMargin
 	}
 
 	ignore("second activity"){
