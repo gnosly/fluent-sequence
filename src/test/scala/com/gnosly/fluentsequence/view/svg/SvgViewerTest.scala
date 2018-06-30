@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.svg
 
 import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
+import com.gnosly.fluentsequence.view.Canvas
 import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source
@@ -15,9 +16,9 @@ class SvgViewerTest extends FunSuite with Matchers {
 			USER.call("call", SYSTEM) :: Nil
 		)
 
-		val str = viewer.view(flow.toEventBook)
-		println(str)
-		str.print() shouldBe sequenceFromFile("svg/two-actors-one-call.svg")
+		val canvas = viewer.view(flow.toEventBook)
+
+		shouldBeLike(canvas, sequenceFromFile("svg/two-actors-one-call.svg"))
 	}
 
 	test("do a two actor sequence") {
@@ -26,9 +27,9 @@ class SvgViewerTest extends FunSuite with Matchers {
 				SYSTEM.reply("reply", USER) :: Nil
 		)
 
-		val str = viewer.view(flow.toEventBook)
-		println(str)
-		str.print() shouldBe sequenceFromFile("svg/two-actors.svg")
+		val canvas = viewer.view(flow.toEventBook)
+
+		shouldBeLike(canvas, sequenceFromFile("svg/two-actors.svg"))
 	}
 
 	test("do a complete sequence") {
@@ -40,10 +41,9 @@ class SvgViewerTest extends FunSuite with Matchers {
 				SYSTEM.reply("reply", USER) :: Nil
 		)
 
-		val str = viewer.view(flow.toEventBook)
-		println(str)
+		val canvas = viewer.view(flow.toEventBook)
 
-		str.print() shouldBe sequenceFromFile("svg/complete-fixed-sequence.svg")
+		shouldBeLike(canvas, sequenceFromFile("svg/complete-fixed-sequence.svg"))
 	}
 
 	test("multi activity") {
@@ -56,9 +56,9 @@ class SvgViewerTest extends FunSuite with Matchers {
 				Nil
 		)
 
-		val str = viewer.view(flow.toEventBook)
-		println(str)
-		str.print() shouldBe sequenceFromFile("svg/multi-activity.svg")
+		val canvas = viewer.view(flow.toEventBook)
+
+		shouldBeLike(canvas, sequenceFromFile("svg/multi-activity.svg"))
 	}
 
 	test("multi actor") {
@@ -75,11 +75,15 @@ class SvgViewerTest extends FunSuite with Matchers {
 				Nil
 		)
 
-		val str = viewer.view(flow.toEventBook)
-		println(str)
-		str.print() shouldBe sequenceFromFile("svg/multi-actor.svg")
+		val canvas = viewer.view(flow.toEventBook)
+
+		shouldBeLike(canvas, sequenceFromFile("svg/multi-actor.svg"))
 	}
 
+	private def shouldBeLike(canvas: Canvas, sequence: String): Any = {
+		println(canvas)
+		canvas.print().replaceAll("\n","") shouldBe sequence.replaceAll("\n\\s*","")
+	}
 
 	private def sequenceFromFile(filename: String) = {
 		Source.fromResource(s"$filename").mkString

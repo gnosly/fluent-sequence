@@ -16,11 +16,7 @@ class SvgActorPainter extends ComponentPainter[ActorComponent] {
 		val actorBottomMiddle = pointMap(Actor.bottomMiddle(actor.id))
 
 		canvas.drawRect(actorTopLeft, width, (actorBottomMiddle.y - actorTopLeft.y) - 1)
-
-		val fontWidth = 1
-		val fontHeight= 2
-
-		canvas.drawText(actorTopLeft.down(fontHeight).right(fontWidth), name)
+		canvas.drawText(actorBottomMiddle.up(2), name, "middle")
 		canvas
 	}
 }

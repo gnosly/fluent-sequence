@@ -15,10 +15,12 @@ class SvgActorPainterTest extends FunSuite with Matchers {
 			Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 1),
 			Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 5)
 		)
+		val canvas = painter.paint(new ActorComponent(0, "name"), pointMap)
+		println(canvas)
 
-		painter.paint(new ActorComponent(0, "name"), pointMap).content() shouldBe
+		canvas.content() shouldBe
 			"""<rect x="10" y="10" width="60" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
-				|<text x="20" y="30" font-size="16px">name</text>
+				|<text x="40" y="30" font-size="16px" text-anchor="middle">name</text>
 				|""".stripMargin
 	}
 }

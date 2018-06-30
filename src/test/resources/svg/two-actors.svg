@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1300" width="1200">
-<rect x="20" y="30" width="60" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
-<text x="30" y="50" font-size="16px">user</text>
-<rect x="200" y="30" width="80" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
-<text x="210" y="50" font-size="16px">system</text>
-<line x1="50" y1="60" x2="50" y2="140" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
-<rect x="40" y="70" width="20" height="60" style="stroke-width: 2.0;stroke: black;fill: white" />
-<line x1="240" y1="60" x2="240" y2="140" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
-<rect x="230" y="70" width="20" height="60" style="stroke-width: 2.0;stroke: black;fill: white" />
-<text x="130" y="80" font-size="16px">call</text>
-<line x1="60" y1="90" x2="228" y2="90" style="stroke:black;stroke-width:2;" />
-<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="218,80 228,90 218,100"/>
-<text x="120" y="110" font-size="16px">reply</text>
-<line x1="62" y1="120" x2="230" y2="120" style="stroke:black;stroke-width:2;" />
-<polyline fill="none" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" points="72,110 62,120 72,130"/>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="5300" width="5300">
+    <rect x="20" y="30" width="60" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
+    <text x="50" y="50" font-size="16px" text-anchor="middle">user</text>
+    <rect x="200" y="30" width="80" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
+    <text x="240" y="50" font-size="16px" text-anchor="middle">system</text>
+    <line x1="50" y1="60" x2="50" y2="140" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
+    <rect x="40" y="70" width="20" height="60" style="stroke-width: 2.0;stroke: black;fill: white" />
+    <line x1="240" y1="60" x2="240" y2="140" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
+    <rect x="230" y="70" width="20" height="60" style="stroke-width: 2.0;stroke: black;fill: white" />
+    <text x="130" y="80" font-size="16px" text-anchor="start">call</text>
+    <line x1="60" y1="90" x2="228" y2="90" style="stroke:black;stroke-width:1.5;" />
+    <polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="218,85 228,90 218,95"/>
+    <text x="120" y="110" font-size="16px" text-anchor="start">reply</text>
+    <line x1="62" y1="120" x2="230" y2="120" style="stroke:black;stroke-width:1.5;" />
+    <polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="72,115 62,120 72,125"/>
 </svg>
