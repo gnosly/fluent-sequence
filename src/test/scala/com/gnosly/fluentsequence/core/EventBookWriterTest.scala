@@ -4,7 +4,7 @@ import org.scalatest.{FunSuite, Matchers}
 
 class EventBookWriterTest extends FunSuite with Matchers{
 
-	test("write to file"){
+	test("write encoded data"){
 		val actor = new Actor(USER_TYPE(), "actorName")
 		val anotherActor = new Actor(SEQUENCE_ACTOR_TYPE(), "anotherActorName")
 
