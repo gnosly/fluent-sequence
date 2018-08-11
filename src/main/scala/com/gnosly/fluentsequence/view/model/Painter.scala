@@ -1,6 +1,5 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.model
 
-import com.gnosly.fluentsequence.view.model.ViewModelComponents
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 trait Painter {

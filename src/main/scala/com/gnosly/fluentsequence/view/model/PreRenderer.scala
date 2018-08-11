@@ -1,6 +1,5 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.model
 
-import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.component.{ActivityComponent, ActorComponent, SignalComponent}
 
 trait PreRenderer {

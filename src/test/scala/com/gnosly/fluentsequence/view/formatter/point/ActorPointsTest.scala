@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.formatter.point
 
 import com.gnosly.fluentsequence.view.Coordinates._
-import com.gnosly.fluentsequence.view.FormatterConstants._
+import com.gnosly.fluentsequence.view.formatter.FormatterConstants._
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, PointMap, Variable2DPoint}
 import org.scalatest.{FunSuite, Matchers}

@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.model
 
 trait Canvas {
 

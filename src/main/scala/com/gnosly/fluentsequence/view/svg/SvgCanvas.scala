@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.svg
 
-import com.gnosly.fluentsequence.view.Canvas
+import com.gnosly.fluentsequence.view.model.Canvas
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class SvgCanvas(canvas: String = "") extends Canvas {

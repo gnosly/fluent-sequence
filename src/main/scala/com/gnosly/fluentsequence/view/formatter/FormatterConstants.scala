@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.formatter
 
 object FormatterConstants {
 	val DISTANCE_BETWEEN_ACTORS = 10
