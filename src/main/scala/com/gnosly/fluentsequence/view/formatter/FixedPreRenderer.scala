@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.model.component._
 import com.gnosly.fluentsequence.view.model.{Box, PreRenderer}

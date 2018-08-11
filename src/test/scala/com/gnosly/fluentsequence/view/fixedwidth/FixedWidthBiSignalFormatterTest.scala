@@ -1,9 +1,8 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.Coordinates.Activity
-import com.gnosly.fluentsequence.view.FixedPreRenderer
-import com.gnosly.fluentsequence.view.formatter.FixedWidthBiSignalFormatter
 import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
+import com.gnosly.fluentsequence.view.formatter.{FixedPreRenderer, FixedWidthBiSignalFormatter}
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint

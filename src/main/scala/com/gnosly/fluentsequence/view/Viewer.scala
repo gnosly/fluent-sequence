@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view
 
 import com.gnosly.fluentsequence.core.EventBook
-import com.gnosly.fluentsequence.view.formatter.FixedWidthFormatter
+import com.gnosly.fluentsequence.view.formatter.{FixedPreRenderer, FixedWidthFormatter}
 import com.gnosly.fluentsequence.view.model.{Canvas, Painter, ViewModelComponentsFactory}
 
 class Viewer(painter:Painter){
