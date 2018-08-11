@@ -4,7 +4,7 @@ import com.gnosly.fluentsequence.core.EventBook
 import com.gnosly.fluentsequence.view.formatter.{FixedPreRenderer, FixedWidthFormatter}
 import com.gnosly.fluentsequence.view.model.{Canvas, Painter, ViewModelComponentsFactory}
 
-class Viewer(painter:Painter){
+abstract class Viewer(painter:Painter){
   val formatter = new FixedWidthFormatter(new FixedPreRenderer())
 
   def view(eventBook: EventBook): Canvas = {
