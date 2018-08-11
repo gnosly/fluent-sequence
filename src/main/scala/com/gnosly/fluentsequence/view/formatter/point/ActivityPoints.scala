@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.formatter.point
 
-import com.gnosly.fluentsequence.view.Coordinates.{Activity, Pointable}
+import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Pointable}
 import com.gnosly.fluentsequence.view.model.point.{Fixed2dPoint, Point1d, Point2d, PointMap}
 
 case class ActivityPoints(actorId: Int, activityId: Int, activityTopLeft: Point2d, activityWith: Long, lastPoint: Point1d) extends Pointable {

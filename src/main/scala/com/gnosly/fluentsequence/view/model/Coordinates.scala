@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, PointMap}
 

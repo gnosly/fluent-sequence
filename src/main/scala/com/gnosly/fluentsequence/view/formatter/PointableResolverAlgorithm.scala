@@ -1,6 +1,6 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.formatter
 
-import com.gnosly.fluentsequence.view.Coordinates.Pointable
+import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, PointMap}
 
 import scala.collection.mutable

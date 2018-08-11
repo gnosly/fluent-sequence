@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
-import com.gnosly.fluentsequence.view.ComponentPainter
-import com.gnosly.fluentsequence.view.Coordinates.Activity
+import com.gnosly.fluentsequence.view.model.ComponentPainter
+import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.svg.SvgCanvas

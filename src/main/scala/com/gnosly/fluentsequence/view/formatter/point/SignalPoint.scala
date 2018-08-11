@@ -1,9 +1,8 @@
 package com.gnosly.fluentsequence.view.formatter.point
 
-import com.gnosly.fluentsequence.view.Coordinates.{Activity, Pointable, ViewMatrix, ViewMatrixContenable}
-import com.gnosly.fluentsequence.view._
-import com.gnosly.fluentsequence.view.model.Box
+import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Pointable, ViewMatrix, ViewMatrixContenable}
 import com.gnosly.fluentsequence.view.model.point._
+import com.gnosly.fluentsequence.view.model.{Box, Coordinates}
 
 case class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBox: Box,
 											 direction: String, signalTopLeft: Point2d) extends Pointable with ViewMatrixContenable {

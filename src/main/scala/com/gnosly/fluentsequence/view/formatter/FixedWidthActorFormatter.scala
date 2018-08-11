@@ -1,8 +1,8 @@
 package com.gnosly.fluentsequence.view.formatter
 
-import com.gnosly.fluentsequence.view.Coordinates.{Actor, Pointable, ViewMatrix}
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.{DISTANCE_BETWEEN_ACTORS, LEFT_MARGIN, TOP_MARGIN}
 import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
+import com.gnosly.fluentsequence.view.model.Coordinates.{Actor, Pointable, ViewMatrix}
 import com.gnosly.fluentsequence.view.model.PreRenderer
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point.PointMath.max

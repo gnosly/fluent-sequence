@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
-import com.gnosly.fluentsequence.view.Coordinates
+import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import org.scalatest.{FunSuite, Matchers}
