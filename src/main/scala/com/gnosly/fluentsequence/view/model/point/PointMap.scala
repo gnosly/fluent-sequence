@@ -1,6 +1,4 @@
-package com.gnosly.fluentsequence.view
-
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint}
+package com.gnosly.fluentsequence.view.model.point
 
 import scala.collection.mutable
 

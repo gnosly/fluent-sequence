@@ -1,7 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.view.PointMap
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, ReferencePoint}
+import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, PointMap, ReferencePoint}
 import org.scalatest.{FunSuite, Matchers}
 
 class ReferencePointTest extends FunSuite with Matchers{

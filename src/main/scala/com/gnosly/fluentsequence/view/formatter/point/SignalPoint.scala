@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.view.formatter.point
 import com.gnosly.fluentsequence.view.Coordinates.{Activity, Pointable, ViewMatrix, ViewMatrixContenable}
 import com.gnosly.fluentsequence.view._
 import com.gnosly.fluentsequence.view.model.Box
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, Point2d, ReferencePoint}
+import com.gnosly.fluentsequence.view.model.point._
 
 case class SignalPoint(actorId: Int, activityId: Int, signalIndex: Int, signalBox: Box,
 											 direction: String, signalTopLeft: Point2d) extends Pointable with ViewMatrixContenable {

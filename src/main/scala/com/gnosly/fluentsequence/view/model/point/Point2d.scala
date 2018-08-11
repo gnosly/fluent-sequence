@@ -1,7 +1,5 @@
 package com.gnosly.fluentsequence.view.model.point
 
-import com.gnosly.fluentsequence.view.PointMap
-
 trait Point2d {
 	def x(): Point1d
 

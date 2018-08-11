@@ -1,7 +1,5 @@
 package com.gnosly.fluentsequence.view.model.point
 
-import com.gnosly.fluentsequence.view.PointMap
-
 case class Fixed1DPoint(x: Long) extends Point1d {
 	override def resolve(pointMap: PointMap): Fixed1DPoint = this
 
