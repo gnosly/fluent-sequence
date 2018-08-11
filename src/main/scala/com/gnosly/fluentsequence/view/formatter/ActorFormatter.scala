@@ -8,7 +8,7 @@ import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point.PointMath.max
 import com.gnosly.fluentsequence.view.model.point._
 
-class FixedWidthActorFormatter(preRenderer: PreRenderer) {
+class ActorFormatter(preRenderer: PreRenderer) {
 	def format(actor: ActorComponent): Pointable = {
 		def previousActorDistanceOrDefault(): Point2d = {
 			if (actor.id == 0)

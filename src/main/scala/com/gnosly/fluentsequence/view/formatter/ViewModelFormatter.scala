@@ -8,11 +8,11 @@ import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 import scala.collection.mutable
 
-class FixedWidthFormatter(preRenderer: FixedPreRenderer) {
-	val actorFormatter = new FixedWidthActorFormatter(preRenderer)
-	val activityFormatter = new FixedWidthActivityFormatter(preRenderer)
-	val autoSignalFormatter = new FixedWidthAutoSignalFormatter(preRenderer)
-	val bisignalFormatter = new FixedWidthBiSignalFormatter(preRenderer)
+class ViewModelFormatter(preRenderer: FixedPreRenderer) {
+	val actorFormatter = new ActorFormatter(preRenderer)
+	val activityFormatter = new ActivityFormatter(preRenderer)
+	val autoSignalFormatter = new AutoSignalFormatter(preRenderer)
+	val bisignalFormatter = new BiSignalFormatter(preRenderer)
 	val formatSignal = (signal: ActivityPoint) => signal match {
 		case a: ActivityPointLoopOnTheRight => autoSignalFormatter.format(a.signalComponent)
 		case b: ActivityPointForBiSignalOnTheRight => bisignalFormatter.formatOnRight(b.signalComponent)

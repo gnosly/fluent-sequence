@@ -7,8 +7,8 @@ import com.gnosly.fluentsequence.view.model.point.PointMath.max
 import com.gnosly.fluentsequence.view.model.point.{Reference1DPoint, ReferencePoint}
 import org.scalatest.{FunSuite, Matchers}
 
-class FixedWidthActivityFormatterTest extends FunSuite with Matchers {
-	val formatter = new FixedWidthActivityFormatter(new FixedPreRenderer())
+class ActivityFormatterTest extends FunSuite with Matchers {
+	val formatter = new ActivityFormatter(new FixedPreRenderer())
 
 	test("format first activity") {
 		val LAST_SIGNAL_INDEX = 3

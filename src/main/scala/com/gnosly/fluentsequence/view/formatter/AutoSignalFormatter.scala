@@ -7,7 +7,7 @@ import com.gnosly.fluentsequence.view.model.PreRenderer
 import com.gnosly.fluentsequence.view.model.component.{AutoSignalComponent, SignalComponent}
 import com.gnosly.fluentsequence.view.model.point._
 
-class FixedWidthAutoSignalFormatter(preRenderer: PreRenderer) {
+class AutoSignalFormatter(preRenderer: PreRenderer) {
 
 	def format(signal: AutoSignalComponent): Pointable = {
 		val signalBox = preRenderer.preRender(signal)

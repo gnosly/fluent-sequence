@@ -8,11 +8,11 @@ import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
 import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Reference1DPoint, ReferencePoint, Variable2DPoint}
 import org.scalatest.{FunSuite, Matchers}
 
-class FixedWidthAutoSignalFormatterTest extends FunSuite with Matchers {
+class AutoSignalFormatterTest extends FunSuite with Matchers {
 	val ARROW_WIDTH = 6
 	val SIGNAL_NAME = "does"
 
-	val fixedWidthAutoSignalFormatter = new FixedWidthAutoSignalFormatter(new FixedPreRenderer())
+	val fixedWidthAutoSignalFormatter = new AutoSignalFormatter(new FixedPreRenderer())
 
 	test("first autoSignal") {
 		val autoSignal = new AutoSignalComponent(SIGNAL_NAME, 0, 0, 0)

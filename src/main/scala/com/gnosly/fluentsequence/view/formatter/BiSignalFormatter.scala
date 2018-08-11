@@ -7,7 +7,7 @@ import com.gnosly.fluentsequence.view.model.PreRenderer
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 import com.gnosly.fluentsequence.view.model.point._
 
-class FixedWidthBiSignalFormatter(preRenderer: PreRenderer) {
+class BiSignalFormatter(preRenderer: PreRenderer) {
 	//   | |a---------------->| | a= from
 	//   | |<---------------a | | a= from
 	def formatOnRight(signal: BiSignalComponent) = {

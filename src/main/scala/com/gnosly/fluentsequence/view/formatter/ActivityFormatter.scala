@@ -7,7 +7,7 @@ import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 import com.gnosly.fluentsequence.view.model.point.PointMath.max
 import com.gnosly.fluentsequence.view.model.point.{Reference1DPoint, ReferencePoint}
 
-class FixedWidthActivityFormatter(preRenderer:PreRenderer) {
+class ActivityFormatter(preRenderer:PreRenderer) {
 
 	def format(activity: ActivityComponent): Pointable = {
 		val actorBottomMiddle = new ReferencePoint(Actor.bottomMiddle(activity.actorId))
