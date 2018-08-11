@@ -1,7 +1,8 @@
-package com.gnosly.fluentsequence.view.svg
+package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
+import com.gnosly.fluentsequence.view.svg.SvgCanvas
 import com.gnosly.fluentsequence.view.{ComponentPainter, Fixed2dPoint}
 
 class SvgAutoSignalPainter() extends ComponentPainter[AutoSignalComponent]{

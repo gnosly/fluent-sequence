@@ -1,4 +1,4 @@
-package com.gnosly.fluentsequence.view.svg
+package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.model.ViewModelComponents
 import com.gnosly.fluentsequence.view.model.component.{AutoSignalComponent, BiSignalComponent}

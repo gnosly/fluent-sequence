@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.svg
 
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
+import com.gnosly.fluentsequence.view.svg.painter.SvgActivityPainter
 import com.gnosly.fluentsequence.view.{Coordinates, Fixed2dPoint}
 import org.scalatest.{FunSuite, Matchers}
 
