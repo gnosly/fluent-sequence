@@ -1,6 +1,5 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view.model.point
 
-import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import org.scalatest.{FlatSpec, Matchers}
 
 class Fixed2DPointTest extends FlatSpec with Matchers {

@@ -1,9 +1,8 @@
-package com.gnosly.fluentsequence.view.svg
+package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
-import com.gnosly.fluentsequence.view.svg.painter.SvgBiSignalPainter
 import org.scalatest.{FunSuite, Matchers}
 
 import scala.collection.immutable.HashMap

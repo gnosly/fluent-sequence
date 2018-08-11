@@ -1,7 +1,6 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
-import com.gnosly.fluentsequence.view.formatter.{FixedPreRenderer, FixedWidthActivityFormatter}
 import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Actor, ViewMatrix}
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 import com.gnosly.fluentsequence.view.model.point.PointMath.max

@@ -1,7 +1,5 @@
-package com.gnosly.fluentsequence.view.fixedwidth
+package com.gnosly.fluentsequence.view.model.point
 
-import com.gnosly.fluentsequence.view._
-import com.gnosly.fluentsequence.view.model.point._
 import org.scalatest.{FunSuite, Matchers}
 
 class Variable1DPointTest extends FunSuite with Matchers{
