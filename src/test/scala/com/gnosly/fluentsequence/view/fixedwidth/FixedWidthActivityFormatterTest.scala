@@ -1,12 +1,12 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.Coordinates.{Activity, Actor, ViewMatrix}
-import com.gnosly.fluentsequence.view.{FixedPreRenderer, Reference1DPoint, ReferencePoint}
-import com.gnosly.fluentsequence.view.PointMath.max
+import com.gnosly.fluentsequence.view.FixedPreRenderer
 import com.gnosly.fluentsequence.view.formatter.FixedWidthActivityFormatter
-import com.gnosly.fluentsequence.view.fixedwidth.painter.FixedWidthPainter
-import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
+import com.gnosly.fluentsequence.view.model.component.ActivityComponent
+import com.gnosly.fluentsequence.view.model.point.PointMath.max
+import com.gnosly.fluentsequence.view.model.point.{Reference1DPoint, ReferencePoint}
 import org.scalatest.{FunSuite, Matchers}
 
 class FixedWidthActivityFormatterTest extends FunSuite with Matchers {

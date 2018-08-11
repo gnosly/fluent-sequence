@@ -1,9 +1,10 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
+import com.gnosly.fluentsequence.view.ComponentPainter
 import com.gnosly.fluentsequence.view.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.svg.SvgCanvas
-import com.gnosly.fluentsequence.view.{ComponentPainter, Fixed2dPoint}
 
 class SvgBiSignalPainter() extends ComponentPainter[BiSignalComponent]{
 	override def paint(biSignal: BiSignalComponent, pointMap: Map[String, Fixed2dPoint]): SvgCanvas = {

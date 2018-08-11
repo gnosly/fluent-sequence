@@ -1,13 +1,14 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.Coordinates.Actor
-import com.gnosly.fluentsequence.view._
 import com.gnosly.fluentsequence.view.FormatterConstants.{DISTANCE_BETWEEN_ACTORS, LEFT_MARGIN, TOP_MARGIN}
-import com.gnosly.fluentsequence.view.PointMath.max
+import com.gnosly.fluentsequence.view._
 import com.gnosly.fluentsequence.view.formatter.FixedWidthActorFormatter
+import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
-import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
+import com.gnosly.fluentsequence.view.model.point.PointMath.max
+import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Reference1DPoint, ReferencePoint, Variable2DPoint}
 import org.scalatest.{FunSuite, Matchers}
 
 class FixedWidthActorFormatterTest extends FunSuite with Matchers {

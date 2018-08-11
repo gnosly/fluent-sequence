@@ -2,7 +2,8 @@ package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.model.ViewModelComponents
 import com.gnosly.fluentsequence.view.model.component.{AutoSignalComponent, BiSignalComponent}
-import com.gnosly.fluentsequence.view.{Canvas, Fixed2dPoint, Painter}
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
+import com.gnosly.fluentsequence.view.{Canvas, Painter}
 
 //fixme maybe could be one painter
 case class SvgPainter() extends Painter{

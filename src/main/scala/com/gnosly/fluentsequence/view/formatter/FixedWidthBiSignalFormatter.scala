@@ -1,12 +1,11 @@
 package com.gnosly.fluentsequence.view.formatter
 
-import com.gnosly.fluentsequence.view
 import com.gnosly.fluentsequence.view.Coordinates._
-import com.gnosly.fluentsequence.view._
 import com.gnosly.fluentsequence.view.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
-import com.gnosly.fluentsequence.view.fixedwidth._
-import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
+import com.gnosly.fluentsequence.view._
 import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
+import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
+import com.gnosly.fluentsequence.view.model.point._
 
 class FixedWidthBiSignalFormatter(preRenderer: PreRenderer) {
 	//   | |a---------------->| | a= from
@@ -116,7 +115,7 @@ class FixedWidthBiSignalFormatter(preRenderer: PreRenderer) {
 
 		val signalYStart = previousIndexPointOrDefaultForBisignal(activityEdge, toActorId, toActivityId, signal.currentIndex())
 		val signalXStart = activityEdge.x()
-		val signalTopLeft = view.Variable2DPoint(signalXStart, signalYStart)
+		val signalTopLeft = Variable2DPoint(signalXStart, signalYStart)
 
 		new SignalPoint(fromActorId, fromActivityId, signal.currentIndex(), signalBox, activitySide, signalTopLeft)
 	}

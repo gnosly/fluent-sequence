@@ -1,9 +1,10 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
+import com.gnosly.fluentsequence.view.ComponentPainter
 import com.gnosly.fluentsequence.view.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.svg.SvgCanvas
-import com.gnosly.fluentsequence.view.{ComponentPainter, Fixed2dPoint}
 
 class SvgActorPainter extends ComponentPainter[ActorComponent] {
 	override def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint]): SvgCanvas = {

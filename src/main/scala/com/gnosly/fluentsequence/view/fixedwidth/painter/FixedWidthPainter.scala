@@ -5,6 +5,7 @@ import com.gnosly.fluentsequence.view._
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.model._
 import com.gnosly.fluentsequence.view.model.component._
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class FixedWidthPainter extends Painter {
   val actorPainter = new FixedWidthActorPainter()

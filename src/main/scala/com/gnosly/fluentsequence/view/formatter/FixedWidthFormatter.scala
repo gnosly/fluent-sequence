@@ -1,10 +1,11 @@
 package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.{Fixed2dPoint, FixedPreRenderer}
+import com.gnosly.fluentsequence.view.FixedPreRenderer
 import com.gnosly.fluentsequence.view.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model._
 import com.gnosly.fluentsequence.view.model.component.{ActivityPoint, ActivityPointForBiSignalOnTheLeft, ActivityPointForBiSignalOnTheRight, ActivityPointLoopOnTheRight}
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 import scala.collection.mutable
 

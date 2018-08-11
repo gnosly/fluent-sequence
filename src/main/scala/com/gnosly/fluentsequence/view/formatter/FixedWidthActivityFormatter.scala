@@ -1,10 +1,11 @@
 package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.Coordinates._
-import com.gnosly.fluentsequence.view.{PreRenderer, Reference1DPoint, ReferencePoint}
-import com.gnosly.fluentsequence.view.PointMath.max
-import com.gnosly.fluentsequence.view.model.component.ActivityComponent
+import com.gnosly.fluentsequence.view.PreRenderer
 import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
+import com.gnosly.fluentsequence.view.model.component.ActivityComponent
+import com.gnosly.fluentsequence.view.model.point.PointMath.max
+import com.gnosly.fluentsequence.view.model.point.{Reference1DPoint, ReferencePoint}
 
 class FixedWidthActivityFormatter(preRenderer:PreRenderer) {
 
