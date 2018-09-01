@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="5300" width="5300">
+    <rect x="230" y="30" width="90" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
+    <text x="280" y="50" font-size="16px" text-anchor="middle">moduleB</text>
+    <rect x="20" y="30" width="90" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
+    <text x="70" y="50" font-size="16px" text-anchor="middle">moduleA</text>
+    <line x1="280" y1="60" x2="280" y2="190" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
+    <rect x="270" y="70" width="20" height="110" style="stroke-width: 2.0;stroke: black;fill: white" />
+    <line x1="70" y1="60" x2="70" y2="190" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
+    <rect x="60" y="70" width="20" height="110" style="stroke-width: 2.0;stroke: black;fill: white" />
+    <polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="290,110 310,110 310,140 292,140"/>
+    <polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="302,135 292,140 302,145"/>
+    <text x="330" y="130" font-size="16px" text-anchor="start">doing the job</text>
+    <text x="140" y="80" font-size="16px" text-anchor="start">request</text>
+    <line x1="80" y1="90" x2="268" y2="90" style="stroke:black;stroke-width:1.5;" />
+    <polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="258,85 268,90 258,95"/>
+    <text x="140" y="160" font-size="16px" text-anchor="start">response</text>
+    <line x1="82" y1="170" x2="270" y2="170" style="stroke:black;stroke-width:1.5;" />
+    <polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="92,165 82,170 92,175"/>
+</svg>
