@@ -67,6 +67,5 @@ or to svg using
 sequence.printToSvg();
 ```
 
-![Alt text](https://raw.githubusercontent.com/gnosly/fluent-sequence/master/sequence_example.svg?sanitize=true)
-<img src="https://raw.githubusercontent.com/gnosly/fluent-sequence/master/sequence_example.svg?sanitize=true">
+![Svg example](https://raw.githubusercontent.com/gnosly/fluent-sequence/master/sequence_example.svg?sanitize=true)
 
