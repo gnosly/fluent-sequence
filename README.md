@@ -67,6 +67,6 @@ or to svg using
 sequence.printToSvg();
 ```
 
-![Alt text](https://raw.github.com/potherca-blog/StackOverflow/master/question.13808020.include-an-svg-hosted-on-github-in-markdown/controllers_brief.svg?sanitize=true)
-<img src="https://raw.github.com/potherca-blog/StackOverflow/master/question.13808020.include-an-svg-hosted-on-github-in-markdown/controllers_brief.svg?sanitize=true">
+![Alt text](https://raw.githubusercontent.com/gnosly/fluent-sequence/master/sequence_example.svg?sanitize=true)
+<img src="https://raw.githubusercontent.com/gnosly/fluent-sequence/master/sequence_example.svg?sanitize=true">
 
