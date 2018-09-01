@@ -5,6 +5,7 @@ import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 import scala.collection.mutable
 
+//Fixme Rename, create a type
 object dd {
 	val SHELL_ORDER: Ordering[Fixed2dPoint] = new Ordering[Fixed2dPoint]() {
 		override def compare(a: Fixed2dPoint, b: Fixed2dPoint): Int = {
