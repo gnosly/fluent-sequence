@@ -1,6 +1,6 @@
 This project aims to create sequence diagrams programmatically, using a programming language like Scala or Java or a customized language. So you could save the created sequence as SVG image or fixed-width text.
 
-##Using Scala
+## Using Scala
 For example in Scala you could import the dependency in your project:
 
 ```
@@ -62,7 +62,7 @@ sequence.printToSvg();
 
 
 
-##Using Java
+## Using Java
 
 ```
 FluentSequence.FluentActor moduleA = new FluentSequence.FluentActor("moduleA", new SEQUENCE_ACTOR_TYPE());
@@ -77,7 +77,7 @@ FluentSequence.Sequence sequence = new FluentSequence.Sequence("example flow").s
 );
 
 ```
-##Using a custom syntaxt
+## Using a custom syntaxt
 You can also create your syntax and use this library to render the sequence, like [http://sequencediagram.fabriziogiovannetti.com](http://sequencediagram.fabriziogiovannetti.com) does.
 
 You have to complete these tasks:
