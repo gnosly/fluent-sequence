@@ -92,7 +92,7 @@ The encoded sequence is a UTF-8 string that tells what happens in the flow seque
 
 | encoded element | description
 | --- | ---
-SEQUENCE_STARTED|sequenceName} | The sequence *sequenceName* is started 
+SEQUENCE_STARTED&#124;sequenceName | The sequence *sequenceName* is started 
 DONE&#124;actorAType&#124;actorAName&#124;action | *actorAName* of type *actorAType* does the *action*
 CALLED&#124;actorAType&#124;actorA&#124;action&#124;actorBType&#124;actorB| *actorA* of type *actorAType* called the *action* on *actorB* of type *actorBType*
 REPLIED&#124;actorAType&#124;actorA&#124;response&#124;actorBType&#124;actorB| *actorA* of type *actorAType* replied with *response* to *actorB* of type *actorBType*
