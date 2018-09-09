@@ -3,9 +3,9 @@ This project aims to create sequence diagrams programmatically, using a programm
 ## Using Scala
 For example in Scala you could import the dependency in your project:
 
-```
+
 [https://search.maven.org/artifact/com.gnosly/fluent-sequence_2.12/0.1/jar](https://search.maven.org/artifact/com.gnosly/fluent-sequence_2.12/0.1/jar)
-```
+
 
 Write something like:
 
