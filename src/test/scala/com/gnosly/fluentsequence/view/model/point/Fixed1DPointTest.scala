@@ -11,6 +11,8 @@ class Fixed1DPointTest extends FunSuite with Matchers {
     Fixed1DPoint(2) < Fixed1DPoint(2) shouldBe false
     Fixed1DPoint(2) <= Fixed1DPoint(2) shouldBe true
     Fixed1DPoint(2) <= Fixed1DPoint(1) shouldBe false
+    Fixed1DPoint(2) max Fixed1DPoint(1) shouldBe Fixed1DPoint(2)
+    Fixed1DPoint(2) max Fixed1DPoint(3) shouldBe Fixed1DPoint(3)
   }
 
   def resolve(point: Point1d) = point.resolve(null)

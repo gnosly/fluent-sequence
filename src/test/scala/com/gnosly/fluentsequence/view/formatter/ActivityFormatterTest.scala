@@ -3,7 +3,6 @@ package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
 import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Actor, ViewMatrix}
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
-import com.gnosly.fluentsequence.view.model.point.PointMath.max
 import com.gnosly.fluentsequence.view.model.point.{Reference1DPoint, ReferencePoint}
 import org.scalatest.{FunSuite, Matchers}
 
@@ -34,8 +33,8 @@ class ActivityFormatterTest extends FunSuite with Matchers {
       0,
       0,
       new ReferencePoint(Actor.bottomMiddle(0))
-        .atY(max(Reference1DPoint(ViewMatrix.row(FIRST_SIGNAL_INDEX - 1)),
-                 new ReferencePoint(Activity.bottomLeft(0, -1)).down(1).y()))
+        .atY(Reference1DPoint(ViewMatrix.row(FIRST_SIGNAL_INDEX - 1)) max
+          new ReferencePoint(Activity.bottomLeft(0, -1)).down(1).y())
         .left(1),
       2,
       Reference1DPoint(ViewMatrix.row(LAST_SIGNAL_INDEX))
