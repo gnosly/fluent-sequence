@@ -7,18 +7,11 @@ import scala.collection.mutable
 
 //Fixme Rename, create a type
 object dd {
-	val SHELL_ORDER: Ordering[Fixed2dPoint] = new Ordering[Fixed2dPoint]() {
-		override def compare(a: Fixed2dPoint, b: Fixed2dPoint): Int = {
-			if (a.y < b.y) return -1
-			else if (a.y == b.y) {
-				if (a.x <= b.x) {
-					return -1
-				} else {
-					return +1
-				}
-			} else return +1
+	val SHELL_ORDER: Ordering[Fixed2dPoint] = (a: Fixed2dPoint, b: Fixed2dPoint) =>
+		a.y match {
+			case b.y => a.x compareTo b.x
+			case _  => a.y compareTo b.y
 		}
-	}
 }
 
 class FixedWidthCanvas(protected val canvas: mutable.TreeMap[Fixed2dPoint, Character] = mutable.TreeMap[Fixed2dPoint, Character]()(dd.SHELL_ORDER)) extends Canvas {
