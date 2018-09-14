@@ -4,10 +4,15 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 object EventBook {
-  def apply(events: Event*): EventBook = new EventBook(events.map(EventBookEvent(_)).toBuffer)
+  def apply(events: Event*): EventBook = {
+    val eventBook = EventBook()
+    events.foreach(eventBook.track)
+    eventBook
+  }
 }
 
-case class EventBook(events: mutable.Buffer[EventBookEvent] = ArrayBuffer()) {
+case class EventBook() {
+  private val events: mutable.Buffer[EventBookEvent] = ArrayBuffer()
 
   def track(event: Event) = {
     events += EventBookEvent(event)
@@ -19,7 +24,9 @@ case class EventBook(events: mutable.Buffer[EventBookEvent] = ArrayBuffer()) {
     })
   }
 
-  def toList: List[TimelineEvent] = events.zipWithIndex.map(a => TimelineEvent(a._2, a._1.event)).toList
+  def toEventList: List[EventBookEvent] = events.toList
+
+  def toTimelineEventList: List[TimelineEvent] = events.zipWithIndex.map(a => TimelineEvent(a._2, a._1.event)).toList
 }
 
 case class EventBookEvent(event: Event)

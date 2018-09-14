@@ -10,7 +10,7 @@ class FluentSequenceTest extends FunSuite with Matchers {
   val anotherSystem = new FluentActor("anotherSystem")
 
   test("empty sequence") {
-    new FluentSequence.Sequence("sequenceName").toEventBook.toList shouldBe List()
+    new FluentSequence.Sequence("sequenceName").toEventBook.toTimelineEventList shouldBe List()
   }
 
   test("user does something") {
