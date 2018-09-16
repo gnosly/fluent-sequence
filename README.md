@@ -118,6 +118,7 @@ val svg = new SvgViewer().view(new EventBookReader().read(encodedSequence))
 ```
 
 ## Get involved!
+
 I'd like very much to work with other people. People could improve their competences working together. Working on a 
 open source project is the best way to meet all kind of people around the world.
 So if you like the project doesn't hesitate to get involved and contact me.

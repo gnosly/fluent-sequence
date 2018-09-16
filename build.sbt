@@ -1,11 +1,14 @@
 name := "fluent-sequence"
 organization := "com.gnosly"
 
+// DEPENDENCIES
 scalaVersion := "2.12.6"
-
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 
+scalafmtOnCompile := true
+
+// RELEASE
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
 releaseProcess := Seq[ReleaseStep](
