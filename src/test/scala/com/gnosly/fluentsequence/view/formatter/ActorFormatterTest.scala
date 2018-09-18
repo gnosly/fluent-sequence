@@ -5,7 +5,6 @@ import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
-import com.gnosly.fluentsequence.view.model.point.PointMath.max
 import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Reference1DPoint, ReferencePoint, Variable2DPoint}
 import org.scalatest.{FunSuite, Matchers}
 
@@ -27,7 +26,7 @@ class ActorFormatterTest extends FunSuite with Matchers {
       ActorPoints(
         ACTOR_ID,
         new ReferencePoint(Actor.topLeft(PREVIOUS_ACTOR_ID))
-          .right(max(Reference1DPoint(s"column_${PREVIOUS_ACTOR_ID}"), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS))),
+          .right(Reference1DPoint(s"column_${PREVIOUS_ACTOR_ID}") max Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)),
         Box(ACTOR_NAME.length + ACTOR_PADDING, 4)
       )
   }

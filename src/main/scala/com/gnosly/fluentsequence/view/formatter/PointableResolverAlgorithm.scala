@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, PointMap}
+import com.gnosly.fluentsequence.view.model.point.{Fixed2dPoint, PointMap}
 
 import scala.collection.mutable
 
@@ -25,7 +25,7 @@ object PointableResolverAlgorithms {
             .flatMap(p => p.toMatrixConstraints(pointMap))
             .groupBy[String](_._1)
             .mapValues(x => x.map(_._2))
-            .mapValues(_.reduce((a, b) => max(a, b)))
+            .mapValues(_.reduce(_ max _))
             .toSeq)
 
         if (pointMap.toMap().toMap == previousPointMap) {
@@ -34,10 +34,6 @@ object PointableResolverAlgorithms {
       }
 
       pointMap.toMap()
-    }
-
-    private def max(a: Fixed1DPoint, b: Fixed1DPoint): Fixed1DPoint = {
-      if (a.x > b.x) a else b
     }
 
   }

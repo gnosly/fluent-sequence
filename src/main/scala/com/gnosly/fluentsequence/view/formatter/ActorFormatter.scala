@@ -5,7 +5,6 @@ import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
 import com.gnosly.fluentsequence.view.model.Coordinates.{Actor, Pointable, ViewMatrix}
 import com.gnosly.fluentsequence.view.model.PreRenderer
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
-import com.gnosly.fluentsequence.view.model.point.PointMath.max
 import com.gnosly.fluentsequence.view.model.point._
 
 class ActorFormatter(preRenderer: PreRenderer) {
@@ -15,7 +14,7 @@ class ActorFormatter(preRenderer: PreRenderer) {
         return new Variable2DPoint(LEFT_MARGIN, TOP_MARGIN)
       else {
         return new ReferencePoint(Actor.topLeft(actor.id - 1))
-          .right(max(Reference1DPoint(ViewMatrix.column(actor.id - 1)), Fixed1DPoint(DISTANCE_BETWEEN_ACTORS)))
+          .right(Reference1DPoint(ViewMatrix.column(actor.id - 1)) max Fixed1DPoint(DISTANCE_BETWEEN_ACTORS))
       }
     }
 
