@@ -13,20 +13,18 @@ class EventBookReader {
     eventBook
   }
 
-  def decode(line: String): Event = {
-    val columns = line.split("\\|")
-    val eventType = columns.head
-    eventType match {
-      case "SEQUENCE_STARTED" => SEQUENCE_STARTED(columns(1))
-      case "DONE"             => DONE(Actor(typeFrom(columns(1)), columns(2)), columns(3))
-      case "CALLED" =>
-        CALLED(Actor(typeFrom(columns(1)), columns(2)), columns(3), Actor(typeFrom(columns(4)), columns(5)))
-      case "REPLIED" =>
-        REPLIED(Actor(typeFrom(columns(1)), columns(2)), columns(3), Actor(typeFrom(columns(4)), columns(5)))
-      case "NEW_SEQUENCE_SCHEDULED" => NEW_SEQUENCE_SCHEDULED(Actor(typeFrom(columns(1)), columns(2)), columns(3))
-      case "SEQUENCE_ENDED"         => SEQUENCE_ENDED(columns(1))
+  def decode(line: String): Event =
+    line.split("\\|") match {
+      case Array("SEQUENCE_STARTED", sequence)       => SEQUENCE_STARTED(sequence)
+      case Array("DONE", actorType, name, something) => DONE(Actor(typeFrom(actorType), name), something)
+      case Array("CALLED", actorType, name, something, toSomebodyType, toSomebodyName) =>
+        CALLED(Actor(typeFrom(actorType), name), something, Actor(typeFrom(toSomebodyType), toSomebodyName))
+      case Array("REPLIED", actorType, name, something, toSomebodyType, toSomebodyName) =>
+        REPLIED(Actor(typeFrom(actorType), name), something, Actor(typeFrom(toSomebodyType), toSomebodyName))
+      case Array("NEW_SEQUENCE_SCHEDULED", actorType, name, sequence) =>
+        NEW_SEQUENCE_SCHEDULED(Actor(typeFrom(actorType), name), sequence)
+      case Array("SEQUENCE_ENDED", sequence) => SEQUENCE_ENDED(sequence)
     }
-  }
 
   def typeFrom(string: String): ActorType = string match {
     case "USER_TYPE"           => USER_TYPE()
