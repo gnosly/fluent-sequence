@@ -46,6 +46,6 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       c <- b.points()
     } yield formatSignal(c)
 
-    return (actors ++ activities ++ signals).toSeq
+    (actors ++ activities ++ signals).toSeq
   }
 }

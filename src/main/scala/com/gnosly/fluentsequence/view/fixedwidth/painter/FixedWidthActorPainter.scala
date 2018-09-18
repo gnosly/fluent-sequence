@@ -24,7 +24,7 @@ class FixedWidthActorPainter extends ComponentPainter[ActorComponent] {
     canvas.write(actorTopLeft.down(2), "'" + str + "'")
     canvas.write(actorBottomMiddle.up(1), "|")
 
-    return canvas
+    canvas
   }
 
   def r(pattern: String, count: Long): String =

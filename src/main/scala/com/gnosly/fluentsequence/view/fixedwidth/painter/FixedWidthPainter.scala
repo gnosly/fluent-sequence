@@ -34,7 +34,7 @@ class FixedWidthPainter extends Painter {
         case x: BiSignalComponent   => biSignalPainter.paint(x, pointMap)
       }
 
-    return (actorCanvas ++ activityCanvas ++ signalCanvas)
+    (actorCanvas ++ activityCanvas ++ signalCanvas)
       .reduce(_.merge(_))
       .merge(titleCanvas)
   }

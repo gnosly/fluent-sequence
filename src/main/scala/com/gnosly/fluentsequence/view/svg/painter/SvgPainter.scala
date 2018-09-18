@@ -30,7 +30,7 @@ case class SvgPainter() extends Painter {
         case x: BiSignalComponent   => biSignalPainter.paint(x, pointMap)
       }
 
-    return (actorCanvas ++ activityCanvas ++ signalCanvas)
+    (actorCanvas ++ activityCanvas ++ signalCanvas)
       .reduce(_.merge(_))
   }
 }
