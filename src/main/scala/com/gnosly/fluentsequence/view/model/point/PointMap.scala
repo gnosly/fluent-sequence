@@ -12,21 +12,19 @@ class PointMap {
     if (name.split("#").size > 1) {
       val point = name.split("#")(0)
       val coordinate = name.split("#")(1)
+
       if (coordinate.equals("x")) {
-        return Fixed1DPoint(apply(point).x)
+        Fixed1DPoint(apply(point).x)
       } else {
-        return Fixed1DPoint(apply(point).y)
+        Fixed1DPoint(apply(point).y)
       }
     } else {
-      return Fixed1DPoint(apply(name).x) // x for convention
+      Fixed1DPoint(apply(name).x) // x for convention
     }
   }
 
-  private def apply(key: String): Fixed2dPoint = {
-    if (map.contains(key))
-      return map(key)
-    return new Fixed2dPoint(0, 0)
-  }
+  private def apply(key: String): Fixed2dPoint =
+    map.getOrElse(key, Fixed2dPoint(0, 0))
 
   def put1DPoint(entries: Seq[(String, Fixed1DPoint)]) {
     putAll(entries.map(x => (x._1, Fixed2dPoint(x._2.x, 0)))) // x for convention

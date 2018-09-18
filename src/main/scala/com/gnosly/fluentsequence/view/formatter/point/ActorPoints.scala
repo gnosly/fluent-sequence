@@ -24,9 +24,10 @@ case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) extends Po
     val midWidth = actorBox.width / 2
 
     val nextActorTopLeftCorner = new ReferencePoint(Coordinates.Actor.topLeft(actorId + 1)).resolve(pointMap)
-    if (nextActorTopLeftCorner == Fixed2dPoint(0L, 0L)) {
-      return Fixed1DPoint(midWidth)
-    }
-    return Fixed1DPoint(actorBox.width + FormatterConstants.DISTANCE_BETWEEN_ACTORS)
+
+    if (nextActorTopLeftCorner == Fixed2dPoint(0L, 0L))
+      Fixed1DPoint(midWidth)
+    else
+      Fixed1DPoint(actorBox.width + FormatterConstants.DISTANCE_BETWEEN_ACTORS)
   }
 }

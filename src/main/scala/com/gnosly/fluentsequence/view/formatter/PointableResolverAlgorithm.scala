@@ -16,7 +16,8 @@ object PointableResolverAlgorithms {
     override def resolve(pointables: Seq[Pointable]): mutable.TreeMap[String, Fixed2dPoint] = {
 
       val pointMap = new PointMap()
-      while (true) {
+
+      do () while ({
         val previousPointMap = pointMap.toMap().toMap
 
         pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
@@ -28,10 +29,8 @@ object PointableResolverAlgorithms {
             .mapValues(_.reduce(_ max _))
             .toSeq)
 
-        if (pointMap.toMap().toMap == previousPointMap) {
-          return pointMap.toMap()
-        }
-      }
+        pointMap.toMap().toMap != previousPointMap
+      })
 
       pointMap.toMap()
     }
