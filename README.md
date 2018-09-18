@@ -130,8 +130,5 @@ The project is divided in three different layers
 - API: It contains the DSL used to declare the sequence diagram. It uses the domain model to transform each action into event. 
 - View: It contains the logic to present the list of sequence events into view.
 
-### Sequence creation flow
-TODO
-
 ## Credits
 - [Francesco Pellegrini](https://github.com/francescopellegrini) Helping configuring sbt release plugin
