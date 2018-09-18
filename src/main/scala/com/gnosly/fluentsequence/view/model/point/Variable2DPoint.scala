@@ -1,7 +1,5 @@
 package com.gnosly.fluentsequence.view.model.point
 
-import com.gnosly.fluentsequence.view._
-
 case class Variable2DPoint(_x: Point1d, _y: Point1d) extends Point2d {
 
   def this(x: Long, y: Long) = {
