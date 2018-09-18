@@ -132,3 +132,9 @@ The project is divided in three different layers
 
 ## Credits
 - [Francesco Pellegrini](https://github.com/francescopellegrini) Helping configuring sbt release plugin
+
+#License
+
+GNU General Public License v3.0
+
+See `LICENSE <LICENSE>`_ to see the full text.
