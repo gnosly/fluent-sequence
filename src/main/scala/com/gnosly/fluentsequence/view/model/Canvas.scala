@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.model
 
 trait Canvas {
 
-	def print(): String
+  def print(): String
 
-	override def toString = print()
+  override def toString = print()
 }

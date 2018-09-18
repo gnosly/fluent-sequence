@@ -6,38 +6,40 @@ import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, P
 import scala.collection.mutable
 
 object PointableResolverAlgorithms {
-	val loopPointableResolverAlgorithm = new LoopPointableResolverAlgorithm()
+  val loopPointableResolverAlgorithm = new LoopPointableResolverAlgorithm()
 
-	trait PointableResolverAlgorithm {
-		def resolve(pointables: Seq[Pointable]): mutable.TreeMap[String, Fixed2dPoint]
-	}
+  trait PointableResolverAlgorithm {
+    def resolve(pointables: Seq[Pointable]): mutable.TreeMap[String, Fixed2dPoint]
+  }
 
-	class LoopPointableResolverAlgorithm extends PointableResolverAlgorithm {
-		override def resolve(pointables: Seq[Pointable]): mutable.TreeMap[String, Fixed2dPoint] = {
+  class LoopPointableResolverAlgorithm extends PointableResolverAlgorithm {
+    override def resolve(pointables: Seq[Pointable]): mutable.TreeMap[String, Fixed2dPoint] = {
 
-			val pointMap = new PointMap()
-			while (true) {
-				val previousPointMap = pointMap.toMap().toMap
+      val pointMap = new PointMap()
+      while (true) {
+        val previousPointMap = pointMap.toMap().toMap
 
-				pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
-				pointMap.put1DPoint(pointables.flatMap(p => p.toMatrixConstraints(pointMap))
-					.groupBy[String](_._1)
-					.mapValues(x => x.map(_._2))
-					.mapValues(_.reduce((a, b) => max(a, b)))
-					.toSeq)
+        pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
+        pointMap.put1DPoint(
+          pointables
+            .flatMap(p => p.toMatrixConstraints(pointMap))
+            .groupBy[String](_._1)
+            .mapValues(x => x.map(_._2))
+            .mapValues(_.reduce((a, b) => max(a, b)))
+            .toSeq)
 
-				if (pointMap.toMap().toMap == previousPointMap) {
-					return pointMap.toMap()
-				}
-			}
+        if (pointMap.toMap().toMap == previousPointMap) {
+          return pointMap.toMap()
+        }
+      }
 
-			pointMap.toMap()
-		}
+      pointMap.toMap()
+    }
 
-		private def max(a: Fixed1DPoint, b: Fixed1DPoint): Fixed1DPoint = {
-			if (a.x > b.x) a else b
-		}
+    private def max(a: Fixed1DPoint, b: Fixed1DPoint): Fixed1DPoint = {
+      if (a.x > b.x) a else b
+    }
 
-	}
+  }
 
 }

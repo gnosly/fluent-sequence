@@ -3,9 +3,9 @@ package com.gnosly.fluentsequence.view.fixedwidth.painter
 import org.scalatest.{FlatSpec, Matchers}
 
 class FixedWidthPainterTest extends FlatSpec with Matchers {
-	val painter = new FixedWidthPainter()
+  val painter = new FixedWidthPainter()
 
-	ignore should "render user box with a bisignal exiting" in {
+  ignore should "render user box with a bisignal exiting" in {
 //		val user = new ActorComponent(0, "user")
 //		val system = new ActorComponent(1, "user")
 //		user.link(system, "something", 1)
@@ -34,9 +34,9 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 //			/**/ "   |_|" + "\n" +
 //			/**/ "    |"
 
-	}
+  }
 
-	ignore should "render user box with a bisignal entering" in {
+  ignore should "render user box with a bisignal entering" in {
 //		val user = new ActorComponent(0, "user")
 //		val system = new ActorComponent(1, "user")
 //		system.link(user, "something", 1)
@@ -65,9 +65,9 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 //			/**/ "   |_|" + "\n" +
 //			/**/ "    |"
 
-	}
+  }
 
-	ignore should "render user box with many activities" in {
+  ignore should "render user box with many activities" in {
 //		val user = new ActorComponent(0, "user", mutable.Buffer(
 //			new ActivityComponent(0,0, 0,3,true),
 //			new ActivityComponent(1,0, 5,8,true)
@@ -102,5 +102,5 @@ class FixedWidthPainterTest extends FlatSpec with Matchers {
 //			/**/ "   |_|" + "\n" +
 //			/**/ "    |"
 
-	}
+  }
 }

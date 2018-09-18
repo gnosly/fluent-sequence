@@ -6,7 +6,7 @@ import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
-class FixedWidthActorPainter extends ComponentPainter[ActorComponent]{
+class FixedWidthActorPainter extends ComponentPainter[ActorComponent] {
 
   override def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
     val canvas = new FixedWidthCanvas()
@@ -24,7 +24,7 @@ class FixedWidthActorPainter extends ComponentPainter[ActorComponent]{
     canvas.write(actorTopLeft.down(2), "'" + str + "'")
     canvas.write(actorBottomMiddle.up(1), "|")
 
-   return canvas
+    return canvas
   }
 
   def r(pattern: String, count: Long): String =

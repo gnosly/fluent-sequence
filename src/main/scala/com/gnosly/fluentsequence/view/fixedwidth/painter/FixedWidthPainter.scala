@@ -28,10 +28,11 @@ class FixedWidthPainter extends Painter {
       a <- viewModel._actors
       activity <- a._2.activities
       rightPoint <- activity.rightPoints
-    } yield rightPoint._2.signalComponent match {
-      case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
-      case x: BiSignalComponent => biSignalPainter.paint(x, pointMap)
-    }
+    } yield
+      rightPoint._2.signalComponent match {
+        case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
+        case x: BiSignalComponent   => biSignalPainter.paint(x, pointMap)
+      }
 
     return (actorCanvas ++ activityCanvas ++ signalCanvas)
       .reduce(_.merge(_))
