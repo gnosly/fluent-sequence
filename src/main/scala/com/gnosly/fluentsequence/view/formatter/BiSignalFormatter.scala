@@ -64,8 +64,8 @@ class BiSignalFormatter(preRenderer: PreRenderer) {
     } else {
       val toActivityTopLeft = new ReferencePoint(Activity.topLeft(actorId, activityId))
 
-      PointMath.max(Reference1DPoint(ViewMatrix.row(signalIndex - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS),
-                    toActivityTopLeft.down(1).y())
+      (Reference1DPoint(ViewMatrix.row(signalIndex - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)) max
+        toActivityTopLeft.down(1).y()
     }
   }
 

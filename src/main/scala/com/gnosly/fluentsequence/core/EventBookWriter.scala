@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.core
 class EventBookWriter {
 
   def write(book: EventBook): String = {
-    book.events.map(e => encode(e)).reduce(_ + "\n" + _)
+    book.toEventList.map(e => encode(e)).reduce(_ + "\n" + _)
   }
 
   private def encode(e: EventBookEvent): String = e.event match {

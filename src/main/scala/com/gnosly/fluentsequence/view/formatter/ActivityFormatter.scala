@@ -4,7 +4,6 @@ import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
 import com.gnosly.fluentsequence.view.model.Coordinates._
 import com.gnosly.fluentsequence.view.model.PreRenderer
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
-import com.gnosly.fluentsequence.view.model.point.PointMath.max
 import com.gnosly.fluentsequence.view.model.point.{Reference1DPoint, ReferencePoint}
 
 class ActivityFormatter(preRenderer: PreRenderer) {
@@ -22,7 +21,7 @@ class ActivityFormatter(preRenderer: PreRenderer) {
         val lastSignalEnd = Reference1DPoint(ViewMatrix.row(activity.fromIndex - 1))
         val marginSinceLastActivity =
           new ReferencePoint(Activity.bottomLeft(activity.actorId, activity.id - 1)).down(1).y()
-        max(lastSignalEnd, marginSinceLastActivity)
+        lastSignalEnd.max(marginSinceLastActivity)
       }
     }
 

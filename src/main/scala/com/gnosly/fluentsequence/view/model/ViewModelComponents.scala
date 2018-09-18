@@ -10,7 +10,7 @@ object ViewModelComponentsFactory {
 
   def createFrom(book: EventBook) = {
     val viewModel = new ViewModelComponents()
-    val list = book.toList
+    val list = book.toTimelineEventList
     list.foreach(
       t => {
         t.event match {
