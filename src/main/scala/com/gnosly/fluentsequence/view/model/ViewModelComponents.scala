@@ -38,29 +38,29 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 
   def done(who: core.Actor, something: String): Unit = {
     lastSignalIndex += 1
-    val actor = createOrGet(who, lastSignalIndex)
+    val actor = createOrGet(who)
     /*_signals += */
     actor.done(something, lastSignalIndex)
   }
 
   def called(who: core.Actor, something: String, toSomebody: core.Actor) = {
     lastSignalIndex += 1
-    val caller = createOrGet(who, lastSignalIndex)
-    val called = createOrGet(toSomebody, lastSignalIndex)
+    val caller = createOrGet(who)
+    val called = createOrGet(toSomebody)
     /*_signals += */
     caller.link(called, something, lastSignalIndex)
   }
 
   def replied(who: core.Actor, something: String, toSomebody: core.Actor) = {
     lastSignalIndex += 1
-    val replier = createOrGet(who, lastSignalIndex)
-    val replied = createOrGet(toSomebody, lastSignalIndex)
+    val replier = createOrGet(who)
+    val replied = createOrGet(toSomebody)
     /*_signals += */
     replier.link(replied, something, lastSignalIndex)
     replier.end(lastSignalIndex)
   }
 
-  private def createOrGet(who: core.Actor, index: Int): ActorComponent = {
+  private def createOrGet(who: core.Actor): ActorComponent = {
     val actor = _actors.getOrElse(who.name, {
       val newActor = new ActorComponent(_actors.size, who.name)
       _actors += who.name -> newActor
