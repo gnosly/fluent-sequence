@@ -71,7 +71,10 @@ object FluentSequence {
 
       override def stop(): SequenceFlow = ???
 
-      override def fire(event: String): SequenceFlow = ???
+      override def fire(action: String, toActor: FluentActor): SequenceFlow = {
+        eventBook.track(FIRED(subjectActor, action, toActor))
+        new SequenceFlow(s"$name $action to ${toActor.name}", eventBook, subjectActor)
+      }
 
       override def launch(tracking: Sequence): SequenceFlow = ???
 
@@ -113,7 +116,11 @@ object FluentSequence {
 
     override def check(condition: String): SequenceFlow = ???
 
-    override def fire(event: String): SequenceFlow = ???
+    override def fire(action: String, toActor: FluentActor): SequenceFlow = {
+      val eventBook = EventBook()
+        .track(FIRED(this, action, toActor))
+      new SequenceFlow(s"$name $action to ${toActor.name}", eventBook, this)
+    }
 
     override def launch(tracking: Sequence): SequenceFlow = ???
 

@@ -5,14 +5,13 @@ import scala.collection.mutable.ArrayBuffer
 
 object EventBook {
   def apply(events: Event*): EventBook = {
-    val eventBook = EventBook()
+    val eventBook = new EventBook()
     events.foreach(eventBook.track)
     eventBook
   }
 }
 
-case class EventBook() {
-  private val events: mutable.Buffer[EventBookEvent] = ArrayBuffer()
+case class EventBook(private val events: mutable.Buffer[EventBookEvent] = ArrayBuffer()){
 
   def track(event: Event): EventBook = {
     events += EventBookEvent(event)

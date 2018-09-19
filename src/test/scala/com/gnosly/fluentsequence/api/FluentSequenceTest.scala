@@ -67,4 +67,19 @@ class FluentSequenceTest extends FunSuite with Matchers {
       SEQUENCE_ENDED("sequenceName")
     )
   }
+
+  test("user tell something to someone") {
+    val sequence = Sequence("sequenceName").startWith(
+      user.fire("something", system).and().fire("something else", anotherSystem) :: Nil
+    )
+
+    val book = EventBook(
+      SEQUENCE_STARTED("sequenceName"),
+      FIRED(user, "something", system),
+      FIRED(user, "something else", anotherSystem),
+      SEQUENCE_ENDED("sequenceName")
+    )
+    sequence.toEventBook shouldBe book
+  }
+
 }

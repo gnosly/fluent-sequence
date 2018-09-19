@@ -8,7 +8,7 @@ trait Actorable {
 
   def stop(): SequenceFlow
 
-  def fire(event: String): SequenceFlow
+  def fire(action: String, toActor: FluentActor): SequenceFlow
 
   def launch(tracking: Sequence): SequenceFlow
 
