@@ -9,12 +9,12 @@ class EventBookWriterTest extends FunSuite with Matchers {
     val anotherActor = new Actor(SEQUENCE_ACTOR_TYPE(), "anotherActorName")
 
     val book = new EventBook()
-    book.track(SEQUENCE_STARTED("seqStarted"))
-    book.track(DONE(actor, "something"))
-    book.track(CALLED(actor, "call", anotherActor))
-    book.track(REPLIED(actor, "reply", anotherActor))
-    book.track(NEW_SEQUENCE_SCHEDULED(actor, "newSeqStarted"))
-    book.track(SEQUENCE_ENDED("seqEnded"))
+      .track(SEQUENCE_STARTED("seqStarted"))
+      .track(DONE(actor, "something"))
+      .track(CALLED(actor, "call", anotherActor))
+      .track(REPLIED(actor, "reply", anotherActor))
+      .track(NEW_SEQUENCE_SCHEDULED(actor, "newSeqStarted"))
+      .track(SEQUENCE_ENDED("seqEnded"))
 
     new EventBookWriter().write(book) shouldBe
       """SEQUENCE_STARTED|seqStarted

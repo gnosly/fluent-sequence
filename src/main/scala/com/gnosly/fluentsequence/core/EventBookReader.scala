@@ -8,7 +8,7 @@ class EventBookReader {
     text
       .split("\n")
       .map(line => decode(line))
-      .foreach(eventBook.track(_))
+      .foreach(eventBook.track)
 
     eventBook
   }
