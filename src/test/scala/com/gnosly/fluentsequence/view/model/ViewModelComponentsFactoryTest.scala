@@ -38,8 +38,8 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
         REPLIED(SYSTEM, "response", USER)
       ))
 
-    val call = new BiSignalComponent("call", 0, 0, 0, 1, 0)
-    val response = new BiSignalComponent("response", 1, 1, 0, 0, 0)
+    val call = new BiSignalComponent("call", 0, 0, 0, 1, 0, SYNC())
+    val response = new BiSignalComponent("response", 1, 1, 0, 0, 0, SYNC())
 
     val userRightPoints = mutable.TreeMap[Int, RightPoint](
       0 -> ActivityPointForBiSignalOnTheRight(0, call),
@@ -60,6 +60,31 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
   }
 
+  it should "create viewModel with FIRE " in {
+    val viewModel = createFrom(
+      EventBook(
+        FIRED(USER, "call", SYSTEM)
+      ))
+
+    val call = new BiSignalComponent("call", 0, 0, 0, 1, 0, ASYNC())
+
+    val userRightPoints = mutable.TreeMap[Int, RightPoint](
+      0 -> ActivityPointForBiSignalOnTheRight(0, call)
+    )
+
+    val userComponent =
+      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 0, rightPoints = userRightPoints)))
+
+    val systemRightPoints = mutable.TreeMap[Int, LeftPoint](
+      0 -> ActivityPointForBiSignalOnTheLeft(0, call)
+    )
+
+    val systemComponent =
+      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 0, leftPoints = systemRightPoints)))
+
+    viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
+  }
+
   it should "count signal index" in {
     val viewModel = createFrom(
       EventBook(
@@ -76,8 +101,8 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       ))
 
     val signalA = new AutoSignalComponent("signalA", 0, 0, 0)
-    val signalB = new BiSignalComponent("signalB", 1, 0, 0, 1, 0)
-    val signalC = new BiSignalComponent("signalC", 2, 1, 0, 0, 0)
+    val signalB = new BiSignalComponent("signalB", 1, 0, 0, 1, 0, SYNC())
+    val signalC = new BiSignalComponent("signalC", 2, 1, 0, 0, 0, SYNC())
     val signalD = new AutoSignalComponent("signalD", 3, 0, 0)
     val signalE = new AutoSignalComponent("signalE", 4, 0, 0)
 

@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.model.Coordinates
-import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
+import com.gnosly.fluentsequence.view.model.component.{BiSignalComponent, SYNC}
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import org.scalatest.{FunSuite, Matchers}
 
@@ -16,7 +16,7 @@ class SvgBiSignalPainterTest extends FunSuite with Matchers {
       Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(10, 10)
     )
 
-    val canvas = painter.paint(new BiSignalComponent("name", 0, 0, 0, 1, 0), pointMap)
+    val canvas = painter.paint(new BiSignalComponent("name", 0, 0, 0, 1, 0, SYNC()), pointMap)
     println(canvas)
     canvas.content shouldBe
       """<text x="30" y="100" font-size="16px" text-anchor="start">name</text>
@@ -31,7 +31,7 @@ class SvgBiSignalPainterTest extends FunSuite with Matchers {
       Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(10, 10)
     )
 
-    val canvas = painter.paint(new BiSignalComponent("name", 0, 1, 0, 0, 0), pointMap)
+    val canvas = painter.paint(new BiSignalComponent("name", 0, 1, 0, 0, 0, SYNC()), pointMap)
     println(canvas)
     canvas.content shouldBe
       """<text x="30" y="100" font-size="16px" text-anchor="start">name</text>

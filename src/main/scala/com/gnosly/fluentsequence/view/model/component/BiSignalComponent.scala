@@ -5,8 +5,10 @@ class BiSignalComponent(val name: String,
                         override val fromActorId: Int,
                         override val fromActivityId: Int,
                         val toActorId: Int,
-                        val toActivityId: Int)
+                        val toActivityId: Int,
+                        val biSignalComponentType: BiSignalComponentType)
     extends SignalComponent(index, fromActorId, fromActivityId) {
+
   def leftToRight: Boolean = fromActorId < toActorId
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[BiSignalComponent]
@@ -28,3 +30,9 @@ class BiSignalComponent(val name: String,
 
   override def toString = s"BiSignalComponent($name, $index, ${fromActorId}, ${toActorId})"
 }
+
+trait BiSignalComponentType
+
+case class ASYNC() extends BiSignalComponentType
+case class SYNC() extends BiSignalComponentType
+
