@@ -8,7 +8,7 @@ import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
 class SvgBiSignalPainter() extends ComponentPainter[BiSignalComponent] {
   override def paint(biSignal: BiSignalComponent, pointMap: Map[String, Fixed2dPoint]): SvgCanvas = {
-    val canvas = new SvgCanvas()
+    val canvas = new SvgCanvas
     if (biSignal.leftToRight) {
       val signalPoint = pointMap(
         Activity.rightPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex))

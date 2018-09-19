@@ -52,7 +52,7 @@ class BiSignalFormatter(preRenderer: PreRenderer) {
     val signalXStart = activityTopRight.right(1).x
     val signalTopLeft = Variable2DPoint(signalXStart, signalYStart)
 
-    new SignalPoint(fromActorId, fromActivityId, signal.currentIndex, signalBox, activitySide, signalTopLeft)
+    SignalPoint(fromActorId, fromActivityId, signal.currentIndex, signalBox, activitySide, signalTopLeft)
   }
 
   def previousIndexPointOrDefaultForBisignal(activityTop: Point2d,
@@ -118,6 +118,6 @@ class BiSignalFormatter(preRenderer: PreRenderer) {
     val signalXStart = activityEdge.x
     val signalTopLeft = Variable2DPoint(signalXStart, signalYStart)
 
-    new SignalPoint(fromActorId, fromActivityId, signal.currentIndex, signalBox, activitySide, signalTopLeft)
+    SignalPoint(fromActorId, fromActivityId, signal.currentIndex, signalBox, activitySide, signalTopLeft)
   }
 }

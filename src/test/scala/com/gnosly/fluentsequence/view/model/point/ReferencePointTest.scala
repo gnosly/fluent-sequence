@@ -5,7 +5,7 @@ import org.scalatest.{FunSuite, Matchers}
 class ReferencePointTest extends FunSuite with Matchers {
 
   test("referencePoint") {
-    val pointMap = new PointMap()
+    val pointMap = new PointMap
     val point = new ReferencePoint("refPoint")
     pointMap.putAll(("refPoint", Fixed2dPoint(0, 0)) :: Nil)
 

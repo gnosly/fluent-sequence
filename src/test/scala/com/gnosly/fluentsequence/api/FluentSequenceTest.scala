@@ -10,11 +10,11 @@ class FluentSequenceTest extends FunSuite with Matchers {
   val anotherSystem = new FluentActor("anotherSystem")
 
   test("empty sequence") {
-    new FluentSequence.Sequence("sequenceName").toEventBook.toTimelineEventList shouldBe List()
+    FluentSequence.Sequence("sequenceName").toEventBook.toTimelineEventList shouldBe List()
   }
 
   test("user does something") {
-    val sequence = new Sequence("sequenceName").startWith(
+    val sequence = Sequence("sequenceName").startWith(
       user.does("something") :: Nil
     )
 
@@ -26,7 +26,7 @@ class FluentSequenceTest extends FunSuite with Matchers {
   }
 
   test("user interacts with a system") {
-    val sequence = new Sequence("sequenceName").startWith(
+    val sequence = Sequence("sequenceName").startWith(
       user.call("call", system) ::
         system.reply("reply", user) :: Nil
     )
@@ -40,7 +40,7 @@ class FluentSequenceTest extends FunSuite with Matchers {
   }
 
   test("user does multiple things") {
-    val sequence = new Sequence("sequenceName").startWith(
+    val sequence = Sequence("sequenceName").startWith(
       user
         .does("a")
         .and()
@@ -50,7 +50,7 @@ class FluentSequenceTest extends FunSuite with Matchers {
         .and()
         .reply("reply", anotherSystem)
         .and()
-        .does(new Sequence("another sequence").startWith(user.does("c") :: Nil))
+        .does(Sequence("another sequence").startWith(user.does("c") :: Nil))
         :: Nil
     )
 

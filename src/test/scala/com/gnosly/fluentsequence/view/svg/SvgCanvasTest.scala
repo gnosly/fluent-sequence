@@ -11,7 +11,7 @@ class SvgCanvasTest extends FunSuite with Matchers {
   }
 
   test("draw text") {
-    val canvas = new SvgCanvas()
+    val canvas = new SvgCanvas
     canvas.drawText(Fixed2dPoint(0, 0), "text")
     canvas.content shouldBe
       """<text x="0" y="0" font-size="16px" text-anchor="start">text</text>

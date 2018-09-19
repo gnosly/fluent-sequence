@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.core
 class EventBookReader {
 
   def read(text: String): EventBook = {
-    val eventBook = new EventBook()
+    val eventBook = EventBook()
 
     text
       .split("\n")

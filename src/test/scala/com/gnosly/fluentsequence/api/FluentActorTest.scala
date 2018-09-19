@@ -18,7 +18,7 @@ class FluentActorTest extends FlatSpec with Matchers {
     val service = new FluentActor("service")
 
     val flow = service
-      .does(new Sequence("childSequence").startWith(service.does("something") :: Nil))
+      .does(Sequence("childSequence").startWith(service.does("something") :: Nil))
       .and()
       .does("something else")
 

@@ -8,14 +8,14 @@ import org.scalatest.{FunSuite, Matchers}
 import scala.collection.immutable.HashMap
 
 class SvgActivityPainterTest extends FunSuite with Matchers {
-  val painter = new SvgActivityPainter()
+  val painter = new SvgActivityPainter
 
   test("first activity") {
     val pointMap: Map[String, Fixed2dPoint] = HashMap(
-      Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 1),
-      Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 5),
-      Coordinates.Activity.topLeft(0, 0) -> new Fixed2dPoint(3, 5),
-      Coordinates.Activity.bottomLeft(0, 0) -> new Fixed2dPoint(3, 8)
+      Coordinates.Actor.topLeft(0) -> Fixed2dPoint(1, 1),
+      Coordinates.Actor.bottomMiddle(0) -> Fixed2dPoint(4, 5),
+      Coordinates.Activity.topLeft(0, 0) -> Fixed2dPoint(3, 5),
+      Coordinates.Activity.bottomLeft(0, 0) -> Fixed2dPoint(3, 8)
     )
 
     val canvas = painter.paint(new ActivityComponent(0, 0, 0, 10, true), pointMap)
@@ -28,9 +28,9 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
 
   test("second activity") {
     val pointMap: Map[String, Fixed2dPoint] = HashMap(
-      Coordinates.Activity.bottomLeft(0, 0) -> new Fixed2dPoint(3, 5),
-      Coordinates.Activity.topLeft(0, 1) -> new Fixed2dPoint(3, 15),
-      Coordinates.Activity.bottomLeft(0, 1) -> new Fixed2dPoint(3, 25)
+      Coordinates.Activity.bottomLeft(0, 0) -> Fixed2dPoint(3, 5),
+      Coordinates.Activity.topLeft(0, 1) -> Fixed2dPoint(3, 15),
+      Coordinates.Activity.bottomLeft(0, 1) -> Fixed2dPoint(3, 25)
     )
 
     val canvas = painter.paint(new ActivityComponent(1, 0, 5, 10, true), pointMap)

@@ -8,7 +8,7 @@ import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
 class SvgActivityPainter extends ComponentPainter[ActivityComponent] {
   override def paint(activity: ActivityComponent, pointMap: Map[String, Fixed2dPoint]): SvgCanvas = {
-    val canvas = new SvgCanvas()
+    val canvas = new SvgCanvas
 
     val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
     val bottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id))

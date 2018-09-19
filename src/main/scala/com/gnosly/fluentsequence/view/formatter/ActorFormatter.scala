@@ -22,6 +22,6 @@ class ActorFormatter(preRenderer: PreRenderer) {
     val actorBox = preRenderer.preRender(actor)
     //2. determinazione punto in alto a sx
     val actorTopLeft = previousActorDistanceOrDefault
-    new ActorPoints(actor.id, actorTopLeft, actorBox)
+    ActorPoints(actor.id, actorTopLeft, actorBox)
   }
 }

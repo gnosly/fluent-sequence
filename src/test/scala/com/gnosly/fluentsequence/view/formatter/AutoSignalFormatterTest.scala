@@ -12,19 +12,19 @@ class AutoSignalFormatterTest extends FunSuite with Matchers {
   val ARROW_WIDTH = 6
   val SIGNAL_NAME = "does"
 
-  val fixedWidthAutoSignalFormatter = new AutoSignalFormatter(new FixedPreRenderer())
+  val fixedWidthAutoSignalFormatter = new AutoSignalFormatter(new FixedPreRenderer)
 
   test("first autoSignal") {
     val autoSignal = new AutoSignalComponent(SIGNAL_NAME, 0, 0, 0)
 
     val point = fixedWidthAutoSignalFormatter.format(autoSignal)
 
-    point shouldBe new SignalPoint(0,
-                                   0,
-                                   0,
-                                   Box(ARROW_WIDTH + SIGNAL_NAME.length, 4),
-                                   "right",
-                                   new ReferencePoint(Activity.topRight(0, 0)).down(1).right(1))
+    point shouldBe SignalPoint(0,
+                               0,
+                               0,
+                               Box(ARROW_WIDTH + SIGNAL_NAME.length, 4),
+                               "right",
+                               new ReferencePoint(Activity.topRight(0, 0)).down(1).right(1))
   }
 
   test("second autoSignal") {
@@ -33,7 +33,7 @@ class AutoSignalFormatterTest extends FunSuite with Matchers {
 
     val point = fixedWidthAutoSignalFormatter.format(autoSignal)
 
-    point shouldBe new SignalPoint(
+    point shouldBe SignalPoint(
       0,
       0,
       AUTOSIGNAL_INDEX,

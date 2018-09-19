@@ -5,10 +5,10 @@ import org.scalatest.{FunSuite, Matchers}
 class EventBookWriterTest extends FunSuite with Matchers {
 
   test("write encoded data") {
-    val actor = new Actor(USER_TYPE(), "actorName")
-    val anotherActor = new Actor(SEQUENCE_ACTOR_TYPE(), "anotherActorName")
+    val actor = Actor(USER_TYPE(), "actorName")
+    val anotherActor = Actor(SEQUENCE_ACTOR_TYPE(), "anotherActorName")
 
-    val book = new EventBook()
+    val book = EventBook()
       .track(SEQUENCE_STARTED("seqStarted"))
       .track(DONE(actor, "something"))
       .track(CALLED(actor, "call", anotherActor))

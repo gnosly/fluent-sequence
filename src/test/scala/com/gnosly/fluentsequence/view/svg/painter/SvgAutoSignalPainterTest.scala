@@ -8,12 +8,12 @@ import org.scalatest.{FunSuite, Matchers}
 import scala.collection.immutable.HashMap
 
 class SvgAutoSignalPainterTest extends FunSuite with Matchers {
-  val painter = new SvgAutoSignalPainter()
+  val painter = new SvgAutoSignalPainter
 
   test("simple autosignal") {
 
     val pointMap: Map[String, Fixed2dPoint] = HashMap(
-      Coordinates.Activity.rightPointStart(0, 0, 0) -> new Fixed2dPoint(1, 10)
+      Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(1, 10)
     )
 
     val canvas = painter.paint(new AutoSignalComponent("name", 0, 0, 0), pointMap)

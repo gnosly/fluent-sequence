@@ -8,12 +8,12 @@ import org.scalatest.{FunSuite, Matchers}
 import scala.collection.immutable.HashMap
 
 class SvgBiSignalPainterTest extends FunSuite with Matchers {
-  val painter = new SvgBiSignalPainter()
+  val painter = new SvgBiSignalPainter
 
   test("bisignal left to right") {
     val pointMap: Map[String, Fixed2dPoint] = HashMap(
-      Coordinates.Activity.rightPointStart(0, 0, 0) -> new Fixed2dPoint(1, 10),
-      Coordinates.Activity.leftPointStart(1, 0, 0) -> new Fixed2dPoint(10, 10)
+      Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(1, 10),
+      Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(10, 10)
     )
 
     val canvas = painter.paint(new BiSignalComponent("name", 0, 0, 0, 1, 0), pointMap)
@@ -27,8 +27,8 @@ class SvgBiSignalPainterTest extends FunSuite with Matchers {
 
   test("bisignal right to left") {
     val pointMap: Map[String, Fixed2dPoint] = HashMap(
-      Coordinates.Activity.rightPointStart(0, 0, 0) -> new Fixed2dPoint(1, 10),
-      Coordinates.Activity.leftPointStart(1, 0, 0) -> new Fixed2dPoint(10, 10)
+      Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(1, 10),
+      Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(10, 10)
     )
 
     val canvas = painter.paint(new BiSignalComponent("name", 0, 1, 0, 0, 0), pointMap)

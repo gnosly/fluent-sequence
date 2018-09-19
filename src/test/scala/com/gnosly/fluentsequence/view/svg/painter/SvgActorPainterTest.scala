@@ -8,13 +8,13 @@ import org.scalatest.{FunSuite, Matchers}
 import scala.collection.immutable.HashMap
 
 class SvgActorPainterTest extends FunSuite with Matchers {
-  val painter = new SvgActorPainter()
+  val painter = new SvgActorPainter
 
   test("actor") {
 
     val pointMap: Map[String, Fixed2dPoint] = HashMap(
-      Coordinates.Actor.topLeft(0) -> new Fixed2dPoint(1, 1),
-      Coordinates.Actor.bottomMiddle(0) -> new Fixed2dPoint(4, 5)
+      Coordinates.Actor.topLeft(0) -> Fixed2dPoint(1, 1),
+      Coordinates.Actor.bottomMiddle(0) -> Fixed2dPoint(4, 5)
     )
     val canvas = painter.paint(new ActorComponent(0, "name"), pointMap)
     println(canvas)

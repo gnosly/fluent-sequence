@@ -28,14 +28,14 @@ class FixedWidthCanvas(
   }
 
   def merge(other: FixedWidthCanvas): FixedWidthCanvas = {
-    val newCanvas = new FixedWidthCanvas()
+    val newCanvas = new FixedWidthCanvas
     this.canvas.foreach(a => newCanvas.write(a._1, a._2))
     other.canvas.foreach(a => newCanvas.write(a._1, a._2))
     newCanvas
   }
 
   override def print(): String = {
-    val result = new mutable.StringBuilder()
+    val result = new mutable.StringBuilder
     var currentX, currentY = 0l
 
     for ((point, char) <- canvas) {

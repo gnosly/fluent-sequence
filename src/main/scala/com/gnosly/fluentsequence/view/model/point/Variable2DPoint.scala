@@ -6,7 +6,7 @@ case class Variable2DPoint(_x: Point1d, _y: Point1d) extends Point2d {
     this(Fixed1DPoint(x), Fixed1DPoint(y))
   }
 
-  def resolve(pointMap: PointMap): Fixed2dPoint = new Fixed2dPoint(x.resolve(pointMap).x, y.resolve(pointMap).x)
+  def resolve(pointMap: PointMap): Fixed2dPoint = Fixed2dPoint(x.resolve(pointMap).x, y.resolve(pointMap).x)
 
   def atY(newY: Long): Point2d = atY(Fixed1DPoint(newY))
 

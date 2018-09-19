@@ -8,7 +8,7 @@ import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
 class SvgAutoSignalPainter() extends ComponentPainter[AutoSignalComponent] {
   override def paint(autoSignal: AutoSignalComponent, pointMap: Map[String, Fixed2dPoint]): SvgCanvas = {
-    val canvas = new SvgCanvas()
+    val canvas = new SvgCanvas
     val signalPoint = pointMap(
       Activity.rightPointStart(autoSignal.actorId, autoSignal.activityId, autoSignal.currentIndex))
 

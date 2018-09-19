@@ -8,11 +8,11 @@ import com.gnosly.fluentsequence.view.model.component._
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class FixedWidthPainter extends Painter {
-  val actorPainter = new FixedWidthActorPainter()
-  val biSignalPainter = new FixedWidthBiSignalPainter()
-  val autoSignalPainter = new FixedWidthAutoSignalPainter()
-  val preRenderer = new FixedPreRenderer()
-  val activityPainter = new FixedWidthActivityPainter()
+  val actorPainter = new FixedWidthActorPainter
+  val biSignalPainter = new FixedWidthBiSignalPainter
+  val autoSignalPainter = new FixedWidthAutoSignalPainter
+  val preRenderer = new FixedPreRenderer
+  val activityPainter = new FixedWidthActivityPainter
 
   override def paint(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
     val titleCanvas = paintTitle(viewModel, pointMap)
@@ -40,7 +40,7 @@ class FixedWidthPainter extends Painter {
   }
 
   private def paintTitle(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
-    val canvas = new FixedWidthCanvas()
+    val canvas = new FixedWidthCanvas
     val sequenceWidth = allColumnWidth(viewModel, pointMap)
     val sequenceHeight = pointMap(ViewMatrix.row(viewModel.lastSignalIndex)).x + 3
 

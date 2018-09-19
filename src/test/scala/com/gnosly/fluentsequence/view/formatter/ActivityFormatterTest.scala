@@ -7,7 +7,7 @@ import com.gnosly.fluentsequence.view.model.point.{Reference1DPoint, ReferencePo
 import org.scalatest.{FunSuite, Matchers}
 
 class ActivityFormatterTest extends FunSuite with Matchers {
-  val formatter = new ActivityFormatter(new FixedPreRenderer())
+  val formatter = new ActivityFormatter(new FixedPreRenderer)
 
   test("format first activity") {
     val LAST_SIGNAL_INDEX = 3

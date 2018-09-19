@@ -15,7 +15,7 @@ class AutoSignalFormatter(preRenderer: PreRenderer) {
     //2. determinazione punto in alto a sx
     val signalTopLeft = previousIndexPointOrDefaultForAutoSignal(activityTopRight, signal)
 
-    new SignalPoint(signal.fromActorId, signal.fromActivityId, signal.currentIndex, signalBox, "right", signalTopLeft)
+    SignalPoint(signal.fromActorId, signal.fromActivityId, signal.currentIndex, signalBox, "right", signalTopLeft)
   }
 
   def previousIndexPointOrDefaultForAutoSignal(activityTopRight: Point2d, signal: SignalComponent): Point2d = {

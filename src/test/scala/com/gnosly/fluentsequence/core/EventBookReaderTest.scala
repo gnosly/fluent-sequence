@@ -5,10 +5,10 @@ import org.scalatest.{FunSuite, Matchers}
 class EventBookReaderTest extends FunSuite with Matchers {
 
   test("read encoded data") {
-    val actor = new Actor(USER_TYPE(), "actorName")
-    val anotherActor = new Actor(SEQUENCE_ACTOR_TYPE(), "anotherActorName")
+    val actor = Actor(USER_TYPE(), "actorName")
+    val anotherActor = Actor(SEQUENCE_ACTOR_TYPE(), "anotherActorName")
 
-    val reader = new EventBookReader()
+    val reader = new EventBookReader
 
     val eventBook = reader.read("""SEQUENCE_STARTED|seqStarted
 									|DONE|USER_TYPE|actorName|something
@@ -17,7 +17,7 @@ class EventBookReaderTest extends FunSuite with Matchers {
 									|NEW_SEQUENCE_SCHEDULED|USER_TYPE|actorName|newSeqStarted
 									|SEQUENCE_ENDED|seqEnded""".stripMargin)
 
-    val expectedEventBook = new EventBook()
+    val expectedEventBook = EventBook()
       .track(SEQUENCE_STARTED("seqStarted"))
       .track(DONE(actor, "something"))
       .track(CALLED(actor, "call", anotherActor))

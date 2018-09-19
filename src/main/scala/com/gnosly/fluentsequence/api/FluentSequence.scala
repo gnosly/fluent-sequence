@@ -5,14 +5,14 @@ import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthViewer
 import com.gnosly.fluentsequence.view.svg.SvgViewer
 
 object FluentSequence {
-  val fixedWidthViewer = new FixedWidthViewer()
-  val svgViewer = new SvgViewer()
+  val fixedWidthViewer = new FixedWidthViewer
+  val svgViewer = new SvgViewer
 
   def to(actor: FluentActor): FluentActor = ???
 
   case class Sequence(name: String) extends EventBookable {
 
-    val eventBook = new EventBook()
+    val eventBook = EventBook()
 
     def printToConsole() = {
       println(fixedWidthViewer.view(this.toEventBook))
@@ -85,26 +85,26 @@ object FluentSequence {
       with Actorable {
 
     override def does(sequence: Sequence): SequenceFlow = {
-      val eventBook = new EventBook()
+      val eventBook = EventBook()
         .track(NEW_SEQUENCE_SCHEDULED(this, sequence.name))
         .track(sequence.eventBook :: Nil)
       new SequenceFlow(s"$name ${sequence.name}", eventBook, this)
     }
 
     override def does(action: String): SequenceFlow = {
-      val eventBook = new EventBook()
+      val eventBook = EventBook()
         .track(DONE(this, action))
       new SequenceFlow(s"$name $action", eventBook, this)
     }
 
     override def call(action: String, actor: FluentActor): SequenceFlow = {
-      val eventBook = new EventBook()
+      val eventBook = EventBook()
         .track(CALLED(this, action, actor))
       new SequenceFlow(s"$name $action to ${actor.name}", eventBook, this)
     }
 
     override def reply(action: String, toActor: FluentActor): SequenceFlow = {
-      val eventBook = new EventBook()
+      val eventBook = EventBook()
         .track(REPLIED(this, action, toActor))
       new SequenceFlow(s"$name replied $action to ${toActor.name}", eventBook, this)
     }

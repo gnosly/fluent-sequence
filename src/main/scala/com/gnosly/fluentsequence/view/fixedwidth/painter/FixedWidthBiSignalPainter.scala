@@ -9,7 +9,7 @@ import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 class FixedWidthBiSignalPainter() extends ComponentPainter[BiSignalComponent] {
 
   override def paint(biSignal: BiSignalComponent, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
-    val canvas = new FixedWidthCanvas()
+    val canvas = new FixedWidthCanvas
     if (biSignal.leftToRight) {
       val signalPoint = pointMap(
         Activity.rightPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex))

@@ -9,7 +9,7 @@ import scala.io.Source
 class SvgViewerTest extends FunSuite with Matchers {
   val USER = new User("user")
   val SYSTEM = new FluentActor("system")
-  val viewer = new SvgViewer()
+  val viewer = new SvgViewer
 
   test("view an actor that calls another") {
     val flow = Sequence("example").startWith(

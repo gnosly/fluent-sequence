@@ -8,7 +8,7 @@ import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class FixedWidthAutoSignalPainter() extends ComponentPainter[AutoSignalComponent] {
   override def paint(autoSignal: AutoSignalComponent, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
-    val canvas = new FixedWidthCanvas()
+    val canvas = new FixedWidthCanvas
     val signalPoint = pointMap(
       Activity.rightPointStart(autoSignal.actorId, autoSignal.activityId, autoSignal.currentIndex))
 
