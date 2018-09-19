@@ -32,5 +32,5 @@ class PointMap {
 
   def putAll(entries: Seq[(String, Fixed2dPoint)]) = map ++= entries
 
-  def toMap: mutable.TreeMap[String, Fixed2dPoint] = map
+  def toMap: Map[String, Fixed2dPoint] = map.toMap
 }
