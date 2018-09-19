@@ -15,7 +15,8 @@ class EventBookTest extends FlatSpec with Matchers {
     val book = new EventBook()
       .track(TEST_EVENT("event1"))
       .track(TEST_EVENT("event2"))
-    book.toTimelineEventList shouldBe List(TimelineEvent(0, TEST_EVENT("event1")), TimelineEvent(1, TEST_EVENT("event2")))
+    book.toTimelineEventList shouldBe List(TimelineEvent(0, TEST_EVENT("event1")),
+                                           TimelineEvent(1, TEST_EVENT("event2")))
   }
 
   it should "track a new list of events" in {

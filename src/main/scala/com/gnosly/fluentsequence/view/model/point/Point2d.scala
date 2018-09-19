@@ -1,9 +1,9 @@
 package com.gnosly.fluentsequence.view.model.point
 
 trait Point2d {
-  def x(): Point1d
+  def x: Point1d
 
-  def y(): Point1d
+  def y: Point1d
 
   def resolve(pointMap: PointMap): Fixed2dPoint
 

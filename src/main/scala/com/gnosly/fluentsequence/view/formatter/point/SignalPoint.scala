@@ -26,12 +26,12 @@ case class SignalPoint(actorId: Int,
 
     var point = Fixed1DPoint(0)
     if (direction.equals("right")) {
-      val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(actorId)).x().resolve(pointMap).x
+      val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(actorId)).x.resolve(pointMap).x
       val signalStartX = signalTopLeft.resolve(pointMap).x
       point = Fixed1DPoint(signalStartX - actorStartX + signalBox.width)
     }
 
     currentColumn -> point ::
-      currentRow -> fixedPointEnd.y().resolve(pointMap) :: Nil
+      currentRow -> fixedPointEnd.y.resolve(pointMap) :: Nil
   }
 }

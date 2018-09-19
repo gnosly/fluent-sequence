@@ -18,7 +18,7 @@ object PointableResolverAlgorithms {
       val pointMap = new PointMap()
 
       do () while ({
-        val previousPointMap = pointMap.toMap().toMap
+        val previousPointMap = pointMap.toMap.toMap
 
         pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
         pointMap.put1DPoint(
@@ -29,10 +29,10 @@ object PointableResolverAlgorithms {
             .mapValues(_.reduce(_ max _))
             .toSeq)
 
-        pointMap.toMap().toMap != previousPointMap
+        pointMap.toMap.toMap != previousPointMap
       })
 
-      pointMap.toMap()
+      pointMap.toMap
     }
 
   }

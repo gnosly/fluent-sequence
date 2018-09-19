@@ -10,7 +10,7 @@ class FixedWidthAutoSignalPainter() extends ComponentPainter[AutoSignalComponent
   override def paint(autoSignal: AutoSignalComponent, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
     val canvas = new FixedWidthCanvas()
     val signalPoint = pointMap(
-      Activity.rightPointStart(autoSignal.actorId, autoSignal.activityId, autoSignal.currentIndex()))
+      Activity.rightPointStart(autoSignal.actorId, autoSignal.activityId, autoSignal.currentIndex))
 
     canvas.write(signalPoint, "____")
     canvas.write(signalPoint.down(1), "    |")

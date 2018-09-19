@@ -9,7 +9,7 @@ import com.gnosly.fluentsequence.view.model.point._
 
 class ActorFormatter(preRenderer: PreRenderer) {
   def format(actor: ActorComponent): Pointable = {
-    def previousActorDistanceOrDefault(): Point2d = {
+    def previousActorDistanceOrDefault: Point2d = {
       if (actor.id == 0)
         new Variable2DPoint(LEFT_MARGIN, TOP_MARGIN)
       else {
@@ -21,7 +21,7 @@ class ActorFormatter(preRenderer: PreRenderer) {
     //1. prerenderizzazione
     val actorBox = preRenderer.preRender(actor)
     //2. determinazione punto in alto a sx
-    val actorTopLeft = previousActorDistanceOrDefault()
+    val actorTopLeft = previousActorDistanceOrDefault
     new ActorPoints(actor.id, actorTopLeft, actorBox)
   }
 }

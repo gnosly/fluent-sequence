@@ -16,13 +16,13 @@ case class Variable2DPoint(_x: Point1d, _y: Point1d) extends Point2d {
 
   def left(i: Point1d): Point2d = Variable2DPoint(x - i, _y)
 
-  override def x(): Point1d = _x
+  override def x: Point1d = _x
 
   def right(i: Long): Point2d = right(Fixed1DPoint(i))
 
   def right(i: Point1d): Point2d = Variable2DPoint(x + i, y)
 
-  override def y(): Point1d = _y
+  override def y: Point1d = _y
 
   def up(i: Long): Point2d = up(Fixed1DPoint(i))
 

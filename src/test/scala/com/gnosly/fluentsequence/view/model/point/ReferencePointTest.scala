@@ -15,7 +15,7 @@ class ReferencePointTest extends FunSuite with Matchers {
     point.up(1).resolve(pointMap) shouldBe Fixed2dPoint(0, -1)
     point.right(1).resolve(pointMap) shouldBe Fixed2dPoint(1, 0)
     point.left(1).resolve(pointMap) shouldBe Fixed2dPoint(-1, 0)
-    point.x().resolve(pointMap) shouldBe Fixed1DPoint(0)
-    point.y().resolve(pointMap) shouldBe Fixed1DPoint(0)
+    point.x.resolve(pointMap) shouldBe Fixed1DPoint(0)
+    point.y.resolve(pointMap) shouldBe Fixed1DPoint(0)
   }
 }

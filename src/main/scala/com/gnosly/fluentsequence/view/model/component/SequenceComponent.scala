@@ -12,7 +12,7 @@ class SequenceComponent(val name: String, val startIndex: Int) extends Component
     case _ => false
   }
 
-  override def hashCode(): Int = {
+  override def hashCode: Int = {
     val state = Seq(name, startIndex)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }

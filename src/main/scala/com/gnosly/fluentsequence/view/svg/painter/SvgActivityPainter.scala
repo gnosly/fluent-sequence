@@ -13,7 +13,7 @@ class SvgActivityPainter extends ComponentPainter[ActivityComponent] {
     val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
     val bottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
 
-    if (activity.isFirst()) {
+    if (activity.isFirst) {
       val timelineStart = pointMap(Actor.bottomMiddle(activity.actorId)).up(1)
       canvas.drawLine(timelineStart, bottomLeftActivity.down(1).right(1))
     } else {

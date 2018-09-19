@@ -18,7 +18,7 @@ class SvgAutoSignalPainterTest extends FunSuite with Matchers {
 
     val canvas = painter.paint(new AutoSignalComponent("name", 0, 0, 0), pointMap)
     println(canvas)
-    canvas.content() shouldBe """<polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="0,100 20,100 20,130 2,130"/>
+    canvas.content shouldBe """<polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="0,100 20,100 20,130 2,130"/>
 																|<polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="12,125 2,130 12,135"/>
 																|<text x="40" y="120" font-size="16px" text-anchor="start">name</text>
 																|""".stripMargin

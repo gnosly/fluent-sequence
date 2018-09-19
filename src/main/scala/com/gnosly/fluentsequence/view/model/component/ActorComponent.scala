@@ -19,7 +19,7 @@ class ActorComponent(val id: Int,
     val lastCalledActivity = called.activeUntil(index)
     val signal =
       new BiSignalComponent(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id)
-    if (signal.leftToRight()) {
+    if (signal.leftToRight) {
       lastCallerActivity.right(signal)
       lastCalledActivity.left(signal)
     } else {
@@ -59,7 +59,7 @@ class ActorComponent(val id: Int,
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[ActorComponent]
 
-  override def hashCode(): Int = {
+  override def hashCode: Int = {
     val state = Seq(id, name, activities)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }

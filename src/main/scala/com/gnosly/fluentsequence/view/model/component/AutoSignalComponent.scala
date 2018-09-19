@@ -14,7 +14,7 @@ class AutoSignalComponent(val name: String, val index: Int, val actorId: Int, va
     case _ => false
   }
 
-  override def hashCode(): Int = {
+  override def hashCode: Int = {
     val state = Seq(name, index, actorId)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }

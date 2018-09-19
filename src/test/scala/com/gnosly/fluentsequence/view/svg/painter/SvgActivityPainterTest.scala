@@ -20,7 +20,7 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
 
     val canvas = painter.paint(new ActivityComponent(0, 0, 0, 10, true), pointMap)
 
-    canvas.content() shouldBe
+    canvas.content shouldBe
       """<line x1="40" y1="40" x2="40" y2="90" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
 				|<rect x="30" y="50" width="20" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
 				|""".stripMargin
@@ -35,7 +35,7 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
 
     val canvas = painter.paint(new ActivityComponent(1, 0, 5, 10, true), pointMap)
 
-    canvas.content() shouldBe
+    canvas.content shouldBe
       """<line x1="40" y1="60" x2="40" y2="260" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
 				|<rect x="30" y="150" width="20" height="100" style="stroke-width: 2.0;stroke: black;fill: white" />
 				|""".stripMargin

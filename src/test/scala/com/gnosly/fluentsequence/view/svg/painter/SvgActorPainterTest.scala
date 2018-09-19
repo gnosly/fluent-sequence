@@ -19,7 +19,7 @@ class SvgActorPainterTest extends FunSuite with Matchers {
     val canvas = painter.paint(new ActorComponent(0, "name"), pointMap)
     println(canvas)
 
-    canvas.content() shouldBe
+    canvas.content shouldBe
       """<rect x="10" y="10" width="60" height="30" style="stroke-width: 2.0;stroke: black;fill: white" />
 				|<text x="40" y="30" font-size="16px" text-anchor="middle">name</text>
 				|""".stripMargin

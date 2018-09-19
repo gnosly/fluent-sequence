@@ -7,7 +7,7 @@ class BiSignalComponent(val name: String,
                         val toActorId: Int,
                         val toActivityId: Int)
     extends SignalComponent(index, fromActorId, fromActivityId) {
-  def leftToRight(): Boolean = fromActorId < toActorId
+  def leftToRight: Boolean = fromActorId < toActorId
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[BiSignalComponent]
 
@@ -21,7 +21,7 @@ class BiSignalComponent(val name: String,
     case _ => false
   }
 
-  override def hashCode(): Int = {
+  override def hashCode: Int = {
     val state = Seq(name, index, fromActorId, toActorId)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }

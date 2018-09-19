@@ -10,23 +10,23 @@ class ActivityComponent(val id: Int,
                         val rightPoints: mutable.TreeMap[Int, RightPoint] = mutable.TreeMap(),
                         val leftPoints: mutable.TreeMap[Int, LeftPoint] = mutable.TreeMap())
     extends Component {
-  def isFirst(): Boolean = id == 0
+  def isFirst: Boolean = id == 0
 
-  def points(): Iterable[ActivityPoint] = rightPoints.values ++ leftPoints.values
+  def points: Iterable[ActivityPoint] = rightPoints.values ++ leftPoints.values
 
   def rightLoop(signal: AutoSignalComponent): Unit = {
     val pointId = rightPoints.size
-    rightPoints.put(pointId, ActivityPointLoopOnTheRight(signal.currentIndex(), signal))
+    rightPoints.put(pointId, ActivityPointLoopOnTheRight(signal.currentIndex, signal))
   }
 
   def right(signal: BiSignalComponent): Unit = {
     val pointId = rightPoints.size
-    rightPoints.put(pointId, ActivityPointForBiSignalOnTheRight(signal.currentIndex(), signal))
+    rightPoints.put(pointId, ActivityPointForBiSignalOnTheRight(signal.currentIndex, signal))
   }
 
   def left(signal: BiSignalComponent): Unit = {
     val pointId = leftPoints.size
-    leftPoints.put(pointId, ActivityPointForBiSignalOnTheLeft(signal.currentIndex(), signal))
+    leftPoints.put(pointId, ActivityPointForBiSignalOnTheLeft(signal.currentIndex, signal))
   }
 
   def end(index: Int): Unit = {
@@ -54,7 +54,7 @@ class ActivityComponent(val id: Int,
     case _ => false
   }
 
-  override def hashCode(): Int = {
+  override def hashCode: Int = {
     val state = Seq(rightPoints, leftPoints, id, fromIndex, toIndex, active)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
@@ -64,17 +64,17 @@ class ActivityComponent(val id: Int,
 
 trait ActivityPoint
 trait RightPoint extends ActivityPoint {
-  def signalComponent(): SignalComponent
+  def signalComponent: SignalComponent
 }
 trait LeftPoint extends ActivityPoint {
-  def signalComponent(): BiSignalComponent
+  def signalComponent: BiSignalComponent
 }
 case class ActivityPointLoopOnTheRight(id: Int, signal: AutoSignalComponent) extends RightPoint {
-  override def signalComponent(): AutoSignalComponent = signal
+  override def signalComponent: AutoSignalComponent = signal
 }
 case class ActivityPointForBiSignalOnTheRight(id: Int, signal: BiSignalComponent) extends RightPoint {
-  override def signalComponent(): BiSignalComponent = signal
+  override def signalComponent: BiSignalComponent = signal
 }
 case class ActivityPointForBiSignalOnTheLeft(id: Int, signal: BiSignalComponent) extends LeftPoint {
-  override def signalComponent(): BiSignalComponent = signal
+  override def signalComponent: BiSignalComponent = signal
 }

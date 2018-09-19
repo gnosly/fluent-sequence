@@ -64,7 +64,7 @@ class SvgCanvas(canvas: String = "") extends Canvas {
     """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="5300" width="5300">""" + "\n" + sb
       .toString() + """</svg>""" + "\n"
 
-  def content(): String = sb.toString()
+  def content: String = sb.toString
 
   def merge(other: SvgCanvas): SvgCanvas = new SvgCanvas(this.sb.append(other.sb.toString()).toString())
 
