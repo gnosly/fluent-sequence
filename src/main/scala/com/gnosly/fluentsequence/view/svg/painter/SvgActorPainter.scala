@@ -8,8 +8,6 @@ import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
 class SvgActorPainter extends ComponentPainter[ActorComponent] {
   override def paint(actor: ActorComponent, pointMap: Map[String, Fixed2dPoint]): SvgCanvas = {
-    val canvas = new SvgCanvas
-
     val padding = 2
     val name = actor.name
     val width = name.length + padding
@@ -17,8 +15,8 @@ class SvgActorPainter extends ComponentPainter[ActorComponent] {
     val actorTopLeft = pointMap(Actor.topLeft(actor.id))
     val actorBottomMiddle = pointMap(Actor.bottomMiddle(actor.id))
 
-    canvas.drawRect(actorTopLeft, width, (actorBottomMiddle.y - actorTopLeft.y) - 1)
-    canvas.drawText(actorBottomMiddle.up(2), name, "middle")
-    canvas
+    new SvgCanvas()
+      .drawRect(actorTopLeft, width, (actorBottomMiddle.y - actorTopLeft.y) - 1)
+      .drawText(actorBottomMiddle.up(2), name, "middle")
   }
 }

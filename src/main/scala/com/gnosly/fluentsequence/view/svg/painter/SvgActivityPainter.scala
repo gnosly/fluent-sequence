@@ -22,7 +22,6 @@ class SvgActivityPainter extends ComponentPainter[ActivityComponent] {
     }
 
     canvas.drawRect(topLeftActivity, 2, bottomLeftActivity.y - topLeftActivity.y)
-    canvas
 
 //		val existNextActivity = pointMap.contains(Activity.bottomLeft(activity.actorId, activity.id + 1))
 //		if (!existNextActivity) { // not exist //todo
