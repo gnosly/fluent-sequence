@@ -8,7 +8,7 @@ import scala.io.Source
 class FixedWidthViewerTest extends FunSuite with Matchers {
   val USER = new User("user")
   val SYSTEM = new FluentActor("system")
-  val viewer = new FixedWidthViewer()
+  val viewer = new FixedWidthViewer
 
   test("view an actor that calls another") {
     val flow = Sequence("example").startWith(
@@ -82,7 +82,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
 
   test("sub sequence") {
 
-    val subSequence = new Sequence("sub sequence")
+    val subSequence = Sequence("sub sequence")
       .startWith(SYSTEM.does("something") :: Nil)
 
     val parentFlow = Sequence("sequence parent").startWith(

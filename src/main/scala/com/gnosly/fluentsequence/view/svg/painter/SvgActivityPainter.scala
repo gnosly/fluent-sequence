@@ -8,12 +8,12 @@ import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
 class SvgActivityPainter extends ComponentPainter[ActivityComponent] {
   override def paint(activity: ActivityComponent, pointMap: Map[String, Fixed2dPoint]): SvgCanvas = {
-    val canvas = new SvgCanvas()
+    val canvas = new SvgCanvas
 
     val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
     val bottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
 
-    if (activity.isFirst()) {
+    if (activity.isFirst) {
       val timelineStart = pointMap(Actor.bottomMiddle(activity.actorId)).up(1)
       canvas.drawLine(timelineStart, bottomLeftActivity.down(1).right(1))
     } else {
@@ -22,7 +22,6 @@ class SvgActivityPainter extends ComponentPainter[ActivityComponent] {
     }
 
     canvas.drawRect(topLeftActivity, 2, bottomLeftActivity.y - topLeftActivity.y)
-    canvas
 
 //		val existNextActivity = pointMap.contains(Activity.bottomLeft(activity.actorId, activity.id + 1))
 //		if (!existNextActivity) { // not exist //todo

@@ -12,7 +12,7 @@ class SignalPointTest extends FunSuite with Matchers {
     val signalPoint =
       SignalPoint(0, 0, 0, Box(SIGNAL_WIDTH, 3), "right", Variable2DPoint(Fixed1DPoint(14L), Fixed1DPoint(0L)))
 
-    val map = new PointMap()
+    val map = new PointMap
     map.putAll(Coordinates.Actor.topLeft(0) -> Fixed2dPoint(10L, 0L) :: Nil)
 
     signalPoint.toMatrixConstraints(map) shouldBe
@@ -24,7 +24,7 @@ class SignalPointTest extends FunSuite with Matchers {
     val signalPoint =
       SignalPoint(0, 0, 0, Box(SIGNAL_WIDTH, 3), "left", Variable2DPoint(Fixed1DPoint(0L), Fixed1DPoint(0L)))
 
-    signalPoint.toMatrixConstraints(new PointMap()) shouldBe
+    signalPoint.toMatrixConstraints(new PointMap) shouldBe
       ViewMatrix.column(0) -> Fixed1DPoint(0) ::
         ViewMatrix.row(0) -> Fixed1DPoint(3) :: Nil
   }

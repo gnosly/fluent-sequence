@@ -11,7 +11,7 @@ import org.scalatest.{FunSuite, Matchers}
 class ActorFormatterTest extends FunSuite with Matchers {
   val ACTOR_NAME = "user"
   val ACTOR_PADDING = 4
-  val formatter = new ActorFormatter(new FixedPreRenderer())
+  val formatter = new ActorFormatter(new FixedPreRenderer)
 
   test("format first actor alone") {
     formatter.format(new ActorComponent(0, ACTOR_NAME, null)) shouldBe

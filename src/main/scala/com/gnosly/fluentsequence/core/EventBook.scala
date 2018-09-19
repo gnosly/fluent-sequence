@@ -14,14 +14,16 @@ object EventBook {
 case class EventBook() {
   private val events: mutable.Buffer[EventBookEvent] = ArrayBuffer()
 
-  def track(event: Event) = {
+  def track(event: Event): EventBook = {
     events += EventBookEvent(event)
+    this
   }
 
-  def track(books: Seq[EventBook]) = {
+  def track(books: Seq[EventBook]): EventBook = {
     books.foreach(book => {
       events ++= book.events
     })
+    this
   }
 
   def toEventList: List[EventBookEvent] = events.toList

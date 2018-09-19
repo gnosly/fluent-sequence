@@ -9,9 +9,9 @@ import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 class FixedWidthActivityPainter() extends ComponentPainter[ActivityComponent] {
 
   override def paint(activity: ActivityComponent, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
-    val canvas = new FixedWidthCanvas()
+    val canvas = new FixedWidthCanvas
 
-    if (activity.isFirst()) {
+    if (activity.isFirst) {
       val timelineStart = pointMap(Actor.bottomMiddle(activity.actorId))
       val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
       0L until topLeftActivity.y - timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
@@ -40,8 +40,6 @@ class FixedWidthActivityPainter() extends ComponentPainter[ActivityComponent] {
     }
 
     canvas.write(bottomLeftActivity, "|_|")
-
-    canvas
   }
 
 }

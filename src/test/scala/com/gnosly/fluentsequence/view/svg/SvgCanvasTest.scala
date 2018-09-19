@@ -7,13 +7,15 @@ class SvgCanvasTest extends FunSuite with Matchers {
   val CANVAS_CONTENT = "canvassss"
 
   test("canvas") {
-    new SvgCanvas(CANVAS_CONTENT).content() shouldBe CANVAS_CONTENT
+    new SvgCanvas(CANVAS_CONTENT).content shouldBe CANVAS_CONTENT
   }
 
   test("draw text") {
-    val canvas = new SvgCanvas()
-    canvas.drawText(Fixed2dPoint(0, 0), "text")
-    canvas.content shouldBe
+    val content = new SvgCanvas()
+      .drawText(Fixed2dPoint(0, 0), "text")
+      .content
+
+    content shouldBe
       """<text x="0" y="0" font-size="16px" text-anchor="start">text</text>
 				|""".stripMargin
   }
@@ -21,7 +23,7 @@ class SvgCanvasTest extends FunSuite with Matchers {
   test("merge") {
     val canvasA = new SvgCanvas("A")
     val canvasB = new SvgCanvas("B")
-    canvasA.merge(canvasB).content() shouldBe """AB"""
+    canvasA.merge(canvasB).content shouldBe """AB"""
   }
 
 }

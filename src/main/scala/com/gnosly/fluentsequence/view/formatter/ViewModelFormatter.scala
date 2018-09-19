@@ -43,7 +43,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
     val signals = for {
       a <- viewModel._actors.values
       b <- a.activities
-      c <- b.points()
+      c <- b.points
     } yield formatSignal(c)
 
     (actors ++ activities ++ signals).toSeq

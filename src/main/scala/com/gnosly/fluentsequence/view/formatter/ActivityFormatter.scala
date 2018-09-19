@@ -16,16 +16,16 @@ class ActivityFormatter(preRenderer: PreRenderer) {
 
     val activityStartY = {
       if (isFirstSignal(activity.fromIndex)) {
-        actorBottomMiddle.y()
+        actorBottomMiddle.y
       } else {
         val lastSignalEnd = Reference1DPoint(ViewMatrix.row(activity.fromIndex - 1))
         val marginSinceLastActivity =
-          new ReferencePoint(Activity.bottomLeft(activity.actorId, activity.id - 1)).down(1).y()
+          new ReferencePoint(Activity.bottomLeft(activity.actorId, activity.id - 1)).down(1).y
         lastSignalEnd.max(marginSinceLastActivity)
       }
     }
 
-    val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth()).atY(activityStartY)
+    val activityTopLeft = actorBottomMiddle.left(activityBox.halfWidth).atY(activityStartY)
     val activityEndY = Reference1DPoint(ViewMatrix.row(activity.toIndex))
 
     ActivityPoints(activity.actorId, activity.id, activityTopLeft, activityBox.width, activityEndY)

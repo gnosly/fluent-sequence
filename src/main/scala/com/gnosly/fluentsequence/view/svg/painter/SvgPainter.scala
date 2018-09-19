@@ -6,10 +6,10 @@ import com.gnosly.fluentsequence.view.model.{Canvas, Painter, ViewModelComponent
 
 //fixme maybe could be one painter
 case class SvgPainter() extends Painter {
-  val actorPainter = new SvgActorPainter()
-  val activityPainter = new SvgActivityPainter()
-  val biSignalPainter = new SvgBiSignalPainter()
-  val autoSignalPainter = new SvgAutoSignalPainter()
+  val actorPainter = new SvgActorPainter
+  val activityPainter = new SvgActivityPainter
+  val biSignalPainter = new SvgBiSignalPainter
+  val autoSignalPainter = new SvgAutoSignalPainter
 
   override def paint(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
 

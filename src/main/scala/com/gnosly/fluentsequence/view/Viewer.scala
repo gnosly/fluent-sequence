@@ -5,7 +5,7 @@ import com.gnosly.fluentsequence.view.formatter.{FixedPreRenderer, ViewModelForm
 import com.gnosly.fluentsequence.view.model.{Canvas, Painter, ViewModelComponentsFactory}
 
 abstract class Viewer(painter: Painter) {
-  val formatter = new ViewModelFormatter(new FixedPreRenderer())
+  val formatter = new ViewModelFormatter(new FixedPreRenderer)
 
   def view(eventBook: EventBook): Canvas = {
     val viewModel = ViewModelComponentsFactory.createFrom(eventBook)

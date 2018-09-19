@@ -9,7 +9,7 @@ import scala.collection.mutable
 object ViewModelComponentsFactory {
 
   def createFrom(book: EventBook) = {
-    val viewModel = new ViewModelComponents()
+    val viewModel = ViewModelComponents()
     val list = book.toTimelineEventList
     list.foreach(
       t => {
@@ -70,9 +70,7 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
     actor
   }
 
-  def lastActorId(): Int = {
-    _actors.size - 1
-  }
+  def lastActorId: Int = _actors.size - 1
 
   def end() = {
     _actors.foreach(a => a._2.end(lastSignalIndex))
