@@ -19,6 +19,8 @@ class EventBookReader {
       case Array("DONE", actorType, name, something) => DONE(Actor(typeFrom(actorType), name), something)
       case Array("CALLED", actorType, name, something, toSomebodyType, toSomebodyName) =>
         CALLED(Actor(typeFrom(actorType), name), something, Actor(typeFrom(toSomebodyType), toSomebodyName))
+      case Array("FIRED", actorType, name, something, toSomebodyType, toSomebodyName) =>
+        FIRED(Actor(typeFrom(actorType), name), something, Actor(typeFrom(toSomebodyType), toSomebodyName))
       case Array("REPLIED", actorType, name, something, toSomebodyType, toSomebodyName) =>
         REPLIED(Actor(typeFrom(actorType), name), something, Actor(typeFrom(toSomebodyType), toSomebodyName))
       case Array("NEW_SEQUENCE_SCHEDULED", actorType, name, sequence) =>
