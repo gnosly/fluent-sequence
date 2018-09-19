@@ -67,8 +67,7 @@ class SvgCanvas(canvas: String = "") extends Canvas {
   }
 
   override def print(): String =
-    """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="5300" width="5300">""" + "\n" + sb
-      .toString + """</svg>""" + "\n"
+    """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="5300" width="5300">""" + "\n" + sb.toString + """</svg>""" + "\n"
 
   def content: String = sb.toString
 

@@ -40,20 +40,22 @@ class FixedWidthPainter extends Painter {
   }
 
   private def paintTitle(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
-    val canvas = new FixedWidthCanvas
     val sequenceWidth = allColumnWidth(viewModel, pointMap)
     val sequenceHeight = pointMap(ViewMatrix.row(viewModel.lastSignalIndex)).x + 3
 
     val component = viewModel.sequenceComponents.head
     val sequenceTitle = component.name
-    canvas.write(Fixed2dPoint(0, 0), r("_", sequenceTitle.length + 3))
-    canvas.write(Fixed2dPoint(0, 1), s"| ${sequenceTitle} \\")
-    canvas.write(Fixed2dPoint(0, 2), "|" + r("-", sequenceWidth))
-    canvas.write(Fixed2dPoint(0, sequenceHeight), "|" + r("_", sequenceWidth))
+
+    val canvas = new FixedWidthCanvas()
+      .write(Fixed2dPoint(0, 0), r("_", sequenceTitle.length + 3))
+      .write(Fixed2dPoint(0, 1), s"| ${sequenceTitle} \\")
+      .write(Fixed2dPoint(0, 2), "|" + r("-", sequenceWidth))
+      .write(Fixed2dPoint(0, sequenceHeight), "|" + r("_", sequenceWidth))
 
     for (y <- 3 until sequenceHeight.toInt) {
-      canvas.write(Fixed2dPoint(0, y), "|")
-      canvas.write(Fixed2dPoint(sequenceWidth, y), "|")
+      canvas
+        .write(Fixed2dPoint(0, y), "|")
+        .write(Fixed2dPoint(sequenceWidth, y), "|")
     }
     canvas
   }

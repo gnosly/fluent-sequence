@@ -19,12 +19,14 @@ class FixedWidthCanvas(
       mutable.TreeMap[Fixed2dPoint, Character]()(dd.SHELL_ORDER))
     extends Canvas {
 
-  def write(topLeftCornerId: Fixed2dPoint, str: String): Unit = {
+  def write(topLeftCornerId: Fixed2dPoint, str: String): FixedWidthCanvas = {
     str.zipWithIndex.foreach(char => write(topLeftCornerId.right(char._2), char._1))
+    this
   }
 
-  def write(point: Fixed2dPoint, character: Character): Unit = {
+  def write(point: Fixed2dPoint, character: Character): FixedWidthCanvas = {
     canvas.put(point, character)
+    this
   }
 
   def merge(other: FixedWidthCanvas): FixedWidthCanvas = {

@@ -40,8 +40,6 @@ class FixedWidthActivityPainter() extends ComponentPainter[ActivityComponent] {
     }
 
     canvas.write(bottomLeftActivity, "|_|")
-
-    canvas
   }
 
 }
