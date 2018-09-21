@@ -31,7 +31,7 @@ class FixedWidthPainter extends Painter {
     } yield
       rightPoint._2.signalComponent match {
         case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
-        case x: AsyncRequest   => biSignalPainter.paint(x, pointMap)
+        case x: AsyncRequest        => biSignalPainter.paint(x, pointMap)
       }
 
     (actorCanvas ++ activityCanvas ++ signalCanvas)
