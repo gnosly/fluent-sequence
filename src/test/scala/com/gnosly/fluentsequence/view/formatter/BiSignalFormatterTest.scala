@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
-import com.gnosly.fluentsequence.view.model.component.{BiSignalComponent, SYNC}
+import com.gnosly.fluentsequence.view.model.component.SyncRequest
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint
 import org.scalatest.{FunSuite, Matchers}
 
@@ -12,7 +12,7 @@ class BiSignalFormatterTest extends FunSuite with Matchers {
   val BISIGNAL_PADDING = 5
 
   test("first bisignal on the right") {
-    val signal = new BiSignalComponent(SIGNAL_NAME, 0, 0, 0, 1, 0, SYNC())
+    val signal = new SyncRequest(SIGNAL_NAME, 0, 0, 0, 1, 0)
 
     val point = new BiSignalFormatter(new FixedPreRenderer).formatOnRight(signal)
 

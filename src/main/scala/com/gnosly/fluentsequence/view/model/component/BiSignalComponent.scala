@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.model.component
 
-class BiSignalComponent(val name: String,
+sealed abstract class BiSignalComponent(val name: String,
                         val index: Int,
                         override val fromActorId: Int,
                         override val fromActivityId: Int,

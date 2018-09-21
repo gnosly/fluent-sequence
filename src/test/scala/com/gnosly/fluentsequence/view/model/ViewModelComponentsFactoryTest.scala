@@ -38,8 +38,8 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
         REPLIED(SYSTEM, "response", USER)
       ))
 
-    val call = new BiSignalComponent("call", 0, 0, 0, 1, 0, SYNC())
-    val response = new BiSignalComponent("response", 1, 1, 0, 0, 0, SYNC())
+    val call = new SyncRequest("call", 0, 0, 0, 1, 0)
+    val response = new SyncResponse("response", 1, 1, 0, 0, 0)
 
     val userRightPoints = mutable.TreeMap[Int, RightPoint](
       0 -> ActivityPointForBiSignalOnTheRight(0, call),
@@ -66,7 +66,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
         FIRED(USER, "call", SYSTEM)
       ))
 
-    val call = new BiSignalComponent("call", 0, 0, 0, 1, 0, ASYNC())
+    val call = new AsyncRequest("call", 0, 0, 0, 1, 0)
 
     val userRightPoints = mutable.TreeMap[Int, RightPoint](
       0 -> ActivityPointForBiSignalOnTheRight(0, call)
@@ -101,8 +101,8 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       ))
 
     val signalA = new AutoSignalComponent("signalA", 0, 0, 0)
-    val signalB = new BiSignalComponent("signalB", 1, 0, 0, 1, 0, SYNC())
-    val signalC = new BiSignalComponent("signalC", 2, 1, 0, 0, 0, SYNC())
+    val signalB = new SyncRequest("signalB", 1, 0, 0, 1, 0)
+    val signalC = new SyncResponse("signalC", 2, 1, 0, 0, 0)
     val signalD = new AutoSignalComponent("signalD", 3, 0, 0)
     val signalE = new AutoSignalComponent("signalE", 4, 0, 0)
 
