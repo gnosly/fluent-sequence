@@ -9,7 +9,8 @@ import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class FixedWidthPainter extends Painter {
   val actorPainter = new FixedWidthActorPainter
-  val biSignalPainter = new FixedWidthAsyncRequestPainter
+  val asyncRequestPainter = new FixedWidthAsyncRequestPainter
+  val syncRequestPainter = new FixedWidthSyncRequestPainter
   val autoSignalPainter = new FixedWidthAutoSignalPainter
   val preRenderer = new FixedPreRenderer
   val activityPainter = new FixedWidthActivityPainter
@@ -31,7 +32,8 @@ class FixedWidthPainter extends Painter {
     } yield
       rightPoint._2.signalComponent match {
         case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
-        case x: AsyncRequest        => biSignalPainter.paint(x, pointMap)
+        case x: AsyncRequest        => asyncRequestPainter.paint(x, pointMap)
+        case x: SyncRequest        => syncRequestPainter.paint(x, pointMap)
       }
 
     (actorCanvas ++ activityCanvas ++ signalCanvas)
