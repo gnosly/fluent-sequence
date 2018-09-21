@@ -11,6 +11,7 @@ class FixedWidthPainter extends Painter {
   val actorPainter = new FixedWidthActorPainter
   val asyncRequestPainter = new FixedWidthAsyncRequestPainter
   val syncRequestPainter = new FixedWidthSyncRequestPainter
+  val syncResponsePainter = new FixedWidthSyncResponsePainter
   val autoSignalPainter = new FixedWidthAutoSignalPainter
   val preRenderer = new FixedPreRenderer
   val activityPainter = new FixedWidthActivityPainter
@@ -34,6 +35,7 @@ class FixedWidthPainter extends Painter {
         case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
         case x: AsyncRequest        => asyncRequestPainter.paint(x, pointMap)
         case x: SyncRequest        => syncRequestPainter.paint(x, pointMap)
+        case x: SyncResponse        => syncResponsePainter.paint(x, pointMap)
       }
 
     (actorCanvas ++ activityCanvas ++ signalCanvas)
