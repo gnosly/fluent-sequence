@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
-import com.gnosly.fluentsequence.view.model.component.{AutoSignalComponent, BiSignalComponent}
+import com.gnosly.fluentsequence.view.model.component.{AsyncRequest, AutoSignalComponent, SyncRequest, SyncResponse}
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.model.{Canvas, Painter, ViewModelComponents}
 
@@ -8,7 +8,9 @@ import com.gnosly.fluentsequence.view.model.{Canvas, Painter, ViewModelComponent
 case class SvgPainter() extends Painter {
   val actorPainter = new SvgActorPainter
   val activityPainter = new SvgActivityPainter
-  val biSignalPainter = new SvgBiSignalPainter
+  val syncRequestPainter = new SvgSyncRequestPainter
+  val syncResponsePainter = new SvgSyncResponsePainter
+  val asyncRequestPainter = new SvgAsyncRequestPainter
   val autoSignalPainter = new SvgAutoSignalPainter
 
   override def paint(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
@@ -27,7 +29,9 @@ case class SvgPainter() extends Painter {
     } yield
       rightPoint._2.signalComponent match {
         case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
-        case x: BiSignalComponent   => biSignalPainter.paint(x, pointMap)
+        case x: SyncRequest         => syncRequestPainter.paint(x, pointMap)
+        case x: SyncResponse         => syncResponsePainter.paint(x, pointMap)
+        case x: AsyncRequest         => asyncRequestPainter.paint(x, pointMap)
       }
 
     (actorCanvas ++ activityCanvas ++ signalCanvas)
