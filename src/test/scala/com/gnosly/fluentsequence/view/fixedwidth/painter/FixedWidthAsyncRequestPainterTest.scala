@@ -21,6 +21,6 @@ class FixedWidthAsyncRequestPainterTest extends FunSuite with Matchers {
     println(print)
     print shouldBe
       /****/ "   async request" + "\n" +
-        /**/ "------------------->"
+        /**/ " - - - - - - - - ->"
   }
 }

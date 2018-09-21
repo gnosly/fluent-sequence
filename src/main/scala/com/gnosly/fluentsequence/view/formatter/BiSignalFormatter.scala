@@ -7,6 +7,7 @@ import com.gnosly.fluentsequence.view.model.PreRenderer
 import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
 import com.gnosly.fluentsequence.view.model.point._
 
+//TODO create three different formatter, one for bisignal type
 class BiSignalFormatter(preRenderer: PreRenderer) {
   //   | |a---------------->| | a= from
   //   | |<---------------a | | a= from
