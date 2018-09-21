@@ -9,7 +9,7 @@ abstract class Viewer(painter: Painter) {
 
   def view(eventBook: EventBook): Canvas = {
     val viewModel = ViewModelComponentsFactory.createFrom(eventBook)
-    val pointMap = formatter.format(viewModel).toMap
+    val pointMap = formatter.format(viewModel)
     val canvas = painter.paint(viewModel, pointMap)
     canvas
   }
