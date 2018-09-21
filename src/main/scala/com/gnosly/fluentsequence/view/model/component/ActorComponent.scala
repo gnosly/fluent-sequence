@@ -14,11 +14,20 @@ class ActorComponent(val id: Int,
     autoSignal
   }
 
-  def link(called: ActorComponent, something: String, index: Int, biSignalComponentType:BiSignalComponentType): SignalComponent = {
+  def link(called: ActorComponent,
+           something: String,
+           index: Int,
+           biSignalComponentType: BiSignalComponentType): SignalComponent = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
     val signal =
-      new BiSignalComponent(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id, biSignalComponentType)
+      new BiSignalComponent(something,
+                            index,
+                            this.id,
+                            lastCallerActivity.id,
+                            called.id,
+                            lastCalledActivity.id,
+                            biSignalComponentType)
     if (signal.leftToRight) {
       lastCallerActivity.right(signal)
       lastCalledActivity.left(signal)
@@ -27,10 +36,6 @@ class ActorComponent(val id: Int,
       lastCalledActivity.right(signal)
     }
     signal
-  }
-
-  def end(index: Int): Unit = {
-    activities.lastOption.foreach(_.end(index))
   }
 
   private def activeUntil(index: Int): ActivityComponent = {
@@ -46,6 +51,40 @@ class ActorComponent(val id: Int,
       activities += component
       component
     }
+  }
+
+  def fired(called: ActorComponent, something: String, index: Int): SignalComponent = {
+    val lastCallerActivity = this.activeUntil(index)
+    val lastCalledActivity = called.activeUntil(index)
+    val signal =
+      new AsyncRequest(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id)
+    if (signal.leftToRight) {
+      lastCallerActivity.right(signal)
+      lastCalledActivity.left(signal)
+    } else {
+      lastCallerActivity.left(signal)
+      lastCalledActivity.right(signal)
+    }
+    signal
+  }
+
+  def called(called: ActorComponent, something: String, index: Int): SignalComponent = {
+    val lastCallerActivity = this.activeUntil(index)
+    val lastCalledActivity = called.activeUntil(index)
+    val signal =
+      new SyncRequest(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id)
+    if (signal.leftToRight) {
+      lastCallerActivity.right(signal)
+      lastCalledActivity.left(signal)
+    } else {
+      lastCallerActivity.left(signal)
+      lastCalledActivity.right(signal)
+    }
+    signal
+  }
+
+  def end(index: Int): Unit = {
+    activities.lastOption.foreach(_.end(index))
   }
 
   override def equals(other: Any): Boolean = other match {

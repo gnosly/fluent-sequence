@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.model.component.{ASYNC, ActorComponent, SYNC, SequenceComponent}
+import com.gnosly.fluentsequence.view.model.component.{ActorComponent, SYNC, SequenceComponent}
 
 import scala.collection.mutable
 
@@ -51,7 +51,7 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
     val caller = createOrGet(who)
     val called = createOrGet(toSomebody)
     /*_signals += */
-    caller.link(called, something, lastSignalIndex, SYNC())
+    caller.called(called, something, lastSignalIndex)
   }
 
   def replied(who: core.Actor, something: String, toSomebody: core.Actor) = {
@@ -68,7 +68,7 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
     val caller = createOrGet(who)
     val called = createOrGet(toSomebody)
     /*_signals += */
-    caller.link(called, something, lastSignalIndex, ASYNC())
+    caller.fired(called, something, lastSignalIndex)
   }
 
   private def createOrGet(who: core.Actor): ActorComponent = {
