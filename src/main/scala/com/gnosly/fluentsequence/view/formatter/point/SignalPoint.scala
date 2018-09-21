@@ -25,7 +25,7 @@ case class SignalPoint(actorId: Int,
     val currentColumn = ViewMatrix.column(actorId)
 
     var point = Fixed1DPoint(0)
-    if (direction.equals("right")) {
+    if (direction == "right") {
       val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(actorId)).x.resolve(pointMap).x
       val signalStartX = signalTopLeft.resolve(pointMap).x
       point = Fixed1DPoint(signalStartX - actorStartX + signalBox.width)
