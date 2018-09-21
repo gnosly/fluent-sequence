@@ -16,6 +16,6 @@ class SvgAsyncRequestPainter() extends ComponentPainter[AsyncRequest] {
 
     new SvgCanvas()
       .drawText(signalPoint.right((distance - biSignal.name.length) / 2), biSignal.name)
-      .drawRightArrow(signalPoint.down(1).left(1), signalPoint.down(1).right(distance))
+      .drawRightArrow(signalPoint.down(1).left(1), signalPoint.down(1).right(distance), ";stroke-dasharray:5,5")
   }
 }

@@ -19,7 +19,7 @@ class SvgAsyncRequestPainterTest extends FunSuite with Matchers {
     println(canvas)
     canvas.content shouldBe
       """<text x="30" y="100" font-size="16px" text-anchor="start">name</text>
-					|<line x1="0" y1="110" x2="98" y2="110" style="stroke:black;stroke-width:1.5;" />
+					|<line x1="0" y1="110" x2="98" y2="110" style="stroke:black;stroke-width:1.5;stroke-dasharray:5,5;" />
 					|<polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="88,105 98,110 88,115"/>
 					|""".stripMargin
   }
