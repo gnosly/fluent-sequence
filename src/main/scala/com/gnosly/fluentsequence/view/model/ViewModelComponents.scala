@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.model.component.{ActorComponent, SYNC, SequenceComponent}
+import com.gnosly.fluentsequence.view.model.component.{ActorComponent, SequenceComponent}
 
 import scala.collection.mutable
 
@@ -59,7 +59,7 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
     val replier = createOrGet(who)
     val replied = createOrGet(toSomebody)
     /*_signals += */
-    replier.link(replied, something, lastSignalIndex, SYNC())
+    replier.replied(replied, something, lastSignalIndex)
     replier.end(lastSignalIndex)
   }
 

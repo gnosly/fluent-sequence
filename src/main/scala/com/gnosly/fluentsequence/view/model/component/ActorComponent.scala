@@ -14,20 +14,19 @@ class ActorComponent(val id: Int,
     autoSignal
   }
 
-  def link(called: ActorComponent,
+  def replied(called: ActorComponent,
            something: String,
-           index: Int,
-           biSignalComponentType: BiSignalComponentType): SignalComponent = {
+           index: Int
+           ): SignalComponent = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
     val signal =
-      new BiSignalComponent(something,
+      new SyncResponse(something,
                             index,
                             this.id,
                             lastCallerActivity.id,
                             called.id,
-                            lastCalledActivity.id,
-                            biSignalComponentType)
+                            lastCalledActivity.id)
     if (signal.leftToRight) {
       lastCallerActivity.right(signal)
       lastCalledActivity.left(signal)
