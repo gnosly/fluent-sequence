@@ -30,7 +30,7 @@ class ActorComponent(val id: Int,
   }
 
   def end(index: Int): Unit = {
-    activities.last.end(index)
+    activities.lastOption.foreach(_.end(index))
   }
 
   private def activeUntil(index: Int): ActivityComponent = {
