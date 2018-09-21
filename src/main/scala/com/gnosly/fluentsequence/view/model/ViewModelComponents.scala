@@ -16,7 +16,7 @@ object ViewModelComponentsFactory {
         t.event match {
           case DONE(who, something)                => viewModel.done(who, something)
           case CALLED(who, something, toSomebody)  => viewModel.called(who, something, toSomebody)
-          case FIRED(who, something, toSomebody)  => viewModel.fired(who, something, toSomebody)
+          case FIRED(who, something, toSomebody)   => viewModel.fired(who, something, toSomebody)
           case REPLIED(who, something, toSomebody) => viewModel.replied(who, something, toSomebody)
           case SEQUENCE_STARTED(name)              => viewModel.sequenceStarted(name)
           case other                               => println(s"WARN ignoring ${other} creating view model")
@@ -37,7 +37,6 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
   def sequenceStarted(name: String): Unit = {
     sequenceComponents += new SequenceComponent(name, lastSignalIndex)
   }
-
 
   def done(who: core.Actor, something: String): Unit = {
     lastSignalIndex += 1

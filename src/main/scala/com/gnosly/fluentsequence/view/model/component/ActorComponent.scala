@@ -14,19 +14,11 @@ class ActorComponent(val id: Int,
     autoSignal
   }
 
-  def replied(called: ActorComponent,
-           something: String,
-           index: Int
-           ): SignalComponent = {
+  def replied(called: ActorComponent, something: String, index: Int): SignalComponent = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
     val signal =
-      new SyncResponse(something,
-                            index,
-                            this.id,
-                            lastCallerActivity.id,
-                            called.id,
-                            lastCalledActivity.id)
+      new SyncResponse(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id)
     if (signal.leftToRight) {
       lastCallerActivity.right(signal)
       lastCalledActivity.left(signal)

@@ -11,7 +11,7 @@ object EventBook {
   }
 }
 
-case class EventBook(private val events: mutable.Buffer[EventBookEvent] = ArrayBuffer()){
+case class EventBook(private val events: mutable.Buffer[EventBookEvent] = ArrayBuffer()) {
 
   def track(event: Event): EventBook = {
     events += EventBookEvent(event)

@@ -32,21 +32,20 @@ class BiSignalComponent(val name: String,
 }
 
 class SyncRequest(name: String,
-                     override val index: Int,
-                     override val fromActorId: Int,
-                     override val fromActivityId: Int,
-                     override val toActorId: Int,
-                     override val toActivityId: Int)
-    extends BiSignalComponent(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId, SYNC())
-
-class SyncResponse(name: String,
                   override val index: Int,
                   override val fromActorId: Int,
                   override val fromActivityId: Int,
                   override val toActorId: Int,
                   override val toActivityId: Int)
-  extends BiSignalComponent(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId, SYNC())
+    extends BiSignalComponent(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId, SYNC())
 
+class SyncResponse(name: String,
+                   override val index: Int,
+                   override val fromActorId: Int,
+                   override val fromActivityId: Int,
+                   override val toActorId: Int,
+                   override val toActivityId: Int)
+    extends BiSignalComponent(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId, SYNC())
 
 class AsyncRequest(name: String,
                    override val index: Int,
@@ -54,7 +53,7 @@ class AsyncRequest(name: String,
                    override val fromActivityId: Int,
                    override val toActorId: Int,
                    override val toActivityId: Int)
-  extends BiSignalComponent(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId, ASYNC())
+    extends BiSignalComponent(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId, ASYNC())
 
 trait BiSignalComponentType
 
