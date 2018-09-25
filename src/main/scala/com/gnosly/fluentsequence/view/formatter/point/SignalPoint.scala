@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.formatter.point
 
-import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Pointable, ViewMatrix, ViewMatrixContenable}
+import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Pointable, ViewMatrix}
 import com.gnosly.fluentsequence.view.model.point._
 import com.gnosly.fluentsequence.view.model.{Box, Coordinates}
 
@@ -10,8 +10,8 @@ case class SignalPoint(actorId: Int,
                        signalBox: Box,
                        direction: String,
                        signalTopLeft: Point2d)
-    extends Pointable
-    with ViewMatrixContenable {
+    extends Pointable {
+
   private val fixedPointEnd = signalTopLeft.down(signalBox.height)
 
   def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] = {
@@ -32,6 +32,7 @@ case class SignalPoint(actorId: Int,
     }
 
     currentColumn -> point ::
-      currentRow -> fixedPointEnd.y.resolve(pointMap) :: Nil
+      currentRow -> fixedPointEnd.y.resolve(pointMap) ::
+			Nil
   }
 }
