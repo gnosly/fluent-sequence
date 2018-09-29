@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
-import com.gnosly.fluentsequence.view.formatter.{FixedPreRenderer, FormatterConstants}
+import com.gnosly.fluentsequence.view.formatter.FormatterConstants
 import com.gnosly.fluentsequence.view.model.Coordinates._
 import com.gnosly.fluentsequence.view.model._
 import com.gnosly.fluentsequence.view.model.component._
@@ -13,7 +13,6 @@ class FixedWidthPainter extends Painter {
   val syncRequestPainter = new FixedWidthSyncRequestPainter
   val syncResponsePainter = new FixedWidthSyncResponsePainter
   val autoSignalPainter = new FixedWidthAutoSignalPainter
-  val preRenderer = new FixedPreRenderer
   val activityPainter = new FixedWidthActivityPainter
 
   override def paint(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
