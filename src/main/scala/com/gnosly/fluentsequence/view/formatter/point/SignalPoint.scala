@@ -1,8 +1,11 @@
 package com.gnosly.fluentsequence.view.formatter.point
 
-import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Pointable, ViewMatrix}
+import com.gnosly.fluentsequence.view.model.Box
+import com.gnosly.fluentsequence.view.model.Coordinates
+import com.gnosly.fluentsequence.view.model.Coordinates.Activity
+import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
+import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.point._
-import com.gnosly.fluentsequence.view.model.{Box, Coordinates}
 
 case class SignalPoint(actorId: Int,
                        activityId: Int,
@@ -33,6 +36,6 @@ case class SignalPoint(actorId: Int,
 
     currentColumn -> point ::
       currentRow -> fixedPointEnd.y.resolve(pointMap) ::
-			Nil
+      Nil
   }
 }

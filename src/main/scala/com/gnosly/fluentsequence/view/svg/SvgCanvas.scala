@@ -26,7 +26,7 @@ class SvgCanvas(canvas: String = "") extends Canvas {
 
   private val ARROW_HEIGHT = 5
 
-  def drawRightArrow(from: Fixed2dPoint, to: Fixed2dPoint, lineStyle:String = ""): SvgCanvas = {
+  def drawRightArrow(from: Fixed2dPoint, to: Fixed2dPoint, lineStyle: String = ""): SvgCanvas = {
     val toX = multiplier * to.x - STROKE_WIDTH
     val toY = multiplier * to.y
     sb ++= s"""<line x1="${multiplier * from.x}" y1="${multiplier * from.y}" x2="${toX}" y2="${toY}" style="stroke:black;stroke-width:1.5${lineStyle};" />\n"""

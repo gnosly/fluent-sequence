@@ -33,7 +33,7 @@ class FixedWidthPainter extends Painter {
       rightPoint._2.signalComponent match {
         case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
         case x: AsyncRequest        => asyncRequestPainter.paint(x, pointMap)
-        case x: SyncRequest        => syncRequestPainter.paint(x, pointMap)
+        case x: SyncRequest         => syncRequestPainter.paint(x, pointMap)
         case x: SyncResponse        => syncResponsePainter.paint(x, pointMap)
       }
 

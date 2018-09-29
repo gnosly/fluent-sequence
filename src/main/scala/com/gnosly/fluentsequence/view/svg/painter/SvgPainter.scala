@@ -1,8 +1,13 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
-import com.gnosly.fluentsequence.view.model.component.{AsyncRequest, AutoSignalComponent, SyncRequest, SyncResponse}
+import com.gnosly.fluentsequence.view.model.component.AsyncRequest
+import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
+import com.gnosly.fluentsequence.view.model.component.SyncRequest
+import com.gnosly.fluentsequence.view.model.component.SyncResponse
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
-import com.gnosly.fluentsequence.view.model.{Canvas, Painter, ViewModelComponents}
+import com.gnosly.fluentsequence.view.model.Canvas
+import com.gnosly.fluentsequence.view.model.Painter
+import com.gnosly.fluentsequence.view.model.ViewModelComponents
 
 //fixme maybe could be one painter
 case class SvgPainter() extends Painter {
@@ -30,8 +35,8 @@ case class SvgPainter() extends Painter {
       rightPoint._2.signalComponent match {
         case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
         case x: SyncRequest         => syncRequestPainter.paint(x, pointMap)
-        case x: SyncResponse         => syncResponsePainter.paint(x, pointMap)
-        case x: AsyncRequest         => asyncRequestPainter.paint(x, pointMap)
+        case x: SyncResponse        => syncResponsePainter.paint(x, pointMap)
+        case x: AsyncRequest        => asyncRequestPainter.paint(x, pointMap)
       }
 
     (actorCanvas ++ activityCanvas ++ signalCanvas)

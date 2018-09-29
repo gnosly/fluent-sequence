@@ -1,9 +1,13 @@
 package com.gnosly.fluentsequence.view.formatter.point
 
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants
-import com.gnosly.fluentsequence.view.model.Coordinates.{Actor, Pointable, ViewMatrix, ViewMatrixContenable}
+import com.gnosly.fluentsequence.view.model.Box
+import com.gnosly.fluentsequence.view.model.Coordinates
+import com.gnosly.fluentsequence.view.model.Coordinates.Actor
+import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
+import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
+import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrixContenable
 import com.gnosly.fluentsequence.view.model.point._
-import com.gnosly.fluentsequence.view.model.{Box, Coordinates}
 
 case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) extends Pointable with ViewMatrixContenable {
   val actorTopRight = topLeft.right(actorBox.width)

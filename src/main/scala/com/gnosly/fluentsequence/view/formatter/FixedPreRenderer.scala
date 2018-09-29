@@ -1,7 +1,8 @@
 package com.gnosly.fluentsequence.view.formatter
 
+import com.gnosly.fluentsequence.view.model.Box
+import com.gnosly.fluentsequence.view.model.PreRenderer
 import com.gnosly.fluentsequence.view.model.component._
-import com.gnosly.fluentsequence.view.model.{Box, PreRenderer}
 
 class FixedPreRenderer extends PreRenderer {
   override def preRender(actorComponent: ActorComponent): Box = Box(s"| ${actorComponent.name} |".length, 4)

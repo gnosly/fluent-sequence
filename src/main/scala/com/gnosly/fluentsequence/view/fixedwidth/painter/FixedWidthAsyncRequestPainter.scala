@@ -17,7 +17,7 @@ class FixedWidthAsyncRequestPainter() extends ComponentPainter[AsyncRequest] {
 
     new FixedWidthCanvas()
       .write(signalPoint.right((distance - biSignal.name.length) / 2), biSignal.name)
-      .write(signalPoint.down(1), r(" -", distance/2 - 1) + ">")
+      .write(signalPoint.down(1), r(" -", distance / 2 - 1) + ">")
   }
 
   def r(pattern: String, count: Long): String =
