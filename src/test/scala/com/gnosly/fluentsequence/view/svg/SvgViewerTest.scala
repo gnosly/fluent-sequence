@@ -1,8 +1,11 @@
 package com.gnosly.fluentsequence.view.svg
 
-import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, User}
+import com.gnosly.fluentsequence.api.FluentSequence.FluentActor
+import com.gnosly.fluentsequence.api.FluentSequence.Sequence
+import com.gnosly.fluentsequence.api.FluentSequence.User
 import com.gnosly.fluentsequence.view.model.Canvas
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 import scala.io.Source
 

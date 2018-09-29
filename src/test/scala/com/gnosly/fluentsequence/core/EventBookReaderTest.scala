@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.core
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class EventBookReaderTest extends FunSuite with Matchers {
 

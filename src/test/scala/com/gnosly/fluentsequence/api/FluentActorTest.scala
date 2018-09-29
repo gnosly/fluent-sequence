@@ -1,8 +1,10 @@
 package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.api.FluentSequence._
-import com.gnosly.fluentsequence.core.{SEQUENCE_ENDED, _}
-import org.scalatest.{FlatSpec, Matchers}
+import com.gnosly.fluentsequence.core.SEQUENCE_ENDED
+import com.gnosly.fluentsequence.core._
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
 
 class FluentActorTest extends FlatSpec with Matchers {
 

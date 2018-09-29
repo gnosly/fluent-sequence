@@ -1,7 +1,8 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
 
 class FixedWidthCanvasTest extends FlatSpec with Matchers {
   it should "render single point" in {

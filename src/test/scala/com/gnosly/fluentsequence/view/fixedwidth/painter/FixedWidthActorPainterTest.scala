@@ -3,7 +3,8 @@ package com.gnosly.fluentsequence.view.fixedwidth.painter
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class FixedWidthActorPainterTest extends FunSuite with Matchers {
   val painter = new FixedWidthActorPainter

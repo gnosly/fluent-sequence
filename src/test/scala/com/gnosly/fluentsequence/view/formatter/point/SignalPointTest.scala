@@ -1,9 +1,14 @@
 package com.gnosly.fluentsequence.view.formatter.point
 
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, PointMap, Variable2DPoint}
-import com.gnosly.fluentsequence.view.model.{Box, Coordinates}
-import org.scalatest.{FunSuite, Matchers}
+import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
+import com.gnosly.fluentsequence.view.model.point.PointMap
+import com.gnosly.fluentsequence.view.model.point.Variable2DPoint
+import com.gnosly.fluentsequence.view.model.Box
+import com.gnosly.fluentsequence.view.model.Coordinates
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class SignalPointTest extends FunSuite with Matchers {
   private val SIGNAL_WIDTH = 10
@@ -11,7 +16,12 @@ class SignalPointTest extends FunSuite with Matchers {
 
   test("constraint with a right side signal") {
     val signalPoint =
-      SignalPoint(0, 0, 0, Box(SIGNAL_WIDTH, SIGNAL_HEIGHT), "right", Variable2DPoint(Fixed1DPoint(14L), Fixed1DPoint(0L)))
+      SignalPoint(0,
+                  0,
+                  0,
+                  Box(SIGNAL_WIDTH, SIGNAL_HEIGHT),
+                  "right",
+                  Variable2DPoint(Fixed1DPoint(14L), Fixed1DPoint(0L)))
 
     val map = new PointMap
     map.putAll(Coordinates.Actor.topLeft(0) -> Fixed2dPoint(10L, 0L) :: Nil)
@@ -23,7 +33,12 @@ class SignalPointTest extends FunSuite with Matchers {
 
   test("constraint with a left side signal") {
     val signalPoint =
-      SignalPoint(0, 0, 0, Box(SIGNAL_WIDTH, SIGNAL_HEIGHT), "left", Variable2DPoint(Fixed1DPoint(0L), Fixed1DPoint(0L)))
+      SignalPoint(0,
+                  0,
+                  0,
+                  Box(SIGNAL_WIDTH, SIGNAL_HEIGHT),
+                  "left",
+                  Variable2DPoint(Fixed1DPoint(0L), Fixed1DPoint(0L)))
 
     signalPoint.toMatrixConstraints(new PointMap) shouldBe
       ViewMatrix.column(0) -> Fixed1DPoint(0) ::

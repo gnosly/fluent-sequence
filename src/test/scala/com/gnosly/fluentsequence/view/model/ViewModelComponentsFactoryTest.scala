@@ -3,7 +3,8 @@ package com.gnosly.fluentsequence.view.model
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.createFrom
 import com.gnosly.fluentsequence.view.model.component._
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
 
 import scala.collection.mutable
 

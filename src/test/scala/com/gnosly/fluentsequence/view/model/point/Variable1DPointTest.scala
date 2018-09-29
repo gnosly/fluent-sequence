@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.model.point
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class Variable1DPointTest extends FunSuite with Matchers {
 

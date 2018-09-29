@@ -5,7 +5,8 @@ import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.component.SyncRequest
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class BiSignalFormatterTest extends FunSuite with Matchers {
   val SIGNAL_NAME = "signalName"

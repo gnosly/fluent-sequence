@@ -1,7 +1,8 @@
 package com.gnosly.fluentsequence.view.svg
 
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class SvgCanvasTest extends FunSuite with Matchers {
   val CANVAS_CONTENT = "canvassss"

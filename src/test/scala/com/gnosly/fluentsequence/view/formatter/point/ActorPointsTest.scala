@@ -3,8 +3,12 @@ package com.gnosly.fluentsequence.view.formatter.point
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants._
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.Coordinates._
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, PointMap, Variable2DPoint}
-import org.scalatest.{FunSuite, Matchers}
+import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
+import com.gnosly.fluentsequence.view.model.point.PointMap
+import com.gnosly.fluentsequence.view.model.point.Variable2DPoint
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class ActorPointsTest extends FunSuite with Matchers {
   val BOX_WIDTH = 12

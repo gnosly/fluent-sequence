@@ -22,6 +22,7 @@ class ActivityFormatter(preRenderer: PreRenderer) {
         val lastSignalEnd = Reference1DPoint(ViewMatrix.row(activity.fromIndex - 1))
         val marginSinceLastActivity =
           new ReferencePoint(Activity.bottomLeft(activity.actorId, activity.id - 1)).down(1).y
+
         lastSignalEnd.max(marginSinceLastActivity)
       }
     }

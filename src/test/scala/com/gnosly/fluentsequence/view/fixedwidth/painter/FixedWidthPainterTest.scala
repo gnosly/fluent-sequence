@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
 
 class FixedWidthPainterTest extends FlatSpec with Matchers {
   val painter = new FixedWidthPainter

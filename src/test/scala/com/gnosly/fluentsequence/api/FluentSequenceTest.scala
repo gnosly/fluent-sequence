@@ -1,8 +1,11 @@
 package com.gnosly.fluentsequence.api
 
 import com.gnosly.fluentsequence.api.FluentSequence._
-import com.gnosly.fluentsequence.core.{DONE, SEQUENCE_STARTED, _}
-import org.scalatest.{FunSuite, Matchers}
+import com.gnosly.fluentsequence.core.DONE
+import com.gnosly.fluentsequence.core.SEQUENCE_STARTED
+import com.gnosly.fluentsequence.core._
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class FluentSequenceTest extends FunSuite with Matchers {
   val user = new User("user")

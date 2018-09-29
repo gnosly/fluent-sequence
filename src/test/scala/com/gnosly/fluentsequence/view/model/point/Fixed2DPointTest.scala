@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.model.point
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
 
 class Fixed2DPointTest extends FlatSpec with Matchers {
 

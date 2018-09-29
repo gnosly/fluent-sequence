@@ -2,13 +2,14 @@ package com.gnosly.fluentsequence.view.svg.painter
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.component.SyncResponse
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 import scala.collection.immutable.HashMap
 
 class SvgSyncResponsePainterTest extends FunSuite with Matchers {
 
-	val painter = new SvgSyncResponsePainter
+  val painter = new SvgSyncResponsePainter
 
   test("bisignal right to left") {
     val pointMap: Map[String, Fixed2dPoint] = HashMap(

@@ -3,10 +3,15 @@ package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
 import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
 import com.gnosly.fluentsequence.view.model.Box
-import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, ViewMatrix}
+import com.gnosly.fluentsequence.view.model.Coordinates.Activity
+import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Reference1DPoint, ReferencePoint, Variable2DPoint}
-import org.scalatest.{FunSuite, Matchers}
+import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
+import com.gnosly.fluentsequence.view.model.point.Reference1DPoint
+import com.gnosly.fluentsequence.view.model.point.ReferencePoint
+import com.gnosly.fluentsequence.view.model.point.Variable2DPoint
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class AutoSignalFormatterTest extends FunSuite with Matchers {
   val ARROW_WIDTH = 6
