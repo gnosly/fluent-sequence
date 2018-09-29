@@ -16,14 +16,14 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   val bisignalFormatter = new BiSignalFormatter(preRenderer)
   val formatSignal = (signal: ActivityPoint) =>
     signal match {
-      case a: ActivityPointLoopOnTheRight        => autoSignalFormatter.format(a.signalComponent)
-				//Fixme: we could separate those formatting
+      case a: ActivityPointLoopOnTheRight => autoSignalFormatter.format(a.signalComponent)
+      //Fixme: we could separate those formatting
       case b: ActivityPointForBiSignalOnTheRight => bisignalFormatter.formatOnRight(b.signalComponent)
       case b: ActivityPointForBiSignalOnTheLeft  => bisignalFormatter.formatOnLeft(b.signal)
   }
 
   def format(viewModel: ViewModelComponents): Map[String, Fixed2dPoint] = {
-    val pointables = pointableListFor(viewModel)
+    val pointables: Seq[Pointable] = pointableListFor(viewModel)
     loopPointableResolverAlgorithm.resolve(pointables)
   }
 

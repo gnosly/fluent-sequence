@@ -1,6 +1,8 @@
 package com.gnosly.fluentsequence.view.model
 
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, PointMap}
+import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
+import com.gnosly.fluentsequence.view.model.point.PointMap
 
 object Coordinates {
 

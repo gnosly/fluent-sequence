@@ -1,6 +1,8 @@
 package com.gnosly.fluentsequence.api
 
-import com.gnosly.fluentsequence.api.FluentSequence.{FluentActor, Sequence, SequenceFlow}
+import com.gnosly.fluentsequence.api.FluentSequence.FluentActor
+import com.gnosly.fluentsequence.api.FluentSequence.Sequence
+import com.gnosly.fluentsequence.api.FluentSequence.SequenceFlow
 
 trait Actorable {
 

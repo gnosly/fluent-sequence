@@ -1,7 +1,8 @@
 package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.model.point.{Fixed2dPoint, PointMap}
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
+import com.gnosly.fluentsequence.view.model.point.PointMap
 
 object PointableResolverAlgorithms {
   val loopPointableResolverAlgorithm = new LoopPointableResolverAlgorithm

@@ -1,7 +1,8 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.model.ComponentPainter
-import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Actor}
+import com.gnosly.fluentsequence.view.model.Coordinates.Activity
+import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.svg.SvgCanvas
