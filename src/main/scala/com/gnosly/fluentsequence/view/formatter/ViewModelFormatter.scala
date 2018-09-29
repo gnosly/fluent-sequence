@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.model._
+import com.gnosly.fluentsequence.view.model.ViewModelComponents
 import com.gnosly.fluentsequence.view.model.component.ActivityPoint
 import com.gnosly.fluentsequence.view.model.component.ActivityPointForBiSignalOnTheLeft
 import com.gnosly.fluentsequence.view.model.component.ActivityPointForBiSignalOnTheRight
