@@ -21,7 +21,7 @@ class ActivityFormatterTest extends FunSuite with Matchers {
     val INITIAL_START_INDEX = 0
     val LAST_SIGNAL_INDEX = 3
 
-    val activity = new ActivityComponent(ACTIVITY_ID, ACTOR_ID, INITIAL_START_INDEX, LAST_SIGNAL_INDEX, true, null, null)
+    val activity = new ActivityComponent(ACTIVITY_ID, ACTOR_ID, INITIAL_START_INDEX, LAST_SIGNAL_INDEX)
 
     val activityPoints = formatter.format(activity)
 
@@ -35,7 +35,8 @@ class ActivityFormatterTest extends FunSuite with Matchers {
   test("activity that begins in the middle of the sequence") {
     val FIRST_SIGNAL_INDEX = 2
     val LAST_SIGNAL_INDEX = 5
-    val activity = new ActivityComponent(ACTIVITY_ID, ACTOR_ID, FIRST_SIGNAL_INDEX, LAST_SIGNAL_INDEX, true, null, null)
+
+    val activity = new ActivityComponent(ACTIVITY_ID, ACTOR_ID, FIRST_SIGNAL_INDEX, LAST_SIGNAL_INDEX)
 
     val activityPoints = formatter.format(activity)
 
@@ -46,7 +47,7 @@ class ActivityFormatterTest extends FunSuite with Matchers {
         .atY(Reference1DPoint(ViewMatrix.row(FIRST_SIGNAL_INDEX - 1)) max
           new ReferencePoint(Activity.bottomLeft(ACTOR_ID, -1)).down(1).y)
         .left(1),
-			ACTIVITY_FIXED_WIDTH,
+      ACTIVITY_FIXED_WIDTH,
       Reference1DPoint(ViewMatrix.row(LAST_SIGNAL_INDEX))
     )
   }
