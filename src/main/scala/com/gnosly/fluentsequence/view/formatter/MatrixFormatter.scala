@@ -3,10 +3,7 @@ import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETW
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.model.component.ActorComponent
-import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
-import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
-import com.gnosly.fluentsequence.view.model.component.RightPoint
+import com.gnosly.fluentsequence.view.model.component._
 import com.gnosly.fluentsequence.view.model.point._
 
 class MatrixFormatter(fixedPreRenderer: FixedPreRenderer) {
@@ -34,14 +31,21 @@ class MatrixFormatter(fixedPreRenderer: FixedPreRenderer) {
     MatrixPoint(result)
   }
 
-  def auto(acc: Point1d, x: AutoSignalComponent, actorStartX: Point1d): Point1d = {
-    acc
+  def auto(acc: Point1d, signal: AutoSignalComponent, actorStartX: Point1d): Point1d = {
+		columnWidthForcedBySignal(acc, signal, actorStartX)
   }
 
   def bisignal(acc: Point1d, signal: BiSignalComponent, actorStartX: Point1d): Point1d = {
     if (!signal.leftToRight)
       return acc
 
+    columnWidthForcedBySignal(acc, signal, actorStartX)
+  }
+
+  private def columnWidthForcedBySignal(
+      acc: Point1d,
+      signal: SignalComponent,
+      actorStartX: Point1d) = {
     val signalWidth = fixedPreRenderer.preRender(signal).width
 
     val signalStartX =
