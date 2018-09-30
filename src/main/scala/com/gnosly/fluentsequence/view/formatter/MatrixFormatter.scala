@@ -1,4 +1,5 @@
 package com.gnosly.fluentsequence.view.formatter
+import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
@@ -6,15 +7,13 @@ import com.gnosly.fluentsequence.view.model.point._
 
 class MatrixFormatter(fixedPreRenderer: FixedPreRenderer) {
   def format(actor: ActorComponent): Pointable = {
-		val midWidth = fixedPreRenderer.preRender(actor).width / 2
+		val width = fixedPreRenderer.preRender(actor).width
 
-//		val nextActorTopLeftCorner = new ReferencePoint(Coordinates.Actor.topLeft(actor.id + 1)).resolve(pointMap)
-//
-//		if (nextActorTopLeftCorner == Fixed2dPoint(0L, 0L))
-
-//		else
-//			Fixed1DPoint(actorBox.width + FormatterConstants.DISTANCE_BETWEEN_ACTORS)
-
+		if (actor.isLast){
+			MatrixPoint(Fixed1DPoint(width / 2))
+		}else{
+			MatrixPoint(Fixed1DPoint(width + DISTANCE_BETWEEN_ACTORS))
+		}
 
 //		var point = Fixed1DPoint(0)
 //		if (direction == "right") {
@@ -24,7 +23,7 @@ class MatrixFormatter(fixedPreRenderer: FixedPreRenderer) {
 //
 
 
-    new MatrixPoint(Fixed1DPoint(midWidth))
+
   }
 }
 
