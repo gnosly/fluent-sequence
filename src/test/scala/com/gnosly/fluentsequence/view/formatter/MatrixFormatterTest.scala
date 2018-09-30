@@ -16,4 +16,13 @@ class MatrixFormatterTest extends FunSuite with Matchers {
     matrixPoint shouldBe MatrixPoint(Fixed1DPoint((FixedPreRenderer.ACTOR_PADDING + ACTOR_NAME.length) / 2))
   }
 
+	test("column with two actors definition") {
+		val formatter = new MatrixFormatter(new FixedPreRenderer)
+		val actor = new ActorComponent(0, ACTOR_NAME)
+
+		val matrixPoint = formatter.format(actor)
+
+		matrixPoint shouldBe MatrixPoint(Fixed1DPoint((FixedPreRenderer.ACTOR_PADDING + ACTOR_NAME.length) / 2))
+	}
+
 }

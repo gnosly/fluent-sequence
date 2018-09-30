@@ -27,7 +27,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       1 -> ActivityPointLoopOnTheRight(1, somethingElseSignal)
     )
     val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 1, rightPoints = rightPoints)))
+      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 1, rightPoints = rightPoints)), true)
 
     viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent))
   }
@@ -56,7 +56,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     )
 
     val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 1, leftPoints = systemRightPoints)))
+      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 1, leftPoints = systemRightPoints)), true)
 
     viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
   }
@@ -81,7 +81,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     )
 
     val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 0, leftPoints = systemRightPoints)))
+      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 0, leftPoints = systemRightPoints)), true)
 
     viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
   }
@@ -121,10 +121,10 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     )
 
     val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 4, rightPoints = userRightPoints)))
+      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 4, rightPoints = userRightPoints)), false)
 
     val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 1, 2, leftPoints = systemLeftPoints)))
+      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 1, 2, leftPoints = systemLeftPoints)), true)
 
     viewModel shouldBe ViewModelComponents(
       mutable.HashMap("user" -> userComponent, "system" -> systemComponent),
