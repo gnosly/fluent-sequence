@@ -11,4 +11,5 @@ case class Fixed1DPoint(x: Long) extends Point1d {
     case this.x => this
     case _      => that
   }
+  override def toString: String = s"${x}"
 }
