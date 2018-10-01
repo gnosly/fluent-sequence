@@ -31,7 +31,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
 
 		val matrixPoints = for {
 			a <- viewModel._actors.values
-		} yield new MatrixFormatter(preRenderer).format(a)
+		} yield new ColumnFormatter(preRenderer).format(a)
 
     val actors = for {
       a <- viewModel._actors.values

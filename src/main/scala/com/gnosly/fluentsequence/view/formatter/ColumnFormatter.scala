@@ -7,12 +7,10 @@ import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.component._
 import com.gnosly.fluentsequence.view.model.point._
 
-class MatrixFormatter(fixedPreRenderer: FixedPreRenderer) {
+class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
 
   def format(actor: ActorComponent): Pointable = {
-    val width = fixedPreRenderer.preRender(actor).width
-
-		val minWidth = calcMinWidth(actor, width)
+		val minWidth = widthForcedBy(actor)
 
     val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(actor.id)).x
 
@@ -21,16 +19,18 @@ class MatrixFormatter(fixedPreRenderer: FixedPreRenderer) {
       .map(_._2)
       .foldLeft[Point1d](minWidth)((acc, e) => {
         e.signalComponent match {
-          case x: BiSignalComponent   => bisignal(acc, x, actorStartX)
-          case x: AutoSignalComponent => auto(acc, x, actorStartX)
+          case x: BiSignalComponent   => acc max columnWidthForcedByBiSignal(x, actorStartX)
+          case x: AutoSignalComponent => acc max columnWidthForcedByAutoSignal(x, actorStartX)
         }
 
       })
 
-    MatrixPoint(actor.id, result)
+    ColumnPoint(actor.id, result)
   }
 
-  private def calcMinWidth(actor: ActorComponent, width: Long) = {
+  private def widthForcedBy(actor: ActorComponent) = {
+		val width = fixedPreRenderer.preRender(actor).width
+
 		if (actor.isLast) {
 			Fixed1DPoint(width / 2)
 		}else{
@@ -38,15 +38,7 @@ class MatrixFormatter(fixedPreRenderer: FixedPreRenderer) {
 		}
   }
 
-  def auto(acc: Point1d, signal: AutoSignalComponent, actorStartX: Point1d): Point1d = {
-		acc max columnWidthForcedByAutoSignal(signal, actorStartX)
-  }
-
-  def bisignal(acc: Point1d, signal: BiSignalComponent, actorStartX: Point1d): Point1d = {
-		acc max columnWidthForcedByBiSignal(signal, actorStartX)
-  }
-
-	private def columnWidthForcedByAutoSignal(signal: AutoSignalComponent, actorStartX: Point1d) = {
+  private def columnWidthForcedByAutoSignal(signal: AutoSignalComponent, actorStartX: Point1d) = {
 		val signalWidth = fixedPreRenderer.preRender(signal).width
 
 		val actorId = signal.fromActorId
@@ -79,7 +71,7 @@ class MatrixFormatter(fixedPreRenderer: FixedPreRenderer) {
   }
 }
 
-case class MatrixPoint(actorId: Int, columnWidth: Point1d) extends Pointable {
+case class ColumnPoint(actorId: Int, columnWidth: Point1d) extends Pointable {
   override def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] =
     ViewMatrix.column(actorId) -> Fixed2dPoint(columnWidth.resolve(pointMap).x, 0) :: Nil
 }
