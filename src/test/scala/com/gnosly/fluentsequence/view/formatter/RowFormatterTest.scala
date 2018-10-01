@@ -1,17 +1,19 @@
 package com.gnosly.fluentsequence.view.formatter
+import com.gnosly.fluentsequence.view.model.Coordinates
+import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
-import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
+import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, ReferencePoint}
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
 class RowFormatterTest extends FunSuite with Matchers {
-  val SIGNAL_INDEX = 0
+  val SIGNAL_INDEX = 1
 
-  test("first row") {
-    val formatter = new RowFormatter(new FixedPreRenderer)
+	test("autosignal row") {
+		val formatter = new RowFormatter
 
-    val point = formatter.format(new AutoSignalComponent("name", SIGNAL_INDEX, 0, 0))
+		val point = formatter.format(new AutoSignalComponent("", SIGNAL_INDEX, 0, 0))
 
-    point shouldBe RowPoint(SIGNAL_INDEX, Fixed1DPoint(FixedPreRenderer.AUTO_SIGNAL_MIN_HEIGHT))
-  }
+		point shouldBe RowPoint(SIGNAL_INDEX, new ReferencePoint(Activity.pointEnd(0, 0, SIGNAL_INDEX, "right")).y)
+	}
 }

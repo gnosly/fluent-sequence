@@ -1,13 +1,12 @@
 package com.gnosly.fluentsequence.view.formatter
-import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
+import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Pointable}
 import com.gnosly.fluentsequence.view.model.component.SignalComponent
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, Fixed2dPoint, Point1d, PointMap}
+import com.gnosly.fluentsequence.view.model.point._
 
-class RowFormatter(fixedPreRenderer: FixedPreRenderer) {
+class RowFormatter {
 
 	def format(signal: SignalComponent): Pointable = {
-		val height = fixedPreRenderer.preRender(signal).height
-			RowPoint(signal.currentIndex, Fixed1DPoint(height))
+			RowPoint(signal.currentIndex, new ReferencePoint(Activity.pointEnd(signal.fromActorId, signal.fromActivityId, signal.currentIndex, "right")).y)
 	}
 }
 
