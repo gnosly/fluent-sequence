@@ -27,7 +27,6 @@ class SignalPointTest extends FunSuite with Matchers {
     map.putAll(Coordinates.Actor.topLeft(0) -> Fixed2dPoint(10L, 0L) :: Nil)
 
     signalPoint.toMatrixConstraints(map) shouldBe
-      ViewMatrix.column(0) -> Fixed1DPoint(SIGNAL_WIDTH + 4) ::
         ViewMatrix.row(0) -> Fixed1DPoint(SIGNAL_HEIGHT) :: Nil
   }
 
@@ -41,7 +40,6 @@ class SignalPointTest extends FunSuite with Matchers {
                   Variable2DPoint(Fixed1DPoint(0L), Fixed1DPoint(0L)))
 
     signalPoint.toMatrixConstraints(new PointMap) shouldBe
-      ViewMatrix.column(0) -> Fixed1DPoint(0) ::
         ViewMatrix.row(0) -> Fixed1DPoint(SIGNAL_HEIGHT) :: Nil
   }
 }

@@ -85,6 +85,6 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
 
   def end() = {
     _actors.foreach(a => a._2.end(lastSignalIndex))
-		_actors.lastOption.map(_._2.markAsLast)
+		_actors.maxBy(a => a._2.id)._2.markAsLast
   }
 }

@@ -28,6 +28,11 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   }
 
   private def pointableListFor(viewModel: ViewModelComponents): Seq[Pointable] = {
+
+		val matrixPoints = for {
+			a <- viewModel._actors.values
+		} yield new MatrixFormatter(preRenderer).format(a)
+
     val actors = for {
       a <- viewModel._actors.values
     } yield actorFormatter.format(a)
@@ -43,6 +48,6 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       c <- b.points
     } yield formatSignal(c) //FIXME for actors and activities I format the component itself. Here the point
 
-    (actors ++ activities ++ signals).toSeq
+    (matrixPoints ++ actors ++ activities ++ signals).toSeq
   }
 }

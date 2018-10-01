@@ -21,7 +21,7 @@ case class ActorPoints(actorId: Int, topLeft: Point2d, actorBox: Box) extends Po
   }
 
   override def toMatrixConstraints(pointMap: PointMap): Seq[(String, Fixed1DPoint)] = {
-    ViewMatrix.column(actorId) -> columnWidth(pointMap) :: Nil
+    Nil
   }
 
   private def columnWidth(pointMap: PointMap): Fixed1DPoint = {

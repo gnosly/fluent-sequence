@@ -29,7 +29,7 @@ class ViewModelFormatterTest extends FunSuite with Matchers {
     )
 
     val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 1, leftPoints = systemRightPoints)))
+      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 1, leftPoints = systemRightPoints)), true)
 
     val viewModel = ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
 

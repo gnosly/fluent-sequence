@@ -23,8 +23,7 @@ class ActorPointsTest extends FunSuite with Matchers {
 
   test("constraint one actor") {
     val actorPoints = ActorPoints(0, Variable2DPoint(Fixed1DPoint(0), Fixed1DPoint(0)), Box(BOX_WIDTH, 5))
-    actorPoints.toMatrixConstraints(new PointMap) shouldBe
-      ViewMatrix.column(0) -> Fixed1DPoint(6) :: Nil
+    actorPoints.toMatrixConstraints(new PointMap) shouldBe Nil
   }
 
   test("constraint two actors") {
@@ -32,7 +31,6 @@ class ActorPointsTest extends FunSuite with Matchers {
     val map = new PointMap
     map.putAll(Actor.topLeft(1) -> Fixed2dPoint(1, 2) :: Nil)
 
-    actorPoints.toMatrixConstraints(map) shouldBe ViewMatrix.column(0) -> Fixed1DPoint(
-      BOX_WIDTH + DISTANCE_BETWEEN_ACTORS) :: Nil
+    actorPoints.toMatrixConstraints(map) shouldBe Nil
   }
 }
