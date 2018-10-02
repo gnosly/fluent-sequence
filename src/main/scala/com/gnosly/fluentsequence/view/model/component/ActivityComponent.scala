@@ -62,8 +62,8 @@ class ActivityComponent(val id: Int,
   override def toString = s"ActivityComponent($id, $fromIndex, $toIndex, $active,$rightPoints, $leftPoints)"
 }
 
-trait ActivityPoint{
-	def signalComponent: SignalComponent
+trait ActivityPoint {
+  def signalComponent: SignalComponent
 }
 
 trait RightPoint extends ActivityPoint {}

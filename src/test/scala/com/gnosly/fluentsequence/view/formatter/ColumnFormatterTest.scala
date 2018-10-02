@@ -38,7 +38,8 @@ class ColumnFormatterTest extends FunSuite with Matchers {
 
     val matrixPoint = formatter.format(actor)
 
-    matrixPoint shouldBe ColumnPoint(ACTOR_ID, Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS))
+    matrixPoint shouldBe ColumnPoint(ACTOR_ID,
+                                     Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS))
   }
 
   test("column where actor has got different signals") {
@@ -52,43 +53,42 @@ class ColumnFormatterTest extends FunSuite with Matchers {
     val signalWidth = Fixed1DPoint(SIGNAL_NAME.length + FixedPreRenderer.BISIGNAL_FIXED_PADDING)
     val columnWidthForcedBySignal = signalStartX - actorStartX + signalWidth
 
-    matrixPoint shouldBe ColumnPoint(ACTOR_ID,
-			Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS) max columnWidthForcedBySignal
-    )
+    matrixPoint shouldBe ColumnPoint(
+      ACTOR_ID,
+      Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS) max columnWidthForcedBySignal)
   }
 
-	test("column where actor has got replied signal more length then called signal") {
+  test("column where actor has got replied signal more length then called signal") {
 
-		val call = new SyncRequest(SIGNAL_NAME, FIRST_INDEX, ACTOR_ID, ACTIVITY_ID, ANOTHER_ACTOR_ID, NOT_IMPORTANT)
-		val reply = new SyncResponse("VERY LONG MESSAGE", 1, ANOTHER_ACTOR_ID, ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT)
+    val call = new SyncRequest(SIGNAL_NAME, FIRST_INDEX, ACTOR_ID, ACTIVITY_ID, ANOTHER_ACTOR_ID, NOT_IMPORTANT)
+    val reply = new SyncResponse("VERY LONG MESSAGE", 1, ANOTHER_ACTOR_ID, ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT)
 
-		val userRightPoints = mutable.TreeMap[Int, RightPoint](
-			FIRST_INDEX -> ActivityPointForBiSignalOnTheRight(FIRST_INDEX, call),
-			1 -> ActivityPointForBiSignalOnTheRight(1, reply),
-		)
+    val userRightPoints = mutable.TreeMap[Int, RightPoint](
+      FIRST_INDEX -> ActivityPointForBiSignalOnTheRight(FIRST_INDEX, call),
+      1 -> ActivityPointForBiSignalOnTheRight(1, reply),
+    )
 
-		val actor = new ActorComponent(
-			ACTOR_ID,
-			ACTOR_NAME,
-			asBuffer(
-				new ActivityComponent(ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT, NOT_IMPORTANT, rightPoints = userRightPoints)))
+    val actor = new ActorComponent(
+      ACTOR_ID,
+      ACTOR_NAME,
+      asBuffer(
+        new ActivityComponent(ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT, NOT_IMPORTANT, rightPoints = userRightPoints)))
 
-		val matrixPoint = formatter.format(actor)
+    val matrixPoint = formatter.format(actor)
 
-		val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(ACTOR_ID)).x
-		val signalStartX = new ReferencePoint(Activity.pointStart(ACTOR_ID, ACTIVITY_ID, FIRST_INDEX, "right")).x
-		val signalWidth = Fixed1DPoint(SIGNAL_NAME.length + FixedPreRenderer.BISIGNAL_FIXED_PADDING)
-		val columnWidthForcedByCallSignal = signalStartX - actorStartX + signalWidth
+    val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(ACTOR_ID)).x
+    val signalStartX = new ReferencePoint(Activity.pointStart(ACTOR_ID, ACTIVITY_ID, FIRST_INDEX, "right")).x
+    val signalWidth = Fixed1DPoint(SIGNAL_NAME.length + FixedPreRenderer.BISIGNAL_FIXED_PADDING)
+    val columnWidthForcedByCallSignal = signalStartX - actorStartX + signalWidth
 
-		val replySignalStartX = new ReferencePoint(Activity.pointStart(ACTOR_ID, ACTIVITY_ID, 1, "right")).x
-		val replySignalWidth = Fixed1DPoint("VERY LONG MESSAGE".length + FixedPreRenderer.BISIGNAL_FIXED_PADDING)
-		val columnWidthForcedByReplySignal = replySignalStartX - actorStartX + replySignalWidth
+    val replySignalStartX = new ReferencePoint(Activity.pointStart(ACTOR_ID, ACTIVITY_ID, 1, "right")).x
+    val replySignalWidth = Fixed1DPoint("VERY LONG MESSAGE".length + FixedPreRenderer.BISIGNAL_FIXED_PADDING)
+    val columnWidthForcedByReplySignal = replySignalStartX - actorStartX + replySignalWidth
 
-		matrixPoint shouldBe ColumnPoint(ACTOR_ID,
-			Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS) max columnWidthForcedByCallSignal max columnWidthForcedByReplySignal
-		)
-	}
-
+    matrixPoint shouldBe ColumnPoint(
+      ACTOR_ID,
+      Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS) max columnWidthForcedByCallSignal max columnWidthForcedByReplySignal)
+  }
 
   test("column where actor has got auto signals") {
 
@@ -101,29 +101,28 @@ class ColumnFormatterTest extends FunSuite with Matchers {
     val signalWidth = Fixed1DPoint(SIGNAL_NAME.length + AUTO_SIGNAL_FIXED_PADDING)
     val columnWidthForcedBySignal = signalStartX - actorStartX + signalWidth
 
-    matrixPoint shouldBe ColumnPoint(ACTOR_ID,
-			Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS) max columnWidthForcedBySignal
-    )
+    matrixPoint shouldBe ColumnPoint(
+      ACTOR_ID,
+      Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS) max columnWidthForcedBySignal)
   }
 
-	test("column where actor has got auto signals as last") {
+  test("column where actor has got auto signals as last") {
 
-		val somethingSignal = new AutoSignalComponent(SIGNAL_NAME, ACTOR_ID, ACTOR_ID, ACTIVITY_ID)
+    val somethingSignal = new AutoSignalComponent(SIGNAL_NAME, ACTOR_ID, ACTOR_ID, ACTIVITY_ID)
 
-		val matrixPoint = formatter.format(actorWith(ActivityPointLoopOnTheRight(FIRST_INDEX, somethingSignal), true))
+    val matrixPoint = formatter.format(actorWith(ActivityPointLoopOnTheRight(FIRST_INDEX, somethingSignal), true))
 
-		val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(ACTOR_ID)).x
-		val signalStartX = new ReferencePoint(Activity.pointStart(ACTOR_ID, ACTIVITY_ID, FIRST_INDEX, "right")).x
-		val signalWidth = Fixed1DPoint(SIGNAL_NAME.length + AUTO_SIGNAL_FIXED_PADDING)
-		val columnWidthForcedBySignal = signalStartX - actorStartX + signalWidth
+    val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(ACTOR_ID)).x
+    val signalStartX = new ReferencePoint(Activity.pointStart(ACTOR_ID, ACTIVITY_ID, FIRST_INDEX, "right")).x
+    val signalWidth = Fixed1DPoint(SIGNAL_NAME.length + AUTO_SIGNAL_FIXED_PADDING)
+    val columnWidthForcedBySignal = signalStartX - actorStartX + signalWidth
 
-		matrixPoint shouldBe ColumnPoint(ACTOR_ID,
-			Fixed1DPoint((ACTOR_PADDING + ACTOR_NAME.length) / 2) max columnWidthForcedBySignal
-		)
-	}
+    matrixPoint shouldBe ColumnPoint(
+      ACTOR_ID,
+      Fixed1DPoint((ACTOR_PADDING + ACTOR_NAME.length) / 2) max columnWidthForcedBySignal)
+  }
 
-
-	private def actorWith(rightPoint: RightPoint, last: Boolean) = {
+  private def actorWith(rightPoint: RightPoint, last: Boolean) = {
     val userRightPoints = mutable.TreeMap[Int, RightPoint](
       rightPoint.signalComponent.currentIndex -> rightPoint,
     )

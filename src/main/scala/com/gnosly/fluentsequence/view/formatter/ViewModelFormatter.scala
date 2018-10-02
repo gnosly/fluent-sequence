@@ -14,8 +14,8 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   val activityFormatter = new ActivityFormatter(preRenderer)
   val autoSignalFormatter = new AutoSignalFormatter(preRenderer)
   val bisignalFormatter = new BiSignalFormatter(preRenderer)
-	val columnFormatter = new ColumnFormatter(preRenderer)
-	val rowFormatter = new RowFormatter()
+  val columnFormatter = new ColumnFormatter(preRenderer)
+  val rowFormatter = new RowFormatter()
   val formatSignal = (signal: ActivityPoint) =>
     signal match {
       case a: ActivityPointLoopOnTheRight => autoSignalFormatter.format(a.signalComponent)
@@ -29,12 +29,11 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
     loopPointableResolverAlgorithm.resolve(pointables)
   }
 
-
   private def pointableListFor(viewModel: ViewModelComponents): Seq[Pointable] = {
 
-		val columns = for {
-			a <- viewModel._actors.values
-		} yield columnFormatter.format(a)
+    val columns = for {
+      a <- viewModel._actors.values
+    } yield columnFormatter.format(a)
 
     val actors = for {
       a <- viewModel._actors.values
@@ -51,12 +50,12 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       c <- b.points
     } yield formatSignal(c) //FIXME for actors and activities I format the component itself. Here the point
 
-		val rows= for {
-			a <- viewModel._actors.values
-			b <- a.activities
-			c <- b.points
-		} yield rowFormatter.format(c.signalComponent)
+    val rows = for {
+      a <- viewModel._actors.values
+      b <- a.activities
+      c <- b.points
+    } yield rowFormatter.format(c.signalComponent)
 
-		(columns ++ actors ++ activities ++ signals ++ rows).toSeq
+    (columns ++ actors ++ activities ++ signals ++ rows).toSeq
   }
 }

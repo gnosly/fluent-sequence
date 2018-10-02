@@ -5,7 +5,7 @@ import scala.collection.mutable
 class ActorComponent(val id: Int,
                      val name: String,
                      val activities: mutable.Buffer[ActivityComponent] = mutable.Buffer[ActivityComponent](),
-										 var isLast: Boolean = false)
+                     var isLast: Boolean = false)
     extends Component {
   def markAsLast: Unit = isLast = true
 
@@ -97,5 +97,5 @@ class ActorComponent(val id: Int,
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
 
-	override def toString = s"ActorComponent($id, $name, $activities, $isLast)"
+  override def toString = s"ActorComponent($id, $name, $activities, $isLast)"
 }

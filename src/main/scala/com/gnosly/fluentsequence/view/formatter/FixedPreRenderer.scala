@@ -8,7 +8,8 @@ class FixedPreRenderer extends PreRenderer {
   import FixedPreRenderer._
 
   override def preRender(actorComponent: ActorComponent): Box = {
-    Box(actorComponent.name.length + ACTOR_PADDING, ACTOR_MIN_HEIGHT)}
+    Box(actorComponent.name.length + ACTOR_PADDING, ACTOR_MIN_HEIGHT)
+  }
 
   override def preRender(activity: ActivityComponent): Box = Box(ACTIVITY_FIXED_WIDTH, ACTIVITY_MIN_HEIGHT)
 
@@ -19,7 +20,7 @@ class FixedPreRenderer extends PreRenderer {
 }
 
 object FixedPreRenderer {
-	val ACTOR_PADDING = 4
+  val ACTOR_PADDING = 4
   val ACTOR_MIN_HEIGHT = 4
   val ACTIVITY_FIXED_WIDTH = 2
   val ACTIVITY_MIN_HEIGHT = 2
