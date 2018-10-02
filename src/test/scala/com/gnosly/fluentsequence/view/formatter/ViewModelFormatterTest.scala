@@ -35,7 +35,7 @@ class ViewModelFormatterTest extends FunSuite with Matchers {
 
     val formatter = new ViewModelFormatter(new FixedPreRenderer())
 
-    val pointMap: Map[String, Fixed2dPoint] = formatter.format(viewModel)
+    val pointMap = formatter.format(viewModel)
 
     pointMap shouldBe HashMap(
       "actor_0_activity_0_bottom_left" -> Fixed2dPoint(4, 13),

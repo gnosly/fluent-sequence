@@ -5,14 +5,16 @@ import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.model.point.PointMap
 
 object PointableResolverAlgorithms {
+  type ResolvedPoints = Map[String, Fixed2dPoint]
+
   val loopPointableResolverAlgorithm = new LoopPointableResolverAlgorithm
 
   trait PointableResolverAlgorithm {
-    def resolve(pointables: Seq[Pointable]): Map[String, Fixed2dPoint]
+    def resolve(pointables: Seq[Pointable]): ResolvedPoints
   }
 
   class LoopPointableResolverAlgorithm extends PointableResolverAlgorithm {
-    override def resolve(pointables: Seq[Pointable]): Map[String, Fixed2dPoint] = {
+    override def resolve(pointables: Seq[Pointable]): ResolvedPoints = {
 
       val pointMap = new PointMap
 

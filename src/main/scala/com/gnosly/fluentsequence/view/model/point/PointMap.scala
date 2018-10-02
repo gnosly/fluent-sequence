@@ -1,5 +1,7 @@
 package com.gnosly.fluentsequence.view.model.point
 
+import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
+
 import scala.collection.mutable
 
 class PointMap {
@@ -28,5 +30,5 @@ class PointMap {
 
   def putAll(entries: Seq[(String, Fixed2dPoint)]): Unit = map ++= entries
 
-  def toMap: Map[String, Fixed2dPoint] = map.toMap
+  def toMap: ResolvedPoints = map.toMap
 }

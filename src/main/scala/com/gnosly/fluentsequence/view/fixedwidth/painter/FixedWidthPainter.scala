@@ -2,6 +2,7 @@ package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants
+import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.Coordinates._
 import com.gnosly.fluentsequence.view.model._
 import com.gnosly.fluentsequence.view.model.component._
@@ -15,7 +16,7 @@ class FixedWidthPainter extends Painter {
   val autoSignalPainter = new FixedWidthAutoSignalPainter
   val activityPainter = new FixedWidthActivityPainter
 
-  override def paint(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Canvas = {
+  override def paint(viewModel: ViewModelComponents, pointMap: ResolvedPoints): Canvas = {
     val titleCanvas = paintTitle(viewModel, pointMap)
 
     val actorCanvas = viewModel._actors.map(a => actorPainter.paint(a._2, pointMap))
@@ -42,7 +43,7 @@ class FixedWidthPainter extends Painter {
       .merge(titleCanvas)
   }
 
-  private def paintTitle(viewModel: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
+  private def paintTitle(viewModel: ViewModelComponents, pointMap: ResolvedPoints): FixedWidthCanvas = {
     val sequenceWidth = allColumnWidth(viewModel, pointMap)
     val sequenceHeight = pointMap(ViewMatrix.row(viewModel.lastSignalIndex)).x + 3
 
@@ -66,7 +67,7 @@ class FixedWidthPainter extends Painter {
   def r(pattern: String, count: Long): String =
     (0 until count.toInt).map(_ => pattern).reduce(_ + _)
 
-  private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: Map[String, Fixed2dPoint]): Long = {
+  private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: ResolvedPoints): Long = {
     val sequenceWidth = 3
     //FIXME: move into viewModel
     val count = viewModelComponents._actors.foldLeft(0L)((z, a) => {

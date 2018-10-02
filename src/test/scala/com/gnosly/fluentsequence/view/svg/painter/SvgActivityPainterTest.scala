@@ -12,7 +12,7 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
   val painter = new SvgActivityPainter
 
   test("first activity") {
-    val pointMap: Map[String, Fixed2dPoint] = HashMap(
+    val pointMap = HashMap(
       Coordinates.Actor.topLeft(0) -> Fixed2dPoint(1, 1),
       Coordinates.Actor.bottomMiddle(0) -> Fixed2dPoint(4, 5),
       Coordinates.Activity.topLeft(0, 0) -> Fixed2dPoint(3, 5),
@@ -28,7 +28,7 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
   }
 
   test("second activity") {
-    val pointMap: Map[String, Fixed2dPoint] = HashMap(
+    val pointMap = HashMap(
       Coordinates.Activity.bottomLeft(0, 0) -> Fixed2dPoint(3, 5),
       Coordinates.Activity.topLeft(0, 1) -> Fixed2dPoint(3, 15),
       Coordinates.Activity.bottomLeft(0, 1) -> Fixed2dPoint(3, 25)

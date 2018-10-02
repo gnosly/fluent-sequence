@@ -13,7 +13,7 @@ class SvgAutoSignalPainterTest extends FunSuite with Matchers {
 
   test("simple autosignal") {
 
-    val pointMap: Map[String, Fixed2dPoint] = HashMap(
+    val pointMap = HashMap(
       Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(1, 10)
     )
 

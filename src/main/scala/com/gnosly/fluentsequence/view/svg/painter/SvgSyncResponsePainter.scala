@@ -1,14 +1,14 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
+import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.component.SyncResponse
-import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
 class SvgSyncResponsePainter() extends ComponentPainter[SyncResponse] {
 
-  override def paint(biSignal: SyncResponse, pointMap: Map[String, Fixed2dPoint]): SvgCanvas = {
+  override def paint(biSignal: SyncResponse, pointMap: ResolvedPoints): SvgCanvas = {
     val signalLeftPoint = pointMap(
       Activity.rightPointStart(biSignal.toActorId, biSignal.toActivityId, biSignal.currentIndex))
     val signalRightPoint = pointMap(

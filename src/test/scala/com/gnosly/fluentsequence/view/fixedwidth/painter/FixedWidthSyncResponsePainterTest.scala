@@ -11,7 +11,7 @@ class FixedWidthSyncResponsePainterTest extends FunSuite with Matchers {
   val painter = new FixedWidthSyncResponsePainter()
 
   test("right to left") {
-    val map: Map[String, Fixed2dPoint] = HashMap(
+    val map = HashMap(
       Coordinates.Activity.rightPointStart(1, 0, 0) -> Fixed2dPoint(0, 0),
       Coordinates.Activity.leftPointStart(0, 0, 0) -> Fixed2dPoint(20, 0),
     )

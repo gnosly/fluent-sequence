@@ -1,5 +1,6 @@
 package com.gnosly.fluentsequence.view.formatter
 
+import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.ViewModelComponents
@@ -7,7 +8,6 @@ import com.gnosly.fluentsequence.view.model.component.ActivityPoint
 import com.gnosly.fluentsequence.view.model.component.ActivityPointForBiSignalOnTheLeft
 import com.gnosly.fluentsequence.view.model.component.ActivityPointForBiSignalOnTheRight
 import com.gnosly.fluentsequence.view.model.component.ActivityPointLoopOnTheRight
-import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   val actorFormatter = new ActorFormatter(preRenderer)
@@ -24,7 +24,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       case b: ActivityPointForBiSignalOnTheLeft  => bisignalFormatter.formatOnLeft(b.signal)
   }
 
-  def format(viewModel: ViewModelComponents): Map[String, Fixed2dPoint] = {
+  def format(viewModel: ViewModelComponents): ResolvedPoints = {
     val pointables: Seq[Pointable] = pointableListFor(viewModel)
     loopPointableResolverAlgorithm.resolve(pointables)
   }

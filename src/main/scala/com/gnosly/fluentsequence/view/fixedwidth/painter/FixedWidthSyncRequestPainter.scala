@@ -1,14 +1,14 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
+import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.component.SyncRequest
-import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class FixedWidthSyncRequestPainter() extends ComponentPainter[SyncRequest] {
 
-  override def paint(biSignal: SyncRequest, pointMap: Map[String, Fixed2dPoint]): FixedWidthCanvas = {
+  override def paint(biSignal: SyncRequest, pointMap: ResolvedPoints): FixedWidthCanvas = {
     val signalPoint = pointMap(
       Activity.rightPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex))
     val leftActivityPoint = pointMap(
