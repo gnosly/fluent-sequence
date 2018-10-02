@@ -1,16 +1,11 @@
 package com.gnosly.fluentsequence.view.model
 
-import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.model.point.PointMap
 
 object Coordinates {
 
-  trait ViewMatrixContenable {
-    def toMatrixConstraints(pointMap: PointMap): Seq[(String, Fixed1DPoint)] = Seq()
-  }
-
-  trait Pointable extends ViewMatrixContenable {
+  trait Pointable {
     def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)]
   }
 

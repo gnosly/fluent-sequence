@@ -26,10 +26,6 @@ class PointMap {
   private def apply(key: String): Fixed2dPoint =
     map.getOrElse(key, Fixed2dPoint(0, 0))
 
-  def put1DPoint(entries: Seq[(String, Fixed1DPoint)]) {
-    putAll(entries.map(x => (x._1, Fixed2dPoint(x._2.x, 0)))) // x for convention
-  }
-
   def putAll(entries: Seq[(String, Fixed2dPoint)]): Unit = map ++= entries
 
   def toMap: Map[String, Fixed2dPoint] = map.toMap

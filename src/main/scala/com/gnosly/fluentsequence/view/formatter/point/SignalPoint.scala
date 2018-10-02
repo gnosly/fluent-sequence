@@ -3,7 +3,6 @@ package com.gnosly.fluentsequence.view.formatter.point
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.point._
 
 case class SignalPoint(actorId: Int,
@@ -21,11 +20,4 @@ case class SignalPoint(actorId: Int,
       Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd.resolve(pointMap) :: Nil
   }
 
-  override def toMatrixConstraints(pointMap: PointMap): Seq[(String, Fixed1DPoint)] = {
-    //3. aggiornamento rettangoloni
-    val currentRow = ViewMatrix.row(signalIndex)
-
-//    currentRow -> fixedPointEnd.y.resolve(pointMap) ::
-      Nil
-  }
 }

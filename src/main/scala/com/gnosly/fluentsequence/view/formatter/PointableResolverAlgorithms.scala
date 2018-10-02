@@ -20,13 +20,6 @@ object PointableResolverAlgorithms {
         val previousPointMap = pointMap.toMap
 
         pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
-        pointMap.put1DPoint(
-          pointables
-            .flatMap(p => p.toMatrixConstraints(pointMap))
-            .groupBy[String](_._1)
-            .mapValues(x => x.map(_._2))
-            .mapValues(_.reduce(_ max _))
-            .toSeq)
 
         pointMap.toMap != previousPointMap
       })
