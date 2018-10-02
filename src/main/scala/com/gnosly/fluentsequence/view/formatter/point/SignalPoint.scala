@@ -25,7 +25,7 @@ case class SignalPoint(actorId: Int,
     //3. aggiornamento rettangoloni
     val currentRow = ViewMatrix.row(signalIndex)
 
-    currentRow -> fixedPointEnd.y.resolve(pointMap) ::
+//    currentRow -> fixedPointEnd.y.resolve(pointMap) ::
       Nil
   }
 }

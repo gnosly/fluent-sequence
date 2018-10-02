@@ -62,16 +62,16 @@ class ActivityComponent(val id: Int,
   override def toString = s"ActivityComponent($id, $fromIndex, $toIndex, $active,$rightPoints, $leftPoints)"
 }
 
-trait ActivityPoint
-trait RightPoint extends ActivityPoint {
-  def signalComponent: SignalComponent
+trait ActivityPoint{
+	def signalComponent: SignalComponent
 }
-trait LeftPoint extends ActivityPoint {
-  def signalComponent: BiSignalComponent
-}
+
+trait RightPoint extends ActivityPoint {}
+trait LeftPoint extends ActivityPoint {}
 case class ActivityPointLoopOnTheRight(id: Int, signal: AutoSignalComponent) extends RightPoint {
   override def signalComponent: AutoSignalComponent = signal
 }
+//FIXME which value givs this ActivityPointForBiSignalOnTheRight?
 case class ActivityPointForBiSignalOnTheRight(id: Int, signal: BiSignalComponent) extends RightPoint {
   override def signalComponent: BiSignalComponent = signal
 }
