@@ -9,7 +9,7 @@ import scala.collection.mutable
 
 object ViewModelComponentsFactory {
 
-  def createFrom(book: EventBook) = {
+  def viewModelFrom(book: EventBook) = {
     val viewModel = ViewModelComponents()
     val list = book.toTimelineEventList
     list.foreach(

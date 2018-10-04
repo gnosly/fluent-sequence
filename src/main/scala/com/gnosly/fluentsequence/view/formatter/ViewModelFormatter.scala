@@ -10,13 +10,14 @@ import com.gnosly.fluentsequence.view.model.component.ActivityPointForBiSignalOn
 import com.gnosly.fluentsequence.view.model.component.ActivityPointLoopOnTheRight
 
 class ViewModelFormatter(preRenderer: FixedPreRenderer) {
-  val actorFormatter = new ActorFormatter(preRenderer)
-  val activityFormatter = new ActivityFormatter(preRenderer)
-  val autoSignalFormatter = new AutoSignalFormatter(preRenderer)
-  val bisignalFormatter = new BiSignalFormatter(preRenderer)
-  val columnFormatter = new ColumnFormatter(preRenderer)
-  val rowFormatter = new RowFormatter()
-  val formatSignal = (signal: ActivityPoint) =>
+  private val actorFormatter = new ActorFormatter(preRenderer)
+  private val activityFormatter = new ActivityFormatter(preRenderer)
+  private val autoSignalFormatter = new AutoSignalFormatter(preRenderer)
+  private val bisignalFormatter = new BiSignalFormatter(preRenderer)
+  private val columnFormatter = new ColumnFormatter(preRenderer)
+  private val rowFormatter = new RowFormatter()
+  private val widthAndHeightFormatter = new WidthAndHeightFormatter
+  private val formatSignal = (signal: ActivityPoint) =>
     signal match {
       case a: ActivityPointLoopOnTheRight => autoSignalFormatter.format(a.signalComponent)
       //Fixme: we could separate those formatting
@@ -56,6 +57,8 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       c <- b.points
     } yield rowFormatter.format(c.signalComponent)
 
-    (columns ++ actors ++ activities ++ signals ++ rows).toSeq
+    val widthAndHeightPoint = widthAndHeightFormatter.format(viewModel)
+
+    (columns ++ actors ++ activities ++ signals ++ rows ++ List(widthAndHeightPoint)).toSeq
   }
 }

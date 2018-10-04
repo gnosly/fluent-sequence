@@ -47,6 +47,8 @@ object Coordinates {
   }
 
   object ViewMatrix {
+    def width() = "width"
+    def height() = "height"
 
     /**
 			* The column is the space between the topLeftCorner of two actors

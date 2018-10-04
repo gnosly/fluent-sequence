@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.createFrom
+import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.viewModelFrom
 import com.gnosly.fluentsequence.view.model.component._
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -14,7 +14,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
   val USER = Actor(USER_TYPE(), "user")
 
   "generator" should "create view model with DOES " in {
-    val viewModel = createFrom(
+    val viewModel = viewModelFrom(
       EventBook(
         DONE(USER, "something"),
         DONE(USER, "something else")
@@ -33,7 +33,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
   }
 
   it should "create viewModel with REPLY " in {
-    val viewModel = createFrom(
+    val viewModel = viewModelFrom(
       EventBook(
         CALLED(USER, "call", SYSTEM),
         REPLIED(SYSTEM, "response", USER)
@@ -62,7 +62,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
   }
 
   it should "create viewModel with FIRE " in {
-    val viewModel = createFrom(
+    val viewModel = viewModelFrom(
       EventBook(
         FIRED(USER, "call", SYSTEM)
       ))
@@ -87,7 +87,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
   }
 
   it should "count signal index" in {
-    val viewModel = createFrom(
+    val viewModel = viewModelFrom(
       EventBook(
         SEQUENCE_STARTED("sequenceName"),
         DONE(USER, "signalA"),

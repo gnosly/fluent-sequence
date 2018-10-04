@@ -11,7 +11,7 @@ abstract class Viewer(painter: Painter) {
   val formatter = new ViewModelFormatter(new FixedPreRenderer)
 
   def view(eventBook: EventBook): Canvas = {
-    val viewModel = ViewModelComponentsFactory.createFrom(eventBook)
+    val viewModel = ViewModelComponentsFactory.viewModelFrom(eventBook)
     val pointMap = formatter.format(viewModel)
     val canvas = painter.paint(viewModel, pointMap)
     canvas
