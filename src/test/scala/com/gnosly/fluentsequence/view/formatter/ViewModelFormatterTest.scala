@@ -58,7 +58,7 @@ class ViewModelFormatterTest extends FunSuite with Matchers {
       ViewMatrix.row(0) -> Fixed2dPoint(10, 0),
       ViewMatrix.row(1) -> Fixed2dPoint(13, 0),
       ViewMatrix.column(0) -> Fixed2dPoint(22, 0),
-      ViewMatrix.column(1) -> Fixed2dPoint(5, 0)
+      ViewMatrix.column(1) -> Fixed2dPoint(10, 0)
     )
 
   }

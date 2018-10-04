@@ -68,13 +68,13 @@ class FixedWidthPainter extends Painter {
     (0 until count.toInt).map(_ => pattern).reduce(_ + _)
 
   private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: ResolvedPoints): Long = {
-    val sequenceWidth = 3
+    val sequenceWidth = 0
     //FIXME: move into viewModel
     val count = viewModelComponents._actors.foldLeft(0L)((z, a) => {
       z + sequenceWidth + pointMap(ViewMatrix.column(a._2.id)).x
     })
 
-    FormatterConstants.LEFT_MARGIN + count
+    FormatterConstants.LEFT_MARGIN + count + FormatterConstants.RIGHT_MARGIN
   }
 
 }

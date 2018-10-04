@@ -32,7 +32,7 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
     val width = fixedPreRenderer.preRender(actor).width
 
     if (actor.isLast) {
-      Fixed1DPoint(width / 2)
+      Fixed1DPoint(width )
     } else {
       Fixed1DPoint(width + DISTANCE_BETWEEN_ACTORS)
     }
