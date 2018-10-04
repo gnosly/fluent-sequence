@@ -23,23 +23,5 @@ class SvgActivityPainter extends ComponentPainter[ActivityComponent] {
     }
 
     canvas.drawRect(topLeftActivity, 2, bottomLeftActivity.y - topLeftActivity.y)
-
-//		val existNextActivity = pointMap.contains(Activity.bottomLeft(activity.actorId, activity.id + 1))
-//		if (!existNextActivity) { // not exist //todo
-//			val bottomLeft = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
-//			canvas.write(bottomLeft.down(1).right(1), "|")
-//		}
-//
-//		val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
-//		val bottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id))
-//
-//		canvas.write(topLeftActivity, "_|_")
-//
-//		val activityStart = topLeftActivity.down(1)
-//		for (i <- 0L to bottomLeftActivity.up(1).y - activityStart.y) {
-//			canvas.write(activityStart.down(i), "| |")
-//		}
-//
-//		canvas.write(bottomLeftActivity, "|_|")
   }
 }
