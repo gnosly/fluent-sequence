@@ -27,7 +27,7 @@ class WidthAndHeightFormatterTest extends FunSuite with Matchers {
 
     pointable shouldBe
       WidthAndHeightPoint(
-        new ReferencePoint(Coordinates.Actor.topLeft(LAST_ACTOR_ID)).right(new ReferencePoint(Coordinates.ViewMatrix.column(LAST_ACTOR_ID)).x),
+        new ReferencePoint(Coordinates.Actor.topLeft(LAST_ACTOR_ID)).right(new ReferencePoint(Coordinates.ViewMatrix.column(LAST_ACTOR_ID)).x).atY(0),
         new ReferencePoint(Coordinates.ViewMatrix.row(LAST_SIGNAL))
       )
   }
