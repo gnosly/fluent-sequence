@@ -1,9 +1,8 @@
 package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
+import com.gnosly.fluentsequence.view.formatter.point.ColumnPoint
 import com.gnosly.fluentsequence.view.model.Coordinates
-import com.gnosly.fluentsequence.view.model.Coordinates.Activity
-import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
+import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Pointable}
 import com.gnosly.fluentsequence.view.model.component._
 import com.gnosly.fluentsequence.view.model.point._
 
@@ -22,7 +21,6 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
           case x: BiSignalComponent   => acc max columnWidthForcedByBiSignal(x, actorStartX)
           case x: AutoSignalComponent => acc max columnWidthForcedByAutoSignal(x, actorStartX)
         }
-
       })
 
     ColumnPoint(actor.id, result)
@@ -69,9 +67,4 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
 
     signalStartX - actorStartX + Fixed1DPoint(signalWidth)
   }
-}
-
-case class ColumnPoint(actorId: Int, columnWidth: Point1d) extends Pointable {
-  override def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] =
-    ViewMatrix.column(actorId) -> Fixed2dPoint(columnWidth.resolve(pointMap).x, 0) :: Nil
 }

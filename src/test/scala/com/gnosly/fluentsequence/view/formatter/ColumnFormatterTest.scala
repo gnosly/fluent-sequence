@@ -2,6 +2,7 @@ package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.ACTOR_PADDING
 import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.AUTO_SIGNAL_FIXED_PADDING
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
+import com.gnosly.fluentsequence.view.formatter.point.ColumnPoint
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.component._
@@ -27,19 +28,16 @@ class ColumnFormatterTest extends FunSuite with Matchers {
 
     val actor = new ActorComponent(ACTOR_ID, ACTOR_NAME, isLast = true)
 
-    val matrixPoint = formatter.format(actor)
-
-    matrixPoint shouldBe ColumnPoint(ACTOR_ID, Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length))
+    formatter.format(actor) shouldBe ColumnPoint(ACTOR_ID, Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length))
   }
 
   test("column where actor is not the last") {
 
     val actor = new ActorComponent(ACTOR_ID, ACTOR_NAME, isLast = false)
 
-    val matrixPoint = formatter.format(actor)
-
-    matrixPoint shouldBe ColumnPoint(ACTOR_ID,
-                                     Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS))
+    formatter.format(actor) shouldBe ColumnPoint(
+      ACTOR_ID,
+      Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS))
   }
 
   test("column where actor has got different signals") {
@@ -117,9 +115,8 @@ class ColumnFormatterTest extends FunSuite with Matchers {
     val signalWidth = Fixed1DPoint(SIGNAL_NAME.length + AUTO_SIGNAL_FIXED_PADDING)
     val columnWidthForcedBySignal = signalStartX - actorStartX + signalWidth
 
-    columnPoint shouldBe ColumnPoint(
-      ACTOR_ID,
-      Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length) max columnWidthForcedBySignal)
+    columnPoint shouldBe ColumnPoint(ACTOR_ID,
+                                     Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length) max columnWidthForcedBySignal)
   }
 
   private def actorWith(rightPoint: RightPoint, last: Boolean) = {
