@@ -9,12 +9,12 @@ import com.gnosly.fluentsequence.view.model.component._
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class FixedWidthPainter extends Painter {
-  val actorPainter = new FixedWidthActorPainter
-  val asyncRequestPainter = new FixedWidthAsyncRequestPainter
-  val syncRequestPainter = new FixedWidthSyncRequestPainter
-  val syncResponsePainter = new FixedWidthSyncResponsePainter
-  val autoSignalPainter = new FixedWidthAutoSignalPainter
-  val activityPainter = new FixedWidthActivityPainter
+  private val actorPainter = new FixedWidthActorPainter
+  private val asyncRequestPainter = new FixedWidthAsyncRequestPainter
+  private val syncRequestPainter = new FixedWidthSyncRequestPainter
+  private val syncResponsePainter = new FixedWidthSyncResponsePainter
+  private val autoSignalPainter = new FixedWidthAutoSignalPainter
+  private val activityPainter = new FixedWidthActivityPainter
 
   override def paint(viewModel: ViewModelComponents, pointMap: ResolvedPoints): Canvas = {
     val titleCanvas = paintTitle(viewModel, pointMap)
