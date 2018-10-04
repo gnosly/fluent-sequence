@@ -44,8 +44,8 @@ class FixedWidthPainter extends Painter {
   }
 
   private def paintTitle(viewModel: ViewModelComponents, pointMap: ResolvedPoints): FixedWidthCanvas = {
-    val sequenceWidth = allColumnWidth(viewModel, pointMap)
-    val sequenceHeight = pointMap(ViewMatrix.row(viewModel.lastSignalIndex)).x + 3
+    val sequenceWidth = pointMap(ViewMatrix.width()).x + FormatterConstants.RIGHT_MARGIN
+    val sequenceHeight = pointMap(ViewMatrix.height()).x + 3
 
     val component = viewModel.sequenceComponents.head
     val sequenceTitle = component.name
@@ -66,15 +66,5 @@ class FixedWidthPainter extends Painter {
 
   def r(pattern: String, count: Long): String =
     (0 until count.toInt).map(_ => pattern).reduce(_ + _)
-
-  private def allColumnWidth(viewModelComponents: ViewModelComponents, pointMap: ResolvedPoints): Long = {
-    val sequenceWidth = 0
-    //FIXME: move into viewModel
-    val count = viewModelComponents._actors.foldLeft(0L)((z, a) => {
-      z + sequenceWidth + pointMap(ViewMatrix.column(a._2.id)).x
-    })
-
-    FormatterConstants.LEFT_MARGIN + count + FormatterConstants.RIGHT_MARGIN
-  }
 
 }
