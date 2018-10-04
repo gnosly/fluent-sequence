@@ -11,12 +11,12 @@ import com.gnosly.fluentsequence.view.model.component.SyncResponse
 
 //fixme maybe could be one painter
 case class SvgPainter() extends Painter {
-  val actorPainter = new SvgActorPainter
-  val activityPainter = new SvgActivityPainter
-  val syncRequestPainter = new SvgSyncRequestPainter
-  val syncResponsePainter = new SvgSyncResponsePainter
-  val asyncRequestPainter = new SvgAsyncRequestPainter
-  val autoSignalPainter = new SvgAutoSignalPainter
+  private val actorPainter = new SvgActorPainter
+  private val activityPainter = new SvgActivityPainter
+  private val syncRequestPainter = new SvgSyncRequestPainter
+  private val syncResponsePainter = new SvgSyncResponsePainter
+  private val asyncRequestPainter = new SvgAsyncRequestPainter
+  private val autoSignalPainter = new SvgAutoSignalPainter
 
   override def paint(viewModel: ViewModelComponents, pointMap: ResolvedPoints): Canvas = {
 
