@@ -9,12 +9,11 @@ import com.gnosly.fluentsequence.view.model.point._
 class WidthAndHeightFormatter {
   def format(model: ViewModelComponents): Pointable = {
     val width = new ReferencePoint(Actor.topLeft(model.lastActorId))
-      .right(new ReferencePoint(ViewMatrix.column(model.lastActorId)).x).atY(0)
+      .right(new ReferencePoint(ViewMatrix.column(model.lastActorId)).x)
+      .atY(0)
 
     val height = new ReferencePoint(ViewMatrix.row(model.lastSignalIndex))
 
     WidthAndHeightPoint(width, height)
   }
 }
-
-

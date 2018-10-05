@@ -1,10 +1,11 @@
 package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.formatter.point.WidthAndHeightPoint
-import com.gnosly.fluentsequence.view.model.{Coordinates, ViewModelComponents}
+import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.viewModelFrom
-import com.gnosly.fluentsequence.view.model.point.{Fixed1DPoint, ReferencePoint, Variable2DPoint}
-import org.scalatest.{FunSuite, Matchers}
+import com.gnosly.fluentsequence.view.model.point.ReferencePoint
+import org.scalatest.FunSuite
+import org.scalatest.Matchers
 
 class WidthAndHeightFormatterTest extends FunSuite with Matchers {
   val SYSTEM = Actor(SEQUENCE_ACTOR_TYPE(), "system")
@@ -27,7 +28,9 @@ class WidthAndHeightFormatterTest extends FunSuite with Matchers {
 
     pointable shouldBe
       WidthAndHeightPoint(
-        new ReferencePoint(Coordinates.Actor.topLeft(LAST_ACTOR_ID)).right(new ReferencePoint(Coordinates.ViewMatrix.column(LAST_ACTOR_ID)).x).atY(0),
+        new ReferencePoint(Coordinates.Actor.topLeft(LAST_ACTOR_ID))
+          .right(new ReferencePoint(Coordinates.ViewMatrix.column(LAST_ACTOR_ID)).x)
+          .atY(0),
         new ReferencePoint(Coordinates.ViewMatrix.row(LAST_SIGNAL))
       )
   }

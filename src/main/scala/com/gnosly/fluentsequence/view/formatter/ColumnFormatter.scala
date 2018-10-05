@@ -2,7 +2,8 @@ package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
 import com.gnosly.fluentsequence.view.formatter.point.ColumnPoint
 import com.gnosly.fluentsequence.view.model.Coordinates
-import com.gnosly.fluentsequence.view.model.Coordinates.{Activity, Pointable}
+import com.gnosly.fluentsequence.view.model.Coordinates.Activity
+import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.component._
 import com.gnosly.fluentsequence.view.model.point._
 
@@ -30,7 +31,7 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
     val width = fixedPreRenderer.preRender(actor).width
 
     if (actor.isLast) {
-      Fixed1DPoint(width )
+      Fixed1DPoint(width)
     } else {
       Fixed1DPoint(width + DISTANCE_BETWEEN_ACTORS)
     }
