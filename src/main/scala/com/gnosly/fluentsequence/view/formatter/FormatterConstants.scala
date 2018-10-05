@@ -5,5 +5,6 @@ object FormatterConstants {
   val RIGHT_MARGIN = 1
   val LEFT_MARGIN = 2
   val TOP_MARGIN = 3
+  val BOTTOM_MARGIN = 3
   val DISTANCE_BETWEEN_SIGNALS = 1
 }

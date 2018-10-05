@@ -30,8 +30,10 @@ class WidthAndHeightFormatterTest extends FunSuite with Matchers {
       WidthAndHeightPoint(
         new ReferencePoint(Coordinates.Actor.topLeft(LAST_ACTOR_ID))
           .right(new ReferencePoint(Coordinates.ViewMatrix.column(LAST_ACTOR_ID)).x)
+          .right(FormatterConstants.RIGHT_MARGIN)
           .atY(0),
         new ReferencePoint(Coordinates.ViewMatrix.row(LAST_SIGNAL))
+          .right(FormatterConstants.BOTTOM_MARGIN) //FIXME it is down but I'm using 2dPoint for a distance
       )
   }
 }

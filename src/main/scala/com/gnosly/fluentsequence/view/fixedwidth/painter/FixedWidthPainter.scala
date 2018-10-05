@@ -44,8 +44,8 @@ class FixedWidthPainter extends Painter {
   }
 
   private def paintTitle(viewModel: ViewModelComponents, pointMap: ResolvedPoints): FixedWidthCanvas = {
-    val sequenceWidth = pointMap(ViewMatrix.width()).x + FormatterConstants.RIGHT_MARGIN
-    val sequenceHeight = pointMap(ViewMatrix.height()).x + 3
+    val sequenceWidth = pointMap(ViewMatrix.width()).x
+    val sequenceHeight = pointMap(ViewMatrix.height()).x
 
     val component = viewModel.sequenceComponents.head
     val sequenceTitle = component.name

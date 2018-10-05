@@ -49,13 +49,9 @@ class ViewModelFormatterTest extends FunSuite with Matchers {
       ViewMatrix.row(1) -> Fixed2dPoint(13, 0),
       ViewMatrix.column(0) -> Fixed2dPoint(18, 0),
       ViewMatrix.column(1) -> Fixed2dPoint(10, 0),
-      ViewMatrix.width() -> Fixed2dPoint(30, 0),
-      ViewMatrix.height() -> Fixed2dPoint(13, 0),
+      ViewMatrix.width() -> Fixed2dPoint(31, 0),
+      ViewMatrix.height() -> Fixed2dPoint(16, 0),
     )
 
-  }
-
-  private def asBuffer(component: ActivityComponent): mutable.Buffer[ActivityComponent] = {
-    mutable.Buffer[ActivityComponent](component)
   }
 }

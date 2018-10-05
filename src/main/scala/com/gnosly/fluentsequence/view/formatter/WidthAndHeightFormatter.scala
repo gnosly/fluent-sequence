@@ -11,8 +11,9 @@ class WidthAndHeightFormatter {
     val width = new ReferencePoint(Actor.topLeft(model.lastActorId))
       .right(new ReferencePoint(ViewMatrix.column(model.lastActorId)).x)
       .atY(0)
+      .right(FormatterConstants.RIGHT_MARGIN)
 
-    val height = new ReferencePoint(ViewMatrix.row(model.lastSignalIndex))
+    val height = new ReferencePoint(ViewMatrix.row(model.lastSignalIndex)).right(FormatterConstants.BOTTOM_MARGIN)
 
     WidthAndHeightPoint(width, height)
   }
