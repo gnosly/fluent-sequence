@@ -2,6 +2,7 @@ package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.Canvas
+import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.Painter
 import com.gnosly.fluentsequence.view.model.ViewModelComponents
 import com.gnosly.fluentsequence.view.model.component.AsyncRequest
@@ -39,7 +40,11 @@ case class SvgPainter() extends Painter {
         case x: AsyncRequest        => asyncRequestPainter.paint(x, pointMap)
       }
 
+    val width = pointMap(ViewMatrix.width()).x
+    val height = pointMap(ViewMatrix.height()).x
+
     (actorCanvas ++ activityCanvas ++ signalCanvas)
       .reduce(_.merge(_))
+      .withSize(width, height)
   }
 }

@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.view.svg
 import com.gnosly.fluentsequence.view.model.Canvas
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
-class SvgCanvas(canvas: String = "") extends Canvas {
+class SvgCanvas(canvas: String = "", width: Long = 0, height: Long = 0) extends Canvas {
 
   private val STROKE_WIDTH = 2
   private val multiplier = 10
@@ -67,10 +67,12 @@ class SvgCanvas(canvas: String = "") extends Canvas {
   }
 
   override def print(): String =
-    """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="5300" width="5300">""" + "\n" + sb.toString + """</svg>""" + "\n"
+    s"""<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="${height}" width="${width}">""" + "\n" + sb.toString + """</svg>""" + "\n"
 
   def content: String = sb.toString
 
   def merge(other: SvgCanvas): SvgCanvas = new SvgCanvas(this.sb.append(other.sb.toString).toString)
 
+  def withSize(width: Long, height: Long): Canvas =
+    new SvgCanvas(this.sb.toString(), multiplier * width, multiplier * height)
 }
