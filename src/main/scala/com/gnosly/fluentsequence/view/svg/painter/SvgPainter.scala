@@ -21,16 +21,16 @@ case class SvgPainter() extends Painter {
 
   override def paint(viewModel: ViewModelComponents, pointMap: ResolvedPoints): Canvas = {
 
-    val actorCanvas = viewModel._actors.map(a => actorPainter.paint(a._2, pointMap))
+    val actorCanvas = viewModel.actors.map(a => actorPainter.paint(a, pointMap))
 
     val activityCanvas = for {
-      a <- viewModel._actors
-      activity <- a._2.activities
+      a <- viewModel.actors
+      activity <- a.activities
     } yield activityPainter.paint(activity, pointMap)
 
     val signalCanvas = for {
-      a <- viewModel._actors
-      activity <- a._2.activities
+      a <- viewModel.actors
+      activity <- a.activities
       rightPoint <- activity.rightPoints
     } yield
       rightPoint._2.signalComponent match {

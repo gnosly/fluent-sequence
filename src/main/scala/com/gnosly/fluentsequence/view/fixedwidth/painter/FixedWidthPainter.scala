@@ -1,7 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
-import com.gnosly.fluentsequence.view.formatter.FormatterConstants
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.Coordinates._
 import com.gnosly.fluentsequence.view.model._
@@ -19,16 +18,16 @@ class FixedWidthPainter extends Painter {
   override def paint(viewModel: ViewModelComponents, pointMap: ResolvedPoints): Canvas = {
     val titleCanvas = paintTitle(viewModel, pointMap)
 
-    val actorCanvas = viewModel._actors.map(a => actorPainter.paint(a._2, pointMap))
+    val actorCanvas = viewModel.actors.map(a => actorPainter.paint(a, pointMap))
 
     val activityCanvas = for {
-      a <- viewModel._actors
-      activity <- a._2.activities
+      a <- viewModel.actors
+      activity <- a.activities
     } yield activityPainter.paint(activity, pointMap)
 
     val signalCanvas = for {
-      a <- viewModel._actors
-      activity <- a._2.activities
+      a <- viewModel.actors
+      activity <- a.activities
       rightPoint <- activity.rightPoints
     } yield
       rightPoint._2.signalComponent match {

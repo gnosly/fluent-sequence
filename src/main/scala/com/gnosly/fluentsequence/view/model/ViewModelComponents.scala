@@ -29,7 +29,7 @@ object ViewModelComponentsFactory {
   }
 }
 
-case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
+case class ViewModelComponents(private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
                                sequenceComponents: mutable.ListBuffer[SequenceComponent] =
                                  mutable.ListBuffer[SequenceComponent]()) {
 
@@ -54,6 +54,16 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
     caller.called(called, something, lastSignalIndex)
   }
 
+  private def createOrGet(who: core.Actor): ActorComponent = {
+    val actor = _actors.getOrElse(who.name, {
+      val newActor = new ActorComponent(_actors.size, who.name)
+      _actors += who.name -> newActor
+      newActor
+    })
+
+    actor
+  }
+
   def replied(who: core.Actor, something: String, toSomebody: core.Actor) = {
     lastSignalIndex += 1
     val replier = createOrGet(who)
@@ -71,20 +81,13 @@ case class ViewModelComponents(_actors: mutable.HashMap[String, ActorComponent] 
     caller.fired(called, something, lastSignalIndex)
   }
 
-  private def createOrGet(who: core.Actor): ActorComponent = {
-    val actor = _actors.getOrElse(who.name, {
-      val newActor = new ActorComponent(_actors.size, who.name)
-      _actors += who.name -> newActor
-      newActor
-    })
-
-    actor
-  }
-
   def lastActorId: Int = _actors.size - 1
 
   def end() = {
     _actors.foreach(a => a._2.end(lastSignalIndex))
     _actors.maxBy(a => a._2.id)._2.markAsLast
   }
+
+  def actors(): Iterable[ActorComponent] = _actors.values
+
 }
