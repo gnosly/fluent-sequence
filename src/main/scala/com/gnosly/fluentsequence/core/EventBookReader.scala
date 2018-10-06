@@ -25,7 +25,9 @@ class EventBookReader {
         REPLIED(Actor(typeFrom(actorType), name), something, Actor(typeFrom(toSomebodyType), toSomebodyName))
       case Array("NEW_SEQUENCE_SCHEDULED", actorType, name, sequence) =>
         NEW_SEQUENCE_SCHEDULED(Actor(typeFrom(actorType), name), sequence)
-      case Array("SEQUENCE_ENDED", sequence) => SEQUENCE_ENDED(sequence)
+      case Array("SEQUENCE_ENDED", sequence)      => SEQUENCE_ENDED(sequence)
+      case Array("ALTERNATIVE_STARTED", sequence) => ALTERNATIVE_STARTED(sequence)
+      case Array("ALTERNATIVE_ENDED", sequence)   => ALTERNATIVE_ENDED(sequence)
     }
 
   def typeFrom(string: String): ActorType = string match {

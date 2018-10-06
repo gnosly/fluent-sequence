@@ -17,6 +17,8 @@ class EventBookWriter {
       s"REPLIED|${s.who.actorType.name}|${s.who.name}|${s.something}|${s.toSomebody.actorType.name}|${s.toSomebody.name}"
     case s: NEW_SEQUENCE_SCHEDULED => s"NEW_SEQUENCE_SCHEDULED|${s.who.actorType.name}|${s.who.name}|${s.sequence}"
     case s: SEQUENCE_ENDED         => s"SEQUENCE_ENDED|${s.sequence}"
+    case s: ALTERNATIVE_STARTED    => s"ALTERNATIVE_STARTED|${s.sequence}"
+    case s: ALTERNATIVE_ENDED      => s"ALTERNATIVE_ENDED|${s.sequence}"
   }
 
 }

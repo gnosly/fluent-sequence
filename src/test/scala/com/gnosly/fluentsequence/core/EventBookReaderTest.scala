@@ -17,7 +17,9 @@ class EventBookReaderTest extends FunSuite with Matchers {
 									|FIRED|USER_TYPE|actorName|call async|SEQUENCE_ACTOR_TYPE|anotherActorName
 									|REPLIED|USER_TYPE|actorName|reply|SEQUENCE_ACTOR_TYPE|anotherActorName
 									|NEW_SEQUENCE_SCHEDULED|USER_TYPE|actorName|newSeqStarted
-									|SEQUENCE_ENDED|seqEnded""".stripMargin)
+									|SEQUENCE_ENDED|seqEnded
+									|ALTERNATIVE_STARTED|altStart
+									|ALTERNATIVE_ENDED|altEnd""".stripMargin)
 
     val expectedEventBook = EventBook()
       .track(SEQUENCE_STARTED("seqStarted"))
@@ -27,6 +29,8 @@ class EventBookReaderTest extends FunSuite with Matchers {
       .track(REPLIED(actor, "reply", anotherActor))
       .track(NEW_SEQUENCE_SCHEDULED(actor, "newSeqStarted"))
       .track(SEQUENCE_ENDED("seqEnded"))
+      .track(ALTERNATIVE_STARTED("altStart"))
+      .track(ALTERNATIVE_ENDED("altEnd"))
 
     eventBook shouldBe expectedEventBook
   }
