@@ -30,13 +30,13 @@ object ViewModelComponentsFactory {
 }
 
 case class ViewModelComponents(private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
-                               sequenceComponents: mutable.ListBuffer[SequenceComponent] =
+                               private val _sequenceComponents: mutable.ListBuffer[SequenceComponent] =
                                  mutable.ListBuffer[SequenceComponent]()) {
 
   var lastSignalIndex = -1
 
   def sequenceStarted(name: String): Unit = {
-    sequenceComponents += new SequenceComponent(name, lastSignalIndex)
+    _sequenceComponents += new SequenceComponent(name, lastSignalIndex)
   }
 
   def done(who: core.Actor, something: String): Unit = {
@@ -90,4 +90,5 @@ case class ViewModelComponents(private val _actors: mutable.HashMap[String, Acto
 
   def actors(): Iterable[ActorComponent] = _actors.values
 
+  def sequenceComponents(): Iterable[SequenceComponent] = _sequenceComponents.toList
 }
