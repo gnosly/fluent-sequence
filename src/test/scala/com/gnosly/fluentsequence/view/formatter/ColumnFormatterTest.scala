@@ -61,16 +61,16 @@ class ColumnFormatterTest extends FunSuite with Matchers {
     val call = new SyncRequest(SIGNAL_NAME, FIRST_INDEX, ACTOR_ID, ACTIVITY_ID, ANOTHER_ACTOR_ID, NOT_IMPORTANT)
     val reply = new SyncResponse("VERY LONG MESSAGE", 1, ANOTHER_ACTOR_ID, ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT)
 
-    val userRightPoints = mutable.TreeMap[Int, RightPoint](
-      FIRST_INDEX -> ActivityPointForBiSignalOnTheRight(FIRST_INDEX, call),
-      1 -> ActivityPointForBiSignalOnTheRight(1, reply),
+    val userRightPoints = mutable.ListBuffer[RightPoint](
+      ActivityPointForBiSignalOnTheRight(FIRST_INDEX, call),
+      ActivityPointForBiSignalOnTheRight(1, reply)
     )
 
     val actor = new ActorComponent(
       ACTOR_ID,
       ACTOR_NAME,
       asBuffer(
-        new ActivityComponent(ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT, NOT_IMPORTANT, rightPoints = userRightPoints)))
+        new ActivityComponent(ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT, NOT_IMPORTANT, _rightPoints = userRightPoints)))
 
     val columnPoint = formatter.format(actor)
 
@@ -120,15 +120,12 @@ class ColumnFormatterTest extends FunSuite with Matchers {
   }
 
   private def actorWith(rightPoint: RightPoint, last: Boolean) = {
-    val userRightPoints = mutable.TreeMap[Int, RightPoint](
-      rightPoint.signalComponent.currentIndex -> rightPoint,
-    )
-
+    val userRightPoints = mutable.ListBuffer(rightPoint)
     val actor = new ActorComponent(
       ACTOR_ID,
       ACTOR_NAME,
       asBuffer(
-        new ActivityComponent(ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT, NOT_IMPORTANT, rightPoints = userRightPoints)),
+        new ActivityComponent(ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT, NOT_IMPORTANT, _rightPoints = userRightPoints)),
       isLast = last)
     actor
   }

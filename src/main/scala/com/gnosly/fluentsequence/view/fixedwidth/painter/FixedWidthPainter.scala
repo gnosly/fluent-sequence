@@ -30,7 +30,7 @@ class FixedWidthPainter extends Painter {
       activity <- a.activities
       rightPoint <- activity.rightPoints
     } yield
-      rightPoint._2.signalComponent match {
+      rightPoint.signalComponent match {
         case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
         case x: AsyncRequest        => asyncRequestPainter.paint(x, pointMap)
         case x: SyncRequest         => syncRequestPainter.paint(x, pointMap)

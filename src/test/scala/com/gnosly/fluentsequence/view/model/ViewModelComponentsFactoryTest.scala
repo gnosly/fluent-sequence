@@ -22,12 +22,10 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
 
     val somethingSignal = new AutoSignalComponent("something", 0, 0, 0)
     val somethingElseSignal = new AutoSignalComponent("something else", 1, 0, 0)
-    val rightPoints = mutable.TreeMap[Int, RightPoint](
-      0 -> ActivityPointLoopOnTheRight(0, somethingSignal),
-      1 -> ActivityPointLoopOnTheRight(1, somethingElseSignal)
-    )
+    val rightPoints = mutable.ListBuffer[RightPoint](ActivityPointLoopOnTheRight(0, somethingSignal),
+                                                     ActivityPointLoopOnTheRight(1, somethingElseSignal))
     val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 1, rightPoints = rightPoints)), true)
+      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 1, _rightPoints = rightPoints)), true)
 
     viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent))
   }
@@ -42,21 +40,24 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     val call = new SyncRequest("call", 0, 0, 0, 1, 0)
     val response = new SyncResponse("response", 1, 1, 0, 0, 0)
 
-    val userRightPoints = mutable.TreeMap[Int, RightPoint](
-      0 -> ActivityPointForBiSignalOnTheRight(0, call),
-      1 -> ActivityPointForBiSignalOnTheRight(1, response)
+    val userRightPoints = mutable.ListBuffer[RightPoint](
+      ActivityPointForBiSignalOnTheRight(0, call),
+      ActivityPointForBiSignalOnTheRight(1, response)
     )
 
     val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 1, rightPoints = userRightPoints)))
+      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 1, _rightPoints = userRightPoints)))
 
-    val systemRightPoints = mutable.TreeMap[Int, LeftPoint](
-      0 -> ActivityPointForBiSignalOnTheLeft(0, call),
-      1 -> ActivityPointForBiSignalOnTheLeft(1, response)
+    val systemRightPoints = mutable.ListBuffer[LeftPoint](
+      ActivityPointForBiSignalOnTheLeft(0, call),
+      ActivityPointForBiSignalOnTheLeft(1, response)
     )
 
     val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 1, leftPoints = systemRightPoints)), true)
+      new ActorComponent(1,
+                         "system",
+                         asBuffer(new ActivityComponent(0, 0, 0, 1, _leftPoints = systemRightPoints)),
+                         true)
 
     viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
   }
@@ -69,19 +70,20 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
 
     val call = new AsyncRequest("call", 0, 0, 0, 1, 0)
 
-    val userRightPoints = mutable.TreeMap[Int, RightPoint](
-      0 -> ActivityPointForBiSignalOnTheRight(0, call)
-    )
+    val userRightPoints = mutable.ListBuffer[RightPoint](ActivityPointForBiSignalOnTheRight(0, call))
 
     val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 0, rightPoints = userRightPoints)))
+      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 0, _rightPoints = userRightPoints)))
 
-    val systemRightPoints = mutable.TreeMap[Int, LeftPoint](
-      0 -> ActivityPointForBiSignalOnTheLeft(0, call)
+    val systemRightPoints = mutable.ListBuffer[LeftPoint](
+      ActivityPointForBiSignalOnTheLeft(0, call)
     )
 
     val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 0, leftPoints = systemRightPoints)), true)
+      new ActorComponent(1,
+                         "system",
+                         asBuffer(new ActivityComponent(0, 0, 0, 0, _leftPoints = systemRightPoints)),
+                         true)
 
     viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
   }
@@ -107,24 +109,24 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     val signalD = new AutoSignalComponent("signalD", 3, 0, 0)
     val signalE = new AutoSignalComponent("signalE", 4, 0, 0)
 
-    val userRightPoints = mutable.TreeMap[Int, RightPoint](
-      0 -> ActivityPointLoopOnTheRight(0, signalA),
-      1 -> ActivityPointForBiSignalOnTheRight(1, signalB),
-      2 -> ActivityPointForBiSignalOnTheRight(2, signalC),
-      3 -> ActivityPointLoopOnTheRight(3, signalD),
-      4 -> ActivityPointLoopOnTheRight(4, signalE)
+    val userRightPoints = mutable.ListBuffer[RightPoint](
+      ActivityPointLoopOnTheRight(0, signalA),
+      ActivityPointForBiSignalOnTheRight(1, signalB),
+      ActivityPointForBiSignalOnTheRight(2, signalC),
+      ActivityPointLoopOnTheRight(3, signalD),
+      ActivityPointLoopOnTheRight(4, signalE)
     )
 
-    val systemLeftPoints = mutable.TreeMap[Int, LeftPoint](
-      0 -> ActivityPointForBiSignalOnTheLeft(1, signalB),
-      1 -> ActivityPointForBiSignalOnTheLeft(2, signalC)
+    val systemLeftPoints = mutable.ListBuffer[LeftPoint](
+      ActivityPointForBiSignalOnTheLeft(1, signalB),
+      ActivityPointForBiSignalOnTheLeft(2, signalC)
     )
 
     val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 4, rightPoints = userRightPoints)), false)
+      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 4, _rightPoints = userRightPoints)), false)
 
     val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 1, 2, leftPoints = systemLeftPoints)), true)
+      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 1, 2, _leftPoints = systemLeftPoints)), true)
 
     viewModel shouldBe ViewModelComponents(
       mutable.HashMap("user" -> userComponent, "system" -> systemComponent),

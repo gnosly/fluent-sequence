@@ -16,7 +16,6 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
 
     val result: Point1d = actor.activities
       .flatMap(a => a.rightPoints)
-      .map(_._2)
       .foldLeft[Point1d](minWidth)((acc, e) => {
         e.signalComponent match {
           case x: BiSignalComponent   => acc max columnWidthForcedByBiSignal(x, actorStartX)

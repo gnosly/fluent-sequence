@@ -1,32 +1,33 @@
 package com.gnosly.fluentsequence.view.model.component
 
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 class ActivityComponent(val id: Int,
                         val actorId: Int,
                         val fromIndex: Int,
                         var toIndex: Int,
                         var active: Boolean = false,
-                        val rightPoints: mutable.TreeMap[Int, RightPoint] = mutable.TreeMap(),
-                        val leftPoints: mutable.TreeMap[Int, LeftPoint] = mutable.TreeMap())
+                        private val _rightPoints: ListBuffer[RightPoint] = ListBuffer(),
+                        private val _leftPoints: ListBuffer[LeftPoint] = ListBuffer())
     extends Component {
   def isFirst: Boolean = id == 0
 
-  def points: Iterable[ActivityPoint] = rightPoints.values ++ leftPoints.values
+  def points: Iterable[ActivityPoint] = _rightPoints ++ _leftPoints
 
   def rightLoop(signal: AutoSignalComponent): Unit = {
     val pointId = rightPoints.size
-    rightPoints.put(pointId, ActivityPointLoopOnTheRight(signal.currentIndex, signal))
+    _rightPoints += ActivityPointLoopOnTheRight(signal.currentIndex, signal)
   }
 
   def right(signal: BiSignalComponent): Unit = {
     val pointId = rightPoints.size
-    rightPoints.put(pointId, ActivityPointForBiSignalOnTheRight(signal.currentIndex, signal))
+    _rightPoints += ActivityPointForBiSignalOnTheRight(signal.currentIndex, signal)
   }
 
   def left(signal: BiSignalComponent): Unit = {
-    val pointId = leftPoints.size
-    leftPoints.put(pointId, ActivityPointForBiSignalOnTheLeft(signal.currentIndex, signal))
+    val pointId = _leftPoints.size
+    _leftPoints += ActivityPointForBiSignalOnTheLeft(signal.currentIndex, signal)
   }
 
   def end(index: Int): Unit = {
@@ -40,8 +41,6 @@ class ActivityComponent(val id: Int,
     toIndex = index
   }
 
-  def canEqual(other: Any): Boolean = other.isInstanceOf[ActivityComponent]
-
   override def equals(other: Any): Boolean = other match {
     case that: ActivityComponent =>
       (that canEqual this) &&
@@ -54,12 +53,17 @@ class ActivityComponent(val id: Int,
     case _ => false
   }
 
+  def canEqual(other: Any): Boolean = other.isInstanceOf[ActivityComponent]
+
   override def hashCode: Int = {
     val state = Seq(rightPoints, leftPoints, id, fromIndex, toIndex, active)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
 
   override def toString = s"ActivityComponent($id, $fromIndex, $toIndex, $active,$rightPoints, $leftPoints)"
+
+  def rightPoints: Iterable[RightPoint] = _rightPoints
+  def leftPoints: Iterable[LeftPoint] = _leftPoints
 }
 
 trait ActivityPoint {
