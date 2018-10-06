@@ -2,10 +2,12 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
+import com.gnosly.fluentsequence.view.model
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.component.SequenceComponent
 
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 object ViewModelComponentsFactory {
 
@@ -20,6 +22,8 @@ object ViewModelComponentsFactory {
           case FIRED(who, something, toSomebody)   => viewModel.fired(who, something, toSomebody)
           case REPLIED(who, something, toSomebody) => viewModel.replied(who, something, toSomebody)
           case SEQUENCE_STARTED(name)              => viewModel.sequenceStarted(name)
+          case ALTERNATIVE_STARTED(condition)      => viewModel.alternativeStarted(condition)
+          case ALTERNATIVE_ENDED(condition)        => viewModel.alternativeEnded(condition)
           case other                               => println(s"WARN ignoring ${other} creating view model")
         }
       }
@@ -29,14 +33,27 @@ object ViewModelComponentsFactory {
   }
 }
 
-case class ViewModelComponents(private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
-                               private val _sequenceComponents: mutable.ListBuffer[SequenceComponent] =
-                                 mutable.ListBuffer[SequenceComponent]()) {
-
+case class ViewModelComponents(
+    private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
+    private val _sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent](),
+    private val _alternatives: mutable.ListBuffer[AlternativeComponent] = mutable.ListBuffer[AlternativeComponent]()) {
   var lastSignalIndex = -1
 
   def sequenceStarted(name: String): Unit = {
     _sequenceComponents += new SequenceComponent(name, lastSignalIndex)
+  }
+
+  def alternatives: ListBuffer[AlternativeComponent] = _alternatives
+
+  def alternativeStarted(condition: String): Unit = {
+    _alternatives += AlternativeComponent(condition, lastSignalIndex)
+  }
+
+  def alternativeEnded(condition: String): Unit = {
+    _alternatives
+      .filter(a => a.condition == condition)
+      .head
+      .end(lastSignalIndex)
   }
 
   def done(who: core.Actor, something: String): Unit = {

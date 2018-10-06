@@ -20,14 +20,22 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
         DONE(USER, "something else")
       ))
 
-    val somethingSignal = new AutoSignalComponent("something", 0, 0, 0)
-    val somethingElseSignal = new AutoSignalComponent("something else", 1, 0, 0)
-    val rightPoints = mutable.ListBuffer[RightPoint](ActivityPointLoopOnTheRight(0, somethingSignal),
-                                                     ActivityPointLoopOnTheRight(1, somethingElseSignal))
-    val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 1, _rightPoints = rightPoints)), true)
-
-    viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent))
+    viewModel shouldBe ViewModelComponents(
+      mutable.HashMap("user" -> new ActorComponent(
+        0,
+        "user",
+        asBuffer(new ActivityComponent(
+          0,
+          0,
+          0,
+          1,
+          _rightPoints = mutable.ListBuffer[RightPoint](
+            ActivityPointLoopOnTheRight(0, new AutoSignalComponent("something", 0, 0, 0)),
+            ActivityPointLoopOnTheRight(1, new AutoSignalComponent("something else", 1, 0, 0))
+          )
+        )),
+        true
+      )))
   }
 
   it should "create viewModel with REPLY " in {
@@ -86,6 +94,18 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
                          true)
 
     viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
+  }
+
+  it should "alternative " in {
+    val viewModel = viewModelFrom(
+      EventBook(
+        DONE(USER, "something"),
+        ALTERNATIVE_STARTED("condition"),
+        DONE(USER, "something else"),
+        ALTERNATIVE_ENDED("condition")
+      ))
+
+    viewModel.alternatives shouldBe mutable.ListBuffer(AlternativeComponent("condition", 0, 1))
   }
 
   it should "count signal index" in {

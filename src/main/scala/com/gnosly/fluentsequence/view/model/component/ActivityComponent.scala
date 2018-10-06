@@ -1,6 +1,5 @@
 package com.gnosly.fluentsequence.view.model.component
 
-import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 class ActivityComponent(val id: Int,
