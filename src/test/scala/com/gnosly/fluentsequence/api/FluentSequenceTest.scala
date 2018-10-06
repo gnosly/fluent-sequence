@@ -85,4 +85,22 @@ class FluentSequenceTest extends FunSuite with Matchers {
     sequence.toEventBook shouldBe book
   }
 
+  test("user if want does something otherwise nothing") {
+    val sequence = Sequence("sequenceName").startWith(
+      inCase("he/she wants", user.does("something") :: Nil) ::
+        inCase("otherwise", user.does("nothing") :: Nil) :: Nil
+    )
+
+    val book = EventBook(
+      SEQUENCE_STARTED("sequenceName"),
+      ALTERNATIVE_STARTED("he/she wants"),
+      DONE(user, "something"),
+      ALTERNATIVE_ENDED("he/she wants"),
+      ALTERNATIVE_STARTED("otherwise"),
+      DONE(user, "nothing"),
+      ALTERNATIVE_ENDED("otherwise"),
+      SEQUENCE_ENDED("sequenceName")
+    )
+    sequence.toEventBook shouldBe book
+  }
 }

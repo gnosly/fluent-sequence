@@ -10,6 +10,19 @@ object FluentSequence {
 
   def to(actor: FluentActor): FluentActor = ???
 
+  def inCase(statement: String, flows: Seq[SequenceFlow]): AlternativeSequence = {
+    AlternativeSequence(statement, flows)
+  }
+
+  case class AlternativeSequence(statement: String, flows: Seq[SequenceFlow]) extends EventBookable {
+    override def toEventBook: EventBook = {
+      EventBook()
+        .track(ALTERNATIVE_STARTED(statement))
+        .track(flows.map(_.toEventBook))
+        .track(ALTERNATIVE_ENDED(statement))
+    }
+  }
+
   case class Sequence(name: String) extends EventBookable {
 
     val eventBook = EventBook()
@@ -22,7 +35,7 @@ object FluentSequence {
 
     def printToSvg() = println(svgViewer.view(this.toEventBook))
 
-    def startWith(flow: Seq[SequenceFlow]): Sequence = {
+    def startWith(flow: Seq[EventBookable]): Sequence = {
       eventBook
         .track(SEQUENCE_STARTED(name))
         .track(flow.map(_.toEventBook))
@@ -34,8 +47,6 @@ object FluentSequence {
   class SequenceFlow(name: String, val eventBook: EventBook, actorDoingSequence: FluentActor) extends EventBookable {
 
     def ->(call: => SequenceFlow): SequenceFlow = ???
-
-    def inCase(statement: String, flow: SequenceFlow): SequenceFlow = ???
 
     def and(): ActorContinueSequenceFlow = {
       new ActorContinueSequenceFlow(this, actorDoingSequence)
