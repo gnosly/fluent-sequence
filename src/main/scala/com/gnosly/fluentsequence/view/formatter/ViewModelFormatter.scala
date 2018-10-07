@@ -17,6 +17,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private val columnFormatter = new ColumnFormatter(preRenderer)
   private val rowFormatter = new RowFormatter()
   private val widthAndHeightFormatter = new WidthAndHeightFormatter
+  private val alternativeFormatter = new AlternativeFormatter
   private val formatSignal = (signal: ActivityPoint) =>
     signal match {
       case a: ActivityPointLoopOnTheRight => autoSignalFormatter.format(a.signalComponent)
@@ -59,6 +60,10 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
 
     val widthAndHeightPoint = widthAndHeightFormatter.format(viewModel)
 
-    (columns ++ actors ++ activities ++ signals ++ rows ++ List(widthAndHeightPoint)).toSeq
+    val alternatives = for {
+      a <- viewModel.alternatives
+    } yield alternativeFormatter.format(a)
+
+    (columns ++ actors ++ activities ++ signals ++ rows ++ List(widthAndHeightPoint) ++ alternatives).toSeq
   }
 }

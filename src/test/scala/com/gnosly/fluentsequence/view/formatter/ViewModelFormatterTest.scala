@@ -2,17 +2,17 @@ package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.viewModelFrom
-import com.gnosly.fluentsequence.view.model.component._
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
 import scala.collection.immutable.HashMap
-import scala.collection.mutable
 
 class ViewModelFormatterTest extends FunSuite with Matchers {
   val SYSTEM = Actor(SEQUENCE_ACTOR_TYPE(), "system")
   val USER = Actor(USER_TYPE(), "user")
+
+  val formatter = new ViewModelFormatter(new FixedPreRenderer())
 
   test("format") {
     val viewModel = viewModelFrom(
@@ -20,7 +20,6 @@ class ViewModelFormatterTest extends FunSuite with Matchers {
         CALLED(USER, "call", SYSTEM),
         REPLIED(SYSTEM, "response", USER)
       ))
-    val formatter = new ViewModelFormatter(new FixedPreRenderer())
 
     val pointMap = formatter.format(viewModel)
 

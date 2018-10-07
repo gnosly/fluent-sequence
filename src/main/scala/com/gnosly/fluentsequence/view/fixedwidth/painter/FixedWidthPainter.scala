@@ -37,6 +37,10 @@ class FixedWidthPainter extends Painter {
         case x: SyncResponse        => syncResponsePainter.paint(x, pointMap)
       }
 
+//		val alternativeCanvas = for {
+//		 a <- viewModel.alternatives
+//		} yield xxx
+
     (actorCanvas ++ activityCanvas ++ signalCanvas)
       .reduce(_.merge(_))
       .merge(titleCanvas)

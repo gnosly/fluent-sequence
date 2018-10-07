@@ -47,7 +47,10 @@ object Coordinates {
   }
 
   object Alternative {
+
     def topLeft(id: Int) = s"alternative_${id}_top_left"
+
+    def bottomRight(id: Int) = s"alternative_${id}_bottom_right"
   }
   object ViewMatrix {
     def width() = "width"
