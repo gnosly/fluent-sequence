@@ -108,4 +108,6 @@ case class ViewModelComponents(
   def actors(): Iterable[ActorComponent] = _actors.values
 
   def sequenceComponents(): Iterable[SequenceComponent] = _sequenceComponents.toList
+
+  def firstActor() = actors().head
 }
