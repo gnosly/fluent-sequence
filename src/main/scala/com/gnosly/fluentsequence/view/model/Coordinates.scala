@@ -46,17 +46,20 @@ object Coordinates {
       s"actor_${actorId}_activity_${activityId}_${direction}_point_${pointId}_end"
   }
 
+  object Alternative {
+    def topLeft(id: Int) = s"alternative_${id}_top_left"
+  }
   object ViewMatrix {
     def width() = "width"
+
     def height() = "height"
 
-    /**
-			* The column is the space between the topLeftCorner of two actors
-			*
-			*/
+    /** The column is the space between the topLeftCorner of two actors */
     def column(actorId: Int): String = s"column_${actorId}"
 
     def row(signalIndex: Int): String = s"row_${signalIndex}"
+
+    def firstColumn(): String = column(0)
   }
 
 }

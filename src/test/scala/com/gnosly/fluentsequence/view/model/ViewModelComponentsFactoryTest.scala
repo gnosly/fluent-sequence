@@ -105,7 +105,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
         ALTERNATIVE_ENDED("condition")
       ))
 
-    viewModel.alternatives shouldBe mutable.ListBuffer(AlternativeComponent("condition", 0, 1))
+    viewModel.alternatives shouldBe mutable.ListBuffer(AlternativeComponent(0, "condition", 0, 1))
   }
 
   it should "count signal index" in {

@@ -46,7 +46,7 @@ case class ViewModelComponents(
   def alternatives: ListBuffer[AlternativeComponent] = _alternatives
 
   def alternativeStarted(condition: String): Unit = {
-    _alternatives += AlternativeComponent(condition, lastSignalIndex)
+    _alternatives += AlternativeComponent(_alternatives.size, condition, lastSignalIndex)
   }
 
   def alternativeEnded(condition: String): Unit = {

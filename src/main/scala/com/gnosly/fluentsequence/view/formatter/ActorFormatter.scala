@@ -15,7 +15,7 @@ class ActorFormatter(preRenderer: PreRenderer) {
   def format(actor: ActorComponent): Pointable = {
     def previousActorDistanceOrDefault: Point2d = {
       if (actor.id == 0)
-        new Variable2DPoint(LEFT_MARGIN, TOP_MARGIN)
+        new Variable2DPoint(LEFT_MARGIN, TOP_MARGIN) //FIXME margin should be inside WidthAndHeightFormatter
       else {
         new ReferencePoint(Actor.topLeft(actor.id - 1))
           .right(Reference1DPoint(ViewMatrix.column(actor.id - 1)) max Fixed1DPoint(DISTANCE_BETWEEN_ACTORS))
