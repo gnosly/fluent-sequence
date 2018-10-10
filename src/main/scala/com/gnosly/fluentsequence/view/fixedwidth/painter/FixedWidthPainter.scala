@@ -14,6 +14,7 @@ class FixedWidthPainter extends Painter {
   private val syncResponsePainter = new FixedWidthSyncResponsePainter
   private val autoSignalPainter = new FixedWidthAutoSignalPainter
   private val activityPainter = new FixedWidthActivityPainter
+  private val alternativePainter = new FixedWidthAlternativePainter
 
   override def paint(viewModel: ViewModelComponents, pointMap: ResolvedPoints): Canvas = {
     val titleCanvas = paintTitle(viewModel, pointMap)
@@ -37,11 +38,11 @@ class FixedWidthPainter extends Painter {
         case x: SyncResponse        => syncResponsePainter.paint(x, pointMap)
       }
 
-//		val alternativeCanvas = for {
-//		 a <- viewModel.alternatives
-//		} yield xxx
+    val alternativeCanvas = for {
+      a <- viewModel.alternatives
+    } yield alternativePainter.paint(a, pointMap)
 
-    (actorCanvas ++ activityCanvas ++ signalCanvas)
+    (actorCanvas ++ activityCanvas ++ signalCanvas ++ alternativeCanvas)
       .reduce(_.merge(_))
       .merge(titleCanvas)
   }

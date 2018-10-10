@@ -3,7 +3,7 @@ import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.formatter.point.AlternativePoints
 import com.gnosly.fluentsequence.view.model.AlternativeComponent
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.point.ReferencePoint
+import com.gnosly.fluentsequence.view.model.point._
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
@@ -26,10 +26,11 @@ class AlternativeFormatterTest extends FunSuite with Matchers {
 
     pointable shouldBe AlternativePoints(
       ALTERNATIVE_ID,
-      new ReferencePoint(ViewMatrix.firstColumn())
+      new Variable2DPoint(Fixed1DPoint(0), Fixed1DPoint(0))
+        .right(1)
         .atY(new ReferencePoint(ViewMatrix.row(LAST_INDEX_BEFORE_ALTERNATIVE)).x),
       new ReferencePoint(ViewMatrix.width())
-        .left(1)
+        .left(2)
         .atY(
           new ReferencePoint(ViewMatrix.row(LAST_INDEX_INSIDE_ALTERNATIVE)).x
         )

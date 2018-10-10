@@ -8,7 +8,7 @@ import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates
 
 class FixedWidthAlternativePainter extends ComponentPainter[AlternativeComponent] {
-  override def paint(model: AlternativeComponent, pointMap: ResolvedPoints): Canvas = {
+  override def paint(model: AlternativeComponent, pointMap: ResolvedPoints): FixedWidthCanvas = {
     val alternativeTopLeft = pointMap(Coordinates.Alternative.topLeft(model.id))
     val alternativeBottomRight = pointMap(Coordinates.Alternative.bottomRight(model.id))
 
@@ -19,7 +19,7 @@ class FixedWidthAlternativePainter extends ComponentPainter[AlternativeComponent
       .write(alternativeTopLeft.down(1).right(2), model.condition + " /")
       .write(alternativeTopLeft.down(2), r("-", model.condition.length + 2) + "´")
 
-    for (y <- 1L to alternativeBottomRight.y) {
+    for (y <- 1L to alternativeBottomRight.y - alternativeTopLeft.y) {
       canvas.write(alternativeTopLeft.down(y), "|")
       canvas.write(alternativeTopLeft.down(y).right(alternativeBottomRight.x), "|")
     }

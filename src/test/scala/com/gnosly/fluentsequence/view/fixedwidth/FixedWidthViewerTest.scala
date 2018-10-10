@@ -1,8 +1,10 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
+import com.gnosly.fluentsequence.api.FluentSequence
 import com.gnosly.fluentsequence.api.FluentSequence.FluentActor
 import com.gnosly.fluentsequence.api.FluentSequence.Sequence
 import com.gnosly.fluentsequence.api.FluentSequence.User
+import com.gnosly.fluentsequence.api.FluentSequence.inCase
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
@@ -49,6 +51,17 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
     str.print() shouldBe sequenceFromFile("complete-fixed-sequence.txt")
   }
 
+  test("alternative") {
+
+    val flow = Sequence("example").startWith(
+      USER.does("abc") ::
+        inCase("condition", USER.does("something") :: Nil) ::
+        Nil
+    )
+    val str = viewer.view(flow.toEventBook)
+    println(str)
+  }
+
   test("multi activity") {
 
     val flow = Sequence("example").startWith(
@@ -56,6 +69,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
         SYSTEM.reply("reply", USER) ::
         USER.call("finalize", SYSTEM) ::
         SYSTEM.reply("finalize done", USER) ::
+        inCase("condition", USER.does("something") :: Nil) ::
         Nil
     )
 
