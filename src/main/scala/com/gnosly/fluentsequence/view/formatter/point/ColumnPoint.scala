@@ -5,7 +5,7 @@ import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.model.point.Point1d
 import com.gnosly.fluentsequence.view.model.point.PointMap
 
-case class ColumnPoint(actorId: Int, columnWidth: Point1d) extends Pointable {
+case class ColumnPoint(actorId: Int, columnWidth: Long) extends Pointable {
   override def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] =
-    ViewMatrix.column(actorId) -> Fixed2dPoint(columnWidth.resolve(pointMap).x, 0) :: Nil
+    ViewMatrix.column(actorId) -> Fixed2dPoint(columnWidth, 0) :: Nil
 }

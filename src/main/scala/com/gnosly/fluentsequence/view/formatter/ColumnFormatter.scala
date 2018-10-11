@@ -1,70 +1,35 @@
 package com.gnosly.fluentsequence.view.formatter
+import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.ACTIVITY_FIXED_WIDTH
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
 import com.gnosly.fluentsequence.view.formatter.point.ColumnPoint
-import com.gnosly.fluentsequence.view.model.Coordinates
-import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.component._
-import com.gnosly.fluentsequence.view.model.point._
 
 class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
 
   def format(actor: ActorComponent): Pointable = {
-    val minWidth = widthForcedBy(actor)
+    val actorWidth = fixedPreRenderer.preRender(actor).width
+    val minWidth = columnWidthForcedBy(actor, actorWidth)
 
-    val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(actor.id)).x
-
-    val result: Point1d = actor.activities
+    val result = actor.activities
       .flatMap(a => a.rightPoints)
-      .foldLeft[Point1d](minWidth)((acc, e) => {
-        e.signalComponent match {
-          case x: BiSignalModel   => acc max columnWidthForcedByBiSignal(x, actorStartX)
-          case x: AutoSignalModel => acc max columnWidthForcedByAutoSignal(x, actorStartX)
-        }
+      .foldLeft(minWidth)((acc, e) => {
+        acc max columnWidthForcedBySignal(e.signalComponent, actorWidth)
       })
 
     ColumnPoint(actor.id, result)
   }
 
-  private def widthForcedBy(actor: ActorComponent) = {
-    val width = fixedPreRenderer.preRender(actor).width
-
+  private def columnWidthForcedBy(actor: ActorComponent, actorWidth: Long) = {
     if (actor.isLast) {
-      Fixed1DPoint(width)
+      actorWidth
     } else {
-      Fixed1DPoint(width + DISTANCE_BETWEEN_ACTORS)
+      actorWidth + DISTANCE_BETWEEN_ACTORS
     }
   }
 
-  private def columnWidthForcedByAutoSignal(signal: AutoSignalModel, actorStartX: Point1d) = {
+  private def columnWidthForcedBySignal(signal: SignalModel, actorWidth: Long) = {
     val signalWidth = fixedPreRenderer.preRender(signal).width
-
-    val actorId = signal.actorId
-    val activityId = signal.activityId
-
-    val signalStartX =
-      new ReferencePoint(Activity.pointStart(actorId, activityId, signal.currentIndex, "right")).x
-
-    signalStartX - actorStartX + Fixed1DPoint(signalWidth)
-  }
-
-  private def columnWidthForcedByBiSignal(signal: BiSignalModel, actorStartX: Point1d) = {
-    val signalWidth = fixedPreRenderer.preRender(signal).width
-
-    var actorId = 0
-    var activityId = 0
-
-    if (signal.leftToRight) {
-      actorId = signal.fromActorId
-      activityId = signal.fromActivityId
-    } else {
-      actorId = signal.toActorId
-      activityId = signal.toActivityId
-    }
-
-    val signalStartX =
-      new ReferencePoint(Activity.pointStart(actorId, activityId, signal.currentIndex, "right")).x
-
-    signalStartX - actorStartX + Fixed1DPoint(signalWidth)
+    signalWidth + (actorWidth + ACTIVITY_FIXED_WIDTH) / 2
   }
 }
