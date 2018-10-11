@@ -7,23 +7,23 @@ class ActivityComponent(val id: Int,
                         val fromIndex: Int,
                         var toIndex: Int,
                         var active: Boolean = false,
-                        private val _rightPoints: ListBuffer[ActivityPointOnTheRight] = ListBuffer(),
-                        private val _leftPoints: ListBuffer[ActivityPointOnTheLeft] = ListBuffer())
+                        private val _rightPoints: ListBuffer[PointOnTheRight] = ListBuffer(),
+                        private val _leftPoints: ListBuffer[PointOnTheLeft] = ListBuffer())
     extends Component {
   def isFirst: Boolean = id == 0
 
-  def points: Iterable[ActivityPoint] = _rightPoints ++ _leftPoints
+  def points: Iterable[PointComponent] = _rightPoints ++ _leftPoints
 
   def rightLoop(signal: AutoSignalComponent): Unit = {
-    _rightPoints += ActivityPointOnTheRight(signal.currentIndex, signal)
+    _rightPoints += PointOnTheRight(signal.currentIndex, signal)
   }
 
   def right(signal: BiSignalComponent): Unit = {
-    _rightPoints += ActivityPointOnTheRight(signal.currentIndex, signal)
+    _rightPoints += PointOnTheRight(signal.currentIndex, signal)
   }
 
   def left(signal: BiSignalComponent): Unit = {
-    _leftPoints += ActivityPointOnTheLeft(signal.currentIndex, signal)
+    _leftPoints += PointOnTheLeft(signal.currentIndex, signal)
   }
 
   def end(index: Int): Unit = {
@@ -58,17 +58,17 @@ class ActivityComponent(val id: Int,
 
   override def toString = s"ActivityComponent($id, $fromIndex, $toIndex, $active,$rightPoints, $leftPoints)"
 
-  def rightPoints: Iterable[ActivityPointOnTheRight] = _rightPoints
-  def leftPoints: Iterable[ActivityPointOnTheLeft] = _leftPoints
+  def rightPoints: Iterable[PointOnTheRight] = _rightPoints
+  def leftPoints: Iterable[PointOnTheLeft] = _leftPoints
 }
 
-trait ActivityPoint {
+trait PointComponent extends Component {
   def signalComponent: SignalComponent
 }
 
-case class ActivityPointOnTheRight(id: Int, signal: SignalComponent) extends ActivityPoint {
+case class PointOnTheRight(id: Int, signal: SignalComponent) extends PointComponent {
   override def signalComponent: SignalComponent = signal
 }
-case class ActivityPointOnTheLeft(id: Int, signal: BiSignalComponent) extends ActivityPoint {
+case class PointOnTheLeft(id: Int, signal: BiSignalComponent) extends PointComponent {
   override def signalComponent: SignalComponent = signal
 }

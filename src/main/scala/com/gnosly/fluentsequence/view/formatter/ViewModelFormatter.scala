@@ -15,16 +15,16 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private val rowFormatter = new RowFormatter()
   private val widthAndHeightFormatter = new WidthAndHeightFormatter
   private val alternativeFormatter = new AlternativeFormatter
-  private val formatSignal = (signal: ActivityPoint) =>
+  private val formatSignal = (signal: PointComponent) =>
     signal match {
       //Fixme: we could separate those formatting
-      case b: ActivityPointOnTheRight => {
+      case b: PointOnTheRight => {
         b.signal match {
           case x: AutoSignalComponent => autoSignalFormatter.format(x)
           case x: BiSignalComponent   => bisignalFormatter.formatOnRight(x)
         }
       }
-      case b: ActivityPointOnTheLeft => bisignalFormatter.formatOnLeft(b.signal)
+      case b: PointOnTheLeft => bisignalFormatter.formatOnLeft(b.signal)
   }
 
   def format(viewModel: ViewModelComponents): ResolvedPoints = {
