@@ -4,7 +4,6 @@ import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.ViewModel
-import com.gnosly.fluentsequence.view.model.ViewModelComponentBuilder
 import com.gnosly.fluentsequence.view.model.point._
 
 class WidthAndHeightFormatter {

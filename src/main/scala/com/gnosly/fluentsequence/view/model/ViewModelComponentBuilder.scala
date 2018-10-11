@@ -6,12 +6,19 @@ import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.component.SequenceComponent
 
 import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
+
+case class ViewModel(actors: List[ActorComponent],
+                     sequenceComponents: List[SequenceComponent],
+                     alternatives: List[AlternativeComponent],
+                     lastSignalIndex: Int) {
+  def firstActor(): ActorComponent = actors.head
+  def lastActorId: Int = actors.size - 1
+}
 
 object ViewModelComponentsFactory {
 
   def viewModelFrom(book: EventBook): ViewModel = {
-    val viewModel = ViewModelComponentBuilder()
+    val viewModel = new ViewModelComponentBuilder()
     val list = book.toTimelineEventList
     list.foreach(
       t => {
@@ -29,89 +36,76 @@ object ViewModelComponentsFactory {
     )
     viewModel.build()
   }
-}
 
-case class ViewModel(actors: List[ActorComponent],
-                     sequenceComponents: List[SequenceComponent],
-                     alternatives: List[AlternativeComponent],
-                     lastSignalIndex: Int) {
-  def firstActor(): ActorComponent = actors.head
-  def lastActorId: Int = actors.size - 1
-}
+  private class ViewModelComponentBuilder(
+      private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
+      private val _sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent](),
+      private val _alternatives: mutable.ListBuffer[AlternativeComponent] = mutable.ListBuffer[AlternativeComponent]()) {
+    var lastSignalIndex = -1
 
-case class ViewModelComponentBuilder(
-    private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
-    private val _sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent](),
-    private val _alternatives: mutable.ListBuffer[AlternativeComponent] = mutable.ListBuffer[AlternativeComponent]()) {
-  var lastSignalIndex = -1
+    def sequenceStarted(name: String): Unit = {
+      _sequenceComponents += new SequenceComponent(name, lastSignalIndex)
+    }
 
-  def sequenceStarted(name: String): Unit = {
-    _sequenceComponents += new SequenceComponent(name, lastSignalIndex)
+    def alternativeStarted(condition: String): Unit = {
+      _alternatives += AlternativeComponent(_alternatives.size, condition, lastSignalIndex)
+    }
+
+    def alternativeEnded(condition: String): Unit = {
+      _alternatives
+        .filter(a => a.condition == condition)
+        .head
+        .end(lastSignalIndex)
+    }
+
+    def done(who: core.Actor, something: String): Unit = {
+      lastSignalIndex += 1
+      val actor = createOrGet(who)
+      /*_signals += */
+      actor.done(something, lastSignalIndex)
+    }
+
+    private def createOrGet(who: core.Actor): ActorComponent = {
+      val actor = _actors.getOrElse(who.name, {
+        val newActor = new ActorComponent(_actors.size, who.name)
+        _actors += who.name -> newActor
+        newActor
+      })
+
+      actor
+    }
+
+    def called(who: core.Actor, something: String, toSomebody: core.Actor) = {
+      lastSignalIndex += 1
+      val caller = createOrGet(who)
+      val called = createOrGet(toSomebody)
+      /*_signals += */
+      caller.called(called, something, lastSignalIndex)
+    }
+
+    def replied(who: core.Actor, something: String, toSomebody: core.Actor) = {
+      lastSignalIndex += 1
+      val replier = createOrGet(who)
+      val replied = createOrGet(toSomebody)
+      /*_signals += */
+      replier.replied(replied, something, lastSignalIndex)
+      replier.end(lastSignalIndex)
+    }
+
+    def fired(who: core.Actor, something: String, toSomebody: core.Actor) = {
+      lastSignalIndex += 1
+      val caller = createOrGet(who)
+      val called = createOrGet(toSomebody)
+      /*_signals += */
+      caller.fired(called, something, lastSignalIndex)
+    }
+
+    def build(): ViewModel = {
+      _actors.foreach(a => a._2.end(lastSignalIndex))
+      _actors.maxBy(a => a._2.id)._2.markAsLast
+
+      ViewModel(_actors.values.toList, _sequenceComponents.toList.toList, _alternatives.toList, lastSignalIndex)
+    }
   }
 
-  def alternativeStarted(condition: String): Unit = {
-    _alternatives += AlternativeComponent(_alternatives.size, condition, lastSignalIndex)
-  }
-
-  def alternativeEnded(condition: String): Unit = {
-    _alternatives
-      .filter(a => a.condition == condition)
-      .head
-      .end(lastSignalIndex)
-  }
-
-  def done(who: core.Actor, something: String): Unit = {
-    lastSignalIndex += 1
-    val actor = createOrGet(who)
-    /*_signals += */
-    actor.done(something, lastSignalIndex)
-  }
-
-  def called(who: core.Actor, something: String, toSomebody: core.Actor) = {
-    lastSignalIndex += 1
-    val caller = createOrGet(who)
-    val called = createOrGet(toSomebody)
-    /*_signals += */
-    caller.called(called, something, lastSignalIndex)
-  }
-
-  def replied(who: core.Actor, something: String, toSomebody: core.Actor) = {
-    lastSignalIndex += 1
-    val replier = createOrGet(who)
-    val replied = createOrGet(toSomebody)
-    /*_signals += */
-    replier.replied(replied, something, lastSignalIndex)
-    replier.end(lastSignalIndex)
-  }
-
-  private def createOrGet(who: core.Actor): ActorComponent = {
-    val actor = _actors.getOrElse(who.name, {
-      val newActor = new ActorComponent(_actors.size, who.name)
-      _actors += who.name -> newActor
-      newActor
-    })
-
-    actor
-  }
-
-  def fired(who: core.Actor, something: String, toSomebody: core.Actor) = {
-    lastSignalIndex += 1
-    val caller = createOrGet(who)
-    val called = createOrGet(toSomebody)
-    /*_signals += */
-    caller.fired(called, something, lastSignalIndex)
-  }
-
-  def build(): ViewModel = {
-    _actors.foreach(a => a._2.end(lastSignalIndex))
-    _actors.maxBy(a => a._2.id)._2.markAsLast
-
-    ViewModel(actors().toList, sequenceComponents().toList, alternatives.toList, lastSignalIndex)
-  }
-
-  def alternatives: ListBuffer[AlternativeComponent] = _alternatives
-
-  def sequenceComponents(): Iterable[SequenceComponent] = _sequenceComponents.toList
-
-  def actors(): Iterable[ActorComponent] = _actors.values
 }
