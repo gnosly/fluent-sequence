@@ -1,9 +1,9 @@
 package com.gnosly.fluentsequence.view.formatter
 
-import com.gnosly.fluentsequence.view.model.ActivityModel
-import com.gnosly.fluentsequence.view.model.ActorModel
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.PreRenderer
+import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
+import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
 import com.gnosly.fluentsequence.view.model.component._
 
 class FixedPreRenderer extends PreRenderer {

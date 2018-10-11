@@ -7,9 +7,9 @@ import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.point._
-import com.gnosly.fluentsequence.view.model.ActorModel
 import com.gnosly.fluentsequence.view.model.PreRenderer
+import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
+import com.gnosly.fluentsequence.view.model.point._
 
 class ActorFormatter(preRenderer: PreRenderer) {
   def format(actor: ActorModel): Pointable = {

@@ -2,9 +2,8 @@ package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
 import com.gnosly.fluentsequence.view.model.Coordinates._
-import com.gnosly.fluentsequence.view.model.ActivityModel
 import com.gnosly.fluentsequence.view.model.PreRenderer
-import com.gnosly.fluentsequence.view.model.component.ActivityComponent
+import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
 import com.gnosly.fluentsequence.view.model.point.Reference1DPoint
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint
 

@@ -2,21 +2,17 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
+import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
+import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
 import com.gnosly.fluentsequence.view.model.component._
 
 import scala.collection.mutable
-
-case class ActorModel(id: Int, name: String)
-case class ActivityModel(id: Int, actorId: Int, fromIndex: Int, toIndex: Int) {
-  def isFirst: Boolean = id == 0
-}
 
 case class ViewModel(actorsM: List[ActorModel],
                      activities: List[ActivityModel],
                      points: List[PointModel],
                      actors: List[ActorComponent],
-                     sequenceComponents: List[SequenceComponent],
+                     sequenceComponents: List[SequenceModel],
                      alternatives: List[AlternativeComponent],
                      lastSignalIndex: Int) {
   def rightPoints: List[PointModel] = points.filter { _.isInstanceOf[PointOnTheRight] }
@@ -49,12 +45,12 @@ object ViewModelComponentsFactory {
 
   private class ViewModelComponentBuilder(
       private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
-      private val _sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent](),
+      private val _sequenceComponents: mutable.ListBuffer[SequenceModel] = mutable.ListBuffer[SequenceModel](),
       private val _alternatives: mutable.ListBuffer[AlternativeComponent] = mutable.ListBuffer[AlternativeComponent]()) {
     private var lastSignalIndex = -1
 
     def sequenceStarted(name: String): Unit = {
-      _sequenceComponents += new SequenceComponent(name, lastSignalIndex)
+      _sequenceComponents += new SequenceModel(name, lastSignalIndex)
     }
 
     def alternativeStarted(condition: String): Unit = {

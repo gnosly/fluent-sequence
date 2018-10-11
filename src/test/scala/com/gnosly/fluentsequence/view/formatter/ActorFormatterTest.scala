@@ -5,11 +5,10 @@ import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETW
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.LEFT_MARGIN
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.TOP_MARGIN
 import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
-import com.gnosly.fluentsequence.view.model.ActorModel
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.component.ActorComponent
+import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
 import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
 import com.gnosly.fluentsequence.view.model.point.Reference1DPoint
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint

@@ -48,7 +48,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
 
     val signals = for {
       c <- viewModel.points
-    } yield formatSignal(c) //FIXME for actors and activities I format the component itself. Here the point
+    } yield formatSignal(c)
 
     val rows = for {
       c <- viewModel.points

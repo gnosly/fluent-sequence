@@ -2,6 +2,8 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.viewModelFrom
+import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
+import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
 import com.gnosly.fluentsequence.view.model.component._
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -172,7 +174,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       List(ActivityModel(0, 0, 0, 4), ActivityModel(0, 1, 1, 2)),
       userPoints.toList ++ systemPoints.toList,
       List(userComponent, systemComponent),
-      List(new SequenceComponent("sequenceName", -1), new SequenceComponent("another sequence", 2)),
+      List(new SequenceModel("sequenceName", -1), new SequenceModel("another sequence", 2)),
       List(),
       4
     )
