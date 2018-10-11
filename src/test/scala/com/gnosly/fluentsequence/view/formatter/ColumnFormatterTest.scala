@@ -44,7 +44,7 @@ class ColumnFormatterTest extends FunSuite with Matchers {
 
     val call = new SyncRequest(SIGNAL_NAME, FIRST_INDEX, ACTOR_ID, ACTIVITY_ID, ANOTHER_ACTOR_ID, NOT_IMPORTANT)
 
-    val columnPoint = formatter.format(actorWith(ActivityPointForBiSignalOnTheRight(FIRST_INDEX, call), false))
+    val columnPoint = formatter.format(actorWith(ActivityPointOnTheRight(FIRST_INDEX, call), false))
 
     val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(ACTOR_ID)).x
     val signalStartX = new ReferencePoint(Activity.pointStart(ACTOR_ID, ACTIVITY_ID, FIRST_INDEX, "right")).x
@@ -61,9 +61,9 @@ class ColumnFormatterTest extends FunSuite with Matchers {
     val call = new SyncRequest(SIGNAL_NAME, FIRST_INDEX, ACTOR_ID, ACTIVITY_ID, ANOTHER_ACTOR_ID, NOT_IMPORTANT)
     val reply = new SyncResponse("VERY LONG MESSAGE", 1, ANOTHER_ACTOR_ID, ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT)
 
-    val userRightPoints = mutable.ListBuffer[RightPoint](
-      ActivityPointForBiSignalOnTheRight(FIRST_INDEX, call),
-      ActivityPointForBiSignalOnTheRight(1, reply)
+    val userRightPoints = mutable.ListBuffer[ActivityPointOnTheRight](
+      ActivityPointOnTheRight(FIRST_INDEX, call),
+      ActivityPointOnTheRight(1, reply)
     )
 
     val actor = new ActorComponent(
@@ -92,7 +92,7 @@ class ColumnFormatterTest extends FunSuite with Matchers {
 
     val somethingSignal = new AutoSignalComponent(SIGNAL_NAME, ACTOR_ID, ACTOR_ID, ACTIVITY_ID)
 
-    val columnPoint = formatter.format(actorWith(ActivityPointLoopOnTheRight(FIRST_INDEX, somethingSignal), false))
+    val columnPoint = formatter.format(actorWith(ActivityPointOnTheRight(FIRST_INDEX, somethingSignal), false))
 
     val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(ACTOR_ID)).x
     val signalStartX = new ReferencePoint(Activity.pointStart(ACTOR_ID, ACTIVITY_ID, FIRST_INDEX, "right")).x
@@ -108,7 +108,7 @@ class ColumnFormatterTest extends FunSuite with Matchers {
 
     val somethingSignal = new AutoSignalComponent(SIGNAL_NAME, ACTOR_ID, ACTOR_ID, ACTIVITY_ID)
 
-    val columnPoint = formatter.format(actorWith(ActivityPointLoopOnTheRight(FIRST_INDEX, somethingSignal), true))
+    val columnPoint = formatter.format(actorWith(ActivityPointOnTheRight(FIRST_INDEX, somethingSignal), true))
 
     val actorStartX = new ReferencePoint(Coordinates.Actor.topLeft(ACTOR_ID)).x
     val signalStartX = new ReferencePoint(Activity.pointStart(ACTOR_ID, ACTIVITY_ID, FIRST_INDEX, "right")).x
@@ -119,7 +119,7 @@ class ColumnFormatterTest extends FunSuite with Matchers {
                                      Fixed1DPoint(ACTOR_PADDING + ACTOR_NAME.length) max columnWidthForcedBySignal)
   }
 
-  private def actorWith(rightPoint: RightPoint, last: Boolean) = {
+  private def actorWith(rightPoint: ActivityPointOnTheRight, last: Boolean) = {
     val userRightPoints = mutable.ListBuffer(rightPoint)
     val actor = new ActorComponent(
       ACTOR_ID,

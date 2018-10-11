@@ -7,26 +7,23 @@ class ActivityComponent(val id: Int,
                         val fromIndex: Int,
                         var toIndex: Int,
                         var active: Boolean = false,
-                        private val _rightPoints: ListBuffer[RightPoint] = ListBuffer(),
-                        private val _leftPoints: ListBuffer[LeftPoint] = ListBuffer())
+                        private val _rightPoints: ListBuffer[ActivityPointOnTheRight] = ListBuffer(),
+                        private val _leftPoints: ListBuffer[ActivityPointOnTheLeft] = ListBuffer())
     extends Component {
   def isFirst: Boolean = id == 0
 
   def points: Iterable[ActivityPoint] = _rightPoints ++ _leftPoints
 
   def rightLoop(signal: AutoSignalComponent): Unit = {
-    val pointId = rightPoints.size
-    _rightPoints += ActivityPointLoopOnTheRight(signal.currentIndex, signal)
+    _rightPoints += ActivityPointOnTheRight(signal.currentIndex, signal)
   }
 
   def right(signal: BiSignalComponent): Unit = {
-    val pointId = rightPoints.size
-    _rightPoints += ActivityPointForBiSignalOnTheRight(signal.currentIndex, signal)
+    _rightPoints += ActivityPointOnTheRight(signal.currentIndex, signal)
   }
 
   def left(signal: BiSignalComponent): Unit = {
-    val pointId = _leftPoints.size
-    _leftPoints += ActivityPointForBiSignalOnTheLeft(signal.currentIndex, signal)
+    _leftPoints += ActivityPointOnTheLeft(signal.currentIndex, signal)
   }
 
   def end(index: Int): Unit = {
@@ -61,23 +58,17 @@ class ActivityComponent(val id: Int,
 
   override def toString = s"ActivityComponent($id, $fromIndex, $toIndex, $active,$rightPoints, $leftPoints)"
 
-  def rightPoints: Iterable[RightPoint] = _rightPoints
-  def leftPoints: Iterable[LeftPoint] = _leftPoints
+  def rightPoints: Iterable[ActivityPointOnTheRight] = _rightPoints
+  def leftPoints: Iterable[ActivityPointOnTheLeft] = _leftPoints
 }
 
 trait ActivityPoint {
   def signalComponent: SignalComponent
 }
 
-trait RightPoint extends ActivityPoint {}
-trait LeftPoint extends ActivityPoint {}
-case class ActivityPointLoopOnTheRight(id: Int, signal: AutoSignalComponent) extends RightPoint {
-  override def signalComponent: AutoSignalComponent = signal
+case class ActivityPointOnTheRight(id: Int, signal: SignalComponent) extends ActivityPoint {
+  override def signalComponent: SignalComponent = signal
 }
-//FIXME which value givs this ActivityPointForBiSignalOnTheRight?
-case class ActivityPointForBiSignalOnTheRight(id: Int, signal: BiSignalComponent) extends RightPoint {
-  override def signalComponent: BiSignalComponent = signal
-}
-case class ActivityPointForBiSignalOnTheLeft(id: Int, signal: BiSignalComponent) extends LeftPoint {
-  override def signalComponent: BiSignalComponent = signal
+case class ActivityPointOnTheLeft(id: Int, signal: BiSignalComponent) extends ActivityPoint {
+  override def signalComponent: SignalComponent = signal
 }

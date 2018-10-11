@@ -29,9 +29,9 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
           0,
           0,
           1,
-          _rightPoints = mutable.ListBuffer[RightPoint](
-            ActivityPointLoopOnTheRight(0, new AutoSignalComponent("something", 0, 0, 0)),
-            ActivityPointLoopOnTheRight(1, new AutoSignalComponent("something else", 1, 0, 0))
+          _rightPoints = mutable.ListBuffer[ActivityPointOnTheRight](
+            ActivityPointOnTheRight(0, new AutoSignalComponent("something", 0, 0, 0)),
+            ActivityPointOnTheRight(1, new AutoSignalComponent("something else", 1, 0, 0))
           )
         )),
         true
@@ -48,17 +48,17 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     val call = new SyncRequest("call", 0, 0, 0, 1, 0)
     val response = new SyncResponse("response", 1, 1, 0, 0, 0)
 
-    val userRightPoints = mutable.ListBuffer[RightPoint](
-      ActivityPointForBiSignalOnTheRight(0, call),
-      ActivityPointForBiSignalOnTheRight(1, response)
+    val userRightPoints = mutable.ListBuffer[ActivityPointOnTheRight](
+      ActivityPointOnTheRight(0, call),
+      ActivityPointOnTheRight(1, response)
     )
 
     val userComponent =
       new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 1, _rightPoints = userRightPoints)))
 
-    val systemRightPoints = mutable.ListBuffer[LeftPoint](
-      ActivityPointForBiSignalOnTheLeft(0, call),
-      ActivityPointForBiSignalOnTheLeft(1, response)
+    val systemRightPoints = mutable.ListBuffer[ActivityPointOnTheLeft](
+      ActivityPointOnTheLeft(0, call),
+      ActivityPointOnTheLeft(1, response)
     )
 
     val systemComponent =
@@ -78,13 +78,13 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
 
     val call = new AsyncRequest("call", 0, 0, 0, 1, 0)
 
-    val userRightPoints = mutable.ListBuffer[RightPoint](ActivityPointForBiSignalOnTheRight(0, call))
+    val userRightPoints = mutable.ListBuffer[ActivityPointOnTheRight](ActivityPointOnTheRight(0, call))
 
     val userComponent =
       new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 0, _rightPoints = userRightPoints)))
 
-    val systemRightPoints = mutable.ListBuffer[LeftPoint](
-      ActivityPointForBiSignalOnTheLeft(0, call)
+    val systemRightPoints = mutable.ListBuffer[ActivityPointOnTheLeft](
+      ActivityPointOnTheLeft(0, call)
     )
 
     val systemComponent =
@@ -129,17 +129,17 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     val signalD = new AutoSignalComponent("signalD", 3, 0, 0)
     val signalE = new AutoSignalComponent("signalE", 4, 0, 0)
 
-    val userRightPoints = mutable.ListBuffer[RightPoint](
-      ActivityPointLoopOnTheRight(0, signalA),
-      ActivityPointForBiSignalOnTheRight(1, signalB),
-      ActivityPointForBiSignalOnTheRight(2, signalC),
-      ActivityPointLoopOnTheRight(3, signalD),
-      ActivityPointLoopOnTheRight(4, signalE)
+    val userRightPoints = mutable.ListBuffer[ActivityPointOnTheRight](
+      ActivityPointOnTheRight(0, signalA),
+      ActivityPointOnTheRight(1, signalB),
+      ActivityPointOnTheRight(2, signalC),
+      ActivityPointOnTheRight(3, signalD),
+      ActivityPointOnTheRight(4, signalE)
     )
 
-    val systemLeftPoints = mutable.ListBuffer[LeftPoint](
-      ActivityPointForBiSignalOnTheLeft(1, signalB),
-      ActivityPointForBiSignalOnTheLeft(2, signalC)
+    val systemLeftPoints = mutable.ListBuffer[ActivityPointOnTheLeft](
+      ActivityPointOnTheLeft(1, signalB),
+      ActivityPointOnTheLeft(2, signalC)
     )
 
     val userComponent =

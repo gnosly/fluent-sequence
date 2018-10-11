@@ -5,7 +5,6 @@ import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint
-import com.gnosly.fluentsequence.view.model.point.Variable1DPoint
 import com.gnosly.fluentsequence.view.model.point.Variable2DPoint
 
 class AlternativeFormatter {

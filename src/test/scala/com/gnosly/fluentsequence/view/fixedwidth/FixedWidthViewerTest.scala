@@ -1,6 +1,5 @@
 package com.gnosly.fluentsequence.view.fixedwidth
 
-import com.gnosly.fluentsequence.api.FluentSequence
 import com.gnosly.fluentsequence.api.FluentSequence.FluentActor
 import com.gnosly.fluentsequence.api.FluentSequence.Sequence
 import com.gnosly.fluentsequence.api.FluentSequence.User

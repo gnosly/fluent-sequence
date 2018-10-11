@@ -4,10 +4,7 @@ import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.Reso
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.ViewModelComponents
-import com.gnosly.fluentsequence.view.model.component.ActivityPoint
-import com.gnosly.fluentsequence.view.model.component.ActivityPointForBiSignalOnTheLeft
-import com.gnosly.fluentsequence.view.model.component.ActivityPointForBiSignalOnTheRight
-import com.gnosly.fluentsequence.view.model.component.ActivityPointLoopOnTheRight
+import com.gnosly.fluentsequence.view.model.component._
 
 class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private val actorFormatter = new ActorFormatter(preRenderer)
@@ -20,10 +17,14 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private val alternativeFormatter = new AlternativeFormatter
   private val formatSignal = (signal: ActivityPoint) =>
     signal match {
-      case a: ActivityPointLoopOnTheRight => autoSignalFormatter.format(a.signalComponent)
       //Fixme: we could separate those formatting
-      case b: ActivityPointForBiSignalOnTheRight => bisignalFormatter.formatOnRight(b.signalComponent)
-      case b: ActivityPointForBiSignalOnTheLeft  => bisignalFormatter.formatOnLeft(b.signal)
+      case b: ActivityPointOnTheRight => {
+        b.signal match {
+          case x: AutoSignalComponent => autoSignalFormatter.format(x)
+          case x: BiSignalComponent   => bisignalFormatter.formatOnRight(x)
+        }
+      }
+      case b: ActivityPointOnTheLeft => bisignalFormatter.formatOnLeft(b.signal)
   }
 
   def format(viewModel: ViewModelComponents): ResolvedPoints = {
