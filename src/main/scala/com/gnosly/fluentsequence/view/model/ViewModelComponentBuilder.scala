@@ -10,8 +10,8 @@ import scala.collection.mutable.ListBuffer
 
 object ViewModelComponentsFactory {
 
-  def viewModelFrom(book: EventBook) = {
-    val viewModel = ViewModelComponents()
+  def viewModelFrom(book: EventBook): ViewModel = {
+    val viewModel = ViewModelComponentBuilder()
     val list = book.toTimelineEventList
     list.foreach(
       t => {
@@ -27,12 +27,19 @@ object ViewModelComponentsFactory {
         }
       }
     )
-    viewModel.end()
-    viewModel
+    viewModel.build()
   }
 }
 
-case class ViewModelComponents(
+case class ViewModel(actors: List[ActorComponent],
+                     sequenceComponents: List[SequenceComponent],
+                     alternatives: List[AlternativeComponent],
+                     lastSignalIndex: Int) {
+  def firstActor(): ActorComponent = actors.head
+  def lastActorId: Int = actors.size - 1
+}
+
+case class ViewModelComponentBuilder(
     private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
     private val _sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent](),
     private val _alternatives: mutable.ListBuffer[AlternativeComponent] = mutable.ListBuffer[AlternativeComponent]()) {
@@ -41,8 +48,6 @@ case class ViewModelComponents(
   def sequenceStarted(name: String): Unit = {
     _sequenceComponents += new SequenceComponent(name, lastSignalIndex)
   }
-
-  def alternatives: ListBuffer[AlternativeComponent] = _alternatives
 
   def alternativeStarted(condition: String): Unit = {
     _alternatives += AlternativeComponent(_alternatives.size, condition, lastSignalIndex)
@@ -70,6 +75,15 @@ case class ViewModelComponents(
     caller.called(called, something, lastSignalIndex)
   }
 
+  def replied(who: core.Actor, something: String, toSomebody: core.Actor) = {
+    lastSignalIndex += 1
+    val replier = createOrGet(who)
+    val replied = createOrGet(toSomebody)
+    /*_signals += */
+    replier.replied(replied, something, lastSignalIndex)
+    replier.end(lastSignalIndex)
+  }
+
   private def createOrGet(who: core.Actor): ActorComponent = {
     val actor = _actors.getOrElse(who.name, {
       val newActor = new ActorComponent(_actors.size, who.name)
@@ -80,15 +94,6 @@ case class ViewModelComponents(
     actor
   }
 
-  def replied(who: core.Actor, something: String, toSomebody: core.Actor) = {
-    lastSignalIndex += 1
-    val replier = createOrGet(who)
-    val replied = createOrGet(toSomebody)
-    /*_signals += */
-    replier.replied(replied, something, lastSignalIndex)
-    replier.end(lastSignalIndex)
-  }
-
   def fired(who: core.Actor, something: String, toSomebody: core.Actor) = {
     lastSignalIndex += 1
     val caller = createOrGet(who)
@@ -97,16 +102,16 @@ case class ViewModelComponents(
     caller.fired(called, something, lastSignalIndex)
   }
 
-  def lastActorId: Int = _actors.size - 1
-
-  def end() = {
+  def build(): ViewModel = {
     _actors.foreach(a => a._2.end(lastSignalIndex))
     _actors.maxBy(a => a._2.id)._2.markAsLast
+
+    ViewModel(actors().toList, sequenceComponents().toList, alternatives.toList, lastSignalIndex)
   }
 
-  def actors(): Iterable[ActorComponent] = _actors.values
+  def alternatives: ListBuffer[AlternativeComponent] = _alternatives
 
   def sequenceComponents(): Iterable[SequenceComponent] = _sequenceComponents.toList
 
-  def firstActor() = actors().head
+  def actors(): Iterable[ActorComponent] = _actors.values
 }

@@ -3,11 +3,12 @@ import com.gnosly.fluentsequence.view.formatter.point.WidthAndHeightPoint
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.ViewModelComponents
+import com.gnosly.fluentsequence.view.model.ViewModel
+import com.gnosly.fluentsequence.view.model.ViewModelComponentBuilder
 import com.gnosly.fluentsequence.view.model.point._
 
 class WidthAndHeightFormatter {
-  def format(model: ViewModelComponents): Pointable = {
+  def format(model: ViewModel): Pointable = {
     val width = new ReferencePoint(Actor.topLeft(model.lastActorId))
       .right(new ReferencePoint(ViewMatrix.column(model.lastActorId)).x)
       .atY(0)

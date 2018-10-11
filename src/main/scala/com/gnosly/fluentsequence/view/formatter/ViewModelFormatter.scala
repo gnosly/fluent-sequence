@@ -3,7 +3,7 @@ package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.model.ViewModelComponents
+import com.gnosly.fluentsequence.view.model.ViewModel
 import com.gnosly.fluentsequence.view.model.component._
 
 class ViewModelFormatter(preRenderer: FixedPreRenderer) {
@@ -27,12 +27,12 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       case b: PointOnTheLeft => bisignalFormatter.formatOnLeft(b.signal)
   }
 
-  def format(viewModel: ViewModelComponents): ResolvedPoints = {
+  def format(viewModel: ViewModel): ResolvedPoints = {
     val pointables: Seq[Pointable] = pointableListFor(viewModel)
     loopPointableResolverAlgorithm.resolve(pointables)
   }
 
-  private def pointableListFor(viewModel: ViewModelComponents): Seq[Pointable] = {
+  private def pointableListFor(viewModel: ViewModel): Seq[Pointable] = {
 
     val columns = for {
       a <- viewModel.actors

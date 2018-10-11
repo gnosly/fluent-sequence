@@ -4,7 +4,7 @@ import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.Reso
 import com.gnosly.fluentsequence.view.model.Canvas
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.Painter
-import com.gnosly.fluentsequence.view.model.ViewModelComponents
+import com.gnosly.fluentsequence.view.model.ViewModel
 import com.gnosly.fluentsequence.view.model.component.AsyncRequest
 import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
 import com.gnosly.fluentsequence.view.model.component.SyncRequest
@@ -19,7 +19,7 @@ case class SvgPainter() extends Painter {
   private val asyncRequestPainter = new SvgAsyncRequestPainter
   private val autoSignalPainter = new SvgAutoSignalPainter
 
-  override def paint(viewModel: ViewModelComponents, pointMap: ResolvedPoints): Canvas = {
+  override def paint(viewModel: ViewModel, pointMap: ResolvedPoints): Canvas = {
 
     val actorCanvas = viewModel.actors.map(a => actorPainter.paint(a, pointMap))
 

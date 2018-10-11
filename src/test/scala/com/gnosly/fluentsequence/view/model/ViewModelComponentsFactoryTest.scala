@@ -20,22 +20,27 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
         DONE(USER, "something else")
       ))
 
-    viewModel shouldBe ViewModelComponents(
-      mutable.HashMap("user" -> new ActorComponent(
-        0,
-        "user",
-        asBuffer(new ActivityComponent(
+    viewModel shouldBe ViewModel(
+      List(
+        new ActorComponent(
           0,
-          0,
-          0,
-          1,
-          _rightPoints = mutable.ListBuffer[PointOnTheRight](
-            PointOnTheRight(0, new AutoSignalComponent("something", 0, 0, 0)),
-            PointOnTheRight(1, new AutoSignalComponent("something else", 1, 0, 0))
-          )
+          "user",
+          asBuffer(new ActivityComponent(
+            0,
+            0,
+            0,
+            1,
+            _rightPoints = mutable.ListBuffer[PointOnTheRight](
+              PointOnTheRight(0, new AutoSignalComponent("something", 0, 0, 0)),
+              PointOnTheRight(1, new AutoSignalComponent("something else", 1, 0, 0))
+            )
+          )),
+          true
         )),
-        true
-      )))
+      List(),
+      List(),
+      1
+    )
   }
 
   it should "create viewModel with REPLY " in {
@@ -67,7 +72,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
                          asBuffer(new ActivityComponent(0, 0, 0, 1, _leftPoints = systemRightPoints)),
                          true)
 
-    viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
+    viewModel shouldBe ViewModel(List(userComponent, systemComponent), List(), List(), 1)
   }
 
   it should "create viewModel with FIRE " in {
@@ -93,7 +98,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
                          asBuffer(new ActivityComponent(0, 0, 0, 0, _leftPoints = systemRightPoints)),
                          true)
 
-    viewModel shouldBe ViewModelComponents(mutable.HashMap("user" -> userComponent, "system" -> systemComponent))
+    viewModel shouldBe ViewModel(List(userComponent, systemComponent), List(), List(), 0)
   }
 
   it should "alternative " in {
@@ -123,11 +128,11 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
         SEQUENCE_ENDED("sequenceName")
       ))
 
-    val signalA = new AutoSignalComponent("signalA", 0, 0, 0)
+    val signalA = AutoSignalComponent("signalA", 0, 0, 0)
     val signalB = new SyncRequest("signalB", 1, 0, 0, 1, 0)
     val signalC = new SyncResponse("signalC", 2, 1, 0, 0, 0)
-    val signalD = new AutoSignalComponent("signalD", 3, 0, 0)
-    val signalE = new AutoSignalComponent("signalE", 4, 0, 0)
+    val signalD = AutoSignalComponent("signalD", 3, 0, 0)
+    val signalE = AutoSignalComponent("signalE", 4, 0, 0)
 
     val userRightPoints = mutable.ListBuffer[PointOnTheRight](
       PointOnTheRight(0, signalA),
@@ -148,9 +153,11 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     val systemComponent =
       new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 1, 2, _leftPoints = systemLeftPoints)), true)
 
-    viewModel shouldBe ViewModelComponents(
-      mutable.HashMap("user" -> userComponent, "system" -> systemComponent),
-      mutable.ListBuffer(new SequenceComponent("sequenceName", -1), new SequenceComponent("another sequence", 2))
+    viewModel shouldBe ViewModel(
+      List(userComponent, systemComponent),
+      List(new SequenceComponent("sequenceName", -1), new SequenceComponent("another sequence", 2)),
+      List(),
+      4
     )
   }
 
