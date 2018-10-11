@@ -1,14 +1,14 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
+import com.gnosly.fluentsequence.view.model.ActivityModel
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
-import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
-class SvgActivityPainter extends ComponentPainter[ActivityComponent] {
-  override def paint(activity: ActivityComponent, pointMap: ResolvedPoints): SvgCanvas = {
+class SvgActivityPainter extends ComponentPainter[ActivityModel] {
+  override def paint(activity: ActivityModel, pointMap: ResolvedPoints): SvgCanvas = {
     val canvas = new SvgCanvas
 
     val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))

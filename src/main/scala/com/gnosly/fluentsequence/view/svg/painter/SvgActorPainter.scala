@@ -1,13 +1,13 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
+import com.gnosly.fluentsequence.view.model.ActorModel
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
-import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
-class SvgActorPainter extends ComponentPainter[ActorComponent] {
-  override def paint(actor: ActorComponent, pointMap: ResolvedPoints): SvgCanvas = {
+class SvgActorPainter extends ComponentPainter[ActorModel] {
+  override def paint(actor: ActorModel, pointMap: ResolvedPoints): SvgCanvas = {
     val padding = 2
     val name = actor.name
     val width = name.length + padding

@@ -21,10 +21,7 @@ class FixedWidthPainter extends Painter {
 
     val actorCanvas = viewModel.actorsM.map(a => actorPainter.paint(a, pointMap))
 
-    val activityCanvas = for {
-      a <- viewModel.actors
-      activity <- a.activities
-    } yield activityPainter.paint(activity, pointMap)
+    val activityCanvas = viewModel.activities.map(a => activityPainter.paint(a, pointMap))
 
     val signalCanvas = for {
       a <- viewModel.actors

@@ -10,7 +10,6 @@ class ActivityComponent(val id: Int,
                         private val _rightPoints: ListBuffer[PointOnTheRight] = ListBuffer(),
                         private val _leftPoints: ListBuffer[PointOnTheLeft] = ListBuffer())
     extends Component {
-  def isFirst: Boolean = id == 0
 
   def points: Iterable[PointComponent] = _rightPoints ++ _leftPoints
 

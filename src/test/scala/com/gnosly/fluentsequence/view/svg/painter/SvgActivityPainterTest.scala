@@ -1,5 +1,6 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
+import com.gnosly.fluentsequence.view.model.ActivityModel
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
@@ -19,7 +20,7 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
       Coordinates.Activity.bottomLeft(0, 0) -> Fixed2dPoint(3, 8)
     )
 
-    val canvas = painter.paint(new ActivityComponent(0, 0, 0, 10, true), pointMap)
+    val canvas = painter.paint(ActivityModel(0, 0, 0, 10), pointMap)
 
     canvas.content shouldBe
       """<line x1="40" y1="40" x2="40" y2="90" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
@@ -34,7 +35,7 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
       Coordinates.Activity.bottomLeft(0, 1) -> Fixed2dPoint(3, 25)
     )
 
-    val canvas = painter.paint(new ActivityComponent(1, 0, 5, 10, true), pointMap)
+    val canvas = painter.paint(ActivityModel(1, 0, 5, 10), pointMap)
 
     canvas.content shouldBe
       """<line x1="40" y1="60" x2="40" y2="260" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />
