@@ -2,12 +2,14 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.view.model.component.ActivityComponent
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
-import com.gnosly.fluentsequence.view.model.component.SignalComponent
+import com.gnosly.fluentsequence.view.model.component.SignalModel
 
 trait PreRenderer {
+  def preRender(actor: ActorModel): Box
+
   def preRender(actor: ActorComponent): Box
 
-  def preRender(activity: ActivityComponent): Box
+  def preRender(activity: ActivityModel): Box
 
-  def preRender(signal: SignalComponent): Box
+  def preRender(signal: SignalModel): Box
 }

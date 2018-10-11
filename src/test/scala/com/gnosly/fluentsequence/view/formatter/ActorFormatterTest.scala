@@ -5,6 +5,7 @@ import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETW
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.LEFT_MARGIN
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.TOP_MARGIN
 import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
+import com.gnosly.fluentsequence.view.model.ActorModel
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
@@ -23,7 +24,7 @@ class ActorFormatterTest extends FunSuite with Matchers {
 
   test("format first actor alone") {
 
-    formatter.format(new ActorComponent(ACTOR_ID, ACTOR_NAME)) shouldBe
+    formatter.format(ActorModel(ACTOR_ID, ACTOR_NAME)) shouldBe
       ActorPoints(ACTOR_ID,
                   new Variable2DPoint(LEFT_MARGIN, TOP_MARGIN),
                   Box(ACTOR_NAME.length + ACTOR_PADDING, ACTOR_PADDING))
@@ -33,7 +34,7 @@ class ActorFormatterTest extends FunSuite with Matchers {
     val ACTOR_ID = 1
     val PREVIOUS_ACTOR_ID = 0
 
-    formatter.format(new ActorComponent(ACTOR_ID, ACTOR_NAME)) shouldBe
+    formatter.format(ActorModel(ACTOR_ID, ACTOR_NAME)) shouldBe
       ActorPoints(
         ACTOR_ID,
         new ReferencePoint(Actor.topLeft(PREVIOUS_ACTOR_ID))

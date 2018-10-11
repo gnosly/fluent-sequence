@@ -2,8 +2,8 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.model.component.ActorComponent
-import com.gnosly.fluentsequence.view.model.component.SequenceComponent
+import com.gnosly.fluentsequence.view.formatter.point.ActivityPoints
+import com.gnosly.fluentsequence.view.model.component._
 
 import scala.collection.mutable
 
@@ -14,10 +14,13 @@ case class ActivityModel(id: Int, actorId: Int, fromIndex: Int, toIndex: Int) {
 
 case class ViewModel(actorsM: List[ActorModel],
                      activities: List[ActivityModel],
+                     points: List[PointModel],
                      actors: List[ActorComponent],
                      sequenceComponents: List[SequenceComponent],
                      alternatives: List[AlternativeComponent],
                      lastSignalIndex: Int) {
+  def rightPoints: List[PointModel] = points.filter { _.isInstanceOf[PointOnTheRight] }
+
   def firstActor(): ActorComponent = actors.head
   def lastActorId: Int = actors.size - 1
 }
@@ -37,7 +40,7 @@ object ViewModelComponentsFactory {
           case SEQUENCE_STARTED(name)              => viewModel.sequenceStarted(name)
           case ALTERNATIVE_STARTED(condition)      => viewModel.alternativeStarted(condition)
           case ALTERNATIVE_ENDED(condition)        => viewModel.alternativeEnded(condition)
-          case other                               => println(s"WARN ignoring ${other} creating view model")
+          case other                               => println(s"WARN ignoring $other creating view model")
         }
       }
     )
@@ -48,7 +51,7 @@ object ViewModelComponentsFactory {
       private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
       private val _sequenceComponents: mutable.ListBuffer[SequenceComponent] = mutable.ListBuffer[SequenceComponent](),
       private val _alternatives: mutable.ListBuffer[AlternativeComponent] = mutable.ListBuffer[AlternativeComponent]()) {
-    var lastSignalIndex = -1
+    private var lastSignalIndex = -1
 
     def sequenceStarted(name: String): Unit = {
       _sequenceComponents += new SequenceComponent(name, lastSignalIndex)
@@ -72,7 +75,7 @@ object ViewModelComponentsFactory {
       actor.done(something, lastSignalIndex)
     }
 
-    def called(who: core.Actor, something: String, toSomebody: core.Actor) = {
+    def called(who: core.Actor, something: String, toSomebody: core.Actor): SignalModel = {
       lastSignalIndex += 1
       val caller = createOrGet(who)
       val called = createOrGet(toSomebody)
@@ -90,7 +93,7 @@ object ViewModelComponentsFactory {
       actor
     }
 
-    def replied(who: core.Actor, something: String, toSomebody: core.Actor) = {
+    def replied(who: core.Actor, something: String, toSomebody: core.Actor): Unit = {
       lastSignalIndex += 1
       val replier = createOrGet(who)
       val replied = createOrGet(toSomebody)
@@ -99,7 +102,7 @@ object ViewModelComponentsFactory {
       replier.end(lastSignalIndex)
     }
 
-    def fired(who: core.Actor, something: String, toSomebody: core.Actor) = {
+    def fired(who: core.Actor, something: String, toSomebody: core.Actor): SignalModel = {
       lastSignalIndex += 1
       val caller = createOrGet(who)
       val called = createOrGet(toSomebody)
@@ -117,6 +120,7 @@ object ViewModelComponentsFactory {
           .flatMap(a => a.activities)
           .map(a => ActivityModel(a.id, a.actorId, a.fromIndex, a.toIndex))
           .toList,
+        _actors.values.flatMap(_.activities).flatMap(_.points).toList,
         _actors.values.toList,
         _sequenceComponents.toList,
         _alternatives.toList,

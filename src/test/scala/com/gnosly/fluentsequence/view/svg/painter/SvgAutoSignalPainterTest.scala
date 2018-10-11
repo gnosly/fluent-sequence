@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.model.Coordinates
-import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
+import com.gnosly.fluentsequence.view.model.component.AutoSignalModel
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
@@ -17,7 +17,7 @@ class SvgAutoSignalPainterTest extends FunSuite with Matchers {
       Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(1, 10)
     )
 
-    val canvas = painter.paint(new AutoSignalComponent("name", 0, 0, 0), pointMap)
+    val canvas = painter.paint(new AutoSignalModel("name", 0, 0, 0), pointMap)
     println(canvas)
     canvas.content shouldBe """<polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="0,100 20,100 20,130 2,130"/>
 																|<polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="12,125 2,130 12,135"/>

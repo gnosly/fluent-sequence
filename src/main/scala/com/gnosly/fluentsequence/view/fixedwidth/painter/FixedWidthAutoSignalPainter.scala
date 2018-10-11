@@ -4,10 +4,10 @@ import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
-import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
+import com.gnosly.fluentsequence.view.model.component.AutoSignalModel
 
-class FixedWidthAutoSignalPainter() extends ComponentPainter[AutoSignalComponent] {
-  override def paint(autoSignal: AutoSignalComponent, pointMap: ResolvedPoints): FixedWidthCanvas = {
+class FixedWidthAutoSignalPainter() extends ComponentPainter[AutoSignalModel] {
+  override def paint(autoSignal: AutoSignalModel, pointMap: ResolvedPoints): FixedWidthCanvas = {
     val signalPoint = pointMap(
       Activity.rightPointStart(autoSignal.actorId, autoSignal.activityId, autoSignal.currentIndex))
 

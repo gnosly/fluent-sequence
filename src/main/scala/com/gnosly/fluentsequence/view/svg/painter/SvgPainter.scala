@@ -1,14 +1,11 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
-import com.gnosly.fluentsequence.view.model.Canvas
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
+import com.gnosly.fluentsequence.view.model.Canvas
 import com.gnosly.fluentsequence.view.model.Painter
 import com.gnosly.fluentsequence.view.model.ViewModel
-import com.gnosly.fluentsequence.view.model.component.AsyncRequest
-import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
-import com.gnosly.fluentsequence.view.model.component.SyncRequest
-import com.gnosly.fluentsequence.view.model.component.SyncResponse
+import com.gnosly.fluentsequence.view.model.component._
 
 //fixme maybe could be one painter
 case class SvgPainter() extends Painter {
@@ -28,15 +25,13 @@ case class SvgPainter() extends Painter {
     } yield activityPainter.paint(activity, pointMap)
 
     val signalCanvas = for {
-      a <- viewModel.actors
-      activity <- a.activities
-      rightPoint <- activity.rightPoints
+      rightPoint <- viewModel.rightPoints
     } yield
       rightPoint.signalComponent match {
-        case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
-        case x: SyncRequest         => syncRequestPainter.paint(x, pointMap)
-        case x: SyncResponse        => syncResponsePainter.paint(x, pointMap)
-        case x: AsyncRequest        => asyncRequestPainter.paint(x, pointMap)
+        case x: AutoSignalModel => autoSignalPainter.paint(x, pointMap)
+        case x: SyncRequest     => syncRequestPainter.paint(x, pointMap)
+        case x: SyncResponse    => syncResponsePainter.paint(x, pointMap)
+        case x: AsyncRequest    => asyncRequestPainter.paint(x, pointMap)
       }
 
     val width = pointMap(ViewMatrix.width()).x

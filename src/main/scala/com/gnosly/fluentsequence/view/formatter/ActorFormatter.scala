@@ -7,12 +7,12 @@ import com.gnosly.fluentsequence.view.formatter.point.ActorPoints
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.PreRenderer
-import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point._
+import com.gnosly.fluentsequence.view.model.ActorModel
+import com.gnosly.fluentsequence.view.model.PreRenderer
 
 class ActorFormatter(preRenderer: PreRenderer) {
-  def format(actor: ActorComponent): Pointable = {
+  def format(actor: ActorModel): Pointable = {
     def previousActorDistanceOrDefault: Point2d = {
       if (actor.id == 0)
         new Variable2DPoint(LEFT_MARGIN, TOP_MARGIN) //FIXME margin should be inside WidthAndHeightFormatter

@@ -9,14 +9,14 @@ class ActorComponent(val id: Int,
     extends Component {
   def markAsLast: Unit = isLast = true
 
-  def done(something: String, index: Int): SignalComponent = {
+  def done(something: String, index: Int): SignalModel = {
     val lastActivity = this.activeUntil(index)
-    val autoSignal = AutoSignalComponent(something, index, this.id, lastActivity.id)
+    val autoSignal = AutoSignalModel(something, index, this.id, lastActivity.id)
     lastActivity.rightLoop(autoSignal)
     autoSignal
   }
 
-  def replied(called: ActorComponent, something: String, index: Int): SignalComponent = {
+  def replied(called: ActorComponent, something: String, index: Int): SignalModel = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
     val signal =
@@ -31,7 +31,7 @@ class ActorComponent(val id: Int,
     signal
   }
 
-  def fired(called: ActorComponent, something: String, index: Int): SignalComponent = {
+  def fired(called: ActorComponent, something: String, index: Int): SignalModel = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
     val signal =
@@ -46,7 +46,7 @@ class ActorComponent(val id: Int,
     signal
   }
 
-  def called(called: ActorComponent, something: String, index: Int): SignalComponent = {
+  def called(called: ActorComponent, something: String, index: Int): SignalModel = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
     val signal =

@@ -6,13 +6,13 @@ import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.PreRenderer
-import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
-import com.gnosly.fluentsequence.view.model.component.SignalComponent
+import com.gnosly.fluentsequence.view.model.component.AutoSignalModel
+import com.gnosly.fluentsequence.view.model.component.SignalModel
 import com.gnosly.fluentsequence.view.model.point._
 
 class AutoSignalFormatter(preRenderer: PreRenderer) {
 
-  def format(signal: AutoSignalComponent): Pointable = {
+  def format(signal: AutoSignalModel): Pointable = {
     val signalBox = preRenderer.preRender(signal)
     val activityTopRight = new ReferencePoint(Activity.topRight(signal.actorId, signal.activityId))
     //2. determinazione punto in alto a sx
@@ -21,7 +21,7 @@ class AutoSignalFormatter(preRenderer: PreRenderer) {
     SignalPoint(signal.actorId, signal.activityId, signal.currentIndex, signalBox, "right", signalTopLeft)
   }
 
-  def previousIndexPointOrDefaultForAutoSignal(activityTopRight: Point2d, signal: SignalComponent): Point2d = {
+  def previousIndexPointOrDefaultForAutoSignal(activityTopRight: Point2d, signal: SignalModel): Point2d = {
     if (isFirstSignal(signal)) {
       activityTopRight.down(1).right(1)
     } else {
@@ -31,7 +31,7 @@ class AutoSignalFormatter(preRenderer: PreRenderer) {
     }
   }
 
-  private def isFirstSignal(signal: SignalComponent) = {
+  private def isFirstSignal(signal: SignalModel) = {
     signal.currentIndex == 0
   }
 }

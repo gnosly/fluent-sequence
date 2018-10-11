@@ -90,7 +90,7 @@ class ColumnFormatterTest extends FunSuite with Matchers {
 
   test("column where actor has got auto signals") {
 
-    val somethingSignal = new AutoSignalComponent(SIGNAL_NAME, ACTOR_ID, ACTOR_ID, ACTIVITY_ID)
+    val somethingSignal = new AutoSignalModel(SIGNAL_NAME, ACTOR_ID, ACTOR_ID, ACTIVITY_ID)
 
     val columnPoint = formatter.format(actorWith(PointOnTheRight(FIRST_INDEX, somethingSignal), false))
 
@@ -106,7 +106,7 @@ class ColumnFormatterTest extends FunSuite with Matchers {
 
   test("column where actor has got auto signals as last") {
 
-    val somethingSignal = new AutoSignalComponent(SIGNAL_NAME, ACTOR_ID, ACTOR_ID, ACTIVITY_ID)
+    val somethingSignal = new AutoSignalModel(SIGNAL_NAME, ACTOR_ID, ACTOR_ID, ACTIVITY_ID)
 
     val columnPoint = formatter.format(actorWith(PointOnTheRight(FIRST_INDEX, somethingSignal), true))
 

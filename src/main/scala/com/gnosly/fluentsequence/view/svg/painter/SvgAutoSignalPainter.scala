@@ -3,11 +3,11 @@ package com.gnosly.fluentsequence.view.svg.painter
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
-import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
+import com.gnosly.fluentsequence.view.model.component.AutoSignalModel
 import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
-class SvgAutoSignalPainter() extends ComponentPainter[AutoSignalComponent] {
-  override def paint(autoSignal: AutoSignalComponent, pointMap: ResolvedPoints): SvgCanvas = {
+class SvgAutoSignalPainter() extends ComponentPainter[AutoSignalModel] {
+  override def paint(autoSignal: AutoSignalModel, pointMap: ResolvedPoints): SvgCanvas = {
     val signalPoint = pointMap(
       Activity.rightPointStart(autoSignal.actorId, autoSignal.activityId, autoSignal.currentIndex))
 

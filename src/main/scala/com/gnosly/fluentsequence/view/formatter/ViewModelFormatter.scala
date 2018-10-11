@@ -15,13 +15,13 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private val rowFormatter = new RowFormatter()
   private val widthAndHeightFormatter = new WidthAndHeightFormatter
   private val alternativeFormatter = new AlternativeFormatter
-  private val formatSignal = (signal: PointComponent) =>
+  private val formatSignal = (signal: PointModel) =>
     signal match {
       //Fixme: we could separate those formatting
       case b: PointOnTheRight => {
         b.signal match {
-          case x: AutoSignalComponent => autoSignalFormatter.format(x)
-          case x: BiSignalComponent   => bisignalFormatter.formatOnRight(x)
+          case x: AutoSignalModel => autoSignalFormatter.format(x)
+          case x: BiSignalModel   => bisignalFormatter.formatOnRight(x)
         }
       }
       case b: PointOnTheLeft => bisignalFormatter.formatOnLeft(b.signal)
@@ -39,24 +39,19 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
     } yield columnFormatter.format(a)
 
     val actors = for {
-      a <- viewModel.actors
+      a <- viewModel.actorsM
     } yield actorFormatter.format(a)
 
     val activities = for {
-      a <- viewModel.actors
-      b <- a.activities
+      b <- viewModel.activities
     } yield activityFormatter.format(b)
 
     val signals = for {
-      a <- viewModel.actors
-      b <- a.activities
-      c <- b.points
+      c <- viewModel.points
     } yield formatSignal(c) //FIXME for actors and activities I format the component itself. Here the point
 
     val rows = for {
-      a <- viewModel.actors
-      b <- a.activities
-      c <- b.points
+      c <- viewModel.points
     } yield rowFormatter.format(c.signalComponent)
 
     val widthAndHeightPoint = widthAndHeightFormatter.format(viewModel)

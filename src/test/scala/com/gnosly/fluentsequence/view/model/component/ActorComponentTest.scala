@@ -17,7 +17,7 @@ class ActorComponentTest extends FunSuite with Matchers {
                             0,
                             true,
                             mutable.ListBuffer[PointOnTheRight](
-                              PointOnTheRight(0, new AutoSignalComponent("something", 0, 0, 0)),
+                              PointOnTheRight(0, new AutoSignalModel("something", 0, 0, 0)),
                             ))
   }
 }

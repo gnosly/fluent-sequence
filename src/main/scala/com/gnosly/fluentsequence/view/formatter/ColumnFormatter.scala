@@ -18,8 +18,8 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
       .flatMap(a => a.rightPoints)
       .foldLeft[Point1d](minWidth)((acc, e) => {
         e.signalComponent match {
-          case x: BiSignalComponent   => acc max columnWidthForcedByBiSignal(x, actorStartX)
-          case x: AutoSignalComponent => acc max columnWidthForcedByAutoSignal(x, actorStartX)
+          case x: BiSignalModel   => acc max columnWidthForcedByBiSignal(x, actorStartX)
+          case x: AutoSignalModel => acc max columnWidthForcedByAutoSignal(x, actorStartX)
         }
       })
 
@@ -36,7 +36,7 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
     }
   }
 
-  private def columnWidthForcedByAutoSignal(signal: AutoSignalComponent, actorStartX: Point1d) = {
+  private def columnWidthForcedByAutoSignal(signal: AutoSignalModel, actorStartX: Point1d) = {
     val signalWidth = fixedPreRenderer.preRender(signal).width
 
     val actorId = signal.actorId
@@ -48,7 +48,7 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
     signalStartX - actorStartX + Fixed1DPoint(signalWidth)
   }
 
-  private def columnWidthForcedByBiSignal(signal: BiSignalComponent, actorStartX: Point1d) = {
+  private def columnWidthForcedByBiSignal(signal: BiSignalModel, actorStartX: Point1d) = {
     val signalWidth = fixedPreRenderer.preRender(signal).width
 
     var actorId = 0

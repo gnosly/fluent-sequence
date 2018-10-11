@@ -1,5 +1,7 @@
 package com.gnosly.fluentsequence.view.formatter
 
+import com.gnosly.fluentsequence.view.model.ActivityModel
+import com.gnosly.fluentsequence.view.model.ActorModel
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.PreRenderer
 import com.gnosly.fluentsequence.view.model.component._
@@ -7,15 +9,15 @@ import com.gnosly.fluentsequence.view.model.component._
 class FixedPreRenderer extends PreRenderer {
   import FixedPreRenderer._
 
-  override def preRender(actorComponent: ActorComponent): Box = {
-    Box(actorComponent.name.length + ACTOR_PADDING, ACTOR_MIN_HEIGHT)
-  }
+  override def preRender(actor: ActorModel): Box = Box(actor.name.length + ACTOR_PADDING, ACTOR_MIN_HEIGHT)
 
-  override def preRender(activity: ActivityComponent): Box = Box(ACTIVITY_FIXED_WIDTH, ACTIVITY_MIN_HEIGHT)
+  override def preRender(actor: ActorComponent): Box = Box(actor.name.length + ACTOR_PADDING, ACTOR_MIN_HEIGHT)
 
-  override def preRender(signalComponent: SignalComponent) = signalComponent match {
-    case x: AutoSignalComponent => Box(x.name.length + AUTO_SIGNAL_FIXED_PADDING, AUTO_SIGNAL_MIN_HEIGHT)
-    case x: BiSignalComponent   => Box(x.name.length + BISIGNAL_FIXED_PADDING, BISIGNAL_MIN_HEIGHT)
+  override def preRender(activity: ActivityModel): Box = Box(ACTIVITY_FIXED_WIDTH, ACTIVITY_MIN_HEIGHT)
+
+  override def preRender(signalComponent: SignalModel) = signalComponent match {
+    case x: AutoSignalModel => Box(x.name.length + AUTO_SIGNAL_FIXED_PADDING, AUTO_SIGNAL_MIN_HEIGHT)
+    case x: BiSignalModel   => Box(x.name.length + BISIGNAL_FIXED_PADDING, BISIGNAL_MIN_HEIGHT)
   }
 }
 

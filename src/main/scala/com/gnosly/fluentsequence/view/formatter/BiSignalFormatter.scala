@@ -4,14 +4,14 @@ import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETW
 import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
 import com.gnosly.fluentsequence.view.model.Coordinates._
 import com.gnosly.fluentsequence.view.model.PreRenderer
-import com.gnosly.fluentsequence.view.model.component.BiSignalComponent
+import com.gnosly.fluentsequence.view.model.component.BiSignalModel
 import com.gnosly.fluentsequence.view.model.point._
 
 //TODO create three different formatter, one for bisignal type
 class BiSignalFormatter(preRenderer: PreRenderer) {
   //   | |a---------------->| | a= from
   //   | |<---------------a | | a= from
-  def formatOnRight(signal: BiSignalComponent) = {
+  def formatOnRight(signal: BiSignalModel) = {
     //1. prerenderizzazione
     val signalBox = preRenderer.preRender(signal)
     //2. determinazione punto in alto a sx
@@ -74,7 +74,7 @@ class BiSignalFormatter(preRenderer: PreRenderer) {
     signalIndex == 0
   }
 
-  def formatOnLeft(signal: BiSignalComponent): Pointable = {
+  def formatOnLeft(signal: BiSignalModel): Pointable = {
     //1. prerenderizzazione
     val signalBox = preRenderer.preRender(signal)
     //2. determinazione punto in alto a sx

@@ -1,6 +1,6 @@
 package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
-import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
+import com.gnosly.fluentsequence.view.model.component.AutoSignalModel
 import com.gnosly.fluentsequence.view.model.component.SyncRequest
 import com.gnosly.fluentsequence.view.model.component.SyncResponse
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint
@@ -13,7 +13,7 @@ class RowFormatterTest extends FunSuite with Matchers {
 
   test("autosignal row") {
 
-    val point = formatter.format(new AutoSignalComponent("", SIGNAL_INDEX, 0, 0))
+    val point = formatter.format(new AutoSignalModel("", SIGNAL_INDEX, 0, 0))
 
     point shouldBe RowPoint(SIGNAL_INDEX, new ReferencePoint(Activity.pointEnd(0, 0, SIGNAL_INDEX, "right")).y)
   }

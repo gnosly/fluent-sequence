@@ -24,15 +24,13 @@ class FixedWidthPainter extends Painter {
     val activityCanvas = viewModel.activities.map(a => activityPainter.paint(a, pointMap))
 
     val signalCanvas = for {
-      a <- viewModel.actors
-      activity <- a.activities
-      rightPoint <- activity.rightPoints
+      rightPoint <- viewModel.rightPoints
     } yield
       rightPoint.signalComponent match {
-        case x: AutoSignalComponent => autoSignalPainter.paint(x, pointMap)
-        case x: AsyncRequest        => asyncRequestPainter.paint(x, pointMap)
-        case x: SyncRequest         => syncRequestPainter.paint(x, pointMap)
-        case x: SyncResponse        => syncResponsePainter.paint(x, pointMap)
+        case x: AutoSignalModel => autoSignalPainter.paint(x, pointMap)
+        case x: AsyncRequest    => asyncRequestPainter.paint(x, pointMap)
+        case x: SyncRequest     => syncRequestPainter.paint(x, pointMap)
+        case x: SyncResponse    => syncResponsePainter.paint(x, pointMap)
       }
 
     val alternativeCanvas = for {

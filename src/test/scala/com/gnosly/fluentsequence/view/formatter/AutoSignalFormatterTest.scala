@@ -5,7 +5,7 @@ import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.component.AutoSignalComponent
+import com.gnosly.fluentsequence.view.model.component.AutoSignalModel
 import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
 import com.gnosly.fluentsequence.view.model.point.Reference1DPoint
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint
@@ -20,7 +20,7 @@ class AutoSignalFormatterTest extends FunSuite with Matchers {
   val fixedWidthAutoSignalFormatter = new AutoSignalFormatter(new FixedPreRenderer)
 
   test("first autoSignal") {
-    val autoSignal = new AutoSignalComponent(SIGNAL_NAME, 0, 0, 0)
+    val autoSignal = new AutoSignalModel(SIGNAL_NAME, 0, 0, 0)
 
     val point = fixedWidthAutoSignalFormatter.format(autoSignal)
 
@@ -34,7 +34,7 @@ class AutoSignalFormatterTest extends FunSuite with Matchers {
 
   test("second autoSignal") {
     val AUTOSIGNAL_INDEX = 1
-    val autoSignal = new AutoSignalComponent(SIGNAL_NAME, AUTOSIGNAL_INDEX, 0, 0)
+    val autoSignal = new AutoSignalModel(SIGNAL_NAME, AUTOSIGNAL_INDEX, 0, 0)
 
     val point = fixedWidthAutoSignalFormatter.format(autoSignal)
 

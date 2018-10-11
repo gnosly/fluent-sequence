@@ -11,17 +11,17 @@ class ActivityComponent(val id: Int,
                         private val _leftPoints: ListBuffer[PointOnTheLeft] = ListBuffer())
     extends Component {
 
-  def points: Iterable[PointComponent] = _rightPoints ++ _leftPoints
+  def points: Iterable[PointModel] = _rightPoints ++ _leftPoints
 
-  def rightLoop(signal: AutoSignalComponent): Unit = {
+  def rightLoop(signal: AutoSignalModel): Unit = {
     _rightPoints += PointOnTheRight(signal.currentIndex, signal)
   }
 
-  def right(signal: BiSignalComponent): Unit = {
+  def right(signal: BiSignalModel): Unit = {
     _rightPoints += PointOnTheRight(signal.currentIndex, signal)
   }
 
-  def left(signal: BiSignalComponent): Unit = {
+  def left(signal: BiSignalModel): Unit = {
     _leftPoints += PointOnTheLeft(signal.currentIndex, signal)
   }
 
@@ -61,13 +61,13 @@ class ActivityComponent(val id: Int,
   def leftPoints: Iterable[PointOnTheLeft] = _leftPoints
 }
 
-trait PointComponent extends Component {
-  def signalComponent: SignalComponent
+trait PointModel extends Component {
+  def signalComponent: SignalModel
 }
 
-case class PointOnTheRight(id: Int, signal: SignalComponent) extends PointComponent {
-  override def signalComponent: SignalComponent = signal
+case class PointOnTheRight(id: Int, signal: SignalModel) extends PointModel {
+  override def signalComponent: SignalModel = signal
 }
-case class PointOnTheLeft(id: Int, signal: BiSignalComponent) extends PointComponent {
-  override def signalComponent: SignalComponent = signal
+case class PointOnTheLeft(id: Int, signal: BiSignalModel) extends PointModel {
+  override def signalComponent: SignalModel = signal
 }
