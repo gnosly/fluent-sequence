@@ -21,6 +21,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       ))
 
     viewModel shouldBe ViewModel(
+      List(ActorModel(0, "user")),
       List(
         new ActorComponent(
           0,
@@ -72,7 +73,11 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
                          asBuffer(new ActivityComponent(0, 0, 0, 1, _leftPoints = systemRightPoints)),
                          true)
 
-    viewModel shouldBe ViewModel(List(userComponent, systemComponent), List(), List(), 1)
+    viewModel shouldBe ViewModel(List(ActorModel(0, "user"), ActorModel(1, "system")),
+                                 List(userComponent, systemComponent),
+                                 List(),
+                                 List(),
+                                 1)
   }
 
   it should "create viewModel with FIRE " in {
@@ -98,7 +103,11 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
                          asBuffer(new ActivityComponent(0, 0, 0, 0, _leftPoints = systemRightPoints)),
                          true)
 
-    viewModel shouldBe ViewModel(List(userComponent, systemComponent), List(), List(), 0)
+    viewModel shouldBe ViewModel(List(ActorModel(0, "user"), ActorModel(1, "system")),
+                                 List(userComponent, systemComponent),
+                                 List(),
+                                 List(),
+                                 0)
   }
 
   it should "alternative " in {
@@ -154,6 +163,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 1, 2, _leftPoints = systemLeftPoints)), true)
 
     viewModel shouldBe ViewModel(
+      List(ActorModel(0, "user"), ActorModel(1, "system")),
       List(userComponent, systemComponent),
       List(new SequenceComponent("sequenceName", -1), new SequenceComponent("another sequence", 2)),
       List(),

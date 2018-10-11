@@ -7,7 +7,10 @@ import com.gnosly.fluentsequence.view.model.component.SequenceComponent
 
 import scala.collection.mutable
 
-case class ViewModel(actors: List[ActorComponent],
+case class ActorModel(id: Int, name: String)
+
+case class ViewModel(actorsM: List[ActorModel],
+                     actors: List[ActorComponent],
                      sequenceComponents: List[SequenceComponent],
                      alternatives: List[AlternativeComponent],
                      lastSignalIndex: Int) {
@@ -104,7 +107,11 @@ object ViewModelComponentsFactory {
       _actors.foreach(a => a._2.end(lastSignalIndex))
       _actors.maxBy(a => a._2.id)._2.markAsLast
 
-      ViewModel(_actors.values.toList, _sequenceComponents.toList.toList, _alternatives.toList, lastSignalIndex)
+      ViewModel(_actors.values.map(a => ActorModel(a.id, a.name)).toList,
+                _actors.values.toList,
+                _sequenceComponents.toList,
+                _alternatives.toList,
+                lastSignalIndex)
     }
   }
 

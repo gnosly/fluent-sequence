@@ -19,7 +19,7 @@ class FixedWidthPainter extends Painter {
   override def paint(viewModel: ViewModel, pointMap: ResolvedPoints): Canvas = {
     val titleCanvas = paintTitle(viewModel, pointMap)
 
-    val actorCanvas = viewModel.actors.map(a => actorPainter.paint(a, pointMap))
+    val actorCanvas = viewModel.actorsM.map(a => actorPainter.paint(a, pointMap))
 
     val activityCanvas = for {
       a <- viewModel.actors

@@ -1,5 +1,6 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
+import com.gnosly.fluentsequence.view.model.ActorModel
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.component.ActorComponent
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
@@ -10,8 +11,7 @@ class FixedWidthActorPainterTest extends FunSuite with Matchers {
   val painter = new FixedWidthActorPainter
 
   test("render user box") {
-    val user = new ActorComponent(0, "user")
-    user.done("something", 0)
+    val user = new ActorModel(0, "user")
 
     val canvas = painter.paint(user,
                                Map(

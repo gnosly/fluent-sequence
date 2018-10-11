@@ -2,13 +2,13 @@ package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
+import com.gnosly.fluentsequence.view.model.ActorModel
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
-import com.gnosly.fluentsequence.view.model.component.ActorComponent
 
-class FixedWidthActorPainter extends ComponentPainter[ActorComponent] {
+class FixedWidthActorPainter extends ComponentPainter[ActorModel] {
 
-  override def paint(actor: ActorComponent, pointMap: ResolvedPoints): FixedWidthCanvas = {
+  override def paint(actor: ActorModel, pointMap: ResolvedPoints): FixedWidthCanvas = {
     val padding = 2
     val name = actor.name
     val innerSize = name.length + padding
