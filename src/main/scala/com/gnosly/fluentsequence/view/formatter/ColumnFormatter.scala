@@ -39,8 +39,8 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
   private def columnWidthForcedByAutoSignal(signal: AutoSignalComponent, actorStartX: Point1d) = {
     val signalWidth = fixedPreRenderer.preRender(signal).width
 
-    val actorId = signal.fromActorId
-    val activityId = signal.fromActivityId
+    val actorId = signal.actorId
+    val activityId = signal.activityId
 
     val signalStartX =
       new ReferencePoint(Activity.pointStart(actorId, activityId, signal.currentIndex, "right")).x

@@ -14,11 +14,11 @@ class AutoSignalFormatter(preRenderer: PreRenderer) {
 
   def format(signal: AutoSignalComponent): Pointable = {
     val signalBox = preRenderer.preRender(signal)
-    val activityTopRight = new ReferencePoint(Activity.topRight(signal.fromActorId, signal.fromActivityId))
+    val activityTopRight = new ReferencePoint(Activity.topRight(signal.actorId, signal.activityId))
     //2. determinazione punto in alto a sx
     val signalTopLeft = previousIndexPointOrDefaultForAutoSignal(activityTopRight, signal)
 
-    SignalPoint(signal.fromActorId, signal.fromActivityId, signal.currentIndex, signalBox, "right", signalTopLeft)
+    SignalPoint(signal.actorId, signal.activityId, signal.currentIndex, signalBox, "right", signalTopLeft)
   }
 
   def previousIndexPointOrDefaultForAutoSignal(activityTopRight: Point2d, signal: SignalComponent): Point2d = {

@@ -62,7 +62,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
     println(str)
   }
 
-  test("multi activity") {
+  ignore("multi activity") {
 
     val flow = Sequence("example").startWith(
       USER.call("call", SYSTEM) ::

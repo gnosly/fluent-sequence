@@ -15,9 +15,8 @@ class RowFormatter {
   }
 
   def format(signal: AutoSignalComponent): Pointable = {
-    RowPoint(
-      signal.currentIndex,
-      new ReferencePoint(Activity.pointEnd(signal.fromActorId, signal.fromActivityId, signal.currentIndex, "right")).y)
+    RowPoint(signal.currentIndex,
+             new ReferencePoint(Activity.pointEnd(signal.actorId, signal.activityId, signal.currentIndex, "right")).y)
   }
 
   def format(signal: BiSignalComponent): Pointable = {
