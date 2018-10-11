@@ -23,7 +23,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       ))
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user")),
+      List(ActorModel(0, "user", true)),
       List(ActivityModel(0, 0, 0, 1)),
       List(PointOnTheRight(0, AutoSignalModel("something", 0, 0, 0)),
            PointOnTheRight(1, AutoSignalModel("something else", 1, 0, 0))),
@@ -76,7 +76,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 1, _leftPoints = systemPoints)), true)
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user"), ActorModel(1, "system")),
+      List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
       List(ActivityModel(0, 0, 0, 1), ActivityModel(0, 1, 0, 1)),
       userPoints.toList ++ systemPoints.toList,
       List(userComponent, systemComponent),
@@ -107,7 +107,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 0, _leftPoints = systemPoints)), true)
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user"), ActorModel(1, "system")),
+      List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
       List(ActivityModel(0, 0, 0, 0), ActivityModel(0, 1, 0, 0)),
       userPoints.toList ++ systemPoints.toList,
       List(userComponent, systemComponent),
@@ -170,11 +170,11 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 1, 2, _leftPoints = systemPoints)), true)
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user"), ActorModel(1, "system")),
+      List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
       List(ActivityModel(0, 0, 0, 4), ActivityModel(0, 1, 1, 2)),
       userPoints.toList ++ systemPoints.toList,
       List(userComponent, systemComponent),
-      List(new SequenceModel("sequenceName", -1), new SequenceModel("another sequence", 2)),
+      List(new SequenceModel("sequenceName", -1), SequenceModel("another sequence", 2)),
       List(),
       4
     )

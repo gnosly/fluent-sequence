@@ -21,13 +21,8 @@ class ActorComponent(val id: Int,
     val lastCalledActivity = called.activeUntil(index)
     val signal =
       new SyncResponse(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id)
-    if (signal.leftToRight) {
-      lastCallerActivity.right(signal)
-      lastCalledActivity.left(signal)
-    } else {
-      lastCallerActivity.left(signal)
-      lastCalledActivity.right(signal)
-    }
+    lastCallerActivity.left(signal)
+    lastCalledActivity.right(signal)
     signal
   }
 
@@ -36,13 +31,8 @@ class ActorComponent(val id: Int,
     val lastCalledActivity = called.activeUntil(index)
     val signal =
       new AsyncRequest(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id)
-    if (signal.leftToRight) {
-      lastCallerActivity.right(signal)
-      lastCalledActivity.left(signal)
-    } else {
-      lastCallerActivity.left(signal)
-      lastCalledActivity.right(signal)
-    }
+    lastCallerActivity.right(signal)
+    lastCalledActivity.left(signal)
     signal
   }
 
@@ -51,13 +41,8 @@ class ActorComponent(val id: Int,
     val lastCalledActivity = called.activeUntil(index)
     val signal =
       new SyncRequest(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id)
-    if (signal.leftToRight) {
-      lastCallerActivity.right(signal)
-      lastCalledActivity.left(signal)
-    } else {
-      lastCallerActivity.left(signal)
-      lastCalledActivity.right(signal)
-    }
+    lastCallerActivity.right(signal)
+    lastCalledActivity.left(signal)
     signal
   }
 

@@ -17,7 +17,7 @@ class SvgActorPainterTest extends FunSuite with Matchers {
       Coordinates.Actor.topLeft(0) -> Fixed2dPoint(1, 1),
       Coordinates.Actor.bottomMiddle(0) -> Fixed2dPoint(4, 5)
     )
-    val canvas = painter.paint(ActorModel(0, "name"), pointMap)
+    val canvas = painter.paint(ActorModel(0, "name", true), pointMap)
     println(canvas)
 
     canvas.content shouldBe

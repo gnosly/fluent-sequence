@@ -10,7 +10,7 @@ class FixedWidthActorPainterTest extends FunSuite with Matchers {
   val painter = new FixedWidthActorPainter
 
   test("render user box") {
-    val user = ActorModel(0, "user")
+    val user = ActorModel(0, "user", false)
 
     val canvas = painter.paint(user,
                                Map(

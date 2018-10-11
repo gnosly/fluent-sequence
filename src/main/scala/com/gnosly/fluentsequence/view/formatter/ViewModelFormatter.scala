@@ -35,8 +35,20 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private def pointableListFor(viewModel: ViewModel): Seq[Pointable] = {
 
     val columns = for {
-      a <- viewModel.actors
-    } yield columnFormatter.format(a)
+      a <- viewModel.actorsM
+    } yield
+      columnFormatter.format(
+        a,
+        viewModel.rightPoints.filter(p => {
+          p.signalComponent match {
+            case x: AsyncRequest if x.fromActorId == a.id => true
+            case x: SyncRequest if x.fromActorId == a.id  => true
+            case x: AutoSignalModel if x.actorId == a.id  => true
+            case x: SyncResponse if x.toActorId == a.id   => true
+            case _                                        => false
+          }
+        })
+      )
 
     val actors = for {
       a <- viewModel.actorsM

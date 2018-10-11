@@ -23,7 +23,7 @@ class ActorFormatterTest extends FunSuite with Matchers {
 
   test("format first actor alone") {
 
-    formatter.format(ActorModel(ACTOR_ID, ACTOR_NAME)) shouldBe
+    formatter.format(ActorModel(ACTOR_ID, ACTOR_NAME, true)) shouldBe
       ActorPoints(ACTOR_ID,
                   new Variable2DPoint(LEFT_MARGIN, TOP_MARGIN),
                   Box(ACTOR_NAME.length + ACTOR_PADDING, ACTOR_PADDING))
@@ -33,7 +33,7 @@ class ActorFormatterTest extends FunSuite with Matchers {
     val ACTOR_ID = 1
     val PREVIOUS_ACTOR_ID = 0
 
-    formatter.format(ActorModel(ACTOR_ID, ACTOR_NAME)) shouldBe
+    formatter.format(ActorModel(ACTOR_ID, ACTOR_NAME, true)) shouldBe
       ActorPoints(
         ACTOR_ID,
         new ReferencePoint(Actor.topLeft(PREVIOUS_ACTOR_ID))

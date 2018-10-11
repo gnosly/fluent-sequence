@@ -3,16 +3,16 @@ import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.ACTIVITY_FIXED_
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
 import com.gnosly.fluentsequence.view.formatter.point.ColumnPoint
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
+import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
 import com.gnosly.fluentsequence.view.model.component._
 
 class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
 
-  def format(actor: ActorComponent): Pointable = {
+  def format(actor: ActorModel, rightPoints: List[PointModel]): Pointable = {
     val actorWidth = fixedPreRenderer.preRender(actor).width
     val minWidth = columnWidthForcedBy(actor, actorWidth)
 
-    val result = actor.activities
-      .flatMap(a => a.rightPoints)
+    val result = rightPoints
       .foldLeft(minWidth)((acc, e) => {
         acc max columnWidthForcedBySignal(e.signalComponent, actorWidth)
       })
@@ -20,7 +20,7 @@ class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
     ColumnPoint(actor.id, result)
   }
 
-  private def columnWidthForcedBy(actor: ActorComponent, actorWidth: Long) = {
+  private def columnWidthForcedBy(actor: ActorModel, actorWidth: Long) = {
     if (actor.isLast) {
       actorWidth
     } else {

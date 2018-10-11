@@ -10,6 +10,7 @@ case class BiSignalModel(name: String,
 
   def leftToRight: Boolean = fromActorId < toActorId
   override def currentIndex: Int = index
+  override def fromActorIdd: Int = fromActorId
 }
 
 class SyncRequest(name: String,

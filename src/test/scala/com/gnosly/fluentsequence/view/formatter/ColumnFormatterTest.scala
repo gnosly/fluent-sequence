@@ -5,11 +5,10 @@ import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.AUTO_SIGNAL_FIX
 import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.BISIGNAL_FIXED_PADDING
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
 import com.gnosly.fluentsequence.view.formatter.point.ColumnPoint
+import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
 import com.gnosly.fluentsequence.view.model.component._
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
-
-import scala.collection.mutable
 
 class ColumnFormatterTest extends FunSuite with Matchers {
   val ACTOR_NAME = "user"
@@ -25,23 +24,26 @@ class ColumnFormatterTest extends FunSuite with Matchers {
 
   test("column when only one actor is defined") {
 
-    val actor = new ActorComponent(ACTOR_ID, ACTOR_NAME, isLast = true)
+    val actor = ActorModel(ACTOR_ID, ACTOR_NAME, isLast = true)
 
-    formatter.format(actor) shouldBe ColumnPoint(ACTOR_ID, ACTOR_PADDING + ACTOR_NAME.length)
+    formatter.format(actor, List()) shouldBe ColumnPoint(ACTOR_ID, ACTOR_PADDING + ACTOR_NAME.length)
   }
 
   test("column where actor is not the last") {
 
-    val actor = new ActorComponent(ACTOR_ID, ACTOR_NAME, isLast = false)
+    val actor = ActorModel(ACTOR_ID, ACTOR_NAME, isLast = false)
 
-    formatter.format(actor) shouldBe ColumnPoint(ACTOR_ID, ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS)
+    formatter.format(actor, List()) shouldBe ColumnPoint(ACTOR_ID,
+                                                         ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS)
   }
 
   test("column where actor has got different signals") {
 
     val call = new SyncRequest(SIGNAL_NAME, FIRST_INDEX, ACTOR_ID, ACTIVITY_ID, ANOTHER_ACTOR_ID, NOT_IMPORTANT)
 
-    val columnPoint = formatter.format(actorWith(PointOnTheRight(FIRST_INDEX, call), false))
+    val actor = ActorModel(ACTOR_ID, ACTOR_NAME, isLast = false)
+
+    val columnPoint = formatter.format(actor, PointOnTheRight(FIRST_INDEX, call) :: Nil)
 
     columnPoint shouldBe ColumnPoint(
       ACTOR_ID,
@@ -53,18 +55,14 @@ class ColumnFormatterTest extends FunSuite with Matchers {
     val call = new SyncRequest(SIGNAL_NAME, FIRST_INDEX, ACTOR_ID, ACTIVITY_ID, ANOTHER_ACTOR_ID, NOT_IMPORTANT)
     val reply = new SyncResponse(VERY_LONG_MESSAGE, 1, ANOTHER_ACTOR_ID, ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT)
 
-    val userRightPoints = mutable.ListBuffer[PointOnTheRight](
+    val userRightPoints = List(
       PointOnTheRight(FIRST_INDEX, call),
       PointOnTheRight(1, reply)
     )
 
-    val actor = new ActorComponent(
-      ACTOR_ID,
-      ACTOR_NAME,
-      asBuffer(
-        new ActivityComponent(ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT, NOT_IMPORTANT, _rightPoints = userRightPoints)))
+    val actor = ActorModel(ACTOR_ID, ACTOR_NAME, isLast = false)
 
-    val columnPoint = formatter.format(actor)
+    val columnPoint = formatter.format(actor, userRightPoints)
 
     columnPoint shouldBe ColumnPoint(
       ACTOR_ID,
@@ -74,26 +72,12 @@ class ColumnFormatterTest extends FunSuite with Matchers {
   test("column where actor has got auto signals") {
     val somethingSignal = AutoSignalModel(SIGNAL_NAME, ACTOR_ID, ACTOR_ID, ACTIVITY_ID)
 
-    val columnPoint = formatter.format(actorWith(PointOnTheRight(FIRST_INDEX, somethingSignal), false))
+    val actor = ActorModel(ACTOR_ID, ACTOR_NAME, isLast = false)
+
+    val columnPoint = formatter.format(actor, PointOnTheRight(FIRST_INDEX, somethingSignal) :: Nil)
 
     columnPoint shouldBe ColumnPoint(
       ACTOR_ID,
       (ACTOR_PADDING + ACTOR_NAME.length + ACTIVITY_FIXED_WIDTH) / 2 + SIGNAL_NAME.length + AUTO_SIGNAL_FIXED_PADDING)
   }
-
-  private def actorWith(rightPoint: PointOnTheRight, last: Boolean) = {
-    val userRightPoints = mutable.ListBuffer(rightPoint)
-    val actor = new ActorComponent(
-      ACTOR_ID,
-      ACTOR_NAME,
-      asBuffer(
-        new ActivityComponent(ACTIVITY_ID, ACTOR_ID, NOT_IMPORTANT, NOT_IMPORTANT, _rightPoints = userRightPoints)),
-      isLast = last)
-    actor
-  }
-
-  private def asBuffer(component: ActivityComponent): mutable.Buffer[ActivityComponent] = {
-    mutable.Buffer[ActivityComponent](component)
-  }
-
 }

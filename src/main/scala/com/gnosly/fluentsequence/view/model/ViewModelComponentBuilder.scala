@@ -50,7 +50,7 @@ object ViewModelComponentsFactory {
     private var lastSignalIndex = -1
 
     def sequenceStarted(name: String): Unit = {
-      _sequenceComponents += new SequenceModel(name, lastSignalIndex)
+      _sequenceComponents += SequenceModel(name, lastSignalIndex)
     }
 
     def alternativeStarted(condition: String): Unit = {
@@ -111,7 +111,7 @@ object ViewModelComponentsFactory {
       _actors.maxBy(a => a._2.id)._2.markAsLast
 
       ViewModel(
-        _actors.values.map(a => ActorModel(a.id, a.name)).toList,
+        _actors.values.map(a => ActorModel(a.id, a.name, a.isLast)).toList,
         _actors.values
           .flatMap(a => a.activities)
           .map(a => ActivityModel(a.id, a.actorId, a.fromIndex, a.toIndex))
