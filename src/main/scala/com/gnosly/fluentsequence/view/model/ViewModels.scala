@@ -5,7 +5,7 @@ import com.gnosly.fluentsequence.view.model.component.SequenceModel
 
 object ViewModels {
 
-  case class ViewModel(actorsM: List[ActorModel],
+  case class ViewModel(actors: List[ActorModel],
                        activities: List[ActivityModel],
                        points: List[PointModel],
                        sequenceComponents: List[SequenceModel],
@@ -13,7 +13,7 @@ object ViewModels {
                        lastSignalIndex: Int) {
     def rightPoints: List[PointModel] = points.filter { _.isInstanceOf[PointOnTheRight] }
 
-    def lastActorId: Int = actorsM.size - 1
+    def lastActorId: Int = actors.size - 1
   }
 
   case class ActorModel(id: Int, name: String, isLast: Boolean)

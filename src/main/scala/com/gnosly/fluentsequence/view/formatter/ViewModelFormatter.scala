@@ -35,7 +35,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private def pointableListFor(viewModel: ViewModel): Seq[Pointable] = {
 
     val columns = for {
-      a <- viewModel.actorsM
+      a <- viewModel.actors
     } yield
       columnFormatter.format(
         a,
@@ -51,7 +51,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       )
 
     val actors = for {
-      a <- viewModel.actorsM
+      a <- viewModel.actors
     } yield actorFormatter.format(a)
 
     val activities = for {
