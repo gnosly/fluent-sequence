@@ -11,14 +11,12 @@ import scala.collection.mutable
 case class ViewModel(actorsM: List[ActorModel],
                      activities: List[ActivityModel],
                      points: List[PointModel],
-                     actors: List[ActorComponent],
                      sequenceComponents: List[SequenceModel],
                      alternatives: List[AlternativeComponent],
                      lastSignalIndex: Int) {
   def rightPoints: List[PointModel] = points.filter { _.isInstanceOf[PointOnTheRight] }
 
-  def firstActor(): ActorComponent = actors.head
-  def lastActorId: Int = actors.size - 1
+  def lastActorId: Int = actorsM.size - 1
 }
 
 object ViewModelComponentsFactory {
@@ -79,16 +77,6 @@ object ViewModelComponentsFactory {
       caller.called(called, something, lastSignalIndex)
     }
 
-    private def createOrGet(who: core.Actor): ActorComponent = {
-      val actor = _actors.getOrElse(who.name, {
-        val newActor = new ActorComponent(_actors.size, who.name)
-        _actors += who.name -> newActor
-        newActor
-      })
-
-      actor
-    }
-
     def replied(who: core.Actor, something: String, toSomebody: core.Actor): Unit = {
       lastSignalIndex += 1
       val replier = createOrGet(who)
@@ -106,6 +94,16 @@ object ViewModelComponentsFactory {
       caller.fired(called, something, lastSignalIndex)
     }
 
+    private def createOrGet(who: core.Actor): ActorComponent = {
+      val actor = _actors.getOrElse(who.name, {
+        val newActor = new ActorComponent(_actors.size, who.name)
+        _actors += who.name -> newActor
+        newActor
+      })
+
+      actor
+    }
+
     def build(): ViewModel = {
       _actors.foreach(a => a._2.end(lastSignalIndex))
       _actors.maxBy(a => a._2.id)._2.markAsLast
@@ -117,7 +115,6 @@ object ViewModelComponentsFactory {
           .map(a => ActivityModel(a.id, a.actorId, a.fromIndex, a.toIndex))
           .toList,
         _actors.values.flatMap(_.activities).flatMap(_.points).toList,
-        _actors.values.toList,
         _sequenceComponents.toList,
         _alternatives.toList,
         lastSignalIndex

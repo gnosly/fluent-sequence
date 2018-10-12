@@ -27,22 +27,6 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       List(ActivityModel(0, 0, 0, 1)),
       List(PointOnTheRight(0, AutoSignalModel("something", 0, 0, 0)),
            PointOnTheRight(1, AutoSignalModel("something else", 1, 0, 0))),
-      List(
-        new ActorComponent(
-          0,
-          "user",
-          asBuffer(new ActivityComponent(
-            0,
-            0,
-            0,
-            1,
-            _rightPoints = mutable.ListBuffer[PointOnTheRight](
-              PointOnTheRight(0, AutoSignalModel("something", 0, 0, 0)),
-              PointOnTheRight(1, AutoSignalModel("something else", 1, 0, 0))
-            )
-          )),
-          true
-        )),
       List(),
       List(),
       1
@@ -64,22 +48,15 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       PointOnTheRight(1, response)
     )
 
-    val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 1, _rightPoints = userPoints)))
-
     val systemPoints = mutable.ListBuffer[PointOnTheLeft](
       PointOnTheLeft(0, call),
       PointOnTheLeft(1, response)
     )
 
-    val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 1, _leftPoints = systemPoints)), true)
-
     viewModel shouldBe ViewModel(
       List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
       List(ActivityModel(0, 0, 0, 1), ActivityModel(0, 1, 0, 1)),
       userPoints.toList ++ systemPoints.toList,
-      List(userComponent, systemComponent),
       List(),
       List(),
       1
@@ -110,7 +87,6 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
       List(ActivityModel(0, 0, 0, 0), ActivityModel(0, 1, 0, 0)),
       userPoints.toList ++ systemPoints.toList,
-      List(userComponent, systemComponent),
       List(),
       List(),
       0
@@ -173,7 +149,6 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
       List(ActivityModel(0, 0, 0, 4), ActivityModel(0, 1, 1, 2)),
       userPoints.toList ++ systemPoints.toList,
-      List(userComponent, systemComponent),
       List(new SequenceModel("sequenceName", -1), SequenceModel("another sequence", 2)),
       List(),
       4
