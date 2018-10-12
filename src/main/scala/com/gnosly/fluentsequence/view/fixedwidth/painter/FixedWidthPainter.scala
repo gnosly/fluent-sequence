@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view.fixedwidth.painter
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.Coordinates._
+import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
 import com.gnosly.fluentsequence.view.model._
 import com.gnosly.fluentsequence.view.model.component._
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint

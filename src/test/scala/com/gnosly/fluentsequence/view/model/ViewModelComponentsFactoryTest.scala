@@ -4,6 +4,7 @@ import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.viewModelFrom
 import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
 import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
+import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
 import com.gnosly.fluentsequence.view.model.component._
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -73,15 +74,9 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
 
     val userPoints = mutable.ListBuffer[PointOnTheRight](PointOnTheRight(0, call))
 
-    val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 0, _rightPoints = userPoints)))
-
     val systemPoints = mutable.ListBuffer[PointOnTheLeft](
       PointOnTheLeft(0, call)
     )
-
-    val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 0, 0, _leftPoints = systemPoints)), true)
 
     viewModel shouldBe ViewModel(
       List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
@@ -139,23 +134,13 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       PointOnTheLeft(2, signalC)
     )
 
-    val userComponent =
-      new ActorComponent(0, "user", asBuffer(new ActivityComponent(0, 0, 0, 4, _rightPoints = userPoints)), false)
-
-    val systemComponent =
-      new ActorComponent(1, "system", asBuffer(new ActivityComponent(0, 0, 1, 2, _leftPoints = systemPoints)), true)
-
     viewModel shouldBe ViewModel(
       List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
       List(ActivityModel(0, 0, 0, 4), ActivityModel(0, 1, 1, 2)),
       userPoints.toList ++ systemPoints.toList,
-      List(new SequenceModel("sequenceName", -1), SequenceModel("another sequence", 2)),
+      List(SequenceModel("sequenceName", -1), SequenceModel("another sequence", 2)),
       List(),
       4
     )
-  }
-
-  private def asBuffer(component: ActivityComponent): mutable.Buffer[ActivityComponent] = {
-    mutable.Buffer[ActivityComponent](component)
   }
 }

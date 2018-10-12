@@ -4,20 +4,10 @@ import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
 import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
+import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
 import com.gnosly.fluentsequence.view.model.component._
 
 import scala.collection.mutable
-
-case class ViewModel(actorsM: List[ActorModel],
-                     activities: List[ActivityModel],
-                     points: List[PointModel],
-                     sequenceComponents: List[SequenceModel],
-                     alternatives: List[AlternativeComponent],
-                     lastSignalIndex: Int) {
-  def rightPoints: List[PointModel] = points.filter { _.isInstanceOf[PointOnTheRight] }
-
-  def lastActorId: Int = actorsM.size - 1
-}
 
 object ViewModelComponentsFactory {
 

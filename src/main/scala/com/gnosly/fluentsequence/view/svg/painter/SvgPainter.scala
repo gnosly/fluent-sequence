@@ -4,7 +4,7 @@ import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.Reso
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.Canvas
 import com.gnosly.fluentsequence.view.model.Painter
-import com.gnosly.fluentsequence.view.model.ViewModel
+import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
 import com.gnosly.fluentsequence.view.model.component._
 
 //fixme maybe could be one painter
