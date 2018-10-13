@@ -2,10 +2,8 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
-import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
-import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
-import com.gnosly.fluentsequence.view.model.component._
+import com.gnosly.fluentsequence.view.model.ViewModels._
+import com.gnosly.fluentsequence.view.model.component.ActorComponent
 
 import scala.collection.mutable
 
@@ -31,7 +29,7 @@ object ViewModelComponentsFactory {
     viewModel.build()
   }
 
-  private class ViewModelComponentBuilder(
+  class ViewModelComponentBuilder(
       private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
       private val _sequenceComponents: mutable.ListBuffer[SequenceModel] = mutable.ListBuffer[SequenceModel](),
       private val _alternatives: mutable.ListBuffer[AlternativeComponent] = mutable.ListBuffer[AlternativeComponent]()) {

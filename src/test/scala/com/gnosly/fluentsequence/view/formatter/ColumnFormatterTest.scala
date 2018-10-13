@@ -6,7 +6,7 @@ import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.BISIGNAL_FIXED_
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
 import com.gnosly.fluentsequence.view.formatter.point.ColumnPoint
 import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
-import com.gnosly.fluentsequence.view.model.component._
+import com.gnosly.fluentsequence.view.model.ViewModels._
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 

@@ -1,4 +1,6 @@
 package com.gnosly.fluentsequence.view.model.component
+import com.gnosly.fluentsequence.view.model.ViewModels.AutoSignalModel
+import com.gnosly.fluentsequence.view.model.ViewModels.PointOnTheRight
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 

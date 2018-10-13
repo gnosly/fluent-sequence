@@ -5,7 +5,7 @@ import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
 import com.gnosly.fluentsequence.view.model.Box
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.component.AutoSignalModel
+import com.gnosly.fluentsequence.view.model.ViewModels.AutoSignalModel
 import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
 import com.gnosly.fluentsequence.view.model.point.Reference1DPoint
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint

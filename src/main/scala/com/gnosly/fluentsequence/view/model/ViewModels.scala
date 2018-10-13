@@ -1,9 +1,15 @@
 package com.gnosly.fluentsequence.view.model
-import com.gnosly.fluentsequence.view.model.component.PointModel
-import com.gnosly.fluentsequence.view.model.component.PointOnTheRight
-import com.gnosly.fluentsequence.view.model.component.SequenceModel
 
 object ViewModels {
+
+  trait PointModel {
+    def signalComponent: SignalModel
+  }
+
+  trait SignalModel {
+    def currentIndex: Int
+    def fromActorIdd: Int
+  }
 
   case class ViewModel(actors: List[ActorModel],
                        activities: List[ActivityModel],
@@ -17,7 +23,61 @@ object ViewModels {
   }
 
   case class ActorModel(id: Int, name: String, isLast: Boolean)
+
   case class ActivityModel(id: Int, actorId: Int, fromIndex: Int, toIndex: Int) {
     def isFirst: Boolean = id == 0
   }
+
+  case class PointOnTheRight(id: Int, signal: SignalModel) extends PointModel {
+    override def signalComponent: SignalModel = signal
+  }
+
+  case class PointOnTheLeft(id: Int, signal: BiSignalModel) extends PointModel {
+    override def signalComponent: SignalModel = signal
+  }
+
+  case class BiSignalModel(name: String,
+                           index: Int,
+                           fromActorId: Int,
+                           fromActivityId: Int,
+                           toActorId: Int,
+                           toActivityId: Int)
+      extends SignalModel {
+
+    def leftToRight: Boolean = fromActorId < toActorId
+    override def currentIndex: Int = index
+    override def fromActorIdd: Int = fromActorId
+  }
+
+  class SyncRequest(name: String,
+                    override val index: Int,
+                    override val fromActorId: Int,
+                    override val fromActivityId: Int,
+                    override val toActorId: Int,
+                    override val toActivityId: Int)
+      extends BiSignalModel(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId)
+
+  class SyncResponse(name: String,
+                     override val index: Int,
+                     override val fromActorId: Int,
+                     override val fromActivityId: Int,
+                     override val toActorId: Int,
+                     override val toActivityId: Int)
+      extends BiSignalModel(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId)
+
+  class AsyncRequest(name: String,
+                     override val index: Int,
+                     override val fromActorId: Int,
+                     override val fromActivityId: Int,
+                     override val toActorId: Int,
+                     override val toActivityId: Int)
+      extends BiSignalModel(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId)
+
+  case class AutoSignalModel(name: String, index: Int, actorId: Int, activityId: Int) extends SignalModel {
+
+    override def currentIndex: Int = index
+    override def fromActorIdd: Int = actorId
+  }
+
+  case class SequenceModel(name: String, startIndex: Int)
 }

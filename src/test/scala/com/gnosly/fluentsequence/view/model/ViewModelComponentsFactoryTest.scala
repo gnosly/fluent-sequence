@@ -2,10 +2,7 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.viewModelFrom
-import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
-import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
-import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
-import com.gnosly.fluentsequence.view.model.component._
+import com.gnosly.fluentsequence.view.model.ViewModels._
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 

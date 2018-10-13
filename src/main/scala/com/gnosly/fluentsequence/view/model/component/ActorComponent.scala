@@ -1,5 +1,7 @@
 package com.gnosly.fluentsequence.view.model.component
 
+import com.gnosly.fluentsequence.view.model.ViewModels._
+
 import scala.collection.mutable
 
 class ActorComponent(val id: Int,

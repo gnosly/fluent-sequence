@@ -4,7 +4,7 @@ import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
-import com.gnosly.fluentsequence.view.model.component.SyncResponse
+import com.gnosly.fluentsequence.view.model.ViewModels.SyncResponse
 
 class FixedWidthSyncResponsePainter() extends ComponentPainter[SyncResponse] {
 

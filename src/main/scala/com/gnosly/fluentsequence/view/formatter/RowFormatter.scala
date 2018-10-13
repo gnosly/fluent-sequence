@@ -2,9 +2,9 @@ package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.component.AutoSignalModel
-import com.gnosly.fluentsequence.view.model.component.BiSignalModel
-import com.gnosly.fluentsequence.view.model.component.SignalModel
+import com.gnosly.fluentsequence.view.model.ViewModels.AutoSignalModel
+import com.gnosly.fluentsequence.view.model.ViewModels.BiSignalModel
+import com.gnosly.fluentsequence.view.model.ViewModels.SignalModel
 import com.gnosly.fluentsequence.view.model.point._
 
 class RowFormatter {

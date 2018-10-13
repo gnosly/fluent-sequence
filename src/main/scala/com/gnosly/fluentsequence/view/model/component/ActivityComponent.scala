@@ -1,5 +1,7 @@
 package com.gnosly.fluentsequence.view.model.component
 
+import com.gnosly.fluentsequence.view.model.ViewModels._
+
 import scala.collection.mutable.ListBuffer
 
 class ActivityComponent(val id: Int,
@@ -59,15 +61,4 @@ class ActivityComponent(val id: Int,
 
   def rightPoints: Iterable[PointOnTheRight] = _rightPoints
   def leftPoints: Iterable[PointOnTheLeft] = _leftPoints
-}
-
-trait PointModel extends Component {
-  def signalComponent: SignalModel
-}
-
-case class PointOnTheRight(id: Int, signal: SignalModel) extends PointModel {
-  override def signalComponent: SignalModel = signal
-}
-case class PointOnTheLeft(id: Int, signal: BiSignalModel) extends PointModel {
-  override def signalComponent: SignalModel = signal
 }

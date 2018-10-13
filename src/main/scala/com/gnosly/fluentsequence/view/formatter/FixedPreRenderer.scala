@@ -1,17 +1,15 @@
 package com.gnosly.fluentsequence.view.formatter
 
-import com.gnosly.fluentsequence.view.model.Box
-import com.gnosly.fluentsequence.view.model.PreRenderer
 import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
 import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
-import com.gnosly.fluentsequence.view.model.component._
+import com.gnosly.fluentsequence.view.model.ViewModels._
+import com.gnosly.fluentsequence.view.model.Box
+import com.gnosly.fluentsequence.view.model.PreRenderer
 
 class FixedPreRenderer extends PreRenderer {
   import FixedPreRenderer._
 
   override def preRender(actor: ActorModel): Box = Box(actor.name.length + ACTOR_PADDING, ACTOR_MIN_HEIGHT)
-
-  override def preRender(actor: ActorComponent): Box = Box(actor.name.length + ACTOR_PADDING, ACTOR_MIN_HEIGHT)
 
   override def preRender(activity: ActivityModel): Box = Box(ACTIVITY_FIXED_WIDTH, ACTIVITY_MIN_HEIGHT)
 

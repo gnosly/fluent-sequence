@@ -3,8 +3,7 @@ import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.ACTIVITY_FIXED_
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
 import com.gnosly.fluentsequence.view.formatter.point.ColumnPoint
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
-import com.gnosly.fluentsequence.view.model.component._
+import com.gnosly.fluentsequence.view.model.ViewModels._
 
 class ColumnFormatter(fixedPreRenderer: FixedPreRenderer) {
 

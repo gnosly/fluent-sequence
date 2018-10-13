@@ -4,7 +4,7 @@ import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.Reso
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
-import com.gnosly.fluentsequence.view.model.component._
+import com.gnosly.fluentsequence.view.model.ViewModels._
 
 class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private val actorFormatter = new ActorFormatter(preRenderer)

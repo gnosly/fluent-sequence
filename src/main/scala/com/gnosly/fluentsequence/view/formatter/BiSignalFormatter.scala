@@ -4,7 +4,7 @@ import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETW
 import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
 import com.gnosly.fluentsequence.view.model.Coordinates._
 import com.gnosly.fluentsequence.view.model.PreRenderer
-import com.gnosly.fluentsequence.view.model.component.BiSignalModel
+import com.gnosly.fluentsequence.view.model.ViewModels.BiSignalModel
 import com.gnosly.fluentsequence.view.model.point._
 
 //TODO create three different formatter, one for bisignal type

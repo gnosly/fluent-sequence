@@ -5,7 +5,7 @@ import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.Reso
 import com.gnosly.fluentsequence.view.model.Coordinates._
 import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
 import com.gnosly.fluentsequence.view.model._
-import com.gnosly.fluentsequence.view.model.component._
+import com.gnosly.fluentsequence.view.model.ViewModels._
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class FixedWidthPainter extends Painter {
