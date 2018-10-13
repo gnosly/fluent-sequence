@@ -8,8 +8,6 @@ class ActorModelBuilder(val id: Int,
                         val name: String,
                         val activities: mutable.Buffer[ActivityModelBuilder] = mutable.Buffer[ActivityModelBuilder](),
                         var isLast: Boolean = false) {
-  def markAsLast: Unit = isLast = true
-
   def done(something: String, index: Int): SignalModel = {
     val lastActivity = this.activeUntil(index)
     val autoSignal = AutoSignalModel(something, index, this.id, lastActivity.id)
@@ -25,6 +23,21 @@ class ActorModelBuilder(val id: Int,
     lastCallerActivity.left(signal)
     lastCalledActivity.right(signal)
     signal
+  }
+
+  private def activeUntil(index: Int): ActivityModelBuilder = {
+    if (activities.isEmpty) {
+      activities += new ActivityModelBuilder(0, this.id, index, index, true)
+    }
+    val last = activities.last
+    if (last.active) {
+      last.increaseUntil(index)
+      last
+    } else {
+      val component = new ActivityModelBuilder(last.id + 1, this.id, index, 0, true)
+      activities += component
+      component
+    }
   }
 
   def fired(called: ActorModelBuilder, something: String, index: Int): SignalModel = {
@@ -47,24 +60,16 @@ class ActorModelBuilder(val id: Int,
     signal
   }
 
-  private def activeUntil(index: Int): ActivityModelBuilder = {
-    if (activities.isEmpty) {
-      activities += new ActivityModelBuilder(0, this.id, index, index, true)
+  def build(lastIndex: Int, lastActorId: Int): ActorModel = {
+    if (id == lastActorId) {
+      markAsLast()
     }
-    val last = activities.last
-    if (last.active) {
-      last.increaseUntil(index)
-      last
-    } else {
-      val component = new ActivityModelBuilder(last.id + 1, this.id, index, 0, true)
-      activities += component
-      component
-    }
+    activities.lastOption.foreach(_.end(lastIndex))
+
+    ActorModel(id, name, isLast)
   }
 
-  def end(index: Int): Unit = {
-    activities.lastOption.foreach(_.end(index))
-  }
+  private def markAsLast(): Unit = isLast = true
 
   override def equals(other: Any): Boolean = other match {
     case that: ActorModelBuilder =>
