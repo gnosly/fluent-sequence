@@ -1,9 +1,9 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
-import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.ViewModels.AsyncRequest
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 import com.gnosly.fluentsequence.view.svg.SvgCanvas
 
 class SvgAsyncRequestPainter() extends ComponentPainter[AsyncRequest] {

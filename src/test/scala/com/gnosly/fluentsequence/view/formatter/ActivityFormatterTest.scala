@@ -6,6 +6,7 @@ import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.Coordinates.Actor
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
+import com.gnosly.fluentsequence.view.model.point.PointMap
 import com.gnosly.fluentsequence.view.model.point.Reference1DPoint
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint
 import org.scalatest.FunSuite

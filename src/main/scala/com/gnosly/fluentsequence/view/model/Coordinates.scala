@@ -1,12 +1,12 @@
 package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
-import com.gnosly.fluentsequence.view.model.point.PointMap
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 
 object Coordinates {
 
   trait Pointable {
-    def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)]
+    def toPoints(pointMap: ResolvedPoints): Seq[(String, Fixed2dPoint)]
   }
 
   object Actor {

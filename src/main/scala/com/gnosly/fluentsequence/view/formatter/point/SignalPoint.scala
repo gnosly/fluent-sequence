@@ -15,7 +15,7 @@ case class SignalPoint(actorId: Int,
 
   private val fixedPointEnd = signalTopLeft.down(signalBox.height)
 
-  def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] = {
+  def toPoints(pointMap: ResolvedPoints): Seq[(String, Fixed2dPoint)] = {
     Activity.pointStart(actorId, activityId, signalIndex, direction) -> signalTopLeft.resolve(pointMap) ::
       Activity.pointEnd(actorId, activityId, signalIndex, direction) -> fixedPointEnd.resolve(pointMap) :: Nil
   }

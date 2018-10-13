@@ -1,10 +1,10 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
 
 import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
-import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.AlternativeComponent
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 
 class FixedWidthAlternativePainter extends ComponentPainter[AlternativeComponent] {
   override def paint(model: AlternativeComponent, pointMap: ResolvedPoints): FixedWidthCanvas = {

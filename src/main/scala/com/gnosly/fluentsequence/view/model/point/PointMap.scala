@@ -1,7 +1,5 @@
 package com.gnosly.fluentsequence.view.model.point
 
-import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
-
 import scala.collection.mutable
 
 class PointMap {
@@ -10,25 +8,7 @@ class PointMap {
   }
   val map: mutable.TreeMap[String, Fixed2dPoint] = mutable.TreeMap[String, Fixed2dPoint]()(defaultOrdering)
 
-  def get1DPoint(name: String): Fixed1DPoint = {
-    if (name.split("#").length > 1) {
-      val point = name.split("#")(0)
-      val coordinate = name.split("#")(1)
-
-      if (coordinate == "x") {
-        Fixed1DPoint(apply(point).x)
-      } else {
-        Fixed1DPoint(apply(point).y)
-      }
-    } else {
-      Fixed1DPoint(apply(name).x) // x for convention
-    }
-  }
-
-  private def apply(key: String): Fixed2dPoint =
-    map.getOrElse(key, Fixed2dPoint(0, 0))
-
   def putAll(entries: Seq[(String, Fixed2dPoint)]): Unit = map ++= entries
 
-  def toMap: ResolvedPoints = map.toMap
+  def toMap: ResolvedPoints = new ResolvedPoints(map.toMap)
 }

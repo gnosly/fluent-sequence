@@ -1,10 +1,10 @@
 package com.gnosly.fluentsequence.view.formatter
 
-import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
 import com.gnosly.fluentsequence.view.model.ViewModels._
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 
 class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private val actorFormatter = new ActorFormatter(preRenderer)

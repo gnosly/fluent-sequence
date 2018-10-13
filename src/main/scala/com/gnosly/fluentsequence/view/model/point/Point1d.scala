@@ -9,7 +9,7 @@ trait Point1d {
 
   def max(that: Point1d): Point1d = Variable1DPoint(this, that, maxFunction)
 
-  def resolve(pointMap: PointMap): Fixed1DPoint
+  def resolve(pointMap: ResolvedPoints): Fixed1DPoint
 }
 
 object Point1dFunction {

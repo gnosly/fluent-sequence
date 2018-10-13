@@ -2,6 +2,7 @@ package com.gnosly.fluentsequence.view.svg.painter
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.ViewModels.AsyncRequest
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
@@ -11,10 +12,11 @@ class SvgAsyncRequestPainterTest extends FunSuite with Matchers {
   val painter = new SvgAsyncRequestPainter
 
   test("bisignal left to right") {
-    val pointMap = HashMap(
-      Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(1, 10),
-      Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(10, 10)
-    )
+    val pointMap = new ResolvedPoints(
+      Map(
+        Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(1, 10),
+        Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(10, 10)
+      ))
 
     val canvas = painter.paint(new AsyncRequest("name", 0, 0, 0, 1, 0), pointMap)
     println(canvas)

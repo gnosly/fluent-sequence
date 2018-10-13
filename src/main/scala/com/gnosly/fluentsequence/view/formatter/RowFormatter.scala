@@ -29,6 +29,6 @@ class RowFormatter {
 }
 
 case class RowPoint(signalIndex: Int, rowCoordinate: Point1d) extends Pointable {
-  override def toPoints(pointMap: PointMap): Seq[(String, Fixed2dPoint)] =
+  override def toPoints(pointMap: ResolvedPoints): Seq[(String, Fixed2dPoint)] =
     ViewMatrix.row(signalIndex) -> Fixed2dPoint(rowCoordinate.resolve(pointMap).x, 0) :: Nil
 }

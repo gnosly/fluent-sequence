@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view.svg.painter
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.ViewModels.ActorModel
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
@@ -13,10 +14,12 @@ class SvgActorPainterTest extends FunSuite with Matchers {
 
   test("actor") {
 
-    val pointMap = HashMap(
-      Coordinates.Actor.topLeft(0) -> Fixed2dPoint(1, 1),
-      Coordinates.Actor.bottomMiddle(0) -> Fixed2dPoint(4, 5)
-    )
+    val pointMap = new ResolvedPoints(
+      Map(
+        Coordinates.Actor.topLeft(0) -> Fixed2dPoint(1, 1),
+        Coordinates.Actor.bottomMiddle(0) -> Fixed2dPoint(4, 5)
+      ))
+
     val canvas = painter.paint(ActorModel(0, "name", true), pointMap)
     println(canvas)
 

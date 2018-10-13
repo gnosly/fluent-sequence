@@ -1,11 +1,10 @@
 package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
-import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.model.point.PointMap
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 
 object PointableResolverAlgorithms {
-  type ResolvedPoints = Map[String, Fixed2dPoint]
 
   val loopPointableResolverAlgorithm = new LoopPointableResolverAlgorithm
 
@@ -21,7 +20,7 @@ object PointableResolverAlgorithms {
       do () while ({
         val previousPointMap = pointMap.toMap
 
-        pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap)))
+        pointMap.putAll(pointables.flatMap(p => p.toPoints(pointMap.toMap)))
 
         pointMap.toMap != previousPointMap
       })

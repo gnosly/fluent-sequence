@@ -5,7 +5,7 @@ trait Point2d {
 
   def y: Point1d
 
-  def resolve(pointMap: PointMap): Fixed2dPoint
+  def resolve(resolvedPoints: ResolvedPoints): Fixed2dPoint
 
   def atY(newY: Long): Point2d
 

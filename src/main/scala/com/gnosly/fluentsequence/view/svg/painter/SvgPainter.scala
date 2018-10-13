@@ -1,10 +1,10 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
-import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.ResolvedPoints
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.Canvas
 import com.gnosly.fluentsequence.view.model.Painter
 import com.gnosly.fluentsequence.view.model.ViewModels._
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 
 //fixme maybe could be one painter
 case class SvgPainter() extends Painter {

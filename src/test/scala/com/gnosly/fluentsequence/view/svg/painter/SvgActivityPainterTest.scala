@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view.svg.painter
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.ViewModels.ActivityModel
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
@@ -12,12 +13,13 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
   val painter = new SvgActivityPainter
 
   test("first activity") {
-    val pointMap = HashMap(
-      Coordinates.Actor.topLeft(0) -> Fixed2dPoint(1, 1),
-      Coordinates.Actor.bottomMiddle(0) -> Fixed2dPoint(4, 5),
-      Coordinates.Activity.topLeft(0, 0) -> Fixed2dPoint(3, 5),
-      Coordinates.Activity.bottomLeft(0, 0) -> Fixed2dPoint(3, 8)
-    )
+    val pointMap = new ResolvedPoints(
+      Map(
+        Coordinates.Actor.topLeft(0) -> Fixed2dPoint(1, 1),
+        Coordinates.Actor.bottomMiddle(0) -> Fixed2dPoint(4, 5),
+        Coordinates.Activity.topLeft(0, 0) -> Fixed2dPoint(3, 5),
+        Coordinates.Activity.bottomLeft(0, 0) -> Fixed2dPoint(3, 8)
+      ))
 
     val canvas = painter.paint(ActivityModel(0, 0, 0, 10), pointMap)
 
@@ -28,11 +30,12 @@ class SvgActivityPainterTest extends FunSuite with Matchers {
   }
 
   test("second activity") {
-    val pointMap = HashMap(
-      Coordinates.Activity.bottomLeft(0, 0) -> Fixed2dPoint(3, 5),
-      Coordinates.Activity.topLeft(0, 1) -> Fixed2dPoint(3, 15),
-      Coordinates.Activity.bottomLeft(0, 1) -> Fixed2dPoint(3, 25)
-    )
+    val pointMap = new ResolvedPoints(
+      Map(
+        Coordinates.Activity.bottomLeft(0, 0) -> Fixed2dPoint(3, 5),
+        Coordinates.Activity.topLeft(0, 1) -> Fixed2dPoint(3, 15),
+        Coordinates.Activity.bottomLeft(0, 1) -> Fixed2dPoint(3, 25)
+      ))
 
     val canvas = painter.paint(ActivityModel(1, 0, 5, 10), pointMap)
 

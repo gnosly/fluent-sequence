@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view.svg.painter
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.ViewModels.AutoSignalModel
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
+import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
@@ -13,9 +14,7 @@ class SvgAutoSignalPainterTest extends FunSuite with Matchers {
 
   test("simple autosignal") {
 
-    val pointMap = HashMap(
-      Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(1, 10)
-    )
+    val pointMap = new ResolvedPoints(Map(Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(1, 10)))
 
     val canvas = painter.paint(AutoSignalModel("name", 0, 0, 0), pointMap)
     println(canvas)
