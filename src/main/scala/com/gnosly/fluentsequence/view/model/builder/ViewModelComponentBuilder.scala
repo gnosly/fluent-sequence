@@ -1,4 +1,5 @@
-package com.gnosly.fluentsequence.view.model.component
+package com.gnosly.fluentsequence.view.model.builder
+
 import com.gnosly.fluentsequence.core
 import com.gnosly.fluentsequence.view.model.AlternativeComponent
 import com.gnosly.fluentsequence.view.model.ViewModels._
@@ -6,7 +7,7 @@ import com.gnosly.fluentsequence.view.model.ViewModels._
 import scala.collection.mutable
 
 class ViewModelComponentBuilder(
-    private val _actors: mutable.HashMap[String, ActorComponent] = mutable.HashMap(),
+    private val _actors: mutable.HashMap[String, ActorModelBuilder] = mutable.HashMap(),
     private val _sequenceComponents: mutable.ListBuffer[SequenceModel] = mutable.ListBuffer[SequenceModel](),
     private val _alternatives: mutable.ListBuffer[AlternativeComponent] = mutable.ListBuffer[AlternativeComponent]()) {
   private var lastSignalIndex = -1
@@ -58,9 +59,9 @@ class ViewModelComponentBuilder(
     caller.fired(called, something, lastSignalIndex)
   }
 
-  private def createOrGet(who: core.Actor): ActorComponent = {
+  private def createOrGet(who: core.Actor): ActorModelBuilder = {
     val actor = _actors.getOrElse(who.name, {
-      val newActor = new ActorComponent(_actors.size, who.name)
+      val newActor = new ActorModelBuilder(_actors.size, who.name)
       _actors += who.name -> newActor
       newActor
     })

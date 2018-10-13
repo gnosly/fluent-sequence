@@ -1,17 +1,16 @@
-package com.gnosly.fluentsequence.view.model.component
+package com.gnosly.fluentsequence.view.model.builder
 
 import com.gnosly.fluentsequence.view.model.ViewModels._
 
 import scala.collection.mutable.ListBuffer
 
-class ActivityComponent(val id: Int,
-                        val actorId: Int,
-                        val fromIndex: Int,
-                        var toIndex: Int,
-                        var active: Boolean = false,
-                        private val _rightPoints: ListBuffer[PointOnTheRight] = ListBuffer(),
-                        private val _leftPoints: ListBuffer[PointOnTheLeft] = ListBuffer())
-    extends Component {
+class ActivityModelBuilder(val id: Int,
+                           val actorId: Int,
+                           val fromIndex: Int,
+                           var toIndex: Int,
+                           var active: Boolean = false,
+                           private val _rightPoints: ListBuffer[PointOnTheRight] = ListBuffer(),
+                           private val _leftPoints: ListBuffer[PointOnTheLeft] = ListBuffer()) {
 
   def points: Iterable[PointModel] = _rightPoints ++ _leftPoints
 
@@ -39,7 +38,7 @@ class ActivityComponent(val id: Int,
   }
 
   override def equals(other: Any): Boolean = other match {
-    case that: ActivityComponent =>
+    case that: ActivityModelBuilder =>
       (that canEqual this) &&
         rightPoints == that.rightPoints &&
         leftPoints == that.leftPoints &&
@@ -50,7 +49,7 @@ class ActivityComponent(val id: Int,
     case _ => false
   }
 
-  def canEqual(other: Any): Boolean = other.isInstanceOf[ActivityComponent]
+  def canEqual(other: Any): Boolean = other.isInstanceOf[ActivityModelBuilder]
 
   override def hashCode: Int = {
     val state = Seq(rightPoints, leftPoints, id, fromIndex, toIndex, active)

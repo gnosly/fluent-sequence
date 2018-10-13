@@ -2,8 +2,7 @@ package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.model.ViewModels._
-import com.gnosly.fluentsequence.view.model.component.ViewModelComponentBuilder
-
+import com.gnosly.fluentsequence.view.model.builder.ViewModelComponentBuilder
 object ViewModelComponentsFactory {
 
   def viewModelFrom(book: EventBook): ViewModel = {

@@ -1,7 +1,5 @@
 package com.gnosly.fluentsequence.view.model
-import com.gnosly.fluentsequence.view.model.component.Component
-
-case class AlternativeComponent(id: Int, condition: String, startIndex: Int, var endIndex: Int = -1) extends Component {
+case class AlternativeComponent(id: Int, condition: String, startIndex: Int, var endIndex: Int = -1) {
   def end(index: Int): Unit = {
     endIndex = index
   }

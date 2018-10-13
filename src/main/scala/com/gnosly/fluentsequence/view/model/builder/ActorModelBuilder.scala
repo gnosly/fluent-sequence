@@ -1,14 +1,13 @@
-package com.gnosly.fluentsequence.view.model.component
+package com.gnosly.fluentsequence.view.model.builder
 
 import com.gnosly.fluentsequence.view.model.ViewModels._
 
 import scala.collection.mutable
 
-class ActorComponent(val id: Int,
-                     val name: String,
-                     val activities: mutable.Buffer[ActivityComponent] = mutable.Buffer[ActivityComponent](),
-                     var isLast: Boolean = false)
-    extends Component {
+class ActorModelBuilder(val id: Int,
+                        val name: String,
+                        val activities: mutable.Buffer[ActivityModelBuilder] = mutable.Buffer[ActivityModelBuilder](),
+                        var isLast: Boolean = false) {
   def markAsLast: Unit = isLast = true
 
   def done(something: String, index: Int): SignalModel = {
@@ -18,7 +17,7 @@ class ActorComponent(val id: Int,
     autoSignal
   }
 
-  def replied(called: ActorComponent, something: String, index: Int): SignalModel = {
+  def replied(called: ActorModelBuilder, something: String, index: Int): SignalModel = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
     val signal =
@@ -28,7 +27,7 @@ class ActorComponent(val id: Int,
     signal
   }
 
-  def fired(called: ActorComponent, something: String, index: Int): SignalModel = {
+  def fired(called: ActorModelBuilder, something: String, index: Int): SignalModel = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
     val signal =
@@ -38,7 +37,7 @@ class ActorComponent(val id: Int,
     signal
   }
 
-  def called(called: ActorComponent, something: String, index: Int): SignalModel = {
+  def called(called: ActorModelBuilder, something: String, index: Int): SignalModel = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
     val signal =
@@ -48,16 +47,16 @@ class ActorComponent(val id: Int,
     signal
   }
 
-  private def activeUntil(index: Int): ActivityComponent = {
+  private def activeUntil(index: Int): ActivityModelBuilder = {
     if (activities.isEmpty) {
-      activities += new ActivityComponent(0, this.id, index, index, true)
+      activities += new ActivityModelBuilder(0, this.id, index, index, true)
     }
     val last = activities.last
     if (last.active) {
       last.increaseUntil(index)
       last
     } else {
-      val component = new ActivityComponent(last.id + 1, this.id, index, 0, true)
+      val component = new ActivityModelBuilder(last.id + 1, this.id, index, 0, true)
       activities += component
       component
     }
@@ -68,7 +67,7 @@ class ActorComponent(val id: Int,
   }
 
   override def equals(other: Any): Boolean = other match {
-    case that: ActorComponent =>
+    case that: ActorModelBuilder =>
       (that canEqual this) &&
         id == that.id &&
         name == that.name &&
@@ -77,7 +76,7 @@ class ActorComponent(val id: Int,
     case _ => false
   }
 
-  def canEqual(other: Any): Boolean = other.isInstanceOf[ActorComponent]
+  def canEqual(other: Any): Boolean = other.isInstanceOf[ActorModelBuilder]
 
   override def hashCode(): Int = {
     val state = Seq(id, name, activities, isLast)
