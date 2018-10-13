@@ -26,11 +26,13 @@ class ActivityModelBuilder(val id: Int,
     _leftPoints += PointOnTheLeft(signal.currentIndex, signal)
   }
 
-  def end(index: Int): Unit = {
+  def build(index: Int): ActivityModel = {
     if (active) {
       increaseUntil(index)
       active = false
     }
+
+    ActivityModel(id, actorId, fromIndex, toIndex)
   }
 
   def increaseUntil(index: Int): Unit = {

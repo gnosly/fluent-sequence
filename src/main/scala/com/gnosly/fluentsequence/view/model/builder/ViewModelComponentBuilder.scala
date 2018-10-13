@@ -75,10 +75,6 @@ class ViewModelComponentBuilder() {
 
     ViewModel(
       actorModels,
-      _actors.values
-        .flatMap(a => a.activities)
-        .map(a => ActivityModel(a.id, a.actorId, a.fromIndex, a.toIndex))
-        .toList,
       _actors.values.flatMap(_.activities).flatMap(_.points).toList,
       _sequenceComponents.toList,
       _alternatives.toList,

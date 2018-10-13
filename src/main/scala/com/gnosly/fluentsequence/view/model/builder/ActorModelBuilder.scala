@@ -64,9 +64,9 @@ class ActorModelBuilder(val id: Int,
     if (id == lastActorId) {
       markAsLast()
     }
-    activities.lastOption.foreach(_.end(lastIndex))
+    val activityModels = activities.map(_.build(lastIndex)).toList
 
-    ActorModel(id, name, isLast)
+    ActorModel(id, name, isLast, activityModels)
   }
 
   private def markAsLast(): Unit = isLast = true

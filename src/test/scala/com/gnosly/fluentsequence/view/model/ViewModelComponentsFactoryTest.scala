@@ -21,8 +21,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       ))
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user", true)),
-      List(ActivityModel(0, 0, 0, 1)),
+      List(ActorModel(0, "user", true, List(ActivityModel(0, 0, 0, 1)))),
       List(PointOnTheRight(0, AutoSignalModel("something", 0, 0, 0)),
            PointOnTheRight(1, AutoSignalModel("something else", 1, 0, 0))),
       List(),
@@ -52,8 +51,8 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     )
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
-      List(ActivityModel(0, 0, 0, 1), ActivityModel(0, 1, 0, 1)),
+      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 1))),
+           ActorModel(1, "system", true, List(ActivityModel(0, 1, 0, 1)))),
       userPoints.toList ++ systemPoints.toList,
       List(),
       List(),
@@ -76,8 +75,8 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     )
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
-      List(ActivityModel(0, 0, 0, 0), ActivityModel(0, 1, 0, 0)),
+      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 0))),
+           ActorModel(1, "system", true, List(ActivityModel(0, 1, 0, 0)))),
       userPoints.toList ++ systemPoints.toList,
       List(),
       List(),
@@ -132,8 +131,8 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     )
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user", false), ActorModel(1, "system", true)),
-      List(ActivityModel(0, 0, 0, 4), ActivityModel(0, 1, 1, 2)),
+      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 4))),
+           ActorModel(1, "system", true, List(ActivityModel(0, 1, 1, 2)))),
       userPoints.toList ++ systemPoints.toList,
       List(SequenceModel("sequenceName", -1), SequenceModel("another sequence", 2)),
       List(),
