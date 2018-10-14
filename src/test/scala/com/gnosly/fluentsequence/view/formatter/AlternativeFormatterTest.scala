@@ -12,27 +12,31 @@ class AlternativeFormatterTest extends FunSuite with Matchers {
   val CURRENT_ACTIVITY = 0
   val LAST_INDEX_BEFORE_ALTERNATIVE = 0
   val LAST_INDEX_INSIDE_ALTERNATIVE = 1
-  val ALTERNATIVE_ID = 0
+  val ID = 0
 
   val formatter = new AlternativeFormatter
 
   test("alternative at start") {}
 
   test("alternative in the middle") {
-    val alternative =
-      AlternativeComponent(ALTERNATIVE_ID, "", LAST_INDEX_BEFORE_ALTERNATIVE, LAST_INDEX_INSIDE_ALTERNATIVE)
+    val ROW_HEIGHT_BEFORE_ALTERNATIVE = 10
+    val ROW_HEIGHT_AT_ALTERNATIVE_END = 20
+    val NOT_IMPORTANT = 0
+    val SEQUENCE_DIAGRAM_WIDTH = 50
+
+    val alternative = AlternativeComponent(ID, "", LAST_INDEX_BEFORE_ALTERNATIVE, LAST_INDEX_INSIDE_ALTERNATIVE)
 
     val points = formatter
       .format(alternative)
       .toPoints(ResolvedPoints(Map(
-        ViewMatrix.row(LAST_INDEX_BEFORE_ALTERNATIVE) -> Fixed2dPoint(10, 0),
-        ViewMatrix.row(LAST_INDEX_INSIDE_ALTERNATIVE) -> Fixed2dPoint(20, 0),
-        ViewMatrix.width() -> Fixed2dPoint(50, 0),
+        ViewMatrix.row(LAST_INDEX_BEFORE_ALTERNATIVE) -> Fixed2dPoint(ROW_HEIGHT_BEFORE_ALTERNATIVE, NOT_IMPORTANT),
+        ViewMatrix.row(LAST_INDEX_INSIDE_ALTERNATIVE) -> Fixed2dPoint(ROW_HEIGHT_AT_ALTERNATIVE_END, NOT_IMPORTANT),
+        ViewMatrix.width() -> Fixed2dPoint(SEQUENCE_DIAGRAM_WIDTH, NOT_IMPORTANT),
       )))
 
     points shouldBe List(
-      Alternative.topLeft(ALTERNATIVE_ID) -> Fixed2dPoint(1, 10),
-      Alternative.bottomRight(ALTERNATIVE_ID) -> Fixed2dPoint(50 - 2, 20)
+      Alternative.topLeft(ID) -> Fixed2dPoint(1, ROW_HEIGHT_BEFORE_ALTERNATIVE),
+      Alternative.bottomRight(ID) -> Fixed2dPoint(SEQUENCE_DIAGRAM_WIDTH - 2, ROW_HEIGHT_AT_ALTERNATIVE_END)
     )
   }
 }
