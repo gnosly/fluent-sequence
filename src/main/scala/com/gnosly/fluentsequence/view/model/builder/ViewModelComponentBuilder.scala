@@ -12,49 +12,52 @@ class ViewModelComponentBuilder() {
   private val _alternatives: mutable.HashMap[String, AlternativeBuilder] = mutable.HashMap[String, AlternativeBuilder]()
   private var lastSignalIndex = -1
 
-  def sequenceStarted(name: String): Unit = {
-    _sequenceComponents += SequenceModel(name, lastSignalIndex)
+  def sequenceStarted(timelineIndex: Int, name: String): Unit = {
+    lastSignalIndex = timelineIndex
+    _sequenceComponents += SequenceModel(name, timelineIndex)
   }
 
-  def alternativeStarted(condition: String): Unit = {
-    _alternatives += condition -> new AlternativeBuilder(_alternatives.size, condition, lastSignalIndex)
+  def alternativeStarted(timelineIndex: Int, condition: String): Unit = {
+    lastSignalIndex = timelineIndex
+    _alternatives += condition -> new AlternativeBuilder(_alternatives.size, condition, timelineIndex)
   }
 
-  def alternativeEnded(condition: String): Unit = {
+  def alternativeEnded(timelineIndex: Int, condition: String): Unit = {
+    lastSignalIndex = timelineIndex
     _alternatives(condition)
-      .end(lastSignalIndex)
+      .end(timelineIndex)
   }
 
-  def done(who: core.Actor, something: String): Unit = {
-    lastSignalIndex += 1
+  def done(timelineIndex: Int, who: core.Actor, something: String): Unit = {
+    lastSignalIndex = timelineIndex
     val actor = createOrGet(who)
     /*_signals += */
-    actor.done(something, lastSignalIndex)
+    actor.done(something, timelineIndex)
   }
 
-  def called(who: core.Actor, something: String, toSomebody: core.Actor): SignalModel = {
-    lastSignalIndex += 1
+  def called(timelineIndex: Int, who: core.Actor, something: String, toSomebody: core.Actor): SignalModel = {
+    lastSignalIndex = timelineIndex
     val caller = createOrGet(who)
     val called = createOrGet(toSomebody)
     /*_signals += */
-    caller.called(called, something, lastSignalIndex)
+    caller.called(called, something, timelineIndex)
   }
 
-  def replied(who: core.Actor, something: String, toSomebody: core.Actor): Unit = {
-    lastSignalIndex += 1
+  def replied(timelineIndex: Int, who: core.Actor, something: String, toSomebody: core.Actor): Unit = {
+    lastSignalIndex = timelineIndex
     val replier = createOrGet(who)
     val replied = createOrGet(toSomebody)
     /*_signals += */
-    replier.replied(replied, something, lastSignalIndex)
-    replier.build(lastSignalIndex, -1) //TODO
+    replier.replied(replied, something, timelineIndex)
+    replier.build(timelineIndex, -1) //TODO
   }
 
-  def fired(who: core.Actor, something: String, toSomebody: core.Actor): SignalModel = {
-    lastSignalIndex += 1
+  def fired(timelineIndex: Int, who: core.Actor, something: String, toSomebody: core.Actor): SignalModel = {
+    lastSignalIndex = timelineIndex
     val caller = createOrGet(who)
     val called = createOrGet(toSomebody)
     /*_signals += */
-    caller.fired(called, something, lastSignalIndex)
+    caller.fired(called, something, timelineIndex)
   }
 
   private def createOrGet(who: core.Actor): ActorModelBuilder = {

@@ -63,7 +63,6 @@ object FluentSequence {
 
       override def does(sequence: Sequence): SequenceFlow = {
         eventBook
-          .track(NEW_SEQUENCE_SCHEDULED(subjectActor, sequence.name))
           .track(sequence.eventBook :: Nil)
         new SequenceFlow(s"$name ${sequence.name}", eventBook, subjectActor)
       }
@@ -100,7 +99,6 @@ object FluentSequence {
 
     override def does(sequence: Sequence): SequenceFlow = {
       val eventBook = EventBook()
-        .track(NEW_SEQUENCE_SCHEDULED(this, sequence.name))
         .track(sequence.eventBook :: Nil)
       new SequenceFlow(s"$name ${sequence.name}", eventBook, this)
     }

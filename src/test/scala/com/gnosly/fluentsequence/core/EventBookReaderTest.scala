@@ -16,7 +16,6 @@ class EventBookReaderTest extends FunSuite with Matchers {
 									|CALLED|USER_TYPE|actorName|call|SEQUENCE_ACTOR_TYPE|anotherActorName
 									|FIRED|USER_TYPE|actorName|call async|SEQUENCE_ACTOR_TYPE|anotherActorName
 									|REPLIED|USER_TYPE|actorName|reply|SEQUENCE_ACTOR_TYPE|anotherActorName
-									|NEW_SEQUENCE_SCHEDULED|USER_TYPE|actorName|newSeqStarted
 									|SEQUENCE_ENDED|seqEnded
 									|ALTERNATIVE_STARTED|altStart
 									|ALTERNATIVE_ENDED|altEnd""".stripMargin)
@@ -27,7 +26,6 @@ class EventBookReaderTest extends FunSuite with Matchers {
       .track(CALLED(actor, "call", anotherActor))
       .track(FIRED(actor, "call async", anotherActor))
       .track(REPLIED(actor, "reply", anotherActor))
-      .track(NEW_SEQUENCE_SCHEDULED(actor, "newSeqStarted"))
       .track(SEQUENCE_ENDED("seqEnded"))
       .track(ALTERNATIVE_STARTED("altStart"))
       .track(ALTERNATIVE_ENDED("altEnd"))

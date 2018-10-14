@@ -25,7 +25,6 @@ class FluentActorTest extends FlatSpec with Matchers {
       .does("something else")
 
     flow.toEventBook shouldBe EventBook(
-      NEW_SEQUENCE_SCHEDULED(service, "childSequence"),
       SEQUENCE_STARTED("childSequence"),
       DONE(service, "something"),
       SEQUENCE_ENDED("childSequence"),

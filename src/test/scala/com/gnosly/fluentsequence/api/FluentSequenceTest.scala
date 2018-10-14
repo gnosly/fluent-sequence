@@ -63,7 +63,6 @@ class FluentSequenceTest extends FunSuite with Matchers {
       DONE(user, "b"),
       CALLED(user, "call", system),
       REPLIED(user, "reply", anotherSystem),
-      NEW_SEQUENCE_SCHEDULED(user, "another sequence"),
       SEQUENCE_STARTED("another sequence"),
       DONE(user, "c"),
       SEQUENCE_ENDED("another sequence"),

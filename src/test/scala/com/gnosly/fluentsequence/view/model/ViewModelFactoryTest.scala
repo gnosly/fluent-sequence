@@ -6,8 +6,6 @@ import com.gnosly.fluentsequence.view.model.ViewModels._
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 
-import scala.collection.mutable
-
 class ViewModelFactoryTest extends FlatSpec with Matchers {
 
   val SYSTEM = Actor(SEQUENCE_ACTOR_TYPE(), "system")
@@ -92,7 +90,7 @@ class ViewModelFactoryTest extends FlatSpec with Matchers {
         ALTERNATIVE_ENDED("condition")
       ))
 
-    viewModel.alternatives contains AlternativeModel(0, "condition", 0, 1)
+    viewModel.alternatives contains AlternativeModel(0, "condition", 1, 3)
   }
 
   it should "count signal index" in {
@@ -102,7 +100,6 @@ class ViewModelFactoryTest extends FlatSpec with Matchers {
         DONE(USER, "signalA"),
         CALLED(USER, "signalB", SYSTEM),
         REPLIED(SYSTEM, "signalC", USER),
-        NEW_SEQUENCE_SCHEDULED(USER, "another sequence"),
         SEQUENCE_STARTED("another sequence"),
         DONE(USER, "signalD"),
         SEQUENCE_ENDED("another sequence"),
@@ -110,31 +107,31 @@ class ViewModelFactoryTest extends FlatSpec with Matchers {
         SEQUENCE_ENDED("sequenceName")
       ))
 
-    val signalA = AutoSignalModel("signalA", 0, 0, 0)
-    val signalB = new SyncRequest("signalB", 1, 0, 0, 1, 0)
-    val signalC = new SyncResponse("signalC", 2, 1, 0, 0, 0)
-    val signalD = AutoSignalModel("signalD", 3, 0, 0)
-    val signalE = AutoSignalModel("signalE", 4, 0, 0)
+    val signalA = AutoSignalModel("signalA", 1, 0, 0)
+    val signalB = new SyncRequest("signalB", 2, 0, 0, 1, 0)
+    val signalC = new SyncResponse("signalC", 3, 1, 0, 0, 0)
+    val signalD = AutoSignalModel("signalD", 5, 0, 0)
+    val signalE = AutoSignalModel("signalE", 7, 0, 0)
 
     val userPoints = List[PointOnTheRight](
-      PointOnTheRight(0, signalA),
-      PointOnTheRight(1, signalB),
-      PointOnTheRight(2, signalC),
-      PointOnTheRight(3, signalD),
-      PointOnTheRight(4, signalE)
+      PointOnTheRight(1, signalA),
+      PointOnTheRight(2, signalB),
+      PointOnTheRight(3, signalC),
+      PointOnTheRight(5, signalD),
+      PointOnTheRight(7, signalE)
     )
 
     val systemPoints = List[PointOnTheLeft](
-      PointOnTheLeft(1, signalB),
-      PointOnTheLeft(2, signalC)
+      PointOnTheLeft(2, signalB),
+      PointOnTheLeft(3, signalC)
     )
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 4, userPoints))),
-           ActorModel(1, "system", true, List(ActivityModel(0, 1, 1, 2, List(), systemPoints)))),
-      List(SequenceModel("sequenceName", -1), SequenceModel("another sequence", 2)),
+      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 1, 7, userPoints))),
+           ActorModel(1, "system", true, List(ActivityModel(0, 1, 2, 3, List(), systemPoints)))),
+      List(SequenceModel("sequenceName", 0), SequenceModel("another sequence", 4)),
       List(),
-      4
+      7
     )
   }
 }

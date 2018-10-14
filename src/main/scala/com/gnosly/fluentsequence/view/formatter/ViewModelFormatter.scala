@@ -2,8 +2,10 @@ package com.gnosly.fluentsequence.view.formatter
 
 import com.gnosly.fluentsequence.view.formatter.PointableResolverAlgorithms.loopPointableResolverAlgorithm
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
+import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
 import com.gnosly.fluentsequence.view.model.ViewModels.ViewModel
 import com.gnosly.fluentsequence.view.model.ViewModels._
+import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 
 class ViewModelFormatter(preRenderer: FixedPreRenderer) {
@@ -62,6 +64,13 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       c <- viewModel.points
     } yield formatSignal(c)
 
+    val sequencePoints = for {
+      c <- viewModel.sequenceComponents
+    } yield
+      new Pointable {
+        override def toPoints(pointMap: ResolvedPoints): Seq[(String, Fixed2dPoint)] =
+          List(ViewMatrix.row(c.startIndex) -> pointMap(ViewMatrix.row(c.startIndex - 1)))
+      }
     val rows = rowsFormatter.format(viewModel.points.map(_.signalComponent))
 
     val widthAndHeightPoint = widthAndHeightFormatter.format(viewModel)
@@ -70,6 +79,6 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       a <- viewModel.alternatives
     } yield alternativeFormatter.format(a)
 
-    (columns ++ actors ++ activities ++ signals ++ rows ++ List(widthAndHeightPoint) ++ alternatives).toSeq
+    (sequencePoints ++ columns ++ actors ++ activities ++ signals ++ rows ++ List(widthAndHeightPoint) ++ alternatives).toSeq
   }
 }
