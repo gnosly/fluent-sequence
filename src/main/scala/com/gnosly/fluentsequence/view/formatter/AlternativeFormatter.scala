@@ -12,9 +12,9 @@ class AlternativeFormatter {
 
     AlternativePoints(
       alternative.id,
-      new Variable2DPoint(Fixed1DPoint(0), Fixed1DPoint(0))
+      Variable2DPoint(Fixed1DPoint(0), Fixed1DPoint(0))
         .right(1)
-        .atY(new ReferencePoint(ViewMatrix.row(alternative.startIndex)).x),
+        .atY(new ReferencePoint(ViewMatrix.row(alternative.startIndex - 1)).x),
       new ReferencePoint(ViewMatrix.width())
         .left(2)
         .atY(new ReferencePoint(ViewMatrix.row(alternative.endIndex)).x)

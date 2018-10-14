@@ -1,5 +1,6 @@
 package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.core._
+import com.gnosly.fluentsequence.view.formatter.FormatterConstants.ALTERNATIVE_MIN_HEIGHT
 import com.gnosly.fluentsequence.view.model.AlternativeBuilder
 import com.gnosly.fluentsequence.view.model.Coordinates.Alternative
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
@@ -11,7 +12,7 @@ import org.scalatest.Matchers
 class AlternativeFormatterTest extends FunSuite with Matchers {
   val USER = Actor(USER_TYPE(), "user")
   val CURRENT_ACTIVITY = 0
-  val LAST_INDEX_BEFORE_ALTERNATIVE = 0
+  val ALTERNATIVE_START_INDEX = 0
   val LAST_INDEX_INSIDE_ALTERNATIVE = 1
   val ID = 0
 
@@ -25,19 +26,22 @@ class AlternativeFormatterTest extends FunSuite with Matchers {
     val NOT_IMPORTANT = 0
     val SEQUENCE_DIAGRAM_WIDTH = 50
 
-    val alternative = AlternativeModel(ID, "", LAST_INDEX_BEFORE_ALTERNATIVE, LAST_INDEX_INSIDE_ALTERNATIVE)
+    val alternative = AlternativeModel(ID, "", ALTERNATIVE_START_INDEX, LAST_INDEX_INSIDE_ALTERNATIVE)
 
     val points = formatter
       .format(alternative)
       .toPoints(ResolvedPoints(Map(
-        ViewMatrix.row(LAST_INDEX_BEFORE_ALTERNATIVE) -> Fixed2dPoint(ROW_HEIGHT_BEFORE_ALTERNATIVE, NOT_IMPORTANT),
+        ViewMatrix.row(ALTERNATIVE_START_INDEX - 1) -> Fixed2dPoint(ROW_HEIGHT_BEFORE_ALTERNATIVE, NOT_IMPORTANT),
+        ViewMatrix.row(LAST_INDEX_INSIDE_ALTERNATIVE) -> Fixed2dPoint(ROW_HEIGHT_AT_ALTERNATIVE_END, NOT_IMPORTANT),
         ViewMatrix.row(LAST_INDEX_INSIDE_ALTERNATIVE) -> Fixed2dPoint(ROW_HEIGHT_AT_ALTERNATIVE_END, NOT_IMPORTANT),
         ViewMatrix.width() -> Fixed2dPoint(SEQUENCE_DIAGRAM_WIDTH, NOT_IMPORTANT),
       )))
 
-    points shouldBe List(
+    points contains (
       Alternative.topLeft(ID) -> Fixed2dPoint(1, ROW_HEIGHT_BEFORE_ALTERNATIVE),
-      Alternative.bottomRight(ID) -> Fixed2dPoint(SEQUENCE_DIAGRAM_WIDTH - 2, ROW_HEIGHT_AT_ALTERNATIVE_END)
+      Alternative.bottomRight(ID) -> Fixed2dPoint(SEQUENCE_DIAGRAM_WIDTH - 2, ROW_HEIGHT_AT_ALTERNATIVE_END),
+      ViewMatrix.row(ALTERNATIVE_START_INDEX) -> Fixed2dPoint(ROW_HEIGHT_BEFORE_ALTERNATIVE + ALTERNATIVE_MIN_HEIGHT,
+                                                              NOT_IMPORTANT),
     )
   }
 }

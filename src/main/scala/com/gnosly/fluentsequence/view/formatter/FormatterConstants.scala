@@ -7,4 +7,5 @@ object FormatterConstants {
   val TOP_MARGIN = 3
   val BOTTOM_MARGIN = 3
   val DISTANCE_BETWEEN_SIGNALS = 1
+  val ALTERNATIVE_MIN_HEIGHT = 3
 }

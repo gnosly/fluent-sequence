@@ -6,7 +6,7 @@ import com.gnosly.fluentsequence.view.model.ViewModels._
 
 import scala.collection.mutable
 
-class ViewModelComponentBuilder() {
+class ViewModelBuilder() {
   private val _actors: mutable.HashMap[String, ActorModelBuilder] = mutable.HashMap()
   private val _sequenceComponents: mutable.ListBuffer[SequenceModel] = mutable.ListBuffer[SequenceModel]()
   private val _alternatives: mutable.HashMap[String, AlternativeBuilder] = mutable.HashMap[String, AlternativeBuilder]()
