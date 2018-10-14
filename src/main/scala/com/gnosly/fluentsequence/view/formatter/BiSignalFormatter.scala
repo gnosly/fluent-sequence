@@ -56,24 +56,6 @@ class BiSignalFormatter(preRenderer: PreRenderer) {
     SignalPoint(fromActorId, fromActivityId, signal.currentIndex, signalBox, activitySide, signalTopLeft)
   }
 
-  def previousIndexPointOrDefaultForBisignal(activityTop: Point2d,
-                                             actorId: Int,
-                                             activityId: Int,
-                                             signalIndex: Int): Point1d = {
-    if (isFirstSignal(signalIndex)) {
-      activityTop.down(1).y
-    } else {
-      val toActivityTopLeft = new ReferencePoint(Activity.topLeft(actorId, activityId))
-
-      (Reference1DPoint(ViewMatrix.row(signalIndex - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)) max
-        toActivityTopLeft.down(1).y
-    }
-  }
-
-  private def isFirstSignal(signalIndex: Int) = {
-    signalIndex == 0
-  }
-
   def formatOnLeft(signal: BiSignalModel): Pointable = {
     //1. prerenderizzazione
     val signalBox = preRenderer.preRender(signal)
@@ -120,5 +102,16 @@ class BiSignalFormatter(preRenderer: PreRenderer) {
     val signalTopLeft = Variable2DPoint(signalXStart, signalYStart)
 
     SignalPoint(fromActorId, fromActivityId, signal.currentIndex, signalBox, activitySide, signalTopLeft)
+  }
+
+  def previousIndexPointOrDefaultForBisignal(activityTop: Point2d,
+                                             actorId: Int,
+                                             activityId: Int,
+                                             signalIndex: Int): Point1d = {
+
+    val toActivityTopLeft = new ReferencePoint(Activity.topLeft(actorId, activityId))
+
+    (Reference1DPoint(ViewMatrix.row(signalIndex - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS)) max
+      toActivityTopLeft.down(1).y
   }
 }
