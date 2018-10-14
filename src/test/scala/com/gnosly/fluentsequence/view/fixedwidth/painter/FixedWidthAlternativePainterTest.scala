@@ -1,6 +1,7 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
-import com.gnosly.fluentsequence.view.model.AlternativeComponent
+import com.gnosly.fluentsequence.view.model.AlternativeBuilder
 import com.gnosly.fluentsequence.view.model.Coordinates
+import com.gnosly.fluentsequence.view.model.ViewModels.AlternativeModel
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 import org.scalatest.FunSuite
@@ -14,8 +15,8 @@ class FixedWidthAlternativePainterTest extends FunSuite with Matchers {
 
     val canvas =
       painter.paint(
-        AlternativeComponent(ALTERNATIVE_ID, "condition", 0, 1),
-        new ResolvedPoints(
+        AlternativeModel(ALTERNATIVE_ID, "condition", 0, 1),
+        ResolvedPoints(
           Map(
             Coordinates.Alternative.topLeft(ALTERNATIVE_ID) -> Fixed2dPoint(0, 0),
             Coordinates.Alternative.bottomRight(ALTERNATIVE_ID) -> Fixed2dPoint(28, 4)

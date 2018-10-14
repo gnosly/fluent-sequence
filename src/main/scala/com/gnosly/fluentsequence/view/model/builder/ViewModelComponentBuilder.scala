@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.model.builder
 
 import com.gnosly.fluentsequence.core
-import com.gnosly.fluentsequence.view.model.AlternativeComponent
+import com.gnosly.fluentsequence.view.model.AlternativeBuilder
 import com.gnosly.fluentsequence.view.model.ViewModels._
 
 import scala.collection.mutable
@@ -9,7 +9,7 @@ import scala.collection.mutable
 class ViewModelComponentBuilder() {
   private val _actors: mutable.HashMap[String, ActorModelBuilder] = mutable.HashMap()
   private val _sequenceComponents: mutable.ListBuffer[SequenceModel] = mutable.ListBuffer[SequenceModel]()
-  private val _alternatives: mutable.ListBuffer[AlternativeComponent] = mutable.ListBuffer[AlternativeComponent]()
+  private val _alternatives: mutable.HashMap[String, AlternativeBuilder] = mutable.HashMap[String, AlternativeBuilder]()
   private var lastSignalIndex = -1
 
   def sequenceStarted(name: String): Unit = {
@@ -17,13 +17,11 @@ class ViewModelComponentBuilder() {
   }
 
   def alternativeStarted(condition: String): Unit = {
-    _alternatives += AlternativeComponent(_alternatives.size, condition, lastSignalIndex)
+    _alternatives += condition -> new AlternativeBuilder(_alternatives.size, condition, lastSignalIndex)
   }
 
   def alternativeEnded(condition: String): Unit = {
-    _alternatives
-      .filter(a => a.condition == condition)
-      .head
+    _alternatives(condition)
       .end(lastSignalIndex)
   }
 
@@ -76,7 +74,7 @@ class ViewModelComponentBuilder() {
     ViewModel(
       actorModels,
       _sequenceComponents.toList,
-      _alternatives.toList,
+      _alternatives.values.map(_.build()).toList,
       lastSignalIndex
     )
   }

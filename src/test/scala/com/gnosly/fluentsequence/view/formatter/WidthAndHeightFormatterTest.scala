@@ -2,7 +2,7 @@ package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.formatter.point.WidthAndHeightPoint
 import com.gnosly.fluentsequence.view.model.Coordinates
-import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.viewModelFrom
+import com.gnosly.fluentsequence.view.model.ViewModelFactory.viewModelFrom
 import com.gnosly.fluentsequence.view.model.point.ReferencePoint
 import org.scalatest.FunSuite
 import org.scalatest.Matchers

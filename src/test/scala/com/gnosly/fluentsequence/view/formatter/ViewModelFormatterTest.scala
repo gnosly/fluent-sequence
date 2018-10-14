@@ -1,7 +1,7 @@
 package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.core._
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
-import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.viewModelFrom
+import com.gnosly.fluentsequence.view.model.ViewModelFactory.viewModelFrom
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 import org.scalatest.FunSuite

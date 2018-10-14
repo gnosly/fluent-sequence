@@ -1,14 +1,14 @@
 package com.gnosly.fluentsequence.view.model
 
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.model.ViewModelComponentsFactory.viewModelFrom
+import com.gnosly.fluentsequence.view.model.ViewModelFactory.viewModelFrom
 import com.gnosly.fluentsequence.view.model.ViewModels._
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 
 import scala.collection.mutable
 
-class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
+class ViewModelFactoryTest extends FlatSpec with Matchers {
 
   val SYSTEM = Actor(SEQUENCE_ACTOR_TYPE(), "system")
   val USER = Actor(USER_TYPE(), "user")
@@ -92,7 +92,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
         ALTERNATIVE_ENDED("condition")
       ))
 
-    viewModel.alternatives shouldBe mutable.ListBuffer(AlternativeComponent(0, "condition", 0, 1))
+    viewModel.alternatives contains AlternativeModel(0, "condition", 0, 1)
   }
 
   it should "count signal index" in {

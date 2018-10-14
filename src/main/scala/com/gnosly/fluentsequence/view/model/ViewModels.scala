@@ -13,7 +13,7 @@ object ViewModels {
 
   case class ViewModel(actors: List[ActorModel],
                        sequenceComponents: List[SequenceModel],
-                       alternatives: List[AlternativeComponent],
+                       alternatives: List[AlternativeModel],
                        lastSignalIndex: Int) {
     def points: List[PointModel] = actors.flatMap(_.activities.flatMap(a => a.leftPoints ++ a.rightPoints))
 
@@ -87,4 +87,6 @@ object ViewModels {
   }
 
   case class SequenceModel(name: String, startIndex: Int)
+
+  case class AlternativeModel(id: Int, condition: String, startIndex: Int, endIndex: Int)
 }

@@ -1,8 +1,9 @@
 package com.gnosly.fluentsequence.view.formatter
 import com.gnosly.fluentsequence.core._
-import com.gnosly.fluentsequence.view.model.AlternativeComponent
+import com.gnosly.fluentsequence.view.model.AlternativeBuilder
 import com.gnosly.fluentsequence.view.model.Coordinates.Alternative
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
+import com.gnosly.fluentsequence.view.model.ViewModels.AlternativeModel
 import com.gnosly.fluentsequence.view.model.point._
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
@@ -24,7 +25,7 @@ class AlternativeFormatterTest extends FunSuite with Matchers {
     val NOT_IMPORTANT = 0
     val SEQUENCE_DIAGRAM_WIDTH = 50
 
-    val alternative = AlternativeComponent(ID, "", LAST_INDEX_BEFORE_ALTERNATIVE, LAST_INDEX_INSIDE_ALTERNATIVE)
+    val alternative = AlternativeModel(ID, "", LAST_INDEX_BEFORE_ALTERNATIVE, LAST_INDEX_INSIDE_ALTERNATIVE)
 
     val points = formatter
       .format(alternative)
