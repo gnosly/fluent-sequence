@@ -6,7 +6,7 @@ import org.scalatest.Matchers
 class ReferencePointTest extends FunSuite with Matchers {
 
   test("referencePoint") {
-    val pointMap = new ResolvedPoints(Map("refPoint" -> Fixed2dPoint(0, 0)))
+    val pointMap = ResolvedPoints(Map("refPoint" -> Fixed2dPoint(0, 0)))
     val point = new ReferencePoint("refPoint")
 
     point.resolve(pointMap) shouldBe Fixed2dPoint(0, 0)

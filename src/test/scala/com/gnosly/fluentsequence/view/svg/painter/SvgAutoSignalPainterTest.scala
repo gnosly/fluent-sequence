@@ -7,8 +7,6 @@ import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
-import scala.collection.immutable.HashMap
-
 class SvgAutoSignalPainterTest extends FunSuite with Matchers {
   val painter = new SvgAutoSignalPainter
 
