@@ -1,5 +1,6 @@
 package com.gnosly.fluentsequence.view.formatter
 
+import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.ACTOR_MIN_HEIGHT
 import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.ACTOR_PADDING
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_ACTORS
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.LEFT_MARGIN
@@ -26,7 +27,7 @@ class ActorFormatterTest extends FunSuite with Matchers {
 
     val expectedTopLeft = Fixed2dPoint(LEFT_MARGIN, TOP_MARGIN)
     val expectedTopRight = expectedTopLeft.right(ACTOR_NAME.length + ACTOR_PADDING)
-    val expectedBottomMiddle = expectedTopLeft.right((ACTOR_NAME.length + ACTOR_PADDING - 1) / 2).down(ACTOR_PADDING)
+    val expectedBottomMiddle = expectedTopLeft.right((ACTOR_NAME.length + ACTOR_PADDING - 1) / 2).down(ACTOR_MIN_HEIGHT)
 
     points shouldBe List(
       Actor.topLeft(ACTOR_ID) -> expectedTopLeft,
@@ -51,7 +52,7 @@ class ActorFormatterTest extends FunSuite with Matchers {
 
     val expectedTopLeft = Fixed2dPoint(PREVIOUS_ACTOR_TOP_LEFT_X + DISTANCE_BETWEEN_ACTORS, TOP_MARGIN)
     val expectedTopRight = expectedTopLeft.right(ACTOR_NAME.length + ACTOR_PADDING)
-    val expectedBottomMiddle = expectedTopLeft.right((ACTOR_NAME.length + ACTOR_PADDING - 1) / 2).down(ACTOR_PADDING)
+    val expectedBottomMiddle = expectedTopLeft.right((ACTOR_NAME.length + ACTOR_PADDING - 1) / 2).down(ACTOR_MIN_HEIGHT)
 
     points shouldBe List(
       Actor.topLeft(ACTOR_ID) -> expectedTopLeft,
