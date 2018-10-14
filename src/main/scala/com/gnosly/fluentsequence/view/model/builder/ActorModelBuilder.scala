@@ -11,7 +11,7 @@ class ActorModelBuilder(val id: Int,
   def done(something: String, index: Int): SignalModel = {
     val lastActivity = this.activeUntil(index)
     val autoSignal = AutoSignalModel(something, index, this.id, lastActivity.id)
-    lastActivity.rightLoop(autoSignal)
+    lastActivity.right(autoSignal)
     autoSignal
   }
 
