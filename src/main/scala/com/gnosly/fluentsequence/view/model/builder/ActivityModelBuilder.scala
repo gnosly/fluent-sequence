@@ -39,17 +39,7 @@ class ActivityModelBuilder(val id: Int,
     toIndex = index
   }
 
-  override def equals(other: Any): Boolean = other match {
-    case that: ActivityModelBuilder =>
-      (that canEqual this) &&
-        rightPoints == that.rightPoints &&
-        leftPoints == that.leftPoints &&
-        id == that.id &&
-        fromIndex == that.fromIndex &&
-        toIndex == that.toIndex &&
-        active == that.active
-    case _ => false
-  }
+  override def equals(other: Any): Boolean = false
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[ActivityModelBuilder]
 
