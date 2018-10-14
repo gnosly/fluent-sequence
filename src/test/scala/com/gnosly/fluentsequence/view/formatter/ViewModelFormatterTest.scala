@@ -7,8 +7,6 @@ import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
-import scala.collection.immutable.HashMap
-
 class ViewModelFormatterTest extends FunSuite with Matchers {
   val SYSTEM = Actor(SEQUENCE_ACTOR_TYPE(), "system")
   val USER = Actor(USER_TYPE(), "user")

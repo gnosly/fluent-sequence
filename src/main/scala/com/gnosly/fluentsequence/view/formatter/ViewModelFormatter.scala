@@ -28,7 +28,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   }
 
   def format(viewModel: ViewModel): ResolvedPoints = {
-    val pointables: Seq[Pointable] = pointableListFor(viewModel)
+    val pointables = pointableListFor(viewModel)
     loopPointableResolverAlgorithm.resolve(pointables)
   }
 
