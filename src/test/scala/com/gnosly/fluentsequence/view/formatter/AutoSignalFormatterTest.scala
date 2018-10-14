@@ -1,51 +1,67 @@
 package com.gnosly.fluentsequence.view.formatter
 
+import com.gnosly.fluentsequence.view.formatter.FixedPreRenderer.AUTO_SIGNAL_MIN_HEIGHT
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.DISTANCE_BETWEEN_SIGNALS
-import com.gnosly.fluentsequence.view.formatter.point.SignalPoint
-import com.gnosly.fluentsequence.view.model.Box
-import com.gnosly.fluentsequence.view.model.Coordinates.Activity
-import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
+import com.gnosly.fluentsequence.view.model.Coordinates._
 import com.gnosly.fluentsequence.view.model.ViewModels.AutoSignalModel
-import com.gnosly.fluentsequence.view.model.point.Fixed1DPoint
-import com.gnosly.fluentsequence.view.model.point.Reference1DPoint
-import com.gnosly.fluentsequence.view.model.point.ReferencePoint
-import com.gnosly.fluentsequence.view.model.point.Variable2DPoint
+import com.gnosly.fluentsequence.view.model.point._
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
 class AutoSignalFormatterTest extends FunSuite with Matchers {
   val ARROW_WIDTH = 6
   val SIGNAL_NAME = "does"
+  val SIGNAL_ID = 0
+  val ACTOR_ID = 0
+  val ACTIVITY_ID = 0
 
   val fixedWidthAutoSignalFormatter = new AutoSignalFormatter(new FixedPreRenderer)
 
   test("first autoSignal") {
-    val autoSignal = new AutoSignalModel(SIGNAL_NAME, 0, 0, 0)
+    val ACTIVITY_TOP_X = 15
+    val ACTIVITY_TOP_Y = 10
 
-    val point = fixedWidthAutoSignalFormatter.format(autoSignal)
+    val autoSignal = AutoSignalModel(SIGNAL_NAME, SIGNAL_ID, ACTOR_ID, ACTIVITY_ID)
 
-    point shouldBe SignalPoint(0,
-                               0,
-                               0,
-                               Box(ARROW_WIDTH + SIGNAL_NAME.length, 4),
-                               "right",
-                               new ReferencePoint(Activity.topRight(0, 0)).down(1).right(1))
+    val points = fixedWidthAutoSignalFormatter
+      .format(autoSignal)
+      .toPoints(
+        ResolvedPoints(
+          Map(
+            Activity.topRight(ACTOR_ID, ACTIVITY_ID) -> Fixed2dPoint(ACTIVITY_TOP_X, ACTIVITY_TOP_Y)
+          )))
+
+    val expectedRightPointStart = Fixed2dPoint(ACTIVITY_TOP_X + 1, ACTIVITY_TOP_Y + DISTANCE_BETWEEN_SIGNALS)
+    val expectedRightPointEnd = expectedRightPointStart.down(AUTO_SIGNAL_MIN_HEIGHT)
+
+    points shouldBe List(
+      Activity.rightPointStart(ACTOR_ID, ACTIVITY_ID, SIGNAL_ID) -> expectedRightPointStart,
+      Activity.rightPointEnd(ACTOR_ID, ACTIVITY_ID, SIGNAL_ID) -> expectedRightPointEnd
+    )
   }
 
   test("second autoSignal") {
     val AUTOSIGNAL_INDEX = 1
-    val autoSignal = new AutoSignalModel(SIGNAL_NAME, AUTOSIGNAL_INDEX, 0, 0)
+    val ACTIVITY_TOP_X = 15
+    val ROW_HEIGHT_PREVIOUS_SIGNAL = 6
+    val NOT_IMPORTANT = -1
 
-    val point = fixedWidthAutoSignalFormatter.format(autoSignal)
+    val autoSignal = AutoSignalModel(SIGNAL_NAME, AUTOSIGNAL_INDEX, ACTOR_ID, ACTIVITY_ID)
 
-    point shouldBe SignalPoint(
-      0,
-      0,
-      AUTOSIGNAL_INDEX,
-      Box(ARROW_WIDTH + SIGNAL_NAME.length, 4),
-      "right",
-      Variable2DPoint(new ReferencePoint(Activity.topRight(0, 0)).right(1).x,
-                      Reference1DPoint(ViewMatrix.row(AUTOSIGNAL_INDEX - 1)) + Fixed1DPoint(DISTANCE_BETWEEN_SIGNALS))
+    val points = fixedWidthAutoSignalFormatter
+      .format(autoSignal)
+      .toPoints(ResolvedPoints(Map(
+        Activity.topRight(ACTOR_ID, ACTIVITY_ID) -> Fixed2dPoint(ACTIVITY_TOP_X, NOT_IMPORTANT),
+        ViewMatrix.row(AUTOSIGNAL_INDEX - 1) -> Fixed2dPoint(ROW_HEIGHT_PREVIOUS_SIGNAL, NOT_IMPORTANT),
+      )))
+
+    val expectedRightPointStart =
+      Fixed2dPoint(ACTIVITY_TOP_X + 1, ROW_HEIGHT_PREVIOUS_SIGNAL + DISTANCE_BETWEEN_SIGNALS)
+    val expectedRightPointEnd = expectedRightPointStart.down(AUTO_SIGNAL_MIN_HEIGHT)
+
+    points shouldBe List(
+      Activity.rightPointStart(ACTOR_ID, ACTIVITY_ID, AUTOSIGNAL_INDEX) -> expectedRightPointStart,
+      Activity.rightPointEnd(ACTOR_ID, ACTIVITY_ID, AUTOSIGNAL_INDEX) -> expectedRightPointEnd
     )
   }
 }

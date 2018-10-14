@@ -23,7 +23,7 @@ class AutoSignalFormatter(preRenderer: PreRenderer) {
 
   def previousIndexPointOrDefaultForAutoSignal(activityTopRight: Point2d, signal: SignalModel): Point2d = {
     if (isFirstSignal(signal)) {
-      activityTopRight.down(1).right(1)
+      activityTopRight.down(DISTANCE_BETWEEN_SIGNALS).right(1)
     } else {
       Variable2DPoint(
         activityTopRight.right(1).x,
