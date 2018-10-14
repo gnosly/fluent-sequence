@@ -20,10 +20,11 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
         DONE(USER, "something else")
       ))
 
+    val rights = List(PointOnTheRight(0, AutoSignalModel("something", 0, 0, 0)),
+                      PointOnTheRight(1, AutoSignalModel("something else", 1, 0, 0)))
+
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user", true, List(ActivityModel(0, 0, 0, 1)))),
-      List(PointOnTheRight(0, AutoSignalModel("something", 0, 0, 0)),
-           PointOnTheRight(1, AutoSignalModel("something else", 1, 0, 0))),
+      List(ActorModel(0, "user", true, List(ActivityModel(0, 0, 0, 1, rights)))),
       List(),
       List(),
       1
@@ -40,20 +41,19 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     val call = new SyncRequest("call", 0, 0, 0, 1, 0)
     val response = new SyncResponse("response", 1, 1, 0, 0, 0)
 
-    val userPoints = mutable.ListBuffer[PointOnTheRight](
+    val userPoints = List[PointOnTheRight](
       PointOnTheRight(0, call),
       PointOnTheRight(1, response)
     )
 
-    val systemPoints = mutable.ListBuffer[PointOnTheLeft](
+    val systemPoints = List[PointOnTheLeft](
       PointOnTheLeft(0, call),
       PointOnTheLeft(1, response)
     )
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 1))),
-           ActorModel(1, "system", true, List(ActivityModel(0, 1, 0, 1)))),
-      userPoints.toList ++ systemPoints.toList,
+      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 1, userPoints))),
+           ActorModel(1, "system", true, List(ActivityModel(0, 1, 0, 1, List(), systemPoints)))),
       List(),
       List(),
       1
@@ -68,16 +68,15 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
 
     val call = new AsyncRequest("call", 0, 0, 0, 1, 0)
 
-    val userPoints = mutable.ListBuffer[PointOnTheRight](PointOnTheRight(0, call))
+    val userPoints = List[PointOnTheRight](PointOnTheRight(0, call))
 
-    val systemPoints = mutable.ListBuffer[PointOnTheLeft](
+    val systemPoints = List[PointOnTheLeft](
       PointOnTheLeft(0, call)
     )
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 0))),
-           ActorModel(1, "system", true, List(ActivityModel(0, 1, 0, 0)))),
-      userPoints.toList ++ systemPoints.toList,
+      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 0, userPoints))),
+           ActorModel(1, "system", true, List(ActivityModel(0, 1, 0, 0, List(), systemPoints)))),
       List(),
       List(),
       0
@@ -117,7 +116,7 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
     val signalD = AutoSignalModel("signalD", 3, 0, 0)
     val signalE = AutoSignalModel("signalE", 4, 0, 0)
 
-    val userPoints = mutable.ListBuffer[PointOnTheRight](
+    val userPoints = List[PointOnTheRight](
       PointOnTheRight(0, signalA),
       PointOnTheRight(1, signalB),
       PointOnTheRight(2, signalC),
@@ -125,15 +124,14 @@ class ViewModelComponentsFactoryTest extends FlatSpec with Matchers {
       PointOnTheRight(4, signalE)
     )
 
-    val systemPoints = mutable.ListBuffer[PointOnTheLeft](
+    val systemPoints = List[PointOnTheLeft](
       PointOnTheLeft(1, signalB),
       PointOnTheLeft(2, signalC)
     )
 
     viewModel shouldBe ViewModel(
-      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 4))),
-           ActorModel(1, "system", true, List(ActivityModel(0, 1, 1, 2)))),
-      userPoints.toList ++ systemPoints.toList,
+      List(ActorModel(0, "user", false, List(ActivityModel(0, 0, 0, 4, userPoints))),
+           ActorModel(1, "system", true, List(ActivityModel(0, 1, 1, 2, List(), systemPoints)))),
       List(SequenceModel("sequenceName", -1), SequenceModel("another sequence", 2)),
       List(),
       4

@@ -12,11 +12,12 @@ object ViewModels {
   }
 
   case class ViewModel(actors: List[ActorModel],
-                       points: List[PointModel],
                        sequenceComponents: List[SequenceModel],
                        alternatives: List[AlternativeComponent],
                        lastSignalIndex: Int) {
-    def rightPoints: List[PointModel] = points.filter { _.isInstanceOf[PointOnTheRight] }
+    def points: List[PointModel] = actors.flatMap(_.activities.flatMap(a => a.leftPoints ++ a.rightPoints))
+
+    def rightPoints: List[PointOnTheRight] = actors.flatMap(_.activities.flatMap(_.rightPoints))
 
     def lastActorId: Int = actors.size - 1
 
@@ -25,7 +26,12 @@ object ViewModels {
 
   case class ActorModel(id: Int, name: String, isLast: Boolean, activities: List[ActivityModel] = List())
 
-  case class ActivityModel(id: Int, actorId: Int, fromIndex: Int, toIndex: Int) {
+  case class ActivityModel(id: Int,
+                           actorId: Int,
+                           fromIndex: Int,
+                           toIndex: Int,
+                           rightPoints: List[PointOnTheRight] = List(),
+                           leftPoints: List[PointOnTheLeft] = List()) {
     def isFirst: Boolean = id == 0
   }
 

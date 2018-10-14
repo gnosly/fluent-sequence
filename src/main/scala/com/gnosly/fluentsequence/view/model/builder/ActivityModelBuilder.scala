@@ -32,7 +32,7 @@ class ActivityModelBuilder(val id: Int,
       active = false
     }
 
-    ActivityModel(id, actorId, fromIndex, toIndex)
+    ActivityModel(id, actorId, fromIndex, toIndex, _rightPoints.toList, _leftPoints.toList)
   }
 
   def increaseUntil(index: Int): Unit = {
