@@ -13,7 +13,7 @@ class FixedPreRenderer extends PreRenderer {
 
   override def preRender(activity: ActivityModel): Box = Box(ACTIVITY_FIXED_WIDTH, ACTIVITY_MIN_HEIGHT)
 
-  override def preRender(signalComponent: SignalModel) = signalComponent match {
+  override def preRender(signalComponent: SignalModel): Box = signalComponent match {
     case x: AutoSignalModel => Box(x.name.length + AUTO_SIGNAL_FIXED_PADDING, AUTO_SIGNAL_MIN_HEIGHT)
     case x: BiSignalModel   => Box(x.name.length + BISIGNAL_FIXED_PADDING, BISIGNAL_MIN_HEIGHT)
   }

@@ -13,7 +13,7 @@ class ActorPointsTest extends FunSuite with Matchers {
   test("points") {
     val actorPoints = ActorPoints(ACTOR_ID, TOP_LEFT, Box(5, 5))
 
-    actorPoints.toPoints(new ResolvedPoints(Map())) shouldBe
+    actorPoints.toPoints(ResolvedPoints(Map())) shouldBe
       Actor.topLeft(ACTOR_ID) -> TOP_LEFT.resolve(null) ::
         Actor.topRight(ACTOR_ID) -> Fixed2dPoint(5L, 0L) ::
         Actor.bottomMiddle(ACTOR_ID) -> Fixed2dPoint(2L, 5L) :: Nil
