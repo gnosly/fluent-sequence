@@ -19,22 +19,24 @@ class ColumnFormatterTest extends FunSuite with Matchers {
   val ACTIVITY_ID = 0
   val NOT_IMPORTANT = 0
   val FIRST_INDEX = 0
+  val NOT_RIGHT_POINTS = List()
 
   val formatter = new ColumnFormatter(new FixedPreRenderer)
 
-  test("column when only one actor is defined") {
+  test("column with the last actor") {
 
     val actor = ActorModel(ACTOR_ID, ACTOR_NAME, isLast = true)
 
-    formatter.format(actor, List()) shouldBe ColumnPoint(ACTOR_ID, ACTOR_PADDING + ACTOR_NAME.length)
+    formatter.format(actor, NOT_RIGHT_POINTS) shouldBe ColumnPoint(ACTOR_ID, ACTOR_PADDING + ACTOR_NAME.length)
   }
 
   test("column where actor is not the last") {
 
     val actor = ActorModel(ACTOR_ID, ACTOR_NAME, isLast = false)
 
-    formatter.format(actor, List()) shouldBe ColumnPoint(ACTOR_ID,
-                                                         ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS)
+    formatter.format(actor, NOT_RIGHT_POINTS) shouldBe ColumnPoint(
+      ACTOR_ID,
+      ACTOR_PADDING + ACTOR_NAME.length + DISTANCE_BETWEEN_ACTORS)
   }
 
   test("column where actor has got different signals") {
