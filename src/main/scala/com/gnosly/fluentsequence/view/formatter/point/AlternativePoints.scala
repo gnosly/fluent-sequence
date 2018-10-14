@@ -1,11 +1,8 @@
 package com.gnosly.fluentsequence.view.formatter.point
-import com.gnosly.fluentsequence.view.formatter.FormatterConstants
 import com.gnosly.fluentsequence.view.formatter.FormatterConstants.ALTERNATIVE_MIN_HEIGHT
-import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.Coordinates._
 import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 import com.gnosly.fluentsequence.view.model.point.Point2d
-import com.gnosly.fluentsequence.view.model.point.PointMap
 import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 
 case class AlternativePoints(alternativeId: Int, topLeft: Point2d, bottomRight: Point2d) extends Pointable {
