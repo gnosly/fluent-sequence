@@ -13,7 +13,7 @@ class RowFormatterTest extends FunSuite with Matchers {
 
   test("autosignal row") {
 
-    val point = formatter.format(new AutoSignalModel("", SIGNAL_INDEX, 0, 0))
+    val point = formatter.format(AutoSignalModel("", SIGNAL_INDEX, 0, 0))
 
     point shouldBe RowPoint(SIGNAL_INDEX, new ReferencePoint(Activity.pointEnd(0, 0, SIGNAL_INDEX, "right")).y)
   }

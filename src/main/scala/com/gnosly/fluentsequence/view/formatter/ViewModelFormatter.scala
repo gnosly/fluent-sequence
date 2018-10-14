@@ -12,7 +12,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
   private val autoSignalFormatter = new AutoSignalFormatter(preRenderer)
   private val bisignalFormatter = new BiSignalFormatter(preRenderer)
   private val columnFormatter = new ColumnFormatter(preRenderer)
-  private val rowFormatter = new RowFormatter()
+  private val rowsFormatter = new RowsFormatter()
   private val widthAndHeightFormatter = new WidthAndHeightFormatter
   private val alternativeFormatter = new AlternativeFormatter
   private val formatSignal = (signal: PointModel) =>
@@ -62,9 +62,7 @@ class ViewModelFormatter(preRenderer: FixedPreRenderer) {
       c <- viewModel.points
     } yield formatSignal(c)
 
-    val rows = for {
-      c <- viewModel.points
-    } yield rowFormatter.format(c.signalComponent)
+    val rows = rowsFormatter.format(viewModel.points.map(_.signalComponent))
 
     val widthAndHeightPoint = widthAndHeightFormatter.format(viewModel)
 
