@@ -1,4 +1,5 @@
 package com.gnosly.fluentsequence.view.formatter
+import com.gnosly.fluentsequence.view.formatter.FormatterConstants.ALTERNATIVE_PADDING
 import com.gnosly.fluentsequence.view.formatter.point.AlternativePoints
 import com.gnosly.fluentsequence.view.model.Coordinates.Pointable
 import com.gnosly.fluentsequence.view.model.Coordinates.ViewMatrix
@@ -12,12 +13,16 @@ class AlternativeFormatter {
 
     AlternativePoints(
       alternative.id,
+      alternative.startIndex,
+      alternative.endIndex,
       Variable2DPoint(Fixed1DPoint(0), Fixed1DPoint(0))
         .right(1)
-        .atY(new ReferencePoint(ViewMatrix.row(alternative.startIndex - 1)).x),
+        .atY(new ReferencePoint(ViewMatrix.row(alternative.startIndex - 1)).x)
+        .down(ALTERNATIVE_PADDING),
       new ReferencePoint(ViewMatrix.width())
         .left(2)
-        .atY(new ReferencePoint(ViewMatrix.row(alternative.endIndex)).x)
+        .atY(new ReferencePoint(ViewMatrix.row(alternative.endIndex - 1)).x)
+        .down(ALTERNATIVE_PADDING)
     )
   }
 }

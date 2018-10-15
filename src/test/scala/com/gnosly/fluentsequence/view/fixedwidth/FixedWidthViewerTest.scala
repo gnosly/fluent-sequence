@@ -68,7 +68,8 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
         SYSTEM.reply("reply", USER) ::
         USER.call("finalize", SYSTEM) ::
         SYSTEM.reply("finalize done", USER) ::
-//        inCase("condition", USER.does("something") :: Nil) ::
+        inCase("condition A", USER.does("something") :: Nil) ::
+        inCase("condition B", USER.does("something else") :: Nil) ::
         Nil
     )
 
