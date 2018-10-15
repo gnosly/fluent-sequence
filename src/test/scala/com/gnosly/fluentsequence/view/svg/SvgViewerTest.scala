@@ -3,6 +3,7 @@ package com.gnosly.fluentsequence.view.svg
 import com.gnosly.fluentsequence.api.FluentSequence.FluentActor
 import com.gnosly.fluentsequence.api.FluentSequence.Sequence
 import com.gnosly.fluentsequence.api.FluentSequence.User
+import com.gnosly.fluentsequence.api.FluentSequence.inCase
 import com.gnosly.fluentsequence.view.model.Canvas
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
@@ -56,6 +57,8 @@ class SvgViewerTest extends FunSuite with Matchers {
         SYSTEM.reply("reply", USER) ::
         USER.call("finalize", SYSTEM) ::
         SYSTEM.reply("finalize done", USER) ::
+        inCase("condition A", USER.does("something") :: Nil) ::
+        inCase("condition B", USER.does("something else") :: Nil) ::
         Nil
     )
 

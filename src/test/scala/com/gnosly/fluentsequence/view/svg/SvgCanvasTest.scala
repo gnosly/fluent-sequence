@@ -46,7 +46,8 @@ class SvgCanvasTest extends FunSuite with Matchers {
     println(content)
 
     content shouldBe
-      """<rect x="0" y="0" width="500" height="700" style="stroke-width: 2.0;stroke: black;fill: white" />
+      """<rect x="0" y="0" width="500" height="700" style="stroke-width: 2.0;stroke: black;fill: transparent" />
+				|<rect x="1" y="1" width="191" height="29" style="stroke-width: 0;stroke: black;fill: white" />
 				|<text x="10" y="20" font-size="16px" text-anchor="start">condition of alternative</text>
 				|<line x1="0" y1="30" x2="192" y2="30" style="stroke:black;stroke-width:1.5;" />
 				|<line x1="192" y1="30" x2="212" y2="0" style="stroke:black;stroke-width:1.5;" />""".stripMargin

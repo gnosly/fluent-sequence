@@ -14,29 +14,34 @@ case class SvgPainter() extends Painter {
   private val syncResponsePainter = new SvgSyncResponsePainter
   private val asyncRequestPainter = new SvgAsyncRequestPainter
   private val autoSignalPainter = new SvgAutoSignalPainter
+  private val alternativePainter = new SvgAlternativePainter()
 
-  override def paint(viewModel: ViewModel, pointMap: ResolvedPoints): Canvas = {
+  override def paint(viewModel: ViewModel, resolvedPoints: ResolvedPoints): Canvas = {
 
-    val actorCanvas = viewModel.actors.map(a => actorPainter.paint(a, pointMap))
+    val actorCanvas = viewModel.actors.map(a => actorPainter.paint(a, resolvedPoints))
 
     val activityCanvas = for {
       activity <- viewModel.activities
-    } yield activityPainter.paint(activity, pointMap)
+    } yield activityPainter.paint(activity, resolvedPoints)
 
     val signalCanvas = for {
       rightPoint <- viewModel.rightPoints
     } yield
       rightPoint.signalComponent match {
-        case x: AutoSignalModel => autoSignalPainter.paint(x, pointMap)
-        case x: SyncRequest     => syncRequestPainter.paint(x, pointMap)
-        case x: SyncResponse    => syncResponsePainter.paint(x, pointMap)
-        case x: AsyncRequest    => asyncRequestPainter.paint(x, pointMap)
+        case x: AutoSignalModel => autoSignalPainter.paint(x, resolvedPoints)
+        case x: SyncRequest     => syncRequestPainter.paint(x, resolvedPoints)
+        case x: SyncResponse    => syncResponsePainter.paint(x, resolvedPoints)
+        case x: AsyncRequest    => asyncRequestPainter.paint(x, resolvedPoints)
       }
 
-    val width = pointMap(ViewMatrix.width()).x
-    val height = pointMap(ViewMatrix.height()).x
+    val alternativeCanvas = for {
+      a <- viewModel.alternatives
+    } yield alternativePainter.paint(a, resolvedPoints)
 
-    (actorCanvas ++ activityCanvas ++ signalCanvas)
+    val width = resolvedPoints(ViewMatrix.width()).x
+    val height = resolvedPoints(ViewMatrix.height()).x
+
+    (actorCanvas ++ activityCanvas ++ signalCanvas ++ alternativeCanvas)
       .reduce(_.merge(_))
       .withSize(width, height)
   }

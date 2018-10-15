@@ -74,7 +74,8 @@ class SvgCanvas(canvas: String = "", width: Long = 0, height: Long = 0) extends 
     val textStartY = fromY + 20
 
     sb ++=
-      s"""<rect x="${fromX}" y="${fromY}" width="${MULTIPLIER * width}" height="${MULTIPLIER * height}" style="stroke-width: 2.0;stroke: black;fill: white" />
+      s"""<rect x="${fromX}" y="${fromY}" width="${MULTIPLIER * width}" height="${MULTIPLIER * height}" style="stroke-width: 2.0;stroke: black;fill: transparent" />
+				 |<rect x="${fromX + 1}" y="${fromY + 1}" width="${bottomLineXEnd - fromX - 1}" height="${bottomLineY - fromY - 1}" style="stroke-width: 0;stroke: black;fill: white" />
 				 |<text x="${textStartX}" y="${textStartY}" font-size="16px" text-anchor="start">$title</text>
 				 |<line x1="${fromX}" y1="${bottomLineY}" x2="${bottomLineXEnd}" y2="${bottomLineY}" style="stroke:black;stroke-width:1.5;" />
 				 |<line x1="${bottomLineXEnd}" y1="${bottomLineY}" x2="${bottomLineXEnd + 20}" y2="${fromY}" style="stroke:black;stroke-width:1.5;" />""".stripMargin

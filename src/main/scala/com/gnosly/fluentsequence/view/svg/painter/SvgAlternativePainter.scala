@@ -1,5 +1,4 @@
 package com.gnosly.fluentsequence.view.svg.painter
-import com.gnosly.fluentsequence.view.model.Canvas
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates
 import com.gnosly.fluentsequence.view.model.ViewModels.AlternativeModel

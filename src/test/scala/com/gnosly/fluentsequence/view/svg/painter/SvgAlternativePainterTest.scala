@@ -28,7 +28,8 @@ class SvgAlternativePainterTest extends FunSuite with Matchers {
     )
 
     println(canvas.content)
-    canvas.content shouldBe """<rect x="100" y="100" width="280" height="100" style="stroke-width: 2.0;stroke: black;fill: white" />
+    canvas.content shouldBe """<rect x="100" y="100" width="280" height="100" style="stroke-width: 2.0;stroke: black;fill: transparent" />
+															|<rect x="101" y="101" width="71" height="29" style="stroke-width: 0;stroke: black;fill: white" />
 															|<text x="110" y="120" font-size="16px" text-anchor="start">condition</text>
 															|<line x1="100" y1="130" x2="172" y2="130" style="stroke:black;stroke-width:1.5;" />
 															|<line x1="172" y1="130" x2="192" y2="100" style="stroke:black;stroke-width:1.5;" />""".stripMargin
