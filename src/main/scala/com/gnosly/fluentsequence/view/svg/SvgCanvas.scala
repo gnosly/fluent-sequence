@@ -5,31 +5,30 @@ import com.gnosly.fluentsequence.view.model.point.Fixed2dPoint
 
 class SvgCanvas(canvas: String = "", width: Long = 0, height: Long = 0) extends Canvas {
 
+  private val MULTIPLIER = 10
   private val STROKE_WIDTH = 2
-  private val multiplier = 10
+  private val ARROW_HEIGHT = 5
   private val sb = new StringBuilder(canvas)
 
   def drawRect(p: Fixed2dPoint, width: Long, height: Long): SvgCanvas = {
-    sb ++= s"""<rect x="${multiplier * p.x}" y="${multiplier * p.y}" width="${multiplier * width}" height="${multiplier * height}" style="stroke-width: 2.0;stroke: black;fill: white" />\n"""
+    sb ++= s"""<rect x="${MULTIPLIER * p.x}" y="${MULTIPLIER * p.y}" width="${MULTIPLIER * width}" height="${MULTIPLIER * height}" style="stroke-width: 2.0;stroke: black;fill: white" />\n"""
     this
   }
 
   def drawText(p: Fixed2dPoint, text: String, textAnchor: String = "start"): SvgCanvas = {
-    sb ++= s"""<text x="${multiplier * p.x}" y="${multiplier * p.y}" font-size="16px" text-anchor="${textAnchor}">${text}</text>\n"""
+    sb ++= s"""<text x="${MULTIPLIER * p.x}" y="${MULTIPLIER * p.y}" font-size="16px" text-anchor="${textAnchor}">${text}</text>\n"""
     this
   }
 
   def drawLine(from: Fixed2dPoint, to: Fixed2dPoint): SvgCanvas = {
-    sb ++= s"""<line x1="${multiplier * from.x}" y1="${multiplier * from.y}" x2="${multiplier * to.x}" y2="${multiplier * to.y}" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />\n"""
+    sb ++= s"""<line x1="${MULTIPLIER * from.x}" y1="${MULTIPLIER * from.y}" x2="${MULTIPLIER * to.x}" y2="${MULTIPLIER * to.y}" style="stroke:black;stroke-width:2;stroke-dasharray:5,5" />\n"""
     this
   }
 
-  private val ARROW_HEIGHT = 5
-
   def drawRightArrow(from: Fixed2dPoint, to: Fixed2dPoint, lineStyle: String = ""): SvgCanvas = {
-    val toX = multiplier * to.x - STROKE_WIDTH
-    val toY = multiplier * to.y
-    sb ++= s"""<line x1="${multiplier * from.x}" y1="${multiplier * from.y}" x2="${toX}" y2="${toY}" style="stroke:black;stroke-width:1.5${lineStyle};" />\n"""
+    val toX = MULTIPLIER * to.x - STROKE_WIDTH
+    val toY = MULTIPLIER * to.y
+    sb ++= s"""<line x1="${MULTIPLIER * from.x}" y1="${MULTIPLIER * from.y}" x2="${toX}" y2="${toY}" style="stroke:black;stroke-width:1.5${lineStyle};" />\n"""
 
     val arrowStartX = toX - 10
     val arrowTopLeftY = toY - ARROW_HEIGHT
@@ -39,10 +38,10 @@ class SvgCanvas(canvas: String = "", width: Long = 0, height: Long = 0) extends 
   }
 
   def drawLeftArrow(from: Fixed2dPoint, to: Fixed2dPoint): SvgCanvas = {
-    val fromX = multiplier * from.x + STROKE_WIDTH
-    val fromY = multiplier * from.y
-    val toX = multiplier * to.x
-    val toY = multiplier * to.y
+    val fromX = MULTIPLIER * from.x + STROKE_WIDTH
+    val fromY = MULTIPLIER * from.y
+    val toX = MULTIPLIER * to.x
+    val toY = MULTIPLIER * to.y
     sb ++= s"""<line x1="${fromX}" y1="${fromY}" x2="${toX}" y2="${toY}" style="stroke:black;stroke-width:1.5;" />\n"""
 
     val arrowStartX = fromX + 10
@@ -53,16 +52,32 @@ class SvgCanvas(canvas: String = "", width: Long = 0, height: Long = 0) extends 
   }
 
   def drawAutoArrow(from: Fixed2dPoint, to: Fixed2dPoint): SvgCanvas = {
-    val fromX = multiplier * from.x
-    val fromY = multiplier * from.y
-    val toX = multiplier * to.x + STROKE_WIDTH
-    val toY = multiplier * to.y
+    val fromX = MULTIPLIER * from.x
+    val fromY = MULTIPLIER * from.y
+    val toX = MULTIPLIER * to.x + STROKE_WIDTH
+    val toY = MULTIPLIER * to.y
     val arrowStartX = toX + 10
     val arrowTopLeftY = toY - ARROW_HEIGHT
     val arrowBottomLeftY = toY + ARROW_HEIGHT
 
     sb ++= s"""<polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="${fromX},${fromY} ${fromX + 20},${fromY} ${fromX + 20},${toY} ${toX},${toY}"/>\n"""
     sb ++= s"""<polyline fill="none" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" points="${arrowStartX},${arrowTopLeftY} ${toX},${toY} ${arrowStartX},${arrowBottomLeftY}"/>\n"""
+    this
+  }
+
+  def drawBox(p: Fixed2dPoint, width: Long, height: Long, title: String): SvgCanvas = {
+    val fromX = MULTIPLIER * p.x
+    val fromY = MULTIPLIER * p.y
+    val bottomLineY = fromY + 30
+    val bottomLineXEnd = fromX + title.length * 8
+    val textStartX = fromX + 10
+    val textStartY = fromY + 20
+
+    sb ++=
+      s"""<rect x="${fromX}" y="${fromY}" width="${MULTIPLIER * width}" height="${MULTIPLIER * height}" style="stroke-width: 2.0;stroke: black;fill: white" />
+				 |<text x="${textStartX}" y="${textStartY}" font-size="16px" text-anchor="start">$title</text>
+				 |<line x1="${fromX}" y1="${bottomLineY}" x2="${bottomLineXEnd}" y2="${bottomLineY}" style="stroke:black;stroke-width:1.5;" />
+				 |<line x1="${bottomLineXEnd}" y1="${bottomLineY}" x2="${bottomLineXEnd + 20}" y2="${fromY}" style="stroke:black;stroke-width:1.5;" />""".stripMargin
     this
   }
 
@@ -74,5 +89,5 @@ class SvgCanvas(canvas: String = "", width: Long = 0, height: Long = 0) extends 
   def merge(other: SvgCanvas): SvgCanvas = new SvgCanvas(this.sb.append(other.sb.toString).toString)
 
   def withSize(width: Long, height: Long): Canvas =
-    new SvgCanvas(this.sb.toString(), multiplier * width, multiplier * height)
+    new SvgCanvas(this.sb.toString(), MULTIPLIER * width, MULTIPLIER * height)
 }
