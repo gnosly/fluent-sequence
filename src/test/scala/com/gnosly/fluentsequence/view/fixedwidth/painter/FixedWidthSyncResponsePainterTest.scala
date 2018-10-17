@@ -11,11 +11,30 @@ import scala.collection.immutable.HashMap
 class FixedWidthSyncResponsePainterTest extends FunSuite with Matchers {
   val painter = new FixedWidthSyncResponsePainter()
 
-  test("right to left") {
-    val map = new ResolvedPoints(
+  test("backward") {
+    val map = ResolvedPoints(
       Map(
-        Coordinates.Activity.rightPointStart(1, 0, 0) -> Fixed2dPoint(0, 0),
-        Coordinates.Activity.leftPointStart(0, 0, 0) -> Fixed2dPoint(20, 0),
+        Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(20, 0),
+        Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(0, 0),
+      ))
+
+    val response = new SyncResponse("sync response", 0, 1, 0, 0, 0)
+
+    val canvas = painter.paint(response, map)
+
+    val print = canvas.print()
+    println(print)
+
+    print shouldBe
+      /****/ "   sync response" + "\n" +
+        /**/ "<-------------------"
+  }
+
+  test("forward") {
+    val map = ResolvedPoints(
+      Map(
+        Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(0, 0),
+        Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(20, 0),
       ))
 
     val response = new SyncResponse("sync response", 0, 0, 0, 1, 0)
@@ -27,6 +46,6 @@ class FixedWidthSyncResponsePainterTest extends FunSuite with Matchers {
 
     print shouldBe
       /****/ "   sync response" + "\n" +
-        /**/ "<-------------------"
+        /**/ "------------------->"
   }
 }

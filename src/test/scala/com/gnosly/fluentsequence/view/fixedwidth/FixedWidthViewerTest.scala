@@ -91,6 +91,7 @@ class FixedWidthViewerTest extends FunSuite with Matchers {
         SYSTEM.reply("reply", USER) ::
         USER.call("call4", thirdSystem) ::
         thirdSystem.call("call5", SYSTEM) ::
+        SYSTEM.reply("reply4", thirdSystem) ::
         Nil
     )
 

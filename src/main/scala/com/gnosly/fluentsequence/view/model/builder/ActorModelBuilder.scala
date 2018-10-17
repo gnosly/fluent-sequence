@@ -20,8 +20,15 @@ class ActorModelBuilder(val id: Int,
     val lastCalledActivity = called.activeUntil(index)
     val signal =
       new SyncResponse(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id)
-    lastCallerActivity.left(signal)
-    lastCalledActivity.right(signal)
+
+    if (id < called.id) {
+      lastCallerActivity.right(signal)
+      lastCalledActivity.left(signal)
+    } else {
+      lastCallerActivity.left(signal)
+      lastCalledActivity.right(signal)
+    }
+
     signal
   }
 

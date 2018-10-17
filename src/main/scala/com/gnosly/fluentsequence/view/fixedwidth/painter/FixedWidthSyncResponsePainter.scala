@@ -9,15 +9,31 @@ import com.gnosly.fluentsequence.view.model.point.ResolvedPoints
 class FixedWidthSyncResponsePainter() extends ComponentPainter[SyncResponse] {
 
   override def paint(biSignal: SyncResponse, pointMap: ResolvedPoints): FixedWidthCanvas = {
-    val signalLeftPoint = pointMap(
-      Activity.rightPointStart(biSignal.toActorId, biSignal.toActivityId, biSignal.currentIndex))
-    val signalRightPoint = pointMap(
-      Activity.leftPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex))
-    val distance = signalRightPoint.x - signalLeftPoint.x
 
-    new FixedWidthCanvas()
-      .write(signalLeftPoint.right((distance - biSignal.name.length) / 2), biSignal.name)
-      .write(signalLeftPoint.down(1), "<" + r("-", distance - 1))
+    if (biSignal.fromActorId > biSignal.toActorId) {
+
+      val signalPointEnd = pointMap(
+        Activity.rightPointStart(biSignal.toActorId, biSignal.toActivityId, biSignal.currentIndex))
+      val signalPointStart = pointMap(
+        Activity.leftPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex))
+      val distance = signalPointStart.x - signalPointEnd.x
+
+      new FixedWidthCanvas()
+        .write(signalPointEnd.right((distance - biSignal.name.length) / 2), biSignal.name)
+        .write(signalPointEnd.down(1), "<" + r("-", distance - 1))
+    } else {
+
+      val signalPointStart = pointMap(
+        Activity.rightPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex))
+      val signalPointEnd = pointMap(
+        Activity.leftPointStart(biSignal.toActorId, biSignal.toActivityId, biSignal.currentIndex))
+      val distance = signalPointEnd.x - signalPointStart.x
+
+      new FixedWidthCanvas()
+        .write(signalPointStart.right((distance - biSignal.name.length) / 2), biSignal.name)
+        .write(signalPointStart.down(1), r("-", distance - 1) + ">")
+
+    }
   }
 
   def r(pattern: String, count: Long): String =
