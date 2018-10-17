@@ -17,7 +17,7 @@ class FixedWidthActivityPainter() extends ComponentPainter[ActivityModel] {
       val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
       0L until topLeftActivity.y - timelineStart.y foreach (i => canvas.write(timelineStart.down(i), "|"))
     } else {
-      val previousBottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id - 1))
+      val previousBottomLeftActivity = pointMap(Activity.bottomLeft(activity.actorId, activity.id - 1)).right(1)
       val topLeftActivity = pointMap(Activity.topLeft(activity.actorId, activity.id))
 
       1L until topLeftActivity.y - previousBottomLeftActivity.y foreach (i =>

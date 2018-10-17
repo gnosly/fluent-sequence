@@ -25,21 +25,6 @@ class ActorModelBuilder(val id: Int,
     signal
   }
 
-  private def activeUntil(index: Int): ActivityModelBuilder = {
-    if (activities.isEmpty) {
-      activities += new ActivityModelBuilder(0, this.id, index, index, true)
-    }
-    val last = activities.last
-    if (last.active) {
-      last.increaseUntil(index)
-      last
-    } else {
-      val component = new ActivityModelBuilder(last.id + 1, this.id, index, 0, true)
-      activities += component
-      component
-    }
-  }
-
   def fired(called: ActorModelBuilder, something: String, index: Int): SignalModel = {
     val lastCallerActivity = this.activeUntil(index)
     val lastCalledActivity = called.activeUntil(index)
@@ -55,9 +40,30 @@ class ActorModelBuilder(val id: Int,
     val lastCalledActivity = called.activeUntil(index)
     val signal =
       new SyncRequest(something, index, this.id, lastCallerActivity.id, called.id, lastCalledActivity.id)
-    lastCallerActivity.right(signal)
-    lastCalledActivity.left(signal)
+    if (id > called.id) {
+      lastCalledActivity.right(signal)
+      lastCallerActivity.left(signal)
+    } else {
+      lastCallerActivity.right(signal)
+      lastCalledActivity.left(signal)
+    }
+
     signal
+  }
+
+  private def activeUntil(index: Int): ActivityModelBuilder = {
+    if (activities.isEmpty) {
+      activities += new ActivityModelBuilder(0, this.id, index, index, true)
+    }
+    val last = activities.last
+    if (last.active) {
+      last.increaseUntil(index)
+      last
+    } else {
+      val component = new ActivityModelBuilder(last.id + 1, this.id, index, 0, true)
+      activities += component
+      component
+    }
   }
 
   def build(lastIndex: Int, lastActorId: Int): ActorModel = {

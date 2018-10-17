@@ -12,8 +12,8 @@ class FixedWidthSyncRequestPainterTest extends FunSuite with Matchers {
 
   val painter = new FixedWidthSyncRequestPainter()
 
-  test("left to right") {
-    val map = new ResolvedPoints(
+  test("forward") {
+    val map = ResolvedPoints(
       Map(
         Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(20, 0),
         Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(0, 0),
@@ -28,5 +28,23 @@ class FixedWidthSyncRequestPainterTest extends FunSuite with Matchers {
     print shouldBe
       /****/ "    sync request" + "\n" +
         /**/ "------------------->"
+  }
+
+  test("backward") {
+    val map = ResolvedPoints(
+      Map(
+        Coordinates.Activity.leftPointStart(1, 0, 0) -> Fixed2dPoint(20, 0),
+        Coordinates.Activity.rightPointStart(0, 0, 0) -> Fixed2dPoint(0, 0),
+      ))
+
+    val request = new SyncRequest("sync request", 0, 1, 0, 0, 0)
+
+    val canvas = painter.paint(request, map)
+
+    val print = canvas.print()
+    println(print)
+    print shouldBe
+      /****/ "    sync request" + "\n" +
+        /**/ "<-------------------"
   }
 }
