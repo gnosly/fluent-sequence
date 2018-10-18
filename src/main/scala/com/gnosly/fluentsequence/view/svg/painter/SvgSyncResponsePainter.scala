@@ -1,6 +1,5 @@
 package com.gnosly.fluentsequence.view.svg.painter
 
-import com.gnosly.fluentsequence.view.fixedwidth.FixedWidthCanvas
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates.Activity
 import com.gnosly.fluentsequence.view.model.ViewModels.SyncResponse
@@ -11,7 +10,7 @@ class SvgSyncResponsePainter() extends ComponentPainter[SyncResponse] {
 
   override def paint(biSignal: SyncResponse, pointMap: ResolvedPoints): SvgCanvas = {
 
-    if (biSignal.fromActorId > biSignal.toActorId) {
+    if (biSignal.isBackward) {
       backward(biSignal, pointMap)
     } else {
       forward(biSignal, pointMap)

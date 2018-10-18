@@ -62,7 +62,10 @@ object ViewModels {
                     override val fromActivityId: Int,
                     override val toActorId: Int,
                     override val toActivityId: Int)
-      extends BiSignalModel(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId)
+      extends BiSignalModel(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId) {
+    def isForward: Boolean = fromActorId < toActorId
+
+  }
 
   class SyncResponse(name: String,
                      override val index: Int,
@@ -70,7 +73,10 @@ object ViewModels {
                      override val fromActivityId: Int,
                      override val toActorId: Int,
                      override val toActivityId: Int)
-      extends BiSignalModel(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId)
+      extends BiSignalModel(name, index, fromActorId, fromActivityId, toActorId: Int, toActivityId) {
+    def isBackward: Boolean = fromActorId > toActorId
+
+  }
 
   class AsyncRequest(name: String,
                      override val index: Int,

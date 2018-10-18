@@ -9,7 +9,7 @@ import com.gnosly.fluentsequence.view.svg.SvgCanvas
 class SvgSyncRequestPainter() extends ComponentPainter[SyncRequest] {
   override def paint(biSignal: SyncRequest, pointMap: ResolvedPoints): SvgCanvas = {
 
-    if (biSignal.fromActorId < biSignal.toActorId) {
+    if (biSignal.isForward) {
       forward(biSignal, pointMap)
     } else {
       backward(biSignal, pointMap)

@@ -10,7 +10,7 @@ class FixedWidthSyncRequestPainter() extends ComponentPainter[SyncRequest] {
 
   override def paint(biSignal: SyncRequest, pointMap: ResolvedPoints): FixedWidthCanvas = {
 
-    if (biSignal.fromActorId < biSignal.toActorId) {
+    if (biSignal.isForward) {
       forward(biSignal, pointMap)
     } else {
       backward(biSignal, pointMap)
