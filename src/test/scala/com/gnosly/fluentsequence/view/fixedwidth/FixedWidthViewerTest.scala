@@ -8,7 +8,7 @@ import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
 import scala.io.Source
-
+//TODO refactor as SvgViewerTest
 class FixedWidthViewerTest extends FunSuite with Matchers {
   val USER = new User("user")
   val SYSTEM = new FluentActor("system")
