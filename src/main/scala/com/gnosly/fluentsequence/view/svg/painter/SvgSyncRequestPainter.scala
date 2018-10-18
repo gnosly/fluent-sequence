@@ -30,10 +30,10 @@ class SvgSyncRequestPainter() extends ComponentPainter[SyncRequest] {
 
   private def backward(biSignal: SyncRequest, pointMap: ResolvedPoints) = {
     val signalEndPoint = pointMap(
-      Activity.rightPointStart(biSignal.toActorId, biSignal.fromActivityId, biSignal.currentIndex))
+      Activity.rightPointStart(biSignal.toActorId, biSignal.toActivityId, biSignal.currentIndex))
 
     val signalStartPoint = pointMap(
-      Activity.leftPointStart(biSignal.fromActorId, biSignal.toActivityId, biSignal.currentIndex))
+      Activity.leftPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex))
 
     val distance = Math.abs(signalStartPoint.x - signalEndPoint.x)
 

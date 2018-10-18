@@ -28,6 +28,8 @@ abstract class ViewerTest(viewer: Viewer) extends FunSuite with Matchers {
         USER.call("call4", thirdSystem) ::
         thirdSystem.call("call5", SYSTEM) ::
         SYSTEM.reply("reply4", thirdSystem) ::
+        thirdSystem.call("call6", SYSTEM) ::
+        SYSTEM.reply("reply5", thirdSystem) ::
         Nil
     )
 
