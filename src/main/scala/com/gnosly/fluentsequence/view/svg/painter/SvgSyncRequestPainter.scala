@@ -15,6 +15,7 @@ class SvgSyncRequestPainter() extends ComponentPainter[SyncRequest] {
       backward(biSignal, pointMap)
     }
   }
+
   private def forward(biSignal: SyncRequest, pointMap: ResolvedPoints) = {
     val signalPoint = pointMap(
       Activity.rightPointStart(biSignal.fromActorId, biSignal.fromActivityId, biSignal.currentIndex))

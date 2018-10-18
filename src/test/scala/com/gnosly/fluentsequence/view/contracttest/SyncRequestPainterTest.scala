@@ -1,4 +1,5 @@
-package com.gnosly.fluentsequence.view
+package com.gnosly.fluentsequence.view.contracttest
+
 import com.gnosly.fluentsequence.view.model.Canvas
 import com.gnosly.fluentsequence.view.model.ComponentPainter
 import com.gnosly.fluentsequence.view.model.Coordinates

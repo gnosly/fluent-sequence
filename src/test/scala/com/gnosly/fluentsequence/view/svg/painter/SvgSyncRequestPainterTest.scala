@@ -1,6 +1,5 @@
 package com.gnosly.fluentsequence.view.svg.painter
-
-import com.gnosly.fluentsequence.view.SyncRequestPainterTest
+import com.gnosly.fluentsequence.view.contracttest.SyncRequestPainterTest
 
 class SvgSyncRequestPainterTest extends SyncRequestPainterTest {
   val painter = new SvgSyncRequestPainter

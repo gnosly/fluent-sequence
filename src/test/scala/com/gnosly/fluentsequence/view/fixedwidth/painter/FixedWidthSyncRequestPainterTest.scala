@@ -1,5 +1,5 @@
 package com.gnosly.fluentsequence.view.fixedwidth.painter
-import com.gnosly.fluentsequence.view.SyncRequestPainterTest
+import com.gnosly.fluentsequence.view.contracttest.SyncRequestPainterTest
 import org.scalatest.Matchers
 
 class FixedWidthSyncRequestPainterTest extends SyncRequestPainterTest {
