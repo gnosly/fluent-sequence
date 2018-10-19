@@ -29,13 +29,13 @@ class SvgCanvasTest extends FunSuite with Matchers {
 
   test("dimension") {
     new SvgCanvas().print shouldBe
-      """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="0" width="0">""" + "\n" + """</svg>""" + "\n"
+      """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="0" width="0"><rect width="100%" height="100%" fill="white"/>""" + "\n" + """</svg>""" + "\n"
 
     new SvgCanvas(width = 100, height = 200).print shouldBe
-      """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="200" width="100">""" + "\n" + """</svg>""" + "\n"
+      """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="200" width="100"><rect width="100%" height="100%" fill="white"/>""" + "\n" + """</svg>""" + "\n"
 
     new SvgCanvas().withSize(100, 200).print shouldBe
-      """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="2000" width="1000">""" + "\n" + """</svg>""" + "\n"
+      """<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="2000" width="1000"><rect width="100%" height="100%" fill="white"/>""" + "\n" + """</svg>""" + "\n"
   }
 
   test("box") {

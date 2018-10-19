@@ -82,8 +82,10 @@ class SvgCanvas(canvas: String = "", width: Long = 0, height: Long = 0) extends 
     this
   }
 
-  override def print(): String =
-    s"""<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="${height}" width="${width}">""" + "\n" + sb.toString + """</svg>""" + "\n"
+  override def print(): String = {
+    val backgroundBox = """<rect width="100%" height="100%" fill="white"/>"""
+    s"""<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="${height}" width="${width}">$backgroundBox""" + "\n" + sb.toString + """</svg>""" + "\n"
+  }
 
   def content: String = sb.toString
 
